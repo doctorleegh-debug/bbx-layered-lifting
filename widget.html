@@ -992,6 +992,13 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
   /* 이 카드들은 원내 공간 사진이다 — 층 이름·깊이·번호는 공간과 무관해 지운다. */
   .card-lab, .card-meta{ display:none !important; }
 
+  /* .word-mask 는 글자가 아래에서 올라오는 등장용이라 overflow:hidden 이다.
+     원본 행간 0.94(글자보다 작음)를 그대로 쓰면 한글 받침·윗선이 그 마스크에 잘린다.
+     한글은 라틴보다 글자틀이 커서 1.0 미만 행간을 못 견딘다. */
+  .fin h2, .fin h2 .word-mask{ line-height:1.28 !important; }
+  .fin h2 .word-mask{ padding-block:.06em; }
+  .fin h2{ padding-top:.08em; }
+
 
   /* 원본은 나무·덤불이라 화면 밖으로 잘려도 자연스러웠다(left:-15% 등).
      장비는 잘리면 안 되므로 전부 화면 안에 넣고, 그만큼 폭을 줄인다.
@@ -1447,21 +1454,35 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
 
 
   .bbx__wordmark{
-    margin:clamp(18px,3.2vh,44px) auto 0;
+    /* 부모(.hero-top)가 1040px 로 묶여 있어 글자(약 1430px)가 넘쳐
+       오른쪽으로 흘렀다. 음수 마진으로 화면 폭까지 넓혀 화면 기준으로 가운데 잡는다.
+       transform 은 background-attachment:fixed 를 깨므로 쓰지 않는다. */
+    margin-top:clamp(18px,3.2vh,44px);
+    margin-inline:calc(50% - var(--vw, 100vw) / 2);
+    padding-inline:clamp(12px,2vw,44px);
+    max-width:none;
     font-family:'GmarketSans',"Pretendard Variable",sans-serif;
     font-weight:700; font-size:clamp(56px,9.2vw,144px);
     line-height:1.06; letter-spacing:-.035em;
     color:#dfe7e0; text-align:center; white-space:nowrap;
-    text-shadow:0 2px 30px rgba(3,6,8,.85);
     cursor:default; user-select:none;
   }
   .bbx__wm-ch{
     display:inline-block; color:inherit;
+    text-shadow:0 2px 30px rgba(3,6,8,.85);
     transition:color .18s var(--ease-out), transform .28s var(--ease-out);
   }
   .bbx__wm-sp{ display:inline-block; width:.34em; }
-  /* 커서가 닿은 글자만 강조된다 */
-  .bbx__wm-ch:hover{ color:var(--vermilion); transform:translateY(-.06em); }
+  /* 커서가 닿은 글자는 흰 채움이 빠지고 뒤 장면이 그대로 드러난다.
+     글자와 3D 캔버스 사이에 불투명 층이 없어(전부 투명) 채움만 비우면
+     실제 캔버스가 보인다 — 배경 사진을 복사해 넣을 필요가 없다. */
+  .bbx__wm-ch{ position:relative; }
+  .bbx__wm-ch:hover{
+    -webkit-text-fill-color:transparent; color:transparent;
+    text-shadow:none;
+    -webkit-text-stroke:1.4px rgba(223,231,224,.62);   /* 형태는 윤곽으로 남긴다 */
+    transform:translateY(-.06em);
+  }
   /* 마우스가 없는 기기에서는 호버가 잡히지 않으니 대비만 살짝 준다 */
   @media (hover:none){ .bbx__wordmark{ color:#e8efe9; } }
   @media (max-width:900px){ .bbx__wordmark{ white-space:normal; font-size:clamp(26px,7.4vw,44px); } }
@@ -1579,7 +1600,7 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
       층마다 다른 원인을 진단하고 아홉 가지 장비를 조합합니다.</p>
     <!-- 세로로 구석에 있던 라벨을 히어로 가운데 가로 워드마크로 옮긴다.
          글자마다 span 을 둬야 커서가 닿은 글자만 색이 바뀐다. -->
-    <p class="bbx__wordmark" data-rv="up" aria-label="퍼스널 레이어드 리프팅"><span class="bbx__wm-ch" style="--i:0">퍼</span><span class="bbx__wm-ch" style="--i:1">스</span><span class="bbx__wm-ch" style="--i:2">널</span><span class="bbx__wm-sp"> </span><span class="bbx__wm-ch" style="--i:4">레</span><span class="bbx__wm-ch" style="--i:5">이</span><span class="bbx__wm-ch" style="--i:6">어</span><span class="bbx__wm-ch" style="--i:7">드</span><span class="bbx__wm-sp"> </span><span class="bbx__wm-ch" style="--i:9">리</span><span class="bbx__wm-ch" style="--i:10">프</span><span class="bbx__wm-ch" style="--i:11">팅</span></p>
+    <p class="bbx__wordmark" data-rv="up" aria-label="퍼스널 레이어드 리프팅"><span class="bbx__wm-ch" data-ch="퍼" style="--i:0">퍼</span><span class="bbx__wm-ch" data-ch="스" style="--i:1">스</span><span class="bbx__wm-ch" data-ch="널" style="--i:2">널</span><span class="bbx__wm-sp"> </span><span class="bbx__wm-ch" data-ch="레" style="--i:4">레</span><span class="bbx__wm-ch" data-ch="이" style="--i:5">이</span><span class="bbx__wm-ch" data-ch="어" style="--i:6">어</span><span class="bbx__wm-ch" data-ch="드" style="--i:7">드</span><span class="bbx__wm-sp"> </span><span class="bbx__wm-ch" data-ch="리" style="--i:9">리</span><span class="bbx__wm-ch" data-ch="프" style="--i:10">프</span><span class="bbx__wm-ch" data-ch="팅" style="--i:11">팅</span></p>
   </div>
 
   <div class="hero-spacer"></div>
@@ -6064,6 +6085,7 @@ ScrollTrigger.create({trigger:'#pllSc',start:'top 70%',
     });
   });
 })();
+
 
 
 /* ===== 위젯이 화면 안에 있을 때만 고정 레이어를 켠다 ===== */
