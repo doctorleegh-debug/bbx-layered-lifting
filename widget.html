@@ -21,6 +21,10 @@
    #bbx-root 은 stacking context 를 만들지 않는다(transform/filter/z-index 금지).
    아임웹 자체 헤더가 자기 z-index 로 이 위에 남아야 하기 때문. */
 #bbx-root{ position:relative; margin:0; }
+/* body 의 overflow-x:hidden 이 여기로 스코프되면 루트가 스크롤 컨테이너가 되고,
+   안쪽 position:sticky 가 문서 스크롤을 못 따라가 좌측 패널이 화면 밖으로 밀린다.
+   가로 넘침은 캐러셀뿐이고 문서 폭은 넘치지 않으므로 visible 로 되돌린다. */
+#bbx-root{ overflow:visible !important; }
 #bbx-root img,#bbx-root svg,#bbx-root canvas{ max-width:none; }
 /* Kage 의 고정 레이어는 뷰포트 전체를 덮는다. 아임웹 문서 안에서는
    위젯이 실제로 차지한 화면 구간으로 잘라내야 위·아래 콘텐츠를 가리지 않는다.
