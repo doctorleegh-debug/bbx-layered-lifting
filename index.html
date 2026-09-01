@@ -45,7 +45,8 @@
 <script>
 /* 코드위젯 붙여넣기를 흉내 낸다: HTML 문자열을 삽입하고 스크립트를 실행시킨다.
    (아임웹 코드위젯도 innerHTML 로 들어가 script 가 자동 실행되지 않으므로 동일 조건) */
-fetch('widget.html').then(r=>r.text()).then(html=>{
+const SRC = location.hostname.includes('github.io') ? 'widget.html' : 'bbx-widget.html';
+fetch(SRC + '?v=' + Date.now(), {cache:'no-store'}).then(r=>r.text()).then(html=>{
   const slot=document.getElementById('widget-slot');
   slot.innerHTML=html;
   const run=[...slot.querySelectorAll('script')];
