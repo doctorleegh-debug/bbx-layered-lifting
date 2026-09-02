@@ -58,15 +58,17 @@
 .rv.d1{transition-delay:.12s}.rv.d2{transition-delay:.24s}.rv.d3{transition-delay:.36s}.rv.d4{transition-delay:.48s}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
 
-/* ===== S1 선언 ===== */
-.bbx__s1{padding-top:clamp(64px,8vw,120px);background:linear-gradient(180deg,#fff 0%,var(--cream) 100%)}
-.bbx__s1-title{text-align:center;margin-bottom:clamp(40px,5vw,72px)}
-.bbx__s1-title .bbx__h2{font-size:clamp(34px,4.2vw,58px);font-weight:700;letter-spacing:-.03em}
-.bbx__s1-title .bbx__lead{max-width:640px;margin-inline:auto}
-.bbx__s1-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(32px,5vw,80px);align-items:end}
-.bbx__s1-grid .bbx__lead{margin-bottom:22px}
+/* ===== S1 선언 — 풀블리드 2열 : 좌측 글, 우측 모델 ===== */
+.bbx__s1{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:min(88vh,880px);background:#fff}
+.bbx__s1-copy{display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(56px,6vw,96px) clamp(24px,4.5vw,80px) clamp(56px,6vw,96px) max(var(--pad),calc((100vw - var(--w))/2))}
+.bbx__s1-copy .bbx__h2{font-size:clamp(34px,4.2vw,58px);font-weight:700;letter-spacing:-.03em;line-height:1.22}
+.bbx__s1-copy .bbx__lead{margin-top:24px}
+.bbx__s1-copy .bbx__p{margin-top:18px;max-width:46ch}
+.bbx__s1-photo{position:relative;overflow:hidden;background:var(--cream)}
+.bbx__s1-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:45% center}
 .bbx__slogan{margin-top:34px;padding-top:24px;border-top:1px solid var(--line);font-size:clamp(20px,1.8vw,26px);font-weight:600;line-height:1.5}
-.bbx__slogan small{display:block;margin-top:8px;font-size:13px;letter-spacing:.16em;color:var(--accent);font-weight:500}
+.bbx__slogan small{display:block;margin-top:8px;font-size:13px;letter-spacing:.16em;color:var(--accent);font-weight:600}
 
 /* ===== S2 왜 ===== */
 .bbx__lineup{display:grid;grid-template-columns:repeat(9,1fr);gap:8px;align-items:end;margin:48px 0 16px}
@@ -144,7 +146,11 @@
 
 /* ===== 모바일 ===== */
 @media (max-width:900px){
-  .bbx__s1-grid,.bbx__s3-inner,.bbx__areas{grid-template-columns:1fr}
+  .bbx__s3-inner,.bbx__areas{grid-template-columns:1fr}
+  .bbx__s1{grid-template-columns:1fr;min-height:0}
+  .bbx__s1-photo{order:-1;aspect-ratio:4/3}
+  .bbx__s1-photo img{position:relative}
+  .bbx__s1-copy{padding:clamp(36px,7vw,56px) var(--pad)}
   .bbx__s3-left{position:static}
   .bbx__lineup,.bbx__lineup-names{grid-template-columns:repeat(5,1fr)} .bbx__lineup img{height:96px}
   .bbx__devs{grid-template-columns:1fr 1fr;gap:14px}
@@ -167,22 +173,16 @@
 <div id="bbx-root">
 
 <!-- ═══════ S1 선언 ═══════ -->
-<section class="bbx__sec bbx__s1">
-  <div class="bbx__wrap">
-    <div class="bbx__s1-title rv">
-      <span class="bbx__kw">Personal Layered Lifting</span>
-      <h1 class="bbx__h2">퍼스널 레이어드 리프팅</h1>
-      <div class="bbx__dots"><i></i><i></i><i></i></div>
-      <p class="bbx__lead">처짐은 한 겹에서 오지 않습니다.<br>표피·진피·지방층·근막 — 층마다 다른 원인을 읽고, 그 깊이에 맞는 장비를 순서대로 쌓습니다.</p>
-    </div>
-    <div class="bbx__s1-grid">
-      <div class="rv d1">
-        <p class="bbx__lead">같은 나이, 같은 고민이어도 처짐이 시작된 층은 사람마다 다릅니다. 하나의 장비로 모든 층을 해결할 수는 없습니다.</p>
-        <p class="bbx__p">뷰티블라썸의원의 퍼스널 레이어드 리프팅은 먼저 네 개 층의 상태를 진단하고, 아홉 가지 리프팅 장비 중 그 층에 도달하는 것만 골라 1:1로 조합합니다.</p>
-        <div class="bbx__slogan">리프팅은 ‘당기는 기술’이 아니라<br>층을 읽고 설계하는 진료입니다.<small>BEAUTY BLOSSOM · HONGDAE</small></div>
-      </div>
-      <div class="bbx__model rv d2"><img src="ASSET/assets/16_model/model-hero.webp" alt="퍼스널 레이어드 리프팅" fetchpriority="high" decoding="async"></div>
-    </div>
+<section class="bbx__s1">
+  <div class="bbx__s1-copy rv">
+    <span class="bbx__kw">Personal Layered Lifting</span>
+    <h1 class="bbx__h2">퍼스널<br>레이어드 리프팅</h1>
+    <p class="bbx__lead">처짐은 한 겹에서 오지 않습니다.<br>표피·진피·지방층·근막 — 층마다 다른 원인을 읽고,<br>그 깊이에 맞는 장비를 순서대로 쌓습니다.</p>
+    <p class="bbx__p">같은 나이, 같은 고민이어도 처짐이 시작된 층은 사람마다 다릅니다. 뷰티블라썸의원은 먼저 네 개 층의 상태를 진단하고, 아홉 가지 리프팅 장비 중 그 층에 도달하는 것만 골라 1:1로 조합합니다.</p>
+    <div class="bbx__slogan">리프팅은 ‘당기는 기술’이 아니라<br>층을 읽고 설계하는 진료입니다.<small>BEAUTY BLOSSOM · HONGDAE</small></div>
+  </div>
+  <div class="bbx__s1-photo">
+    <img src="ASSET/assets/16_model/model-hero.webp" alt="퍼스널 레이어드 리프팅" fetchpriority="high" decoding="async">
   </div>
 </section>
 
