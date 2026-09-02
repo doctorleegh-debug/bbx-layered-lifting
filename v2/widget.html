@@ -1,0 +1,433 @@
+<!-- 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 아임웹 코드위젯 (v2)
+     자산 위치는 아래 BBX_ASSET_BASE 한 줄만 바꾸면 된다. -->
+<meta name="robots" content="noindex, nofollow, noarchive">
+<script>window.BBX_ASSET_BASE = 'https://doctorleegh-debug.github.io/bbx-layered-lifting';</script>
+
+<style>
+@font-face{font-family:'GmarketSans';font-weight:300;font-display:swap;src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff')}
+@font-face{font-family:'GmarketSans';font-weight:500;font-display:swap;src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff')}
+@font-face{font-family:'GmarketSans';font-weight:700;font-display:swap;src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff')}
+
+/* ===== 위젯 루트 — 아임웹 문서를 건드리지 않는다 ===== */
+#bbx-root{
+  --ink:#1c1c1c; --ink2:#2d2d2d; --mute:#76726f; --line:#e7e2dc; --cream:#f7f4ef; --cream2:#efe9e2;
+  --accent:#b5726a; --dark:#2b2320;
+  --font:'GmarketSans',"Pretendard Variable",Pretendard,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --w:1180px; --pad:clamp(20px,4vw,48px);
+  position:relative; background:#fff; color:var(--ink); font-family:var(--font); font-weight:300;
+  font-size:16px; line-height:1.7; letter-spacing:-.01em; word-break:keep-all; overflow:visible;
+}
+#bbx-root *,#bbx-root *::before,#bbx-root *::after{box-sizing:border-box}
+#bbx-root img{max-width:100%;display:block}
+#bbx-root ul{list-style:none;margin:0;padding:0}
+#bbx-root h1,#bbx-root h2,#bbx-root h3,#bbx-root h4,#bbx-root h5,#bbx-root p{margin:0}
+.bbx__wrap{width:min(var(--w),100% - var(--pad)*2);margin-inline:auto}
+.bbx__sec{padding-block:clamp(72px,9vw,136px)}
+.bbx__kw{display:block;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:18px}
+.bbx__h2{font-size:clamp(28px,3.2vw,44px);font-weight:500;line-height:1.3;letter-spacing:-.02em;color:var(--ink)}
+.bbx__h3{font-size:clamp(24px,2.5vw,34px);font-weight:500;line-height:1.35;letter-spacing:-.02em}
+.bbx__lead{font-size:clamp(17px,1.35vw,20px);line-height:1.8;color:var(--ink2)}
+.bbx__p{font-size:15.5px;line-height:1.85;color:var(--ink2)}
+.bbx__mute{color:var(--mute)}
+.bbx__center{text-align:center}
+.bbx__dots{display:flex;gap:10px;justify-content:center;margin:26px 0}
+.bbx__dots i{width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.55}
+
+/* 자리표시 박스 */
+.bbx__ph{position:relative;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  background:var(--cream);border:1px dashed #d9d0c7;border-radius:6px;color:var(--mute);text-align:center;padding:16px}
+.bbx__ph em{font-style:normal;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.bbx__ph b{font-weight:500;color:var(--ink2);font-size:15px}
+.bbx__ph code{font-family:ui-monospace,Menlo,monospace;font-size:11px;opacity:.75}
+.bbx__img{width:100%;overflow:hidden;border-radius:6px;background:var(--cream)}
+.bbx__img img{width:100%;height:100%;object-fit:cover}
+
+/* 스크롤 리빌 */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.22,.61,.36,1),transform 1s cubic-bezier(.22,.61,.36,1)}
+.rv.on{opacity:1;transform:none}
+.rv.d1{transition-delay:.12s}.rv.d2{transition-delay:.24s}.rv.d3{transition-delay:.36s}.rv.d4{transition-delay:.48s}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+/* ===== S1 선언 ===== */
+.bbx__s1{padding-top:clamp(64px,8vw,120px);background:linear-gradient(180deg,#fff 0%,var(--cream) 100%)}
+.bbx__s1-title{text-align:center;margin-bottom:clamp(40px,5vw,72px)}
+.bbx__s1-title .bbx__h2{font-size:clamp(34px,4.2vw,58px);font-weight:700;letter-spacing:-.03em}
+.bbx__s1-title .bbx__lead{max-width:640px;margin-inline:auto}
+.bbx__s1-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(32px,5vw,80px);align-items:end}
+.bbx__s1-grid .bbx__lead{margin-bottom:22px}
+.bbx__slogan{margin-top:34px;padding-top:24px;border-top:1px solid var(--line);font-size:clamp(20px,1.8vw,26px);font-weight:500;line-height:1.5}
+.bbx__slogan small{display:block;margin-top:8px;font-size:13px;letter-spacing:.16em;color:var(--accent);font-weight:500}
+
+/* ===== S2 왜 ===== */
+.bbx__lineup{display:grid;grid-template-columns:repeat(9,1fr);gap:8px;align-items:end;margin:48px 0 16px}
+.bbx__lineup img{width:100%;height:150px;object-fit:contain;filter:saturate(.9)}
+.bbx__lineup-names{display:grid;grid-template-columns:repeat(9,1fr);gap:8px;text-align:center;font-size:12px;color:var(--mute);margin-bottom:56px}
+.bbx__s2-copy{max-width:760px;margin-inline:auto;text-align:center}
+.bbx__s2-copy .bbx__p{margin-top:14px}
+
+/* ===== S3 스티키 : 증상 / 층 / 부위 ===== */
+.bbx__s3-inner{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:clamp(32px,5vw,80px);align-items:start}
+.bbx__s3-left{position:sticky;top:96px}
+.bbx__s3-left .bbx__p{margin-top:22px;max-width:36ch}
+.bbx__s3-item{padding-bottom:clamp(48px,6vw,88px)}
+.bbx__s3-head{display:flex;align-items:baseline;gap:14px;padding:14px 20px;background:var(--dark);color:#fff;border-radius:6px 6px 0 0}
+.bbx__s3-head b{font-size:22px;font-weight:500;letter-spacing:.06em}
+.bbx__s3-head em{font-style:normal;font-size:13px;letter-spacing:.2em;text-transform:uppercase;opacity:.75}
+.bbx__s3-head span{margin-left:auto;font-size:15px;font-weight:300;opacity:.9}
+.bbx__s3-body{border:1px solid var(--line);border-top:0;border-radius:0 0 6px 6px;padding:clamp(20px,2.6vw,36px)}
+.bbx__s3-body>.bbx__p{text-align:center;margin-bottom:26px}
+.bbx__sym{display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:start;padding:20px 0;border-top:1px solid var(--line)}
+.bbx__sym:first-of-type{border-top:0;padding-top:0}
+.bbx__sym h5{margin:0 0 8px;font-size:17px;font-weight:500}
+.bbx__sym li{font-size:14px;color:var(--mute);line-height:1.7;padding-left:12px;text-indent:-12px}
+.bbx__sym li::before{content:'· ';color:var(--accent)}
+.bbx__recipe{margin-top:10px;font-size:14px;color:var(--ink);padding:10px 14px;background:var(--cream);border-radius:4px}
+.bbx__recipe b{font-weight:500;color:var(--accent)}
+.bbx__rc{display:inline-block;margin-right:14px}
+@media (max-width:520px){.bbx__rc{display:block;margin:0;padding:3px 0}}
+/* 그리드 자식은 min-width:auto 라 안쪽 min-width(760px SVG)가 열을 밀어 문서를 넘치게 한다 */
+.bbx__s3-inner>*,.bbx__s3-body,.bbx__s3-item,.bbx__sym>*,.bbx__areas>*,.bbx__s1-grid>*{min-width:0}
+.bbx__diagram-wrap{width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:6px}
+.bbx__diagram{width:100%;min-width:760px;height:auto;display:block}
+.bbx__diagram-hint{display:none;margin-top:8px;font-size:12px;color:var(--mute);text-align:center}
+.bbx__areas{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center}
+.bbx__areas ul{display:grid;gap:8px}
+.bbx__areas li{display:grid;grid-template-columns:76px 1fr;gap:12px;font-size:14px;color:var(--ink2);padding:10px 0;border-bottom:1px solid var(--line)}
+.bbx__areas li b{font-weight:500;color:var(--ink)}
+
+/* ===== S4 장비 9종 ===== */
+.bbx__s4{background:var(--cream)}
+.bbx__devs{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:48px}
+.bbx__dev{background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden;text-align:center}
+.bbx__dev-img{aspect-ratio:100/72;display:flex;align-items:flex-end;justify-content:center;padding:18px 18px 0;background:linear-gradient(180deg,#fff,#f3eee8)}
+.bbx__dev-img img{height:100%;width:auto;max-height:100%;object-fit:contain}
+.bbx__dev-bar{background:var(--dark);color:#fff;font-weight:500;font-size:16px;padding:11px 12px;letter-spacing:.02em}
+.bbx__dev-role{padding:14px 16px 4px;font-size:14.5px;color:var(--ink2)}
+.bbx__dev-tech{display:block;padding:0 16px 16px;font-size:12px;color:var(--mute)}
+
+/* ===== S5 3단계 기법 ===== */
+.bbx__s5{background:var(--dark);color:#fff}
+.bbx__s5 .bbx__kw{color:#d9b5ae} .bbx__s5 .bbx__h3{color:#fff} .bbx__s5 .bbx__p{color:rgba(255,255,255,.78)}
+.bbx__steps{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,48px);margin-top:52px}
+.bbx__step .bbx__ph{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.22);color:rgba(255,255,255,.7)}
+.bbx__step .bbx__ph b{color:#fff} .bbx__step .bbx__ph em{color:#d9b5ae}
+.bbx__step h4{margin:18px 0 6px;font-size:20px;font-weight:500;letter-spacing:.02em}
+.bbx__step h4 small{display:block;font-size:12px;letter-spacing:.2em;color:#d9b5ae;margin-bottom:6px}
+.bbx__step p{font-size:14.5px;color:rgba(255,255,255,.75)}
+.bbx__prec{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:64px;padding-top:44px;border-top:1px solid rgba(255,255,255,.14)}
+.bbx__prec li{text-align:center;font-size:13.5px;color:rgba(255,255,255,.8)}
+.bbx__prec i{display:grid;place-items:center;width:52px;height:52px;margin:0 auto 12px;border:1px solid rgba(255,255,255,.35);border-radius:50%;font-style:normal;font-weight:500;color:#fff}
+
+/* ===== S6 설계 ===== */
+.bbx__s6-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:44px}
+.bbx__s6-grid figure{margin:0} .bbx__s6-grid figcaption{margin-top:10px;font-size:13px;color:var(--mute);text-align:center}
+
+/* ===== S7 마무리 ===== */
+.bbx__s7{background:linear-gradient(180deg,#fff,var(--cream));text-align:center;padding-block:clamp(72px,9vw,120px)}
+.bbx__s7 .bbx__h2{font-weight:300} .bbx__s7 .bbx__h2 b{font-weight:700}
+.bbx__tag{display:inline-block;margin-bottom:22px;padding:7px 16px;border:1px solid var(--line);border-radius:999px;font-size:12px;letter-spacing:.16em;color:var(--mute)}
+.bbx__info{margin-top:34px;font-size:14px;color:var(--mute);line-height:1.9}
+.bbx__info b{color:var(--ink);font-weight:500}
+
+/* ===== 모바일 ===== */
+@media (max-width:900px){
+  .bbx__s1-grid,.bbx__s3-inner,.bbx__areas{grid-template-columns:1fr}
+  .bbx__s3-left{position:static}
+  .bbx__lineup,.bbx__lineup-names{grid-template-columns:repeat(5,1fr)} .bbx__lineup img{height:96px}
+  .bbx__devs{grid-template-columns:1fr 1fr;gap:14px}
+  .bbx__steps{grid-template-columns:1fr}
+  .bbx__prec{grid-template-columns:repeat(3,1fr);gap:18px 10px}
+  .bbx__s6-grid{grid-template-columns:repeat(2,1fr)}
+  .bbx__sym{grid-template-columns:1fr}
+  .bbx__s3-head{flex-wrap:wrap;gap:6px 14px} .bbx__s3-head span{margin-left:0;flex-basis:100%}
+  .bbx__diagram-hint{display:block}
+}
+@media (max-width:520px){
+  .bbx__devs{grid-template-columns:1fr} .bbx__lineup,.bbx__lineup-names{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+
+<div id="bbx-root">
+
+<!-- ═══════ S1 선언 ═══════ -->
+<section class="bbx__sec bbx__s1">
+  <div class="bbx__wrap">
+    <div class="bbx__s1-title rv">
+      <span class="bbx__kw">Personal Layered Lifting</span>
+      <h1 class="bbx__h2">퍼스널 레이어드 리프팅</h1>
+      <div class="bbx__dots"><i></i><i></i><i></i></div>
+      <p class="bbx__lead">처짐은 한 겹에서 오지 않습니다.<br>표피·진피·지방층·근막 — 층마다 다른 원인을 읽고, 그 깊이에 맞는 장비를 순서대로 쌓습니다.</p>
+    </div>
+    <div class="bbx__s1-grid">
+      <div class="rv d1">
+        <p class="bbx__lead">같은 나이, 같은 고민이어도 처짐이 시작된 층은 사람마다 다릅니다. 하나의 장비로 모든 층을 해결할 수는 없습니다.</p>
+        <p class="bbx__p">뷰티블라썸의원의 퍼스널 레이어드 리프팅은 먼저 네 개 층의 상태를 진단하고, 아홉 가지 리프팅 장비 중 그 층에 도달하는 것만 골라 1:1로 조합합니다.</p>
+        <div class="bbx__slogan">리프팅은 ‘당기는 기술’이 아니라<br>층을 읽고 설계하는 진료입니다.<small>BEAUTY BLOSSOM · HONGDAE</small></div>
+      </div>
+      <div class="bbx__img rv d2" style="aspect-ratio:4/3"><img src="ASSET/assets/07_clinic/clinic-47.webp" alt="뷰티블라썸의원 시술실" loading="lazy" decoding="async"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ S2 왜 ═══════ -->
+<section class="bbx__sec">
+  <div class="bbx__wrap">
+    <div class="bbx__center rv">
+      <span class="bbx__kw">Why Layered</span>
+      <h2 class="bbx__h3">왜 ‘퍼스널 레이어드’인가</h2>
+    </div>
+    <div class="bbx__lineup rv d1"><img src="ASSET/assets/02_devices/device-02-thermage.webp" alt="써마지 FLX" loading="lazy" decoding="async"><img src="ASSET/assets/02_devices/device-08-density.webp" alt="덴서티" loading="lazy" decoding="async"><img src="ASSET/assets/02_devices/device-05-xerf.webp" alt="세르프(XERF)" loading="lazy" decoding="async"><img src="ASSET/assets/02_devices/device-07-alltite.webp" alt="올타이트" loading="lazy" decoding="async"><img src="ASSET/assets/02_devices/device-03-sofwave.webp" alt="소프웨이브" loading="lazy" decoding="async"><img src="ASSET/assets/02_devices/device-04-onda.webp" alt="온다" loading="lazy" decoding="async"><img src="ASSET/assets/02_devices/device-06-fortra.webp" alt="포트라 콰트로" loading="lazy" decoding="async"><img src="ASSET/assets/02_devices/device-01-ulthera.webp" alt="울쎄라피 프라임" loading="lazy" decoding="async"><img src="ASSET/assets/02_devices/device-09-linearz.webp" alt="리니어지" loading="lazy" decoding="async"></div>
+    <div class="bbx__lineup-names rv d1"><span>써마지 FLX</span><span>덴서티</span><span>세르프(XERF)</span><span>올타이트</span><span>소프웨이브</span><span>온다</span><span>포트라 콰트로</span><span>울쎄라피 프라임</span><span>리니어지</span></div>
+    <div class="bbx__s2-copy rv d2">
+      <p class="bbx__lead">탄력이 떨어지고, 볼륨이 이동하고, 라인이 무너지는 일은 서로 다른 층에서 따로 진행됩니다.</p>
+      <p class="bbx__p">써마지 FLX · 덴서티 · 세르프 · 올타이트 · 소프웨이브 · 온다 · 포트라 콰트로 · 울쎄라피 프라임 · 리니어지 — 원리가 다른 아홉 가지 장비의 도달 깊이를 겹쳐, 결·탄력·볼륨·라인을 한 번의 설계로 다룹니다.</p>
+    </div>
+    <div class="rv d2" style="max-width:900px;margin:40px auto 0"><div class="bbx__ph" style="aspect-ratio:16/7"><em>이미지 준비 중</em><b>피부 층 단면 일러스트 (표피·진피·지방층·근막)</b><code>11_layers/layers-cross-section.webp · 16:7</code></div></div>
+  </div>
+</section>
+
+<!-- ═══════ S3 스티키 : 증상 / 층 / 부위 ═══════ -->
+<section class="bbx__sec bbx__s3">
+  <div class="bbx__wrap bbx__s3-inner">
+    <div class="bbx__s3-left rv">
+      <span class="bbx__kw">Diagnosis First</span>
+      <h2 class="bbx__h3">처짐의 구조를 읽고<br>증상에 따라 설계합니다</h2>
+      <p class="bbx__p">노화는 증상·층·부위가 각각 다른 속도로 진행됩니다. 퍼스널 레이어드 리프팅은 그 변화를 먼저 읽고, 깊이에 맞는 에너지를 차례로 쌓습니다.</p>
+    </div>
+    <div class="bbx__s3-list">
+
+      <div class="bbx__s3-item rv">
+        <div class="bbx__s3-head"><b>01</b><em>Symptoms</em><span>증상은 층마다 다르게 드러납니다</span></div>
+        <div class="bbx__s3-body">
+          <p class="bbx__p">잔주름·처짐·이중턱은 시작된 층이 다릅니다. 증상이 드러난 방식에 따라 먼저 닿아야 할 깊이가 달라집니다.</p>
+          <div class="bbx__sym">
+            <div class="bbx__ph" style="aspect-ratio:1/1"><em>이미지 준비 중</em><b>잔주름 · 결 사진</b><code>12_symptoms/sym-01-wrinkle.webp · 1:1</code></div>
+            <div><h5>잔주름 · 굵은 주름</h5>
+              <ul><li>잔주름 : 표피 건조와 진피 콜라겐 감소 → 진피 재생이 먼저</li><li>굵은 주름 : 진피 밀도 저하와 근막 이완이 겹침 → 진피~근막을 함께</li></ul>
+              <p class="bbx__recipe"><span class="bbx__rc"><b>얕은 층</b> 써마지 FLX · 소프웨이브</span><span class="bbx__rc"><b>중간 층</b> 덴서티 · 세르프</span><span class="bbx__rc"><b>깊은 층</b> 울쎄라피 프라임</span></p></div>
+          </div>
+          <div class="bbx__sym">
+            <div class="bbx__ph" style="aspect-ratio:1/1"><em>이미지 준비 중</em><b>처짐 사진</b><code>12_symptoms/sym-02-sagging.webp · 1:1</code></div>
+            <div><h5>피부 처짐 · 얇은 피부 처짐</h5>
+              <ul><li>살과 함께 처짐 : 근막 이완, 지방 패드 하강 → 근막을 당겨 올리는 리프팅</li><li>얇은 피부 처짐 : 콜라겐·엘라스틴 소실 → 진피 밀도 보강과 타이트닝</li></ul>
+              <p class="bbx__recipe"><span class="bbx__rc"><b>깊은 층</b> 울쎄라피 프라임 · 리니어지</span><span class="bbx__rc"><b>중간 층</b> 올타이트 · 덴서티</span><span class="bbx__rc"><b>얕은 층</b> 써마지 FLX</span></p></div>
+          </div>
+          <div class="bbx__sym">
+            <div class="bbx__ph" style="aspect-ratio:1/1"><em>이미지 준비 중</em><b>이중턱 · 라인 사진</b><code>12_symptoms/sym-03-jawline.webp · 1:1</code></div>
+            <div><h5>이중턱 · 턱선 흐림</h5>
+              <ul><li>지방층의 볼륨 이동으로 라인이 무너짐 → 지방층을 정리하고 근막으로 받쳐야 함</li></ul>
+              <p class="bbx__recipe"><span class="bbx__rc"><b>지방층</b> 온다 · 포트라 콰트로</span><span class="bbx__rc"><b>근막</b> 울쎄라피 프라임 · 리니어지</span></p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bbx__s3-item rv">
+        <div class="bbx__s3-head"><b>02</b><em>Layers</em><span>장비마다 닿는 층이 다릅니다</span></div>
+        <div class="bbx__s3-body">
+          <p class="bbx__p">표피의 결·톤, 진피의 탄력, 지방층의 볼륨, 근막(SMAS)의 지지력 — 층마다 필요한 에너지의 깊이가 다릅니다. 아홉 가지 장비가 어느 층에 닿는지 한눈에 보면, 왜 조합이 필요한지 보입니다.</p>
+          <div class="bbx__diagram-wrap"><svg class="bbx__diagram" viewBox="0 0 1180 520" role="img" aria-label="피부 층별 장비 도달 깊이">
+<rect width="1180" height="520" fill="#fff"/>
+<rect x="170" y="70.0" width="980" height="24.4" fill="#F6F1EC"/>
+<text x="156" y="87.2" text-anchor="end" font-size="17" font-weight="500" fill="#1c1c1c">표피</text>
+<text x="156" y="106.2" text-anchor="end" font-size="11" fill="#9a938e" letter-spacing=".08em">Epidermis</text>
+<text x="1142" y="86.0" text-anchor="end" font-size="11" fill="#9a938e">0.1–0.3mm</text>
+<rect x="170" y="94.4" width="980" height="178.8" fill="#EFE7DF"/>
+<text x="156" y="188.8" text-anchor="end" font-size="17" font-weight="500" fill="#1c1c1c">진피</text>
+<text x="156" y="207.8" text-anchor="end" font-size="11" fill="#9a938e" letter-spacing=".08em">Dermis</text>
+<text x="1142" y="110.4" text-anchor="end" font-size="11" fill="#9a938e">0.3–2.5mm</text>
+<rect x="170" y="273.1" width="980" height="121.9" fill="#E8DDD2"/>
+<text x="156" y="339.1" text-anchor="end" font-size="17" font-weight="500" fill="#1c1c1c">지방층</text>
+<text x="156" y="358.1" text-anchor="end" font-size="11" fill="#9a938e" letter-spacing=".08em">Hypodermis</text>
+<text x="1142" y="289.1" text-anchor="end" font-size="11" fill="#9a938e">2.5–4.0mm</text>
+<rect x="170" y="395.0" width="980" height="65.0" fill="#DCCFC3"/>
+<text x="156" y="432.5" text-anchor="end" font-size="17" font-weight="500" fill="#1c1c1c">근막 SMAS</text>
+<text x="156" y="451.5" text-anchor="end" font-size="11" fill="#9a938e" letter-spacing=".08em">SMAS</text>
+<text x="1142" y="411.0" text-anchor="end" font-size="11" fill="#9a938e">4.5mm~</text>
+<line x1="242.2" y1="78.1" x2="242.2" y2="273.1" stroke="#B5726A" stroke-width="10" stroke-linecap="round" opacity=".9"/>
+<circle cx="242.2" cy="273.1" r="7" fill="#fff" stroke="#B5726A" stroke-width="3"/>
+<text x="242.2" y="36" text-anchor="middle" font-size="13" font-weight="500" fill="#1c1c1c">써마지 FLX</text>
+<text x="242.2" y="53" text-anchor="middle" font-size="10.5" fill="#9a938e">고주파 RF</text>
+<line x1="346.7" y1="78.1" x2="346.7" y2="435.6" stroke="#B5726A" stroke-width="10" stroke-linecap="round" opacity=".9"/>
+<circle cx="346.7" cy="435.6" r="7" fill="#fff" stroke="#B5726A" stroke-width="3"/>
+<text x="346.7" y="36" text-anchor="middle" font-size="13" font-weight="500" fill="#1c1c1c">덴서티</text>
+<text x="346.7" y="53" text-anchor="middle" font-size="10.5" fill="#9a938e">듀얼 RF</text>
+<line x1="451.1" y1="78.1" x2="451.1" y2="395.0" stroke="#B5726A" stroke-width="10" stroke-linecap="round" opacity=".9"/>
+<circle cx="451.1" cy="395.0" r="7" fill="#fff" stroke="#B5726A" stroke-width="3"/>
+<text x="451.1" y="36" text-anchor="middle" font-size="13" font-weight="500" fill="#1c1c1c">세르프(XERF)</text>
+<text x="451.1" y="53" text-anchor="middle" font-size="10.5" fill="#9a938e">모노폴라 RF</text>
+<line x1="555.6" y1="94.4" x2="555.6" y2="435.6" stroke="#B5726A" stroke-width="10" stroke-linecap="round" opacity=".9"/>
+<circle cx="555.6" cy="435.6" r="7" fill="#fff" stroke="#B5726A" stroke-width="3"/>
+<text x="555.6" y="36" text-anchor="middle" font-size="13" font-weight="500" fill="#1c1c1c">올타이트</text>
+<text x="555.6" y="53" text-anchor="middle" font-size="10.5" fill="#9a938e">집중 유전가열</text>
+<line x1="660.0" y1="186.9" x2="660.0" y2="196.9" stroke="#B5726A" stroke-width="10" stroke-linecap="round" opacity=".9"/>
+<circle cx="660.0" cy="196.9" r="7" fill="#fff" stroke="#B5726A" stroke-width="3"/>
+<text x="660.0" y="36" text-anchor="middle" font-size="13" font-weight="500" fill="#1c1c1c">소프웨이브</text>
+<text x="660.0" y="53" text-anchor="middle" font-size="10.5" fill="#9a938e">초음파</text>
+<line x1="764.4" y1="273.1" x2="764.4" y2="395.0" stroke="#B5726A" stroke-width="10" stroke-linecap="round" opacity=".9"/>
+<circle cx="764.4" cy="395.0" r="7" fill="#fff" stroke="#B5726A" stroke-width="3"/>
+<text x="764.4" y="36" text-anchor="middle" font-size="13" font-weight="500" fill="#1c1c1c">온다</text>
+<text x="764.4" y="53" text-anchor="middle" font-size="10.5" fill="#9a938e">마이크로웨이브</text>
+<line x1="868.9" y1="74.1" x2="868.9" y2="143.1" stroke="#B5726A" stroke-width="10" stroke-linecap="round" opacity=".9" stroke-dasharray="4 4"/>
+<circle cx="868.9" cy="143.1" r="7" fill="#fff" stroke="#B5726A" stroke-width="3"/>
+<text x="868.9" y="36" text-anchor="middle" font-size="13" font-weight="500" fill="#1c1c1c">포트라 콰트로</text>
+<text x="868.9" y="53" text-anchor="middle" font-size="10.5" fill="#9a938e">4파장 다이오드</text>
+<line x1="973.3" y1="430.6" x2="973.3" y2="440.6" stroke="#B5726A" stroke-width="10" stroke-linecap="round" opacity=".9"/>
+<circle cx="973.3" cy="440.6" r="7" fill="#fff" stroke="#B5726A" stroke-width="3"/>
+<text x="973.3" y="36" text-anchor="middle" font-size="13" font-weight="500" fill="#1c1c1c">울쎄라피 프라임</text>
+<text x="973.3" y="53" text-anchor="middle" font-size="10.5" fill="#9a938e">초음파 HIFU</text>
+<line x1="1077.8" y1="191.9" x2="1077.8" y2="435.6" stroke="#B5726A" stroke-width="10" stroke-linecap="round" opacity=".9"/>
+<circle cx="1077.8" cy="435.6" r="7" fill="#fff" stroke="#B5726A" stroke-width="3"/>
+<text x="1077.8" y="36" text-anchor="middle" font-size="13" font-weight="500" fill="#1c1c1c">리니어지</text>
+<text x="1077.8" y="53" text-anchor="middle" font-size="10.5" fill="#9a938e">초음파 HIFU</text>
+<text x="170" y="502" font-size="11.5" fill="#9a938e">막대 = 각 장비의 에너지 도달 깊이 · 점선 = 깊이가 아닌 톤·혈관 작용(레이저) · 리니어지는 목·바디에서 13mm까지</text>
+</svg></div>
+          <p class="bbx__diagram-hint">← 좌우로 밀어 전체 장비를 확인하세요 →</p>
+        </div>
+      </div>
+
+      <div class="bbx__s3-item rv">
+        <div class="bbx__s3-head"><b>03</b><em>Areas</em><span>부위마다 다른 속도로 변합니다</span></div>
+        <div class="bbx__s3-body">
+          <div class="bbx__areas">
+            <div class="bbx__ph" style="aspect-ratio:4/5"><em>이미지 준비 중</em><b>얼굴 부위 가이드 이미지</b><code>13_areas/areas-face.webp · 4:5</code></div>
+            <ul>
+              <li><b>이마 · 눈가</b><span>얇은 피부 — 표피·진피 위주로 가볍게, 깊은 에너지는 피함</span></li>
+              <li><b>볼 · 팔자</b><span>지방 이동과 근막 이완이 겹침 — 지방층 정리 후 근막 리프팅</span></li>
+              <li><b>턱선 · 이중턱</b><span>지방층이 핵심 — 온다·포트라로 정리하고 근막으로 받침</span></li>
+              <li><b>목</b><span>근막이 깊음 — 리니어지(~13mm)처럼 깊이 조절이 되는 장비</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ S4 장비 9종 ═══════ -->
+<section class="bbx__sec bbx__s4">
+  <div class="bbx__wrap">
+    <div class="bbx__center rv">
+      <span class="bbx__kw">9 Original Devices</span>
+      <h2 class="bbx__h3">아홉 가지 오리지널 장비의<br>퍼스널 레이어드 리프팅</h2>
+      <p class="bbx__p" style="margin-top:14px">원리가 다른 장비로 층마다 답을 쌓습니다. 한 장비가 여러 층을 넓게 다루기도 하고, 한 층만 정확히 겨냥하기도 합니다.</p>
+    </div>
+    <ul class="bbx__devs">
+        <li class="bbx__dev rv">
+          <div class="bbx__dev-img"><img src="ASSET/assets/02_devices/device-02-thermage.webp" alt="써마지 FLX" loading="lazy" decoding="async"></div>
+          <div class="bbx__dev-bar">써마지 FLX</div>
+          <p class="bbx__dev-role">진피 밀도 강화 · 잔주름·결</p>
+          <span class="bbx__dev-tech">고주파 RF · 0.1–2.5mm</span>
+        </li>
+        <li class="bbx__dev rv">
+          <div class="bbx__dev-img"><img src="ASSET/assets/02_devices/device-08-density.webp" alt="덴서티" loading="lazy" decoding="async"></div>
+          <div class="bbx__dev-bar">덴서티</div>
+          <p class="bbx__dev-role">표피~근막 광범위 타이트닝</p>
+          <span class="bbx__dev-tech">듀얼 RF · 0.1–4.5mm</span>
+        </li>
+        <li class="bbx__dev rv">
+          <div class="bbx__dev-img"><img src="ASSET/assets/02_devices/device-05-xerf.webp" alt="세르프(XERF)" loading="lazy" decoding="async"></div>
+          <div class="bbx__dev-bar">세르프(XERF)</div>
+          <p class="bbx__dev-role">넓은 면을 고르게 조임</p>
+          <span class="bbx__dev-tech">모노폴라 RF · 0.1–4mm</span>
+        </li>
+        <li class="bbx__dev rv">
+          <div class="bbx__dev-img"><img src="ASSET/assets/02_devices/device-07-alltite.webp" alt="올타이트" loading="lazy" decoding="async"></div>
+          <div class="bbx__dev-bar">올타이트</div>
+          <p class="bbx__dev-role">진피~근막 응집</p>
+          <span class="bbx__dev-tech">집중 유전가열 · 0.3–4.5mm</span>
+        </li>
+        <li class="bbx__dev rv">
+          <div class="bbx__dev-img"><img src="ASSET/assets/02_devices/device-03-sofwave.webp" alt="소프웨이브" loading="lazy" decoding="async"></div>
+          <div class="bbx__dev-bar">소프웨이브</div>
+          <p class="bbx__dev-role">진피 중간층 탄력 충전</p>
+          <span class="bbx__dev-tech">초음파 · 1.5mm</span>
+        </li>
+        <li class="bbx__dev rv">
+          <div class="bbx__dev-img"><img src="ASSET/assets/02_devices/device-04-onda.webp" alt="온다" loading="lazy" decoding="async"></div>
+          <div class="bbx__dev-bar">온다</div>
+          <p class="bbx__dev-role">지방층 정리 · 이중턱</p>
+          <span class="bbx__dev-tech">마이크로웨이브 · 2.5–4mm</span>
+        </li>
+        <li class="bbx__dev rv">
+          <div class="bbx__dev-img"><img src="ASSET/assets/02_devices/device-06-fortra.webp" alt="포트라 콰트로" loading="lazy" decoding="async"></div>
+          <div class="bbx__dev-bar">포트라 콰트로</div>
+          <p class="bbx__dev-role">톤 · 혈관 · 표피 결</p>
+          <span class="bbx__dev-tech">4파장 다이오드</span>
+        </li>
+        <li class="bbx__dev rv">
+          <div class="bbx__dev-img"><img src="ASSET/assets/02_devices/device-01-ulthera.webp" alt="울쎄라피 프라임" loading="lazy" decoding="async"></div>
+          <div class="bbx__dev-bar">울쎄라피 프라임</div>
+          <p class="bbx__dev-role">근막(SMAS) 리프팅</p>
+          <span class="bbx__dev-tech">초음파 HIFU · 4.5mm</span>
+        </li>
+        <li class="bbx__dev rv">
+          <div class="bbx__dev-img"><img src="ASSET/assets/02_devices/device-09-linearz.webp" alt="리니어지" loading="lazy" decoding="async"></div>
+          <div class="bbx__dev-bar">리니어지</div>
+          <p class="bbx__dev-role">진피~근막 선형 리프팅 (목·바디 ~13mm)</p>
+          <span class="bbx__dev-tech">초음파 HIFU · 1.5–4.5mm</span>
+        </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════ S5 3단계 기법 ═══════ -->
+<section class="bbx__sec bbx__s5">
+  <div class="bbx__wrap">
+    <div class="bbx__center rv">
+      <span class="bbx__kw">Layering Protocol</span>
+      <h2 class="bbx__h3">리프팅의 모든 순간을 설계하는<br>3단계 레이어링</h2>
+      <p class="bbx__p" style="margin-top:14px">리프팅은 시술 하나가 아니라 진단 → 시술 → 관리로 이어지는 흐름입니다. 흐름의 정확도가 결과를 결정합니다.</p>
+    </div>
+    <div class="bbx__steps">
+      <div class="bbx__step rv d1"><div class="bbx__ph" style="aspect-ratio:4/3"><em>이미지 준비 중</em><b>Boost 단계 사진</b><code>14_protocol/step-01-boost.webp · 4:3</code></div><h4><small>STEP 01</small>Layered Boost</h4><p>3D 피부 분석으로 층 상태를 확인하고, 피부를 안정시켜 에너지 반응을 준비합니다.</p></div>
+      <div class="bbx__step rv d2"><div class="bbx__img" style="aspect-ratio:4/3"><img src="ASSET/assets/10_treat/scene-03-xerf.webp" alt="레이어드 리프팅 시술" loading="lazy" decoding="async"></div><h4><small>STEP 02</small>Layered Lifting</h4><p>부위·깊이·증상에 맞춰 고른 장비를 얕은 층에서 깊은 층으로, 정해진 순서로 시술합니다.</p></div>
+      <div class="bbx__step rv d3"><div class="bbx__ph" style="aspect-ratio:4/3"><em>이미지 준비 중</em><b>Hold 단계 사진</b><code>14_protocol/step-03-hold.webp · 4:3</code></div><h4><small>STEP 03</small>Layered Hold</h4><p>결과를 고정하고 회복을 돕는 진정·재생 관리로 효과를 오래 유지합니다.</p></div>
+    </div>
+    <ul class="bbx__prec rv">
+      <li><i>01</i>3D 피부 분석</li><li><i>02</i>층별 진단</li><li><i>03</i>깊이별 장비 조합</li><li><i>04</i>순서 설계</li><li><i>05</i>회복 · 재설계</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════ S6 설계 ═══════ -->
+<section class="bbx__sec">
+  <div class="bbx__wrap">
+    <div class="bbx__center rv">
+      <span class="bbx__kw">Precision by Design</span>
+      <h2 class="bbx__h3">설계가 완성도를 만듭니다</h2>
+      <p class="bbx__p" style="margin-top:14px;max-width:620px;margin-inline:auto">장비를 나열하지 않습니다. 층의 변화를 읽고 순서를 설계합니다. 결과는 장비가 아니라 그 장비를 다루는 설계의 정밀도에서 나옵니다.</p>
+    </div>
+    <div class="bbx__s6-grid">
+      <figure class="rv"><div class="bbx__ph" style="aspect-ratio:1/1"><em>이미지 준비 중</em><b>상담 · 진단</b><code>15_design/design-01.webp · 1:1</code></div><figcaption>상담 · 3D 분석</figcaption></figure>
+      <figure class="rv d1"><div class="bbx__ph" style="aspect-ratio:1/1"><em>이미지 준비 중</em><b>층 설계</b><code>15_design/design-02.webp · 1:1</code></div><figcaption>층별 설계</figcaption></figure>
+      <figure class="rv d2"><div class="bbx__img" style="aspect-ratio:1/1"><img src="ASSET/assets/09_scene/scene-08-ulthera.webp" alt="" loading="lazy" decoding="async"></div><figcaption>깊은 층 리프팅</figcaption></figure>
+      <figure class="rv d3"><div class="bbx__img" style="aspect-ratio:1/1"><img src="ASSET/assets/09_scene/scene-01-thermage.webp" alt="" loading="lazy" decoding="async"></div><figcaption>얕은 층 타이트닝</figcaption></figure>
+      <figure class="rv d4"><div class="bbx__ph" style="aspect-ratio:1/1"><em>이미지 준비 중</em><b>회복 관리</b><code>15_design/design-05.webp · 1:1</code></div><figcaption>회복 · 재설계</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ S7 마무리 ═══════ -->
+<section class="bbx__s7">
+  <div class="bbx__wrap rv">
+    <span class="bbx__tag">BEAUTY BLOSSOM CLINIC</span>
+    <h2 class="bbx__h2">퍼스널 레이어드 리프팅은<br><b>층을 읽는 데서 시작합니다.</b></h2>
+    <p class="bbx__lead" style="margin-top:22px">Layer by Layer, Personal by Beauty Blossom.</p>
+    <p class="bbx__info"><b>뷰티블라썸의원</b> · 서울 마포구 양화로 66 메디원메디컬센터 6층·8층 · 합정역 3번 출구 바로 앞<br>02-336-7511</p>
+  </div>
+</section>
+
+</div><!-- /#bbx-root -->
+
+<script>
+(function(){
+  var root=document.getElementById('bbx-root'); if(!root) return;
+  /* 자산 base — 아임웹에서는 첫 줄 BBX_ASSET_BASE 로 바꾼다 */
+  var base=(window.BBX_ASSET_BASE||'').replace(/\/$/,'');
+  root.querySelectorAll('img[src^="ASSET/"]').forEach(function(im){ im.src=base+im.getAttribute('src').slice(5); });
+  /* 스크롤 리빌 — IntersectionObserver 만으로 충분하다 */
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } }); },{rootMargin:'0px 0px -12% 0px',threshold:.08});
+  root.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+})();
+</script>
