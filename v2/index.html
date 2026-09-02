@@ -78,7 +78,7 @@
 .bbx__s3-head span{margin-left:auto;font-size:15px;font-weight:300;opacity:.9}
 .bbx__s3-body{border:1px solid var(--line);border-top:0;border-radius:0 0 6px 6px;padding:clamp(20px,2.6vw,36px)}
 .bbx__s3-body>.bbx__p{text-align:center;margin-bottom:26px}
-.bbx__sym{display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:start;padding:20px 0;border-top:1px solid var(--line)}
+.bbx__sym{display:grid;grid-template-columns:240px 1fr;gap:28px;align-items:start;padding:24px 0;border-top:1px solid var(--line)}
 .bbx__sym:first-of-type{border-top:0;padding-top:0}
 .bbx__sym h5{margin:0 0 8px;font-size:17px;font-weight:600}
 .bbx__sym li{font-size:14px;color:var(--mute);line-height:1.7;padding-left:12px;text-indent:-12px}
@@ -92,7 +92,7 @@
 .bbx__diagram-wrap{width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:6px}
 .bbx__diagram{width:100%;min-width:760px;height:auto;display:block}
 .bbx__diagram-hint{display:none;margin-top:8px;font-size:12px;color:var(--mute);text-align:center}
-.bbx__areas{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center}
+.bbx__areas{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;align-items:center}
 .bbx__areas ul{display:grid;gap:8px}
 .bbx__areas li{display:grid;grid-template-columns:76px 1fr;gap:12px;font-size:14px;color:var(--ink2);padding:10px 0;border-bottom:1px solid var(--line)}
 .bbx__areas li b{font-weight:500;color:var(--ink)}
@@ -121,7 +121,9 @@
 .bbx__prec i{display:grid;place-items:center;width:52px;height:52px;margin:0 auto 12px;border:1px solid rgba(255,255,255,.35);border-radius:50%;font-style:normal;font-weight:500;color:#fff}
 
 /* ===== S6 설계 ===== */
-.bbx__s6-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:44px}
+/* 5칸 한 줄(~220px)은 사진이 너무 작다 → 3+2 두 줄, 마지막 줄 가운데 정렬 */
+.bbx__s6-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:22px;margin-top:44px}
+.bbx__s6-grid figure{flex:0 0 calc((100% - 44px)/3)}
 .bbx__s6-grid figure{margin:0} .bbx__s6-grid figcaption{margin-top:10px;font-size:13px;color:var(--mute);text-align:center}
 
 /* ===== S7 마무리 ===== */
@@ -139,7 +141,7 @@
   .bbx__devs{grid-template-columns:1fr 1fr;gap:14px}
   .bbx__steps{grid-template-columns:1fr}
   .bbx__prec{grid-template-columns:repeat(3,1fr);gap:18px 10px}
-  .bbx__s6-grid{grid-template-columns:repeat(2,1fr)}
+  .bbx__s6-grid{gap:14px} .bbx__s6-grid figure{flex-basis:calc(50% - 7px)}
   .bbx__sym{grid-template-columns:1fr}
   .bbx__s3-head{flex-wrap:wrap;gap:6px 14px} .bbx__s3-head span{margin-left:0;flex-basis:100%}
   .bbx__diagram-hint{display:block}
