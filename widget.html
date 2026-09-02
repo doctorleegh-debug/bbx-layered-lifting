@@ -1583,7 +1583,10 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
     .gate-grid h2, .gate-copy{ grid-column:auto !important; }
     .gate-grid h2{ max-width:none !important; text-align:center; margin-inline:auto;
                    font-size:clamp(28px,7.6vw,40px) !important; line-height:1.22 !important; }
-    .gate-stats{ justify-content:center; }
+    /* 문장형 라벨은 84px 칸에서 4~6줄로 접힌다 → 2×2 */
+    .gate-stats{ grid-template-columns:1fr 1fr !important; gap:14px 18px !important; justify-content:center; }
+    .gate-stats div{ padding:12px 0 !important; }
+    .gate-stats span{ font-size:12px !important; line-height:1.45 !important; }
 
     /* ③ 쇼케이스 보드 — '이미지' 배지를 빼고 실사를 화면 폭에 꽉 채운다 */
     .bbx__pll-badge{ display:none !important; }
@@ -1714,10 +1717,10 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
     </div>
   </div>
   <div class="gate-stats" data-rv="up">
-    <div><b>04</b><span>개 층</span></div>
-    <div><b>09</b><span>가지 장비</span></div>
-    <div><b>2</b><span>번 출구 3분</span></div>
-    <div><b>∞</b><span>맞춤 설계</span></div>
+    <div><b>04</b><span>개 층을 먼저 읽고</span></div>
+    <div><b>09</b><span>가지 장비 중에서 고르고</span></div>
+    <div><b>0.1–4.5</b><span>mm 깊이를 나눠</span></div>
+    <div><b>1:1</b><span>로 조합합니다</span></div>
   </div>
 </section>
 
