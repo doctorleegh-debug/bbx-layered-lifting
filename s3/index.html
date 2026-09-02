@@ -150,7 +150,8 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 
 /* ── 무대 : 원근 레일 ── */
 .plc-stage{--pointer-x:50%;position:relative;width:100%;height:clamp(345px,33vw,500px);
-  overflow:hidden;isolation:isolate;perspective:1450px;cursor:ew-resize;touch-action:pan-y;
+  overflow:hidden;isolation:isolate;perspective:1450px;cursor:grab;touch-action:pan-y;
+  -webkit-user-select:none;user-select:none;
   border-radius:24px;
   background:
     linear-gradient(90deg,rgba(160,120,115,.07) 1px,transparent 1px) 50% 0 / 25% 100%,
@@ -177,7 +178,8 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
       rgba(120,80,76,calc(.14 + var(--focus) * .2)),
     inset 0 0 0 1px rgba(255,255,255,.9);
   appearance:none;outline:none;transform-style:preserve-3d;
-  will-change:transform,opacity,filter;cursor:pointer;text-decoration:none;font:inherit}
+  will-change:transform,opacity,filter;cursor:pointer;text-decoration:none;font:inherit;
+  -webkit-user-drag:none}
 .plc-card::before{content:"";position:absolute;inset:5px;z-index:3;pointer-events:none;
   border:1px solid rgba(160,120,115,calc(.16 + var(--focus) * .16))}
 .plc-card:focus-visible{box-shadow:0 26px 50px rgba(120,80,76,.34),0 0 0 4px rgba(233,145,142,.45)}
@@ -187,6 +189,7 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
   align-items:flex-end;justify-content:center;padding:14px 12px 10px;
   background:linear-gradient(180deg,#fdfbfa,#f4eeed)}
 .plc-shot img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;
+  pointer-events:none;-webkit-user-drag:none;
   transform:scale(calc(.96 + var(--focus) * .08));
   filter:saturate(calc(.72 + var(--focus) * .28)) contrast(1.02);
   transition:none}
@@ -211,7 +214,7 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
   .plc-head{margin-bottom:20px}
   .plc-h2{font-size:23px;letter-spacing:-1px}
   .plc-lead{font-size:14.5px}
-  .plc-stage{height:clamp(290px,72vw,380px);border-radius:18px;
+  .plc-stage{height:clamp(290px,72vw,380px);border-radius:18px;cursor:default;
     background:
       linear-gradient(90deg,rgba(160,120,115,.07) 1px,transparent 1px) 50% 0 / 50% 100%,
       repeating-linear-gradient(0deg,transparent 0,transparent 87px,rgba(160,120,115,.1) 88px,transparent 89px),
@@ -245,15 +248,15 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 
   var CDN = 'https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered';
   var profiles = [
-        ["소프웨이브","SUPERB 초음파","sofwave","/139"],
-        ["써마지 FLX","모노폴라 RF","thermage","/41"],
-        ["포트라 콰트로","4파장 다이오드","fortra","/titanium-fortra-quattro"],
-        ["세르프(XERF)","듀얼 모노폴라 RF","xerf","/155"],
-        ["덴서티","모노+바이폴라 RF","density","/153"],
-        ["온다","마이크로웨이브","onda","/42"],
-        ["올타이트","유전가열 DLTD","alltite","/alltite-lifting"],
-        ["리니어지","선·점 HIFU","linearz","/154"],
-        ["울쎄라피 프라임","초음파 HIFU","ulthera","/40"]
+        ["소프웨이브","SUPERB 초음파","sofwave","https://beautyblossom.kr/139"],
+        ["써마지 FLX","모노폴라 RF","thermage","https://beautyblossom.kr/41"],
+        ["포트라 콰트로","4파장 다이오드","fortra","https://beautyblossom.kr/titanium-fortra-quattro"],
+        ["세르프(XERF)","듀얼 모노폴라 RF","xerf","https://beautyblossom.kr/155"],
+        ["덴서티","모노+바이폴라 RF","density","https://beautyblossom.kr/153"],
+        ["온다","마이크로웨이브","onda","https://beautyblossom.kr/42"],
+        ["올타이트","유전가열 DLTD","alltite","https://beautyblossom.kr/alltite-lifting"],
+        ["리니어지","선·점 HIFU","linearz","https://beautyblossom.kr/154"],
+        ["울쎄라피 프라임","초음파 HIFU","ulthera","https://beautyblossom.kr/40"]
       ].map(function(a){ return {name:a[0], role:a[1], slug:a[2], url:a[3]}; });
 
   var stage = root.querySelector('.plc-stage');
@@ -263,11 +266,12 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
     var card = document.createElement('a');
     card.className = 'plc-card';
     card.href = p.url;
+    card.draggable = false;
     card.dataset.index = String(index);
     card.setAttribute('aria-label', p.name + ' · ' + p.role);
     card.innerHTML =
       '<span class="plc-shot"><img src="' + CDN + '/hero-' + p.slug + '.webp" alt="' + p.name +
-        '" loading="lazy" decoding="async"></span>' +
+        '" loading="lazy" decoding="async" draggable="false"></span>' +
       '<span class="plc-foot">' +
         '<span class="plc-no">' + String(index + 1).padStart(2, '0') + '</span>' +
         '<span class="plc-meta">' +
@@ -300,7 +304,7 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 
   cards.forEach(function(card, index){
     /* 카드가 링크라 클릭은 장비 페이지로 간다. 다만 끌어서 넘긴 직후의 클릭은 막는다. */
-    card.addEventListener('click', function(e){ if (dragged){ e.preventDefault(); dragged = false; } });
+    card.addEventListener('click', function(e){ if (dragged) e.preventDefault(); });
     card.addEventListener('focus', function(){ moveTo(index); });
   });
 
@@ -336,19 +340,38 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
     state.base += fwd ? 1 : -1; state.target = state.base;   });
 
   /* 터치·드래그로 넘기기 */
-  var down = false, x0 = 0, b0 = 0;
+  var down = false, x0 = 0, b0 = 0, pid = null, moved = 0, lastDrag = 0;
+
+  /* 브라우저 기본 드래그(고스트 이미지)를 막는다 — 이게 포인터 흐름을 통째로 가져간다 */
+  stage.addEventListener('dragstart', function(e){ e.preventDefault(); });
+
   stage.addEventListener('pointerdown', function(e){
-    down = true; dragged = false; x0 = e.clientX; b0 = state.base;
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    down = true; dragged = false; moved = 0;
+    x0 = e.clientX; b0 = state.base; pid = e.pointerId;
+    /* 포인터를 무대에 묶어 두면 커서가 밖으로 나가도 끝까지 따라온다 */
+    try { stage.setPointerCapture(pid); } catch (err) {}
   });
+
   stage.addEventListener('pointermove', function(e){
     if (!down) return;
-    var d = (x0 - e.clientX) / (innerWidth < 769 ? 66 : 90);
-    if (Math.abs(d) > 0.12) dragged = true;
-    state.base = b0 + d; state.target = state.base;   });
-  function release(){ if (!down) return; down = false; state.target = state.base; }
-  stage.addEventListener('pointerup', release);
-  stage.addEventListener('pointercancel', release);
-  stage.addEventListener('pointerleave', release);
+    var dx = x0 - e.clientX;
+    if (Math.abs(dx) > moved) moved = Math.abs(dx);
+    state.base = b0 + dx / (innerWidth < 769 ? 66 : 90);
+    state.target = state.base;
+  });
+
+  function endDrag(){
+    if (!down) return;
+    down = false;
+    dragged = moved > 6;          /* 6px 넘게 끌었으면 클릭이 아니라 끌기다 */
+    lastDrag = performance.now();
+    if (pid !== null){ try { stage.releasePointerCapture(pid); } catch (err) {} pid = null; }
+    state.target = state.base;
+  }
+  stage.addEventListener('pointerup', endDrag);
+  stage.addEventListener('pointercancel', endDrag);
+  /* pointerleave 로는 끝내지 않는다 — 캡처 중이라 밖으로 나가도 이어진다 */
   stage.addEventListener('pointerup', function(){ setTimeout(function(){ dragged = false; }, 40); });
 
   /* 화면 밖이거나 탭이 숨겨져 있으면 프레임을 돌리지 않는다 */
@@ -375,7 +398,7 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
     var ease = reducedMotion ? 1 : 1 - Math.pow(0.001, dt / 1000);
 
     /* 끌고 있거나 마우스를 올려두면 멈춘다. 그 밖에는 계속 흐른다. */
-    if (!down && !hovering && !reducedMotion){
+    if (!down && !hovering && !reducedMotion && time - lastDrag > 2500){
       state.base += AUTO * dt;
       state.target = state.base;
     }
@@ -691,39 +714,39 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
   <div class="pll-rail pll-rv d1">
     <p class="pll-rail-h"><em>9가지 장비</em>가 각자 다른 층에 작용합니다<u></u><small>얕은 층 → 깊은 층</small></p>
     <ul class="pll-chips">
-          <li><a class="pll-chip" href="/139" data-dev="sofwave" data-layer="derm" style="--h:#00C2D9">
+          <li><a class="pll-chip" href="https://beautyblossom.kr/139" data-dev="sofwave" data-layer="derm" style="--h:#00C2D9">
             <span class="pll-goo" aria-hidden="true"></span>
             <i class="pll-chip-img"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/dev-sofwave.webp" alt="소프웨이브" loading="lazy" decoding="async" width="120" height="220"></i>
             <span class="pll-chip-t"><b>소프웨이브</b><em>SUPERB 초음파 · 1.5mm · 7빔 동시</em></span></a></li>
-          <li><a class="pll-chip" href="/41" data-dev="thermage" data-layer="derm" style="--h:#FF8A00">
+          <li><a class="pll-chip" href="https://beautyblossom.kr/41" data-dev="thermage" data-layer="derm" style="--h:#FF8A00">
             <span class="pll-goo" aria-hidden="true"></span>
             <i class="pll-chip-img"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/dev-thermage.webp" alt="써마지 FLX" loading="lazy" decoding="async" width="120" height="220"></i>
             <span class="pll-chip-t"><b>써마지 FLX</b><em>모노폴라 RF · 6.78MHz · 진피 벌크</em></span></a></li>
-          <li><a class="pll-chip" href="/titanium-fortra-quattro" data-dev="fortra" data-layer="all" style="--h:#FF3D9A">
+          <li><a class="pll-chip" href="https://beautyblossom.kr/titanium-fortra-quattro" data-dev="fortra" data-layer="all" style="--h:#FF3D9A">
             <span class="pll-goo" aria-hidden="true"></span>
             <i class="pll-chip-img"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/dev-fortra.webp" alt="포트라 콰트로" loading="lazy" decoding="async" width="120" height="220"></i>
             <span class="pll-chip-t"><b>포트라 콰트로</b><em>4파장 다이오드 · 755·808·940·1064nm</em></span></a></li>
-          <li><a class="pll-chip" href="/155" data-dev="xerf" data-layer="all" style="--h:#FF4E2E">
+          <li><a class="pll-chip" href="https://beautyblossom.kr/155" data-dev="xerf" data-layer="all" style="--h:#FF4E2E">
             <span class="pll-goo" aria-hidden="true"></span>
             <i class="pll-chip-img"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/dev-xerf.webp" alt="세르프(XERF)" loading="lazy" decoding="async" width="120" height="220"></i>
             <span class="pll-chip-t"><b>세르프(XERF)</b><em>듀얼 모노폴라 RF · 2 + 6.78MHz · 3단계</em></span></a></li>
-          <li><a class="pll-chip" href="/153" data-dev="density" data-layer="all" style="--h:#7C3AED">
+          <li><a class="pll-chip" href="https://beautyblossom.kr/153" data-dev="density" data-layer="all" style="--h:#7C3AED">
             <span class="pll-goo" aria-hidden="true"></span>
             <i class="pll-chip-img"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/dev-density.webp" alt="덴서티" loading="lazy" decoding="async" width="120" height="220"></i>
             <span class="pll-chip-t"><b>덴서티</b><em>모노+바이폴라 RF · 6.78MHz · 400W</em></span></a></li>
-          <li><a class="pll-chip" href="/42" data-dev="onda" data-layer="fat" style="--h:#FF1F7A">
+          <li><a class="pll-chip" href="https://beautyblossom.kr/42" data-dev="onda" data-layer="fat" style="--h:#FF1F7A">
             <span class="pll-goo" aria-hidden="true"></span>
             <i class="pll-chip-img"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/dev-onda.webp" alt="온다" loading="lazy" decoding="async" width="120" height="220"></i>
             <span class="pll-chip-t"><b>온다</b><em>마이크로웨이브 · 2.45GHz · 3mm·7mm</em></span></a></li>
-          <li><a class="pll-chip" href="/alltite-lifting" data-dev="alltite" data-layer="smas" style="--h:#FF2D55">
+          <li><a class="pll-chip" href="https://beautyblossom.kr/alltite-lifting" data-dev="alltite" data-layer="smas" style="--h:#FF2D55">
             <span class="pll-goo" aria-hidden="true"></span>
             <i class="pll-chip-img"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/dev-alltite.webp" alt="올타이트" loading="lazy" decoding="async" width="120" height="220"></i>
             <span class="pll-chip-t"><b>올타이트</b><em>유전가열 DLTD · 진피 하부 집중 · SMAS</em></span></a></li>
-          <li><a class="pll-chip" href="/154" data-dev="linearz" data-layer="all" style="--h:#6D5CFF">
+          <li><a class="pll-chip" href="https://beautyblossom.kr/154" data-dev="linearz" data-layer="all" style="--h:#6D5CFF">
             <span class="pll-goo" aria-hidden="true"></span>
             <i class="pll-chip-img"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/dev-linearz.webp" alt="리니어지" loading="lazy" decoding="async" width="120" height="220"></i>
             <span class="pll-chip-t"><b>리니어지</b><em>선·점 HIFU · 1.5~13mm 0.5단위</em></span></a></li>
-          <li><a class="pll-chip" href="/40" data-dev="ulthera" data-layer="all" style="--h:#0A84FF">
+          <li><a class="pll-chip" href="https://beautyblossom.kr/40" data-dev="ulthera" data-layer="all" style="--h:#0A84FF">
             <span class="pll-goo" aria-hidden="true"></span>
             <i class="pll-chip-img"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/dev-ulthera.webp" alt="울쎄라피 프라임" loading="lazy" decoding="async" width="120" height="220"></i>
             <span class="pll-chip-t"><b>울쎄라피 프라임</b><em>초음파 HIFU · 1.5 · 3.0 · 4.5mm</em></span></a></li>
@@ -1058,11 +1081,11 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
         </div>
         <div class="pls-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></div>
         <ul class="pls-devs">
-            <li><a class="pls-dev" href="/139">
+            <li><a class="pls-dev" href="https://beautyblossom.kr/139">
               <span class="pls-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-sofwave.webp" alt="소프웨이브" width="299" height="560" loading="lazy" decoding="async"></span>
               <span class="pls-dev-t"><b>소프웨이브</b><em>SUPERB 초음파</em><i>진피 1.5mm</i></span>
             </a></li>
-            <li><a class="pls-dev" href="/41">
+            <li><a class="pls-dev" href="https://beautyblossom.kr/41">
               <span class="pls-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-thermage.webp" alt="써마지 FLX" width="311" height="560" loading="lazy" decoding="async"></span>
               <span class="pls-dev-t"><b>써마지 FLX</b><em>모노폴라 RF</em><i>6.78MHz</i></span>
             </a></li>
@@ -1077,11 +1100,11 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
         </div>
         <div class="pls-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></div>
         <ul class="pls-devs">
-            <li><a class="pls-dev" href="/40">
+            <li><a class="pls-dev" href="https://beautyblossom.kr/40">
               <span class="pls-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-ulthera.webp" alt="울쎄라피 프라임" width="277" height="560" loading="lazy" decoding="async"></span>
               <span class="pls-dev-t"><b>울쎄라피 프라임</b><em>초음파 HIFU</em><i>4.5mm SMAS</i></span>
             </a></li>
-            <li><a class="pls-dev" href="/155">
+            <li><a class="pls-dev" href="https://beautyblossom.kr/155">
               <span class="pls-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-xerf.webp" alt="세르프(XERF)" width="241" height="560" loading="lazy" decoding="async"></span>
               <span class="pls-dev-t"><b>세르프(XERF)</b><em>듀얼 모노폴라 RF</em><i>2 + 6.78MHz</i></span>
             </a></li>
@@ -1096,11 +1119,11 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
         </div>
         <div class="pls-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></div>
         <ul class="pls-devs">
-            <li><a class="pls-dev" href="/alltite-lifting">
+            <li><a class="pls-dev" href="https://beautyblossom.kr/alltite-lifting">
               <span class="pls-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-alltite.webp" alt="올타이트" width="373" height="560" loading="lazy" decoding="async"></span>
               <span class="pls-dev-t"><b>올타이트</b><em>유전가열 DLTD</em><i>진피 하부 · SMAS</i></span>
             </a></li>
-            <li><a class="pls-dev" href="/154">
+            <li><a class="pls-dev" href="https://beautyblossom.kr/154">
               <span class="pls-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-linearz.webp" alt="리니어지" width="288" height="560" loading="lazy" decoding="async"></span>
               <span class="pls-dev-t"><b>리니어지</b><em>선·점 HIFU</em><i>1.5~13mm</i></span>
             </a></li>
@@ -1115,11 +1138,11 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
         </div>
         <div class="pls-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></div>
         <ul class="pls-devs">
-            <li><a class="pls-dev" href="/42">
+            <li><a class="pls-dev" href="https://beautyblossom.kr/42">
               <span class="pls-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-onda.webp" alt="온다" width="218" height="560" loading="lazy" decoding="async"></span>
               <span class="pls-dev-t"><b>온다</b><em>마이크로웨이브</em><i>2.45GHz</i></span>
             </a></li>
-            <li><a class="pls-dev" href="/153">
+            <li><a class="pls-dev" href="https://beautyblossom.kr/153">
               <span class="pls-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-density.webp" alt="덴서티" width="278" height="560" loading="lazy" decoding="async"></span>
               <span class="pls-dev-t"><b>덴서티</b><em>모노+바이폴라 RF</em><i>최대 400W</i></span>
             </a></li>
@@ -1134,7 +1157,7 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
         </div>
         <div class="pls-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></div>
         <ul class="pls-devs">
-            <li><a class="pls-dev" href="/titanium-fortra-quattro">
+            <li><a class="pls-dev" href="https://beautyblossom.kr/titanium-fortra-quattro">
               <span class="pls-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-fortra.webp" alt="포트라 콰트로" width="282" height="560" loading="lazy" decoding="async"></span>
               <span class="pls-dev-t"><b>포트라 콰트로</b><em>4파장 다이오드</em><i>755~1064nm</i></span>
             </a></li>
