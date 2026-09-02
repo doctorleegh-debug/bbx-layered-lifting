@@ -1556,6 +1556,31 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
     .bbx__pll-end{ padding-bottom:40px !important; }
   }
 
+
+  @media (max-width:820px){
+    /* ① 히어로 챕터 칩 — 좁은 화면에서는 본문이 숨고 번호(01 02 03 04)만 떠 있었다 */
+    .chapters, .hero-foot .chapters{ display:none !important; }
+
+    /* ② 챕터 제목 — 데스크톱용 2열 그리드(!important)가 Kage 의 모바일 1열 규칙을 눌러
+         제목 열이 50px 로 쪼그라들어 글자가 세로로 늘어졌다 */
+    .gate-grid{ grid-template-columns:1fr !important; gap:18px !important; }
+    .gate-grid h2, .gate-copy{ grid-column:auto !important; }
+    .gate-grid h2{ max-width:none !important; text-align:center; margin-inline:auto;
+                   font-size:clamp(28px,7.6vw,40px) !important; line-height:1.22 !important; }
+    .gate-stats{ justify-content:center; }
+
+    /* ③ 쇼케이스 보드 — '이미지' 배지를 빼고 실사를 화면 폭에 꽉 채운다 */
+    .bbx__pll-badge{ display:none !important; }
+    .bbx__pll-board{ padding-inline:0 !important; }
+    .bbx__pll-nodes{ gap:28px !important; }
+    .bbx__pll-nbox{ padding:0 !important; border:0 !important; border-radius:0 !important; background:transparent !important; }
+    .bbx__pll-nhd{ padding-inline:16px; }
+    .bbx__pll-ph{ width:var(--vw,100vw); margin-left:calc(50% - var(--vw,100vw)/2);
+                  aspect-ratio:4/3 !important; border:0 !important; border-radius:0 !important; }
+    .bbx__pll-node.a:has(.bbx__pll-ph--empty){ display:none !important; }   /* 비어 있는 진단 칸은 한 화면을 통째로 먹는다 */
+    .bbx__pll-depth{ padding-inline:16px; }
+  }
+
 </style>
 
 <div id="bbx-root" data-layout-hero="b" data-layout-story="b" data-layout-gallery="b"
