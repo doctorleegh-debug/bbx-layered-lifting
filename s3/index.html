@@ -1,30 +1,357 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!DOCTYPE html><html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow, noarchive">
-<title>층별 장비 다이어그램 — 검수용 미리보기 · 뷰티블라썸의원</title>
+<title>퍼스널 레이어드 리프팅 — 검수용 미리보기 · 뷰티블라썸의원</title>
 <link rel="preconnect" href="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev" crossorigin>
 <style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-/* 아임웹 바디코드가 모든 페이지에 거는 전역 규칙을 그대로 재현 */
+/* 아임웹 바디코드가 모든 페이지에 거는 전역 규칙 재현 */
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Pretendard',Arial,sans-serif}
 body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
-/* 아임웹 위젯 그릇 — PC 1250 / 모바일 345 */
-.wrap{width:1250px;margin:0 auto;padding:44px 0 90px}
+.wrap{width:1250px;margin:0 auto}
 @media (max-width:1300px){.wrap{width:calc(100% - 40px)}}
-@media (max-width:768px){.wrap{width:345px;padding:24px 0 60px}}
-.bar{position:sticky;top:0;z-index:50;background:#2b2320;color:#fff;
-  font-size:13px;line-height:1.5;padding:11px 20px;text-align:center;letter-spacing:-.2px}
+@media (max-width:768px){.wrap{width:345px}}
+.bar{position:sticky;top:0;z-index:50;background:#2b2320;color:#fff;font-size:13px;line-height:1.5;
+  padding:11px 20px;text-align:center;letter-spacing:-.2px}
 .bar b{color:#E9918E;font-weight:700}
 .bar span{opacity:.7}
-@media (max-width:768px){.bar{font-size:11.5px;padding:9px 14px}}
+.gap{height:56px}
+@media (max-width:768px){.bar{font-size:11.5px;padding:9px 14px}.gap{height:34px}}
+</style></head><body>
+<div class="bar"><b>검수용 미리보기</b> &nbsp;·&nbsp; 퍼스널 레이어드 리프팅 상단 2개 섹션 &nbsp;<span>실제 페이지에는 아직 반영되지 않았습니다</span></div>
+<div class="gap"></div>
+<div class="wrap">
+<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 히어로 + 장비 슬라이드 ═══
+     기존 코드위젯 두 개(제목·특징 / 장비 4대)를 하나로 합친 것.
+     제목이 <h1>, 특징이 <ul>, 장비명이 실제 텍스트 링크라 검색엔진이 읽는다.
+     이미지: Cloudflare R2 (bb-cdn) — 사이트가 이미 쓰는 공개 주소 -->
+<style>
+/* ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 히어로 + 장비 슬라이드 ═══
+   · 접두사 plh- : 바디코드의 bb-, 층 다이어그램의 pll- 과 겹치지 않는다
+   · body·html 선택자 없음 — 아임웹 문서를 건드리지 않는다
+   · 사이트 전역 `*{margin:0;padding:0}` 을 전제로 여백을 전부 명시한다
+   · Pretendard 는 바디코드가 이미 싣고 있어 다시 부르지 않는다 */
+.plh-sec{--c:#E9918E;--c-dk:#d4706d;--c-lt:#f4a6a3;--ink:#363636;--ink2:#6a6a6a;--mute:#8d8785;--line:#efe8e7;
+  max-width:1250px;margin:0 auto;padding:8px 0 30px;color:var(--ink);
+  font-family:'Pretendard',-apple-system,BlinkMacSystemFont,system-ui,'Noto Sans KR',sans-serif;
+  word-break:keep-all;overflow-wrap:break-word;text-align:left}
+.plh-sec *{box-sizing:border-box}
+
+/* ── 위: 제목 / 특징 ── */
+.plh-top{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
+  gap:clamp(30px,4vw,64px);align-items:center;margin-bottom:clamp(34px,4vw,54px)}
+.plh-h1{margin:0 0 14px;font-size:clamp(38px,4.4vw,60px);font-weight:800;line-height:1.16;
+  letter-spacing:-2.2px;color:var(--ink)}
+.plh-sub{display:block;margin:0 0 18px;font-size:clamp(20px,2vw,29px);font-weight:700;
+  letter-spacing:-1.2px;color:var(--c)}
+.plh-rule{height:2px;border:0;margin:0 0 22px;max-width:520px;
+  background:linear-gradient(90deg,var(--c),rgba(233,145,142,.18) 62%,transparent)}
+.plh-lead{margin:0 0 16px;font-size:clamp(16px,1.35vw,19px);line-height:1.85;letter-spacing:-.9px;color:var(--ink2)}
+.plh-close{margin:0;font-size:clamp(16px,1.35vw,19px);font-weight:700;line-height:1.6;
+  letter-spacing:-.9px;color:var(--ink)}
+.plh-close em{font-style:normal;color:var(--c-dk)}
+
+/* 특징 3가지 — 누를 데 없는 <button> 이 아니라 목록이다 */
+.plh-points{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.plh-point{position:relative;display:grid;grid-template-columns:auto 1fr;align-items:center;
+  gap:14px;padding:16px 24px;border-radius:16px;color:#fff;overflow:hidden;
+  background:linear-gradient(118deg,var(--c) 0%,var(--c-lt) 100%);
+  box-shadow:0 10px 24px rgba(233,145,142,.26)}
+/* 빛이 한 번 훑고 지나간다 */
+.plh-point::after{content:'';position:absolute;top:0;bottom:0;left:-40%;width:36%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);
+  transform:skewX(-18deg);animation:plh-sheen 4.6s ease-in-out infinite}
+.plh-point:nth-child(2)::after{animation-delay:.5s}
+.plh-point:nth-child(3)::after{animation-delay:1s}
+@keyframes plh-sheen{0%{left:-40%}26%{left:120%}100%{left:120%}}
+.plh-point i{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;
+  background:rgba(255,255,255,.22);color:#fff}
+.plh-point b{grid-column:2;font-size:clamp(15px,1.2vw,17px);font-weight:700;letter-spacing:-.5px;line-height:1.35}
+.plh-point span{grid-column:2;margin-top:2px;font-size:clamp(12.5px,1vw,13.5px);
+  font-weight:500;color:rgba(255,255,255,.86);letter-spacing:-.3px}
+
+/* ── 아래: 장비 9종 슬라이드 ── */
+.plh-rail{position:relative;border-radius:24px;padding:30px 0 26px;overflow:hidden;
+  background:linear-gradient(180deg,#fbf8f7 0%,#f5efee 100%)}
+.plh-rail-h{display:flex;align-items:baseline;gap:12px;margin:0 0 4px;padding:0 clamp(20px,3vw,40px);
+  font-size:15px;font-weight:700;letter-spacing:-.4px}
+.plh-rail-h em{font-style:normal;color:var(--c)}
+.plh-rail-h small{font-size:12.5px;font-weight:600;color:var(--mute);letter-spacing:0}
+/* 양끝을 부드럽게 — 슬라이드가 잘리는 게 아니라 흘러 들어오고 나간다 */
+.plh-track-wrap{position:relative;margin-top:14px;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.plh-track{list-style:none;margin:0;padding:0;display:flex;width:max-content;
+  animation:plh-marquee 46s linear infinite}
+.plh-track-wrap:hover .plh-track,.plh-track-wrap:focus-within .plh-track{animation-play-state:paused}
+@keyframes plh-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.plh-slide{flex:none;margin:0;padding:0 clamp(14px,1.6vw,26px)}
+.plh-card{display:flex;flex-direction:column;align-items:center;width:clamp(150px,13vw,186px);
+  text-decoration:none;color:inherit}
+.plh-shot{display:flex;align-items:flex-end;justify-content:center;
+  height:clamp(150px,15vw,200px);margin-bottom:16px}
+.plh-shot img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;
+  filter:drop-shadow(0 10px 18px rgba(60,40,38,.12));transition:transform .35s cubic-bezier(.22,.61,.36,1)}
+.plh-card:hover .plh-shot img,.plh-card:focus-visible .plh-shot img{transform:translateY(-8px) scale(1.05)}
+.plh-name{font-size:clamp(14.5px,1.15vw,16.5px);font-weight:700;letter-spacing:-.4px;line-height:1.3;
+  text-align:center;transition:color .25s}
+.plh-card:hover .plh-name,.plh-card:focus-visible .plh-name{color:var(--c-dk)}
+.plh-tech{margin-top:5px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--c);text-align:center}
+.plh-spec{margin-top:3px;font-size:12.5px;line-height:1.4;color:var(--mute);text-align:center}
+.plh-card:focus-visible{outline:2px solid var(--c);outline-offset:6px;border-radius:12px}
+
+/* ── 태블릿 ── */
+@media (max-width:1000px){
+  .plh-top{grid-template-columns:1fr;gap:30px}
+  .plh-rule{max-width:none}
+}
+/* ── 모바일 ── */
+@media (max-width:768px){
+  .plh-sec{padding:4px 0 20px}
+  .plh-h1{font-size:32px;letter-spacing:-1.6px;text-align:center}
+  .plh-sub{font-size:19px;text-align:center;margin-bottom:14px}
+  .plh-rule{margin:0 auto 18px;width:120px;
+    background:linear-gradient(90deg,transparent,var(--c),transparent)}
+  .plh-lead,.plh-close{text-align:center;font-size:15.5px;line-height:1.75}
+  .plh-points{gap:9px}
+  .plh-point{padding:13px 18px;gap:11px;border-radius:14px}
+  .plh-point i{width:22px;height:22px}
+  .plh-point b{font-size:14px}
+  .plh-point span{font-size:12px}
+  .plh-rail{border-radius:18px;padding:22px 0 20px}
+  .plh-rail-h{flex-direction:column;align-items:flex-start;gap:3px;font-size:14px}
+  .plh-track{animation-duration:34s}
+  .plh-slide{padding:0 11px}
+  .plh-card{width:132px}
+  .plh-shot{height:132px;margin-bottom:12px}
+  .plh-name{font-size:13.5px}
+  .plh-tech{font-size:10px}
+  .plh-spec{font-size:11.5px}
+}
+/* 모션을 줄이는 설정이면 흐르지 않고 손으로 넘긴다 */
+@media (prefers-reduced-motion:reduce){
+  .plh-track{animation:none;width:auto;overflow-x:auto;scroll-snap-type:x mandatory}
+  .plh-slide{scroll-snap-align:center}
+  .plh-slide[aria-hidden]{display:none}
+  .plh-point::after{animation:none;display:none}
+  .plh-track-wrap{-webkit-mask-image:none;mask-image:none}
+}
 </style>
-</head>
-<body>
-<div class="bar"><b>검수용 미리보기</b> &nbsp;·&nbsp; 퍼스널 레이어드 리프팅 &gt; 층별 장비 다이어그램
-  &nbsp;<span>실제 페이지에는 아직 반영되지 않았습니다</span></div>
+
+<section class="plh-sec" aria-labelledby="plh-title">
+
+  <div class="plh-top">
+    <div class="plh-copy">
+      <h1 class="plh-h1" id="plh-title">퍼스널 레이어드 리프팅</h1>
+      <strong class="plh-sub">뷰티블라썸만의 맞춤형 리프팅</strong>
+      <hr class="plh-rule">
+      <p class="plh-lead">개인의 얼굴 구조와 노화 패턴을 정밀 분석해 피부층·지방층·근막층까지 레이어별로 최적화한 솔루션을 제공합니다.</p>
+      <p class="plh-close">안전하게, 확실하게, 오래가는 리프팅.<br><em>뷰티블라썸의원</em>에서 경험하세요.</p>
+    </div>
+    <ul class="plh-points">
+          <li class="plh-point">
+            <i aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.6 4.5L19 7.5"/></svg></i>
+            <b>부위별 맞춤 설계</b><span>이중턱 · 팔자주름 · 잔주름</span>
+          </li>
+          <li class="plh-point">
+            <i aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.6 4.5L19 7.5"/></svg></i>
+            <b>FDA 승인 장비</b><span>9가지 오리지널 장비 보유</span>
+          </li>
+          <li class="plh-point">
+            <i aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.6 4.5L19 7.5"/></svg></i>
+            <b>자연스러운 윤곽 회복</b><span>탄력 · 안티에이징</span>
+          </li>
+    </ul>
+  </div>
+
+  <div class="plh-rail">
+    <p class="plh-rail-h"><em>9가지 오리지널 장비</em>를 층에 맞춰 조합합니다<small>얕은 층 → 깊은 층</small></p>
+    <div class="plh-track-wrap">
+      <ul class="plh-track">
+        <li class="plh-slide">
+          <a class="plh-card" href="/139">
+            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-sofwave.webp" alt="소프웨이브" width="299" height="560" loading="lazy" decoding="async"></span>
+            <span class="plh-name">소프웨이브</span>
+            <span class="plh-tech">SUPERB 초음파</span>
+            <span class="plh-spec">진피 1.5mm · 7빔 동시</span>
+          </a>
+        </li>
+        <li class="plh-slide">
+          <a class="plh-card" href="/41">
+            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-thermage.webp" alt="써마지 FLX" width="311" height="560" loading="lazy" decoding="async"></span>
+            <span class="plh-name">써마지 FLX</span>
+            <span class="plh-tech">모노폴라 RF</span>
+            <span class="plh-spec">6.78MHz · 진피 벌크</span>
+          </a>
+        </li>
+        <li class="plh-slide">
+          <a class="plh-card" href="/titanium-fortra-quattro">
+            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-fortra.webp" alt="포트라 콰트로" width="282" height="560" loading="lazy" decoding="async"></span>
+            <span class="plh-name">포트라 콰트로</span>
+            <span class="plh-tech">4파장 다이오드</span>
+            <span class="plh-spec">755·808·940·1064nm</span>
+          </a>
+        </li>
+        <li class="plh-slide">
+          <a class="plh-card" href="/155">
+            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-xerf.webp" alt="세르프(XERF)" width="241" height="560" loading="lazy" decoding="async"></span>
+            <span class="plh-name">세르프(XERF)</span>
+            <span class="plh-tech">듀얼 모노폴라 RF</span>
+            <span class="plh-spec">2 + 6.78MHz · 3단계</span>
+          </a>
+        </li>
+        <li class="plh-slide">
+          <a class="plh-card" href="/153">
+            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-density.webp" alt="덴서티" width="278" height="560" loading="lazy" decoding="async"></span>
+            <span class="plh-name">덴서티</span>
+            <span class="plh-tech">모노+바이폴라 RF</span>
+            <span class="plh-spec">6.78MHz · 최대 400W</span>
+          </a>
+        </li>
+        <li class="plh-slide">
+          <a class="plh-card" href="/42">
+            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-onda.webp" alt="온다" width="218" height="560" loading="lazy" decoding="async"></span>
+            <span class="plh-name">온다</span>
+            <span class="plh-tech">마이크로웨이브</span>
+            <span class="plh-spec">2.45GHz · 3mm·7mm</span>
+          </a>
+        </li>
+        <li class="plh-slide">
+          <a class="plh-card" href="/alltite-lifting">
+            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-alltite.webp" alt="올타이트" width="373" height="560" loading="lazy" decoding="async"></span>
+            <span class="plh-name">올타이트</span>
+            <span class="plh-tech">유전가열 DLTD</span>
+            <span class="plh-spec">진피 하부 집중 · SMAS</span>
+          </a>
+        </li>
+        <li class="plh-slide">
+          <a class="plh-card" href="/154">
+            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-linearz.webp" alt="리니어지" width="288" height="560" loading="lazy" decoding="async"></span>
+            <span class="plh-name">리니어지</span>
+            <span class="plh-tech">선·점 HIFU</span>
+            <span class="plh-spec">1.5~13mm · 0.5mm 단위</span>
+          </a>
+        </li>
+        <li class="plh-slide">
+          <a class="plh-card" href="/40">
+            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-ulthera.webp" alt="울쎄라피 프라임" width="277" height="560" loading="lazy" decoding="async"></span>
+            <span class="plh-name">울쎄라피 프라임</span>
+            <span class="plh-tech">초음파 HIFU</span>
+            <span class="plh-spec">1.5 · 3.0 · 4.5mm</span>
+          </a>
+        </li>
+        <li class="plh-slide" aria-hidden="true">
+          <a class="plh-card" href="/139" tabindex="-1">
+            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-sofwave.webp" alt="소프웨이브" width="299" height="560" loading="lazy" decoding="async"></span>
+            <span class="plh-name">소프웨이브</span>
+            <span class="plh-tech">SUPERB 초음파</span>
+            <span class="plh-spec">진피 1.5mm · 7빔 동시</span>
+          </a>
+        </li>
+        <li class="plh-slide" aria-hidden="true">
+          <a class="plh-card" href="/41" tabindex="-1">
+            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-thermage.webp" alt="써마지 FLX" width="311" height="560" loading="lazy" decoding="async"></span>
+            <span class="plh-name">써마지 FLX</span>
+            <span class="plh-tech">모노폴라 RF</span>
+            <span class="plh-spec">6.78MHz · 진피 벌크</span>
+          </a>
+        </li>
+        <li class="plh-slide" aria-hidden="true">
+          <a class="plh-card" href="/titanium-fortra-quattro" tabindex="-1">
+            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-fortra.webp" alt="포트라 콰트로" width="282" height="560" loading="lazy" decoding="async"></span>
+            <span class="plh-name">포트라 콰트로</span>
+            <span class="plh-tech">4파장 다이오드</span>
+            <span class="plh-spec">755·808·940·1064nm</span>
+          </a>
+        </li>
+        <li class="plh-slide" aria-hidden="true">
+          <a class="plh-card" href="/155" tabindex="-1">
+            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-xerf.webp" alt="세르프(XERF)" width="241" height="560" loading="lazy" decoding="async"></span>
+            <span class="plh-name">세르프(XERF)</span>
+            <span class="plh-tech">듀얼 모노폴라 RF</span>
+            <span class="plh-spec">2 + 6.78MHz · 3단계</span>
+          </a>
+        </li>
+        <li class="plh-slide" aria-hidden="true">
+          <a class="plh-card" href="/153" tabindex="-1">
+            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-density.webp" alt="덴서티" width="278" height="560" loading="lazy" decoding="async"></span>
+            <span class="plh-name">덴서티</span>
+            <span class="plh-tech">모노+바이폴라 RF</span>
+            <span class="plh-spec">6.78MHz · 최대 400W</span>
+          </a>
+        </li>
+        <li class="plh-slide" aria-hidden="true">
+          <a class="plh-card" href="/42" tabindex="-1">
+            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-onda.webp" alt="온다" width="218" height="560" loading="lazy" decoding="async"></span>
+            <span class="plh-name">온다</span>
+            <span class="plh-tech">마이크로웨이브</span>
+            <span class="plh-spec">2.45GHz · 3mm·7mm</span>
+          </a>
+        </li>
+        <li class="plh-slide" aria-hidden="true">
+          <a class="plh-card" href="/alltite-lifting" tabindex="-1">
+            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-alltite.webp" alt="올타이트" width="373" height="560" loading="lazy" decoding="async"></span>
+            <span class="plh-name">올타이트</span>
+            <span class="plh-tech">유전가열 DLTD</span>
+            <span class="plh-spec">진피 하부 집중 · SMAS</span>
+          </a>
+        </li>
+        <li class="plh-slide" aria-hidden="true">
+          <a class="plh-card" href="/154" tabindex="-1">
+            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-linearz.webp" alt="리니어지" width="288" height="560" loading="lazy" decoding="async"></span>
+            <span class="plh-name">리니어지</span>
+            <span class="plh-tech">선·점 HIFU</span>
+            <span class="plh-spec">1.5~13mm · 0.5mm 단위</span>
+          </a>
+        </li>
+        <li class="plh-slide" aria-hidden="true">
+          <a class="plh-card" href="/40" tabindex="-1">
+            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-ulthera.webp" alt="울쎄라피 프라임" width="277" height="560" loading="lazy" decoding="async"></span>
+            <span class="plh-name">울쎄라피 프라임</span>
+            <span class="plh-tech">초음파 HIFU</span>
+            <span class="plh-spec">1.5 · 3.0 · 4.5mm</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</section>
+
+<script>
+(function(){
+  var rail = document.querySelector('.plh-track-wrap');
+  if (!rail || rail.dataset.plhReady) return;
+  rail.dataset.plhReady = '1';
+  var track = rail.querySelector('.plh-track');
+
+  /* 화면 밖이거나 탭이 숨겨져 있으면 굴리지 않는다 */
+  function run(on){ track.style.animationPlayState = on ? 'running' : 'paused'; }
+  if (window.IntersectionObserver){
+    new IntersectionObserver(function(es){
+      for (var i = 0; i < es.length; i++) run(es[i].isIntersecting && !document.hidden);
+    }, {threshold:.05}).observe(rail);
+  }
+  document.addEventListener('visibilitychange', function(){ run(!document.hidden); });
+
+  /* 터치로도 넘길 수 있게 — 끌면 흐름을 멈추고 손에 맡긴다 */
+  var down = false, x0 = 0, l0 = 0;
+  rail.addEventListener('pointerdown', function(e){
+    down = true; x0 = e.clientX; l0 = rail.scrollLeft; run(false);
+  });
+  rail.addEventListener('pointermove', function(e){
+    if (down) rail.scrollLeft = l0 - (e.clientX - x0);
+  });
+  function up(){ if (down){ down = false; run(true); } }
+  rail.addEventListener('pointerup', up);
+  rail.addEventListener('pointercancel', up);
+  rail.addEventListener('pointerleave', up);
+})();
+</script>
+
+</div>
+<div class="gap"></div>
 <div class="wrap">
 <!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 층별 장비 다이어그램 ═══
      기존 텍스트 위젯 + 이미지 위젯(드래그드랍)을 대체하는 코드위젯.
@@ -531,5 +858,5 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 </script>
 
 </div>
-</body>
-</html>
+<div class="gap"></div>
+<div class="gap"></div></body></html>
