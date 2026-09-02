@@ -9,13 +9,16 @@
 body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 .wrap{width:100%;padding-inline:clamp(16px,3vw,48px)}
 @media (max-width:768px){.wrap{padding-inline:15px}}
-.bar{position:sticky;top:0;z-index:50;background:#2b2320;color:#fff;font-size:13px;line-height:1.5;
+.bar{position:sticky;top:0;z-index:60;background:#2b2320;color:#fff;font-size:13px;line-height:1.5;
   padding:11px 20px;text-align:center;letter-spacing:-.2px}
 .bar b{color:#E9918E;font-weight:700}.bar span{opacity:.7}
-.gap{height:60px}
-@media (max-width:768px){.bar{font-size:11.5px;padding:9px 14px}.gap{height:36px}}
+.note{max-width:900px;margin:0 auto;padding:14px 20px;border-radius:12px;background:#f6f1f0;
+  color:#6a5f5d;font-size:13.5px;line-height:1.6;text-align:center;letter-spacing:-.3px}
+.note b{color:#d4706d}
+.gap{height:60px}.gap-s{height:26px}
+@media (max-width:768px){.bar{font-size:11.5px;padding:9px 14px}.gap{height:36px}.note{font-size:12.5px}}
 </style></head><body>
-<div class="bar"><b>검수용 미리보기</b> &nbsp;·&nbsp; 퍼스널 레이어드 리프팅 상단 3개 섹션 &nbsp;<span>실제 페이지에는 아직 반영되지 않았습니다</span></div>
+<div class="bar"><b>검수용 미리보기</b> &nbsp;·&nbsp; 퍼스널 레이어드 리프팅 &nbsp;<span>실제 페이지에는 아직 반영되지 않았습니다</span></div>
 <div class="gap"></div>
 <div class="wrap">
 <!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 히어로 + 장비 슬라이드 ═══
@@ -1087,4 +1090,315 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 
 </div>
 <div class="gap"></div>
-<div class="gap"></div></body></html>
+<div class="wrap"><p class="note"><b>비교용</b> — 위 히어로의 흐르는 장비 슬라이더 대신 쓸 수 있는 안입니다. 카드를 끌어 넘기고 눌러서 장비 페이지로 이동합니다. 둘 중 하나만 쓰면 됩니다.</p></div>
+<div class="gap-s"></div>
+<div class="wrap">
+<!-- ═══ 뷰티블라썸의원 · 장비 필름스트립 ═══
+     ThreeUI CharacterCarousel (filmstrip) 기반 · MIT 라이선스
+     원본: https://threeui.com/source-code/character-filmstrip.json
+     구조·모션·상호작용은 원본 그대로, 색·이미지·문구만 사이트에 맞췄다.
+     아임웹용 수정: html/body 규칙 제거, 세로 휠은 페이지에 양보, 방향키는 위젯 안에서만,
+                   클래스 plc- 접두사, 인물 사진 -> 장비 사진 R2 링크 -->
+<style>
+/* ═══ 뷰티블라썸의원 · 장비 필름스트립 ═══
+   ThreeUI CharacterCarousel (filmstrip) · MIT — 구조와 모션은 원본 그대로,
+   색·이미지·문구만 사이트에 맞췄다. 클래스는 전부 plc- 로 감싸 아임웹과 부딪히지 않는다. */
+.plc-sec{--c:#E9918E;--c-dk:#d4706d;--ink:#2f2523;--ink2:#5f5754;--mute:#918a87;--paper:#faf5f4;
+  width:100%;max-width:1720px;margin:0 auto;padding:8px 0 30px;color:var(--ink);
+  font-family:'Pretendard',-apple-system,BlinkMacSystemFont,system-ui,'Noto Sans KR',sans-serif;
+  word-break:keep-all;text-align:left}
+.plc-sec *{box-sizing:border-box}
+
+.plc-head{max-width:1000px;margin:0 auto 26px;text-align:center}
+.plc-kw{display:block;margin:0 0 12px;font-size:13px;font-weight:700;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--c)}
+.plc-h2{margin:0 0 14px;font-size:clamp(25px,2.7vw,38px);font-weight:700;line-height:1.35;letter-spacing:-1.3px}
+.plc-h2 em{font-style:normal;color:var(--c)}
+.plc-lead{margin:0;font-size:clamp(14.5px,1.2vw,17px);line-height:1.8;letter-spacing:-.6px;color:var(--ink2)}
+
+/* ── 무대 : 원근 레일 ── */
+.plc-stage{--pointer-x:50%;position:relative;width:100%;height:clamp(430px,42vw,620px);
+  overflow:hidden;isolation:isolate;perspective:1450px;cursor:ew-resize;touch-action:pan-y;
+  border-radius:24px;
+  background:
+    linear-gradient(90deg,rgba(160,120,115,.07) 1px,transparent 1px) 50% 0 / 25% 100%,
+    repeating-linear-gradient(0deg,transparent 0,transparent 109px,rgba(160,120,115,.1) 110px,transparent 111px),
+    radial-gradient(circle at var(--pointer-x) 46%,rgba(255,255,255,.95),transparent 36%),
+    var(--paper)}
+/* 종이 결 */
+.plc-stage::before{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;opacity:.22;
+  background:
+    repeating-radial-gradient(circle at 12% 18%,rgba(150,110,105,.14) 0 .5px,transparent .7px 4px),
+    repeating-radial-gradient(circle at 78% 71%,rgba(255,255,255,.4) 0 .5px,transparent .8px 5px);
+  mix-blend-mode:multiply}
+/* 양끝 그늘 */
+.plc-stage::after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;
+  background:linear-gradient(90deg,rgba(190,150,145,.16),transparent 14%,transparent 86%,rgba(190,150,145,.16))}
+
+.plc-deck{position:absolute;inset:0;z-index:2;transform-style:preserve-3d}
+
+.plc-card{--focus:0;position:absolute;top:50%;left:50%;
+  width:clamp(154px,16.8vw,238px);aspect-ratio:.72;padding:7px;overflow:hidden;
+  border:1px solid rgba(160,120,115,.34);border-radius:8px;color:var(--ink);background:#fff;
+  box-shadow:
+    0 calc(10px + var(--focus) * 24px) calc(18px + var(--focus) * 36px)
+      rgba(120,80,76,calc(.14 + var(--focus) * .2)),
+    inset 0 0 0 1px rgba(255,255,255,.9);
+  appearance:none;outline:none;transform-style:preserve-3d;
+  will-change:transform,opacity,filter;cursor:pointer;text-decoration:none;font:inherit}
+.plc-card::before{content:"";position:absolute;inset:5px;z-index:3;pointer-events:none;
+  border:1px solid rgba(160,120,115,calc(.16 + var(--focus) * .16))}
+.plc-card:focus-visible{box-shadow:0 26px 50px rgba(120,80,76,.34),0 0 0 4px rgba(233,145,142,.45)}
+
+/* 얼굴이 아니라 누끼 장비다 — 잘라내지 않고 담는다 */
+.plc-shot{position:absolute;inset:7px 7px 25%;overflow:hidden;display:flex;
+  align-items:flex-end;justify-content:center;padding:14px 12px 10px;
+  background:linear-gradient(180deg,#fdfbfa,#f4eeed)}
+.plc-shot img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;
+  transform:scale(calc(.96 + var(--focus) * .08));
+  filter:saturate(calc(.72 + var(--focus) * .28)) contrast(1.02);
+  transition:none}
+
+.plc-foot{position:absolute;right:7px;bottom:7px;left:7px;height:calc(25% - 7px);
+  display:grid;grid-template-columns:clamp(26px,3.2vw,43px) 1fr;align-items:center;
+  gap:clamp(6px,.7vw,11px);padding:clamp(7px,.8vw,12px);
+  color:#fff;background:var(--ink);text-align:left;border-radius:3px}
+.plc-no{display:grid;width:clamp(23px,2.7vw,37px);aspect-ratio:1;place-items:center;
+  border:1px solid var(--c);border-radius:50%;color:var(--c);
+  font:600 clamp(7px,.68vw,11px)/1 ui-monospace,"SFMono-Regular",monospace}
+.plc-meta{min-width:0}
+.plc-name,.plc-role{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.plc-name{color:#fff;font-size:clamp(9px,.92vw,14px);font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.plc-role{margin-top:clamp(3px,.35vw,5px);color:var(--c);font-size:clamp(7px,.6vw,10px);
+  font-weight:700;letter-spacing:.06em;line-height:1}
+
+.plc-hint{margin:16px 0 0;text-align:center;font-size:13px;color:var(--mute);letter-spacing:-.2px}
+.plc-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+@media (max-width:768px){
+  .plc-head{margin-bottom:20px}
+  .plc-h2{font-size:23px;letter-spacing:-1px}
+  .plc-lead{font-size:14.5px}
+  .plc-stage{height:clamp(330px,80vw,430px);border-radius:18px;
+    background:
+      linear-gradient(90deg,rgba(160,120,115,.07) 1px,transparent 1px) 50% 0 / 50% 100%,
+      repeating-linear-gradient(0deg,transparent 0,transparent 87px,rgba(160,120,115,.1) 88px,transparent 89px),
+      radial-gradient(circle at 50% 50%,rgba(255,255,255,.95),transparent 36%),
+      var(--paper)}
+  .plc-card{width:clamp(142px,47vw,180px)}
+  .plc-hint{font-size:12px}
+}
+@media (prefers-reduced-motion:reduce){.plc-card{will-change:auto}}
+</style>
+
+<section class="plc-sec" aria-labelledby="plc-title">
+
+  <header class="plc-head">
+    <span class="plc-kw">9 Original Devices</span>
+    <h2 class="plc-h2" id="plc-title">한 대로 끝내지 않습니다.<br><em>아홉 대를 층에 맞춰</em> 조합합니다.</h2>
+    <p class="plc-lead">원리가 서로 다른 아홉 가지 오리지널 장비를 갖추고, 진단 결과에 따라 필요한 것만 골라 순서대로 씁니다.</p>
+  </header>
+
+  <div class="plc-stage" aria-label="장비 9종 둘러보기">
+    <p class="plc-sr">좌우로 끌거나 방향키로 장비를 넘길 수 있습니다. 카드를 누르면 해당 장비 페이지로 이동합니다.</p>
+    <div class="plc-deck"></div>
+  </div>
+
+  <p class="plc-hint">카드를 끌어 넘기고, 눌러서 장비별 상세를 확인하세요</p>
+
+</section>
+
+<script>
+(function(){
+  var root = document.querySelector('.plc-sec');
+  if (!root || root.dataset.plcReady) return;
+  root.dataset.plcReady = '1';
+
+  var CDN = 'https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered';
+  var profiles = [
+        ["소프웨이브","SUPERB 초음파","sofwave","/139"],
+        ["써마지 FLX","모노폴라 RF","thermage","/41"],
+        ["포트라 콰트로","4파장 다이오드","fortra","/titanium-fortra-quattro"],
+        ["세르프(XERF)","듀얼 모노폴라 RF","xerf","/155"],
+        ["덴서티","모노+바이폴라 RF","density","/153"],
+        ["온다","마이크로웨이브","onda","/42"],
+        ["올타이트","유전가열 DLTD","alltite","/alltite-lifting"],
+        ["리니어지","선·점 HIFU","linearz","/154"],
+        ["울쎄라피 프라임","초음파 HIFU","ulthera","/40"]
+      ].map(function(a){ return {name:a[0], role:a[1], slug:a[2], url:a[3]}; });
+
+  var stage = root.querySelector('.plc-stage');
+  var deck  = root.querySelector('.plc-deck');
+
+  var cards = profiles.map(function(p, index){
+    var card = document.createElement('a');
+    card.className = 'plc-card';
+    card.href = p.url;
+    card.dataset.index = String(index);
+    card.setAttribute('aria-label', p.name + ' · ' + p.role);
+    card.innerHTML =
+      '<span class="plc-shot"><img src="' + CDN + '/hero-' + p.slug + '.webp" alt="' + p.name +
+        '" loading="lazy" decoding="async"></span>' +
+      '<span class="plc-foot">' +
+        '<span class="plc-no">' + String(index + 1).padStart(2, '0') + '</span>' +
+        '<span class="plc-meta">' +
+          '<span class="plc-name">' + p.name + '</span>' +
+          '<span class="plc-role">' + p.role + '</span>' +
+        '</span>' +
+      '</span>';
+    deck.appendChild(card);
+    return card;
+  });
+
+  var count = cards.length;
+  var reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var state = {phase:3, target:3, base:3, pointerX:0, pointerY:0, active:false, lastInput:performance.now()};
+  var running = true, dragged = false;
+
+  function wrappedDelta(index, phase){
+    var d = index - phase;
+    while (d > count / 2) d -= count;
+    while (d < -count / 2) d += count;
+    return d;
+  }
+  function nearestIndex(){ return (Math.round(state.phase) % count + count) % count; }
+  function moveTo(index){
+    var cur = nearestIndex(), d = index - cur;
+    if (d > count / 2) d -= count;
+    if (d < -count / 2) d += count;
+    state.base += d; state.target = state.base; state.active = false;
+    state.lastInput = performance.now();
+  }
+
+  cards.forEach(function(card, index){
+    /* 카드가 링크라 클릭은 장비 페이지로 간다. 다만 끌어서 넘긴 직후의 클릭은 막는다. */
+    card.addEventListener('click', function(e){ if (dragged){ e.preventDefault(); dragged = false; } });
+    card.addEventListener('focus', function(){ moveTo(index); });
+  });
+
+  stage.addEventListener('pointermove', function(e){
+    var r = stage.getBoundingClientRect();
+    var nx = Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width - 0.5) * 2));
+    var ny = Math.max(-1, Math.min(1, ((e.clientY - r.top) / r.height - 0.5) * 2));
+    state.pointerX = nx; state.pointerY = ny; state.active = true;
+    state.target = state.base + nx * 3.1;
+    state.lastInput = performance.now();
+    stage.style.setProperty('--pointer-x', ((nx + 1) * 50) + '%');
+  });
+  stage.addEventListener('pointerleave', function(){
+    state.active = false; state.pointerX = 0; state.pointerY = 0; state.target = state.base;
+    stage.style.setProperty('--pointer-x', '50%');
+  });
+
+  /* 세로 휠은 페이지에 넘긴다 — 위젯 위에서 스크롤이 멈추면 안 된다.
+     가로 휠(트랙패드 좌우) 과 Shift+휠 만 카드 이동에 쓴다. */
+  stage.addEventListener('wheel', function(e){
+    var horizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey;
+    if (!horizontal) return;
+    var dir = Math.sign(e.shiftKey ? e.deltaY : e.deltaX);
+    if (!dir) return;
+    e.preventDefault();
+    state.base += dir; state.target = state.base; state.active = false;
+    state.lastInput = performance.now();
+  }, {passive:false});
+
+  /* 방향키는 위젯 안에 포커스가 있을 때만 — 페이지 전역에서 가로채면 안 된다 */
+  root.addEventListener('keydown', function(e){
+    var fwd = e.key === 'ArrowRight' || e.key === 'ArrowDown';
+    var back = e.key === 'ArrowLeft' || e.key === 'ArrowUp';
+    if (!fwd && !back) return;
+    e.preventDefault();
+    state.base += fwd ? 1 : -1; state.target = state.base; state.active = false;
+    state.lastInput = performance.now();
+  });
+
+  /* 터치·드래그로 넘기기 */
+  var down = false, x0 = 0, b0 = 0;
+  stage.addEventListener('pointerdown', function(e){
+    down = true; dragged = false; x0 = e.clientX; b0 = state.base;
+  });
+  stage.addEventListener('pointermove', function(e){
+    if (!down) return;
+    var d = (x0 - e.clientX) / (innerWidth < 769 ? 66 : 90);
+    if (Math.abs(d) > 0.12) dragged = true;
+    state.base = b0 + d; state.target = state.base; state.active = false;
+    state.lastInput = performance.now();
+  });
+  function release(){ if (!down) return; down = false; state.base = Math.round(state.base); state.target = state.base; }
+  stage.addEventListener('pointerup', release);
+  stage.addEventListener('pointercancel', release);
+  stage.addEventListener('pointerleave', release);
+
+  /* 화면 밖이거나 탭이 숨겨져 있으면 프레임을 돌리지 않는다 */
+  if (window.IntersectionObserver){
+    new IntersectionObserver(function(es){
+      for (var i = 0; i < es.length; i++){
+        var on = es[i].isIntersecting && !document.hidden;
+        if (on && !running){ running = true; previousTime = performance.now(); requestAnimationFrame(render); }
+        running = on;
+      }
+    }, {threshold:.04}).observe(stage);
+  }
+  document.addEventListener('visibilitychange', function(){
+    if (!document.hidden && !running){ running = true; previousTime = performance.now(); requestAnimationFrame(render); }
+    else if (document.hidden) running = false;
+  });
+
+  var previousTime = performance.now();
+
+  function render(time){
+    if (!running) return;
+    var dt = Math.min(32, time - previousTime);
+    previousTime = time;
+    var ease = reducedMotion ? 1 : 1 - Math.pow(0.001, dt / 1000);
+
+    if (!state.active && !down && time - state.lastInput > 3600){
+      var idle = time - state.lastInput - 3600;
+      state.target = state.base + Math.sin(idle * 0.00042) * 2.45;
+    }
+
+    state.phase += (state.target - state.phase) * ease;
+    var activeIndex = nearestIndex();
+    /* 간격을 카드 폭에 비례시키면 화면 크기와 무관하게 겹침 비율이 같다 */
+    var cardW = cards[0].offsetWidth || 200;
+    var hSpacing = cardW * 0.70;
+
+    cards.forEach(function(card, index){
+      var delta = wrappedDelta(index, state.phase);
+      var distance = Math.abs(delta);
+      var focus = Math.exp(-distance * distance * 1.28);
+      var side = Math.max(0, 1 - distance / 5);
+      var dir = Math.sign(delta);
+      var x = delta * hSpacing;
+      var y = distance * 8 + state.pointerY * focus * 10;
+      var z = focus * 145 - distance * 148;
+      var scale = 0.54 + side * 0.15 + focus * 0.54;
+      var rotateX = -state.pointerY * focus * 3.5;
+      var rotateY = -dir * (distance > 0.2 ? 14 + Math.min(distance, 3) * 5 : 0) + state.pointerX * focus * 3;
+      var rotateZ = delta * 0.7;
+
+      card.style.setProperty('--focus', focus.toFixed(4));
+      card.style.zIndex = String(Math.round(1000 - distance * 100));
+      card.style.opacity = String(Math.max(0.13, side * 0.76 + focus * 0.24));
+      card.style.filter = 'blur(' + (Math.max(0, distance - 1.5) * 0.38).toFixed(2) + 'px)';
+      card.style.transform = [
+        'translate(-50%, -50%)',
+        'translate3d(' + x.toFixed(2) + 'px, ' + y.toFixed(2) + 'px, ' + z.toFixed(2) + 'px)',
+        'rotateX(' + rotateX.toFixed(2) + 'deg)',
+        'rotateY(' + rotateY.toFixed(2) + 'deg)',
+        'rotateZ(' + rotateZ.toFixed(2) + 'deg)',
+        'scale(' + scale.toFixed(4) + ')'
+      ].join(' ');
+      card.setAttribute('aria-current', index === activeIndex ? 'true' : 'false');
+    });
+
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+})();
+</script>
+
+</div>
+<div class="gap"></div>
+</body></html>
