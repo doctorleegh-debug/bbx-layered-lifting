@@ -58,16 +58,37 @@
 .rv.d1{transition-delay:.12s}.rv.d2{transition-delay:.24s}.rv.d3{transition-delay:.36s}.rv.d4{transition-delay:.48s}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
 
-/* ===== S1 선언 — 풀블리드 2열 : 좌측 글, 우측 모델 ===== */
-.bbx__s1{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:min(88vh,880px);background:#fff}
-.bbx__s1-copy{display:flex;flex-direction:column;justify-content:center;
-  padding:clamp(56px,6vw,96px) clamp(24px,4.5vw,80px) clamp(56px,6vw,96px) max(var(--pad),calc((100vw - var(--w))/2))}
-.bbx__s1-copy .bbx__h2{font-size:clamp(34px,4.2vw,58px);font-weight:700;letter-spacing:-.03em;line-height:1.22}
-.bbx__s1-copy .bbx__lead{margin-top:24px}
-.bbx__s1-copy .bbx__p{margin-top:18px;max-width:46ch}
-.bbx__s1-photo{position:relative;overflow:hidden;background:var(--cream)}
-.bbx__s1-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:45% center}
-.bbx__slogan{margin-top:34px;padding-top:24px;border-top:1px solid var(--line);font-size:clamp(20px,1.8vw,26px);font-weight:600;line-height:1.5}
+/* ===== S1 선언 — 사진 위에 글 =====
+   섹션 비율을 사진과 같은 16:9 로 두어 잘리는 곳 없이 전체가 보인다.
+   좌측 베일 농도는 원본 밝기로 계산한 값 — 가장 어두운 16~46% 구간에서
+   본문색(#1c1c1c) 대비 4.5:1 을 넘기려면 52% 가 필요해 58% 로 여유를 뒀다. */
+.bbx__s1{position:relative;isolation:isolate;aspect-ratio:16/9;min-height:min(560px,86vh);max-height:92vh;
+  display:grid;align-items:center;overflow:hidden;background:var(--cream)}
+.bbx__s1-bg{position:absolute;inset:0;z-index:0}
+.bbx__s1-bg img{width:100%;height:100%;object-fit:cover;object-position:center;
+  transform-origin:62% 46%;animation:bbx-slowzoom 26s cubic-bezier(.22,.61,.36,1) both}
+@keyframes bbx-slowzoom{from{transform:scale(1)}to{transform:scale(1.075)}}
+@media (prefers-reduced-motion:reduce){.bbx__s1-bg img{animation:none}}
+.bbx__s1-veil{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(100deg,rgba(255,255,255,.96) 0%,rgba(255,255,255,.93) 38%,
+    rgba(255,255,255,.78) 50%,rgba(255,255,255,.34) 60%,rgba(255,255,255,0) 72%)}
+.bbx__s1-copy{position:relative;z-index:2;width:min(var(--w),100% - var(--pad)*2);margin-inline:auto;
+  max-width:none;display:flex;flex-direction:column;justify-content:center}
+.bbx__s1-copy>*{max-width:46ch}
+.bbx__s1-copy .bbx__h2{position:relative;font-size:clamp(40px,5.4vw,78px);font-weight:800;letter-spacing:-.04em;
+  line-height:1.14;color:#141414;
+  /* 사진 위라 흰 헤일로를 겹겹이 깔아 배경이 밝든 어둡든 획이 끊기지 않게 */
+  text-shadow:0 0 2px rgba(255,255,255,.92),0 0 12px rgba(255,255,255,.85),0 2px 34px rgba(255,255,255,.7)}
+.bbx__s1-copy .bbx__lead{color:#242424;text-shadow:0 0 10px rgba(255,255,255,.8)}
+.bbx__s1-copy .bbx__p{color:#2c2c2c;text-shadow:0 0 10px rgba(255,255,255,.75)}
+.bbx__s1-copy .bbx__slogan{text-shadow:0 0 10px rgba(255,255,255,.8)}
+/* WebGL 왜곡이 켜지면 원래 글자는 투명해지고 캔버스가 대신 그린다.
+   실패하면 이 클래스가 안 붙으므로 글자가 그대로 남는다(점진적 향상). */
+.bbx__h2.is-warped{color:transparent;text-shadow:none}
+.bbx__warp-cv{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:auto}
+.bbx__s1-copy .bbx__lead{margin-top:22px}
+.bbx__s1-copy .bbx__p{margin-top:16px}
+.bbx__slogan{margin-top:30px;padding-top:22px;border-top:1px solid rgba(28,28,28,.18);font-size:clamp(20px,1.8vw,26px);font-weight:600;line-height:1.5}
 .bbx__slogan small{display:block;margin-top:8px;font-size:13px;letter-spacing:.16em;color:var(--accent);font-weight:600}
 
 /* ===== S2 왜 ===== */
@@ -147,10 +168,12 @@
 /* ===== 모바일 ===== */
 @media (max-width:900px){
   .bbx__s3-inner,.bbx__areas{grid-template-columns:1fr}
-  .bbx__s1{grid-template-columns:1fr;min-height:0}
-  .bbx__s1-photo{order:-1;aspect-ratio:4/3}
-  .bbx__s1-photo img{position:relative}
-  .bbx__s1-copy{padding:clamp(36px,7vw,56px) var(--pad)}
+  /* 좁은 화면에서 얼굴 위에 글이 얹히면 둘 다 죽는다 → 사진 위, 글 아래 */
+  .bbx__s1{aspect-ratio:auto;min-height:0;max-height:none;display:block;background:#fff}
+  .bbx__s1-bg{position:relative;aspect-ratio:4/3}
+  .bbx__s1-veil{display:none}
+  .bbx__s1-copy{width:auto;padding:clamp(34px,7vw,52px) var(--pad)}
+  .bbx__s1-copy>*{max-width:none}
   .bbx__s3-left{position:static}
   .bbx__lineup,.bbx__lineup-names{grid-template-columns:repeat(5,1fr)} .bbx__lineup img{height:96px}
   .bbx__devs{grid-template-columns:1fr 1fr;gap:14px}
@@ -174,15 +197,14 @@
 
 <!-- ═══════ S1 선언 ═══════ -->
 <section class="bbx__s1">
+  <div class="bbx__s1-bg"><img src="ASSET/assets/16_model/model-hero.webp" alt="" fetchpriority="high" decoding="async"></div>
+  <div class="bbx__s1-veil" aria-hidden="true"></div>
   <div class="bbx__s1-copy rv">
     <span class="bbx__kw">Personal Layered Lifting</span>
-    <h1 class="bbx__h2">퍼스널<br>레이어드 리프팅</h1>
+    <h1 class="bbx__h2" data-warp>퍼스널<br>레이어드 리프팅</h1>
     <p class="bbx__lead">처짐은 한 겹에서 오지 않습니다.<br>표피·진피·지방층·근막 — 층마다 다른 원인을 읽고,<br>그 깊이에 맞는 장비를 순서대로 쌓습니다.</p>
     <p class="bbx__p">같은 나이, 같은 고민이어도 처짐이 시작된 층은 사람마다 다릅니다. 뷰티블라썸의원은 먼저 네 개 층의 상태를 진단하고, 아홉 가지 리프팅 장비 중 그 층에 도달하는 것만 골라 1:1로 조합합니다.</p>
     <div class="bbx__slogan">리프팅은 ‘당기는 기술’이 아니라<br>층을 읽고 설계하는 진료입니다.<small>BEAUTY BLOSSOM · HONGDAE</small></div>
-  </div>
-  <div class="bbx__s1-photo">
-    <img src="ASSET/assets/16_model/model-hero.webp" alt="퍼스널 레이어드 리프팅" fetchpriority="high" decoding="async">
   </div>
 </section>
 
@@ -462,6 +484,201 @@
   /* 스크롤 리빌 — IntersectionObserver 만으로 충분하다 */
   var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } }); },{rootMargin:'0px 0px -12% 0px',threshold:.08});
   root.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+})();
+/* ---- 히어로 타이틀 글래스 왜곡 (React Bits WarpText 포팅) ----
+   원본은 React + ogl 이라 그대로는 못 쓴다. 셰이더는 원본 그대로 두고
+   런타임만 raw WebGL2 로 옮겨 외부 의존을 0 으로 유지한다.
+   WebGL2 가 없거나 실패하면 아무 것도 하지 않고 원래 글자가 남는다. */
+(function(){
+  var host = document.querySelector('#bbx-root .bbx__h2[data-warp]');
+  if (!host) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (innerWidth < 900) return;                 /* 좁은 화면에선 글자만으로 충분하다 */
+
+  var VERT = '#version 300 es\n' +
+    'in vec2 position; in vec2 uv; out vec2 vUv;\n' +
+    'void main(){ vUv = uv; gl_Position = vec4(position, 0.0, 1.0); }';
+
+  var FRAG = '#version 300 es\n' +
+    'precision highp float;\n' +
+    'uniform sampler2D uTextTexture; uniform vec2 uResolution; uniform vec2 uPointer;\n' +
+    'uniform float uPointerActive; uniform float uTime; uniform float uWarpStrength;\n' +
+    'uniform float uWarpScale; uniform float uSpeed; uniform float uPointerInfluence;\n' +
+    'uniform float uPointerStrength; uniform float uRefraction; uniform float uRipple; uniform float uMotion;\n' +
+    'in vec2 vUv; out vec4 fragColor;\n' +
+    'float hash(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }\n' +
+    'float noise(vec2 p){ vec2 i = floor(p); vec2 f = fract(p); vec2 u = f * f * (3.0 - 2.0 * f);\n' +
+    '  float a = hash(i); float b = hash(i + vec2(1.0, 0.0)); float c = hash(i + vec2(0.0, 1.0)); float d = hash(i + vec2(1.0, 1.0));\n' +
+    '  return mix(mix(a, b, u.x), mix(c, d, u.x), u.y); }\n' +
+    'float fbm(vec2 p){ float value = 0.0; float amplitude = 0.5;\n' +
+    '  for (int i = 0; i < 4; i++){ value += amplitude * noise(p); p *= 2.02; amplitude *= 0.5; } return value; }\n' +
+    'vec4 sampleText(vec2 uv){ if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0){ return vec4(0.0); } return texture(uTextTexture, uv); }\n' +
+    'void main(){\n' +
+    '  vec2 uv = vUv;\n' +
+    '  float aspect = uResolution.x / max(uResolution.y, 1.0);\n' +
+    '  float time = uTime * uSpeed;\n' +
+    '  float scale = max(uWarpScale, 0.001);\n' +
+    '  vec2 drift = vec2(time * 0.055, -time * 0.045);\n' +
+    '  float n1 = fbm(uv * scale * 3.1 + drift);\n' +
+    '  float n2 = fbm((uv + 19.17) * scale * 3.4 - drift.yx);\n' +
+    '  vec2 ambient = (vec2(n1, n2) - 0.5) * uWarpStrength * 0.045 * uMotion;\n' +
+    '  vec2 pointerDelta = uv - uPointer;\n' +
+    '  vec2 aspectDelta = vec2(pointerDelta.x * aspect, pointerDelta.y);\n' +
+    '  float dist = length(aspectDelta);\n' +
+    '  float radius = max(uPointerInfluence, 0.001);\n' +
+    '  float t = clamp(dist / radius, 0.0, 1.0);\n' +
+    '  float lens = smoothstep(radius, 0.0, dist) * uPointerActive;\n' +
+    '  float bulge = t * (1.0 - t) * (1.0 - t) * 6.75 * uPointerActive;\n' +
+    '  vec2 dir = dist > 0.0001 ? vec2(aspectDelta.x / aspect, aspectDelta.y) / dist : vec2(0.0);\n' +
+    '  float rippleWave = sin(dist * 28.0 - time * 4.2) * 0.5 + 0.5;\n' +
+    '  float rippleRing = (rippleWave - 0.5) * uRipple;\n' +
+    '  vec2 pointerWarp = -dir * bulge * uPointerStrength * 0.045;\n' +
+    '  pointerWarp += dir * rippleRing * bulge * uPointerStrength * 0.016;\n' +
+    '  vec2 displaced = uv + ambient + pointerWarp;\n' +
+    '  vec2 splitDir = ambient + pointerWarp;\n' +
+    '  float splitLen = length(splitDir);\n' +
+    '  splitDir = splitLen > 0.00001 ? splitDir / splitLen : vec2(0.7071, 0.7071);\n' +
+    '  vec2 split = splitDir * uRefraction * 0.16 * (0.35 + lens * 1.65);\n' +
+    '  vec4 base = sampleText(displaced);\n' +
+    '  float r = sampleText(displaced + split).r;\n' +
+    '  float g = base.g;\n' +
+    '  float b = sampleText(displaced - split).b;\n' +
+    '  float a = max(max(sampleText(displaced + split).a, base.a), sampleText(displaced - split).a);\n' +
+    '  vec3 color = vec3(r, g, b) + lens * base.a * 0.055;\n' +
+    '  fragColor = vec4(color, a);\n' +
+    '}';
+
+  var P = { warpStrength:0.10, warpScale:1.7, speed:0.55, pointerInfluence:0.42,
+            pointerStrength:0.38, refraction:0.020, ripple:1 };
+
+  var cv = document.createElement('canvas');
+  cv.className = 'bbx__warp-cv'; cv.setAttribute('aria-hidden','true');
+  var gl = cv.getContext('webgl2', { alpha:true, premultipliedAlpha:false, antialias:true });
+  if (!gl) return;
+
+  function sh(type, src){
+    var o = gl.createShader(type); gl.shaderSource(o, src); gl.compileShader(o);
+    if (!gl.getShaderParameter(o, gl.COMPILE_STATUS)) { console.warn('[warp]', gl.getShaderInfoLog(o)); return null; }
+    return o;
+  }
+  var vs = sh(gl.VERTEX_SHADER, VERT), fs = sh(gl.FRAGMENT_SHADER, FRAG);
+  if (!vs || !fs) return;
+  var prog = gl.createProgram();
+  gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { console.warn('[warp]', gl.getProgramInfoLog(prog)); return; }
+  gl.useProgram(prog);
+
+  /* ogl 의 Triangle 과 같은 풀스크린 삼각형 */
+  var vao = gl.createVertexArray(); gl.bindVertexArray(vao);
+  function attr(name, data){
+    var b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW);
+    var loc = gl.getAttribLocation(prog, name);
+    gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  }
+  attr('position', [-1,-1, 3,-1, -1,3]);
+  attr('uv',       [ 0, 0, 2, 0,  0,2]);
+
+  var tex = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, tex);
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
+  var U = {}; ['uTextTexture','uResolution','uPointer','uPointerActive','uTime','uWarpStrength',
+    'uWarpScale','uSpeed','uPointerInfluence','uPointerStrength','uRefraction','uRipple','uMotion']
+    .forEach(function(n){ U[n] = gl.getUniformLocation(prog, n); });
+  gl.uniform1i(U.uTextTexture, 0);
+  gl.uniform1f(U.uWarpStrength, P.warpStrength); gl.uniform1f(U.uWarpScale, P.warpScale);
+  gl.uniform1f(U.uSpeed, P.speed); gl.uniform1f(U.uPointerInfluence, P.pointerInfluence);
+  gl.uniform1f(U.uPointerStrength, P.pointerStrength); gl.uniform1f(U.uRefraction, P.refraction);
+  gl.uniform1f(U.uRipple, P.ripple); gl.uniform1f(U.uMotion, 1);
+  gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+  gl.clearColor(0,0,0,0);
+
+  /* 원래 글자를 그대로 2D 캔버스에 그려 텍스처로 쓴다 — 폰트·크기·자간은 h1 의 계산값 */
+  var lines = host.innerHTML.split(/<br\s*\/?>/i).map(function(x){ return x.replace(/<[^>]*>/g,'').trim(); }).filter(Boolean);
+  function raster(w, h, dpr){
+    var c = document.createElement('canvas');
+    c.width = Math.max(1, Math.floor(w*dpr)); c.height = Math.max(1, Math.floor(h*dpr));
+    var x = c.getContext('2d'); if (!x) return c;
+    var cs = getComputedStyle(host);
+    var fsz = parseFloat(cs.fontSize) || 56;
+    var ls = cs.letterSpacing === 'normal' ? 0 : (parseFloat(cs.letterSpacing) || 0);
+    var lh = parseFloat(cs.lineHeight); if (!isFinite(lh)) lh = fsz * 1.14;
+    x.setTransform(dpr,0,0,dpr,0,0);
+    x.clearRect(0,0,w,h);
+    x.font = (cs.fontWeight||'800') + ' ' + fsz + 'px ' + (cs.fontFamily||'sans-serif');
+    x.textAlign = 'left'; x.textBaseline = 'middle';
+    x.fillStyle = '#141414';
+    var startY = h/2 - lh*(lines.length-1)/2;
+    lines.forEach(function(line, i){
+      var cursor = 0, chars = Array.from(line);
+      chars.forEach(function(ch, j){
+        x.fillText(ch, cursor, startY + i*lh);
+        cursor += x.measureText(ch).width + (j === chars.length-1 ? 0 : ls);
+      });
+    });
+    return c;
+  }
+
+  var W=0, H=0, DPR=1, ready=false;
+  function resize(){
+    var r = host.getBoundingClientRect();
+    if (r.width < 2 || r.height < 2) return;
+    DPR = Math.min(devicePixelRatio||1, 2); W = r.width; H = r.height;
+    cv.width = Math.floor(W*DPR); cv.height = Math.floor(H*DPR);
+    cv.style.width = W+'px'; cv.style.height = H+'px';
+    gl.viewport(0,0,cv.width,cv.height);
+    gl.uniform2f(U.uResolution, cv.width, cv.height);
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, raster(W,H,DPR));
+    ready = true;
+  }
+
+  var pt = { x:0.5, y:0.5, tx:0.5, ty:0.5, a:0, at:0 }, t0 = performance.now(), raf = 0, seen = true;
+  function frame(now){
+    if (!ready) { raf = requestAnimationFrame(frame); return; }
+    var el = (now - t0) * 0.001;
+    var ix = 0.5 + Math.sin(el*0.33)*0.12, iy = 0.5 + Math.cos(el*0.27)*0.10;
+    var tx = pt.at > 0 ? pt.tx : ix, ty = pt.at > 0 ? pt.ty : iy;
+    var d = pt.at > 0 ? 0.12 : 0.035;
+    pt.x += (tx - pt.x)*d; pt.y += (ty - pt.y)*d;
+    pt.a += ((pt.at > 0 ? 1 : 0.18) - pt.a)*0.06;
+    gl.uniform2f(U.uPointer, pt.x, pt.y);
+    gl.uniform1f(U.uPointerActive, pt.a);
+    gl.uniform1f(U.uTime, el);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    raf = requestAnimationFrame(frame);
+  }
+
+  host.appendChild(cv);
+  host.classList.add('is-warped');
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve())
+    .then(resize).catch(resize);
+  resize();
+
+  cv.addEventListener('pointermove', function(e){
+    if (e.pointerType === 'touch') return;
+    var r = cv.getBoundingClientRect(); if (r.width < 2) return;
+    pt.tx = (e.clientX - r.left)/r.width; pt.ty = 1 - (e.clientY - r.top)/r.height; pt.at = 1;
+  });
+  cv.addEventListener('pointerleave', function(){ pt.at = 0; });
+  cv.addEventListener('webglcontextlost', function(e){ e.preventDefault(); if (raf) cancelAnimationFrame(raf); raf = 0; host.classList.remove('is-warped'); });
+  new ResizeObserver(resize).observe(host);
+  new IntersectionObserver(function(es){
+    seen = es[0].isIntersecting;
+    if (seen && !raf) raf = requestAnimationFrame(frame);
+    if (!seen && raf) { cancelAnimationFrame(raf); raf = 0; }
+  }, { threshold:0 }).observe(host);
+  document.addEventListener('visibilitychange', function(){
+    if (!document.hidden && seen && !raf) raf = requestAnimationFrame(frame);
+    else if (document.hidden && raf) { cancelAnimationFrame(raf); raf = 0; }
+  });
+  raf = requestAnimationFrame(frame);
 })();
 </script>
 </body>
