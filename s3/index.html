@@ -12,11 +12,8 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 .bar{position:sticky;top:0;z-index:60;background:#2b2320;color:#fff;font-size:13px;line-height:1.5;
   padding:11px 20px;text-align:center;letter-spacing:-.2px}
 .bar b{color:#E9918E;font-weight:700}.bar span{opacity:.7}
-.note{max-width:900px;margin:0 auto;padding:14px 20px;border-radius:12px;background:#f6f1f0;
-  color:#6a5f5d;font-size:13.5px;line-height:1.6;text-align:center;letter-spacing:-.3px}
-.note b{color:#d4706d}
-.gap{height:60px}.gap-s{height:26px}
-@media (max-width:768px){.bar{font-size:11.5px;padding:9px 14px}.gap{height:36px}.note{font-size:12.5px}}
+.gap{height:64px}
+@media (max-width:768px){.bar{font-size:11.5px;padding:9px 14px}.gap{height:38px}}
 </style></head><body>
 <div class="bar"><b>검수용 미리보기</b> &nbsp;·&nbsp; 퍼스널 레이어드 리프팅 &nbsp;<span>실제 페이지에는 아직 반영되지 않았습니다</span></div>
 <div class="gap"></div>
@@ -39,7 +36,7 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 
 /* ── 위: 제목 / 특징 ── */
 .plh-top{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
-  gap:clamp(30px,4vw,64px);align-items:center;margin-bottom:clamp(34px,4vw,54px);
+  gap:clamp(30px,4vw,64px);align-items:center;margin-bottom:0;
   max-width:1400px;margin-inline:auto}
 .plh-lead,.plh-close{max-width:44ch}
 .plh-h1{margin:0 0 14px;font-size:clamp(38px,4.4vw,60px);font-weight:800;line-height:1.16;
@@ -72,37 +69,6 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 .plh-point span{grid-column:2;margin-top:2px;font-size:clamp(12.5px,1vw,13.5px);
   font-weight:500;color:rgba(255,255,255,.86);letter-spacing:-.3px}
 
-/* ── 아래: 장비 9종 슬라이드 ── */
-.plh-rail{position:relative;border-radius:24px;padding:30px 0 26px;overflow:hidden;
-  background:linear-gradient(180deg,#fbf8f7 0%,#f5efee 100%)}
-.plh-rail-h{display:flex;align-items:baseline;gap:12px;margin:0 0 4px;padding:0 clamp(20px,3vw,40px);
-  font-size:15px;font-weight:700;letter-spacing:-.4px}
-.plh-rail-h em{font-style:normal;color:var(--c)}
-.plh-rail-h small{font-size:12.5px;font-weight:600;color:var(--mute);letter-spacing:0}
-/* 양끝을 부드럽게 — 슬라이드가 잘리는 게 아니라 흘러 들어오고 나간다 */
-.plh-track-wrap{position:relative;margin-top:14px;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
-  mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
-.plh-track{list-style:none;margin:0;padding:0;display:flex;width:max-content;
-  animation:plh-marquee 46s linear infinite}
-.plh-track-wrap:hover .plh-track,.plh-track-wrap:focus-within .plh-track{animation-play-state:paused}
-@keyframes plh-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.plh-slide{flex:none;margin:0;padding:0 clamp(14px,1.6vw,26px)}
-.plh-card{display:flex;flex-direction:column;align-items:center;width:clamp(150px,12vw,220px);
-  text-decoration:none;color:inherit}
-.plh-shot{display:flex;align-items:flex-end;justify-content:center;
-  height:clamp(150px,14vw,246px);margin-bottom:16px}
-.plh-shot img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;
-  filter:drop-shadow(0 10px 18px rgba(60,40,38,.12));transition:transform .35s cubic-bezier(.22,.61,.36,1)}
-.plh-card:hover .plh-shot img,.plh-card:focus-visible .plh-shot img{transform:translateY(-8px) scale(1.05)}
-.plh-name{font-size:clamp(14.5px,1.15vw,16.5px);font-weight:700;letter-spacing:-.4px;line-height:1.3;
-  text-align:center;transition:color .25s}
-.plh-card:hover .plh-name,.plh-card:focus-visible .plh-name{color:var(--c-dk)}
-.plh-tech{margin-top:5px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--c);text-align:center}
-.plh-spec{margin-top:3px;font-size:12.5px;line-height:1.4;color:var(--mute);text-align:center}
-.plh-card:focus-visible{outline:2px solid var(--c);outline-offset:6px;border-radius:12px}
-
 /* ── 태블릿 ── */
 @media (max-width:1000px){
   .plh-top{grid-template-columns:1fr;gap:30px}
@@ -121,23 +87,10 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
   .plh-point i{width:22px;height:22px}
   .plh-point b{font-size:14px}
   .plh-point span{font-size:12px}
-  .plh-rail{border-radius:18px;padding:22px 0 20px}
-  .plh-rail-h{flex-direction:column;align-items:flex-start;gap:3px;font-size:14px}
-  .plh-track{animation-duration:34s}
-  .plh-slide{padding:0 11px}
-  .plh-card{width:132px}
-  .plh-shot{height:132px;margin-bottom:12px}
-  .plh-name{font-size:13.5px}
-  .plh-tech{font-size:10px}
-  .plh-spec{font-size:11.5px}
 }
 /* 모션을 줄이는 설정이면 흐르지 않고 손으로 넘긴다 */
 @media (prefers-reduced-motion:reduce){
-  .plh-track{animation:none;width:auto;overflow-x:auto;scroll-snap-type:x mandatory}
-  .plh-slide{scroll-snap-align:center}
-  .plh-slide[aria-hidden]{display:none}
   .plh-point::after{animation:none;display:none}
-  .plh-track-wrap{-webkit-mask-image:none;mask-image:none}
 }
 </style>
 
@@ -167,188 +120,314 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
     </ul>
   </div>
 
-  <div class="plh-rail">
-    <p class="plh-rail-h"><em>9가지 오리지널 장비</em>를 층에 맞춰 조합합니다<small>얕은 층 → 깊은 층</small></p>
-    <div class="plh-track-wrap">
-      <ul class="plh-track">
-        <li class="plh-slide">
-          <a class="plh-card" href="/139">
-            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-sofwave.webp" alt="소프웨이브" width="299" height="560" loading="lazy" decoding="async"></span>
-            <span class="plh-name">소프웨이브</span>
-            <span class="plh-tech">SUPERB 초음파</span>
-            <span class="plh-spec">진피 1.5mm · 7빔 동시</span>
-          </a>
-        </li>
-        <li class="plh-slide">
-          <a class="plh-card" href="/41">
-            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-thermage.webp" alt="써마지 FLX" width="311" height="560" loading="lazy" decoding="async"></span>
-            <span class="plh-name">써마지 FLX</span>
-            <span class="plh-tech">모노폴라 RF</span>
-            <span class="plh-spec">6.78MHz · 진피 벌크</span>
-          </a>
-        </li>
-        <li class="plh-slide">
-          <a class="plh-card" href="/titanium-fortra-quattro">
-            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-fortra.webp" alt="포트라 콰트로" width="282" height="560" loading="lazy" decoding="async"></span>
-            <span class="plh-name">포트라 콰트로</span>
-            <span class="plh-tech">4파장 다이오드</span>
-            <span class="plh-spec">755·808·940·1064nm</span>
-          </a>
-        </li>
-        <li class="plh-slide">
-          <a class="plh-card" href="/155">
-            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-xerf.webp" alt="세르프(XERF)" width="241" height="560" loading="lazy" decoding="async"></span>
-            <span class="plh-name">세르프(XERF)</span>
-            <span class="plh-tech">듀얼 모노폴라 RF</span>
-            <span class="plh-spec">2 + 6.78MHz · 3단계</span>
-          </a>
-        </li>
-        <li class="plh-slide">
-          <a class="plh-card" href="/153">
-            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-density.webp" alt="덴서티" width="278" height="560" loading="lazy" decoding="async"></span>
-            <span class="plh-name">덴서티</span>
-            <span class="plh-tech">모노+바이폴라 RF</span>
-            <span class="plh-spec">6.78MHz · 최대 400W</span>
-          </a>
-        </li>
-        <li class="plh-slide">
-          <a class="plh-card" href="/42">
-            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-onda.webp" alt="온다" width="218" height="560" loading="lazy" decoding="async"></span>
-            <span class="plh-name">온다</span>
-            <span class="plh-tech">마이크로웨이브</span>
-            <span class="plh-spec">2.45GHz · 3mm·7mm</span>
-          </a>
-        </li>
-        <li class="plh-slide">
-          <a class="plh-card" href="/alltite-lifting">
-            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-alltite.webp" alt="올타이트" width="373" height="560" loading="lazy" decoding="async"></span>
-            <span class="plh-name">올타이트</span>
-            <span class="plh-tech">유전가열 DLTD</span>
-            <span class="plh-spec">진피 하부 집중 · SMAS</span>
-          </a>
-        </li>
-        <li class="plh-slide">
-          <a class="plh-card" href="/154">
-            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-linearz.webp" alt="리니어지" width="288" height="560" loading="lazy" decoding="async"></span>
-            <span class="plh-name">리니어지</span>
-            <span class="plh-tech">선·점 HIFU</span>
-            <span class="plh-spec">1.5~13mm · 0.5mm 단위</span>
-          </a>
-        </li>
-        <li class="plh-slide">
-          <a class="plh-card" href="/40">
-            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-ulthera.webp" alt="울쎄라피 프라임" width="277" height="560" loading="lazy" decoding="async"></span>
-            <span class="plh-name">울쎄라피 프라임</span>
-            <span class="plh-tech">초음파 HIFU</span>
-            <span class="plh-spec">1.5 · 3.0 · 4.5mm</span>
-          </a>
-        </li>
-        <li class="plh-slide" aria-hidden="true">
-          <a class="plh-card" href="/139" tabindex="-1">
-            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-sofwave.webp" alt="소프웨이브" width="299" height="560" loading="lazy" decoding="async"></span>
-            <span class="plh-name">소프웨이브</span>
-            <span class="plh-tech">SUPERB 초음파</span>
-            <span class="plh-spec">진피 1.5mm · 7빔 동시</span>
-          </a>
-        </li>
-        <li class="plh-slide" aria-hidden="true">
-          <a class="plh-card" href="/41" tabindex="-1">
-            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-thermage.webp" alt="써마지 FLX" width="311" height="560" loading="lazy" decoding="async"></span>
-            <span class="plh-name">써마지 FLX</span>
-            <span class="plh-tech">모노폴라 RF</span>
-            <span class="plh-spec">6.78MHz · 진피 벌크</span>
-          </a>
-        </li>
-        <li class="plh-slide" aria-hidden="true">
-          <a class="plh-card" href="/titanium-fortra-quattro" tabindex="-1">
-            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-fortra.webp" alt="포트라 콰트로" width="282" height="560" loading="lazy" decoding="async"></span>
-            <span class="plh-name">포트라 콰트로</span>
-            <span class="plh-tech">4파장 다이오드</span>
-            <span class="plh-spec">755·808·940·1064nm</span>
-          </a>
-        </li>
-        <li class="plh-slide" aria-hidden="true">
-          <a class="plh-card" href="/155" tabindex="-1">
-            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-xerf.webp" alt="세르프(XERF)" width="241" height="560" loading="lazy" decoding="async"></span>
-            <span class="plh-name">세르프(XERF)</span>
-            <span class="plh-tech">듀얼 모노폴라 RF</span>
-            <span class="plh-spec">2 + 6.78MHz · 3단계</span>
-          </a>
-        </li>
-        <li class="plh-slide" aria-hidden="true">
-          <a class="plh-card" href="/153" tabindex="-1">
-            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-density.webp" alt="덴서티" width="278" height="560" loading="lazy" decoding="async"></span>
-            <span class="plh-name">덴서티</span>
-            <span class="plh-tech">모노+바이폴라 RF</span>
-            <span class="plh-spec">6.78MHz · 최대 400W</span>
-          </a>
-        </li>
-        <li class="plh-slide" aria-hidden="true">
-          <a class="plh-card" href="/42" tabindex="-1">
-            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-onda.webp" alt="온다" width="218" height="560" loading="lazy" decoding="async"></span>
-            <span class="plh-name">온다</span>
-            <span class="plh-tech">마이크로웨이브</span>
-            <span class="plh-spec">2.45GHz · 3mm·7mm</span>
-          </a>
-        </li>
-        <li class="plh-slide" aria-hidden="true">
-          <a class="plh-card" href="/alltite-lifting" tabindex="-1">
-            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-alltite.webp" alt="올타이트" width="373" height="560" loading="lazy" decoding="async"></span>
-            <span class="plh-name">올타이트</span>
-            <span class="plh-tech">유전가열 DLTD</span>
-            <span class="plh-spec">진피 하부 집중 · SMAS</span>
-          </a>
-        </li>
-        <li class="plh-slide" aria-hidden="true">
-          <a class="plh-card" href="/154" tabindex="-1">
-            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-linearz.webp" alt="리니어지" width="288" height="560" loading="lazy" decoding="async"></span>
-            <span class="plh-name">리니어지</span>
-            <span class="plh-tech">선·점 HIFU</span>
-            <span class="plh-spec">1.5~13mm · 0.5mm 단위</span>
-          </a>
-        </li>
-        <li class="plh-slide" aria-hidden="true">
-          <a class="plh-card" href="/40" tabindex="-1">
-            <span class="plh-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/hero-ulthera.webp" alt="울쎄라피 프라임" width="277" height="560" loading="lazy" decoding="async"></span>
-            <span class="plh-name">울쎄라피 프라임</span>
-            <span class="plh-tech">초음파 HIFU</span>
-            <span class="plh-spec">1.5 · 3.0 · 4.5mm</span>
-          </a>
-        </li>
-      </ul>
-    </div>
+</section>
+
+</div>
+<div class="gap"></div>
+<div class="wrap">
+<!-- ═══ 뷰티블라썸의원 · 장비 필름스트립 ═══
+     ThreeUI CharacterCarousel (filmstrip) 기반 · MIT 라이선스
+     원본: https://threeui.com/source-code/character-filmstrip.json
+     구조·모션·상호작용은 원본 그대로, 색·이미지·문구만 사이트에 맞췄다.
+     아임웹용 수정: html/body 규칙 제거, 세로 휠은 페이지에 양보, 방향키는 위젯 안에서만,
+                   클래스 plc- 접두사, 인물 사진 -> 장비 사진 R2 링크 -->
+<style>
+/* ═══ 뷰티블라썸의원 · 장비 필름스트립 ═══
+   ThreeUI CharacterCarousel (filmstrip) · MIT — 구조와 모션은 원본 그대로,
+   색·이미지·문구만 사이트에 맞췄다. 클래스는 전부 plc- 로 감싸 아임웹과 부딪히지 않는다. */
+.plc-sec{--c:#E9918E;--c-dk:#d4706d;--ink:#2f2523;--ink2:#5f5754;--mute:#918a87;--paper:#faf5f4;
+  width:100%;max-width:1720px;margin:0 auto;padding:8px 0 30px;color:var(--ink);
+  font-family:'Pretendard',-apple-system,BlinkMacSystemFont,system-ui,'Noto Sans KR',sans-serif;
+  word-break:keep-all;text-align:left}
+.plc-sec *{box-sizing:border-box}
+
+.plc-head{max-width:1000px;margin:0 auto 26px;text-align:center}
+.plc-kw{display:block;margin:0 0 12px;font-size:13px;font-weight:700;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--c)}
+.plc-h2{margin:0 0 14px;font-size:clamp(25px,2.7vw,38px);font-weight:700;line-height:1.35;letter-spacing:-1.3px}
+.plc-h2 em{font-style:normal;color:var(--c)}
+.plc-lead{margin:0;font-size:clamp(14.5px,1.2vw,17px);line-height:1.8;letter-spacing:-.6px;color:var(--ink2)}
+
+/* ── 무대 : 원근 레일 ── */
+.plc-stage{--pointer-x:50%;position:relative;width:100%;height:clamp(430px,42vw,620px);
+  overflow:hidden;isolation:isolate;perspective:1450px;cursor:ew-resize;touch-action:pan-y;
+  border-radius:24px;
+  background:
+    linear-gradient(90deg,rgba(160,120,115,.07) 1px,transparent 1px) 50% 0 / 25% 100%,
+    repeating-linear-gradient(0deg,transparent 0,transparent 109px,rgba(160,120,115,.1) 110px,transparent 111px),
+    radial-gradient(circle at var(--pointer-x) 46%,rgba(255,255,255,.95),transparent 36%),
+    var(--paper)}
+/* 종이 결 */
+.plc-stage::before{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;opacity:.22;
+  background:
+    repeating-radial-gradient(circle at 12% 18%,rgba(150,110,105,.14) 0 .5px,transparent .7px 4px),
+    repeating-radial-gradient(circle at 78% 71%,rgba(255,255,255,.4) 0 .5px,transparent .8px 5px);
+  mix-blend-mode:multiply}
+/* 양끝 그늘 */
+.plc-stage::after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;
+  background:linear-gradient(90deg,rgba(190,150,145,.16),transparent 14%,transparent 86%,rgba(190,150,145,.16))}
+
+.plc-deck{position:absolute;inset:0;z-index:2;transform-style:preserve-3d}
+
+.plc-card{--focus:0;position:absolute;top:50%;left:50%;
+  width:clamp(154px,16.8vw,238px);aspect-ratio:.72;padding:7px;overflow:hidden;
+  border:1px solid rgba(160,120,115,.34);border-radius:8px;color:var(--ink);background:#fff;
+  box-shadow:
+    0 calc(10px + var(--focus) * 24px) calc(18px + var(--focus) * 36px)
+      rgba(120,80,76,calc(.14 + var(--focus) * .2)),
+    inset 0 0 0 1px rgba(255,255,255,.9);
+  appearance:none;outline:none;transform-style:preserve-3d;
+  will-change:transform,opacity,filter;cursor:pointer;text-decoration:none;font:inherit}
+.plc-card::before{content:"";position:absolute;inset:5px;z-index:3;pointer-events:none;
+  border:1px solid rgba(160,120,115,calc(.16 + var(--focus) * .16))}
+.plc-card:focus-visible{box-shadow:0 26px 50px rgba(120,80,76,.34),0 0 0 4px rgba(233,145,142,.45)}
+
+/* 얼굴이 아니라 누끼 장비다 — 잘라내지 않고 담는다 */
+.plc-shot{position:absolute;inset:7px 7px 25%;overflow:hidden;display:flex;
+  align-items:flex-end;justify-content:center;padding:14px 12px 10px;
+  background:linear-gradient(180deg,#fdfbfa,#f4eeed)}
+.plc-shot img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;
+  transform:scale(calc(.96 + var(--focus) * .08));
+  filter:saturate(calc(.72 + var(--focus) * .28)) contrast(1.02);
+  transition:none}
+
+.plc-foot{position:absolute;right:7px;bottom:7px;left:7px;height:calc(25% - 7px);
+  display:grid;grid-template-columns:clamp(26px,3.2vw,43px) 1fr;align-items:center;
+  gap:clamp(6px,.7vw,11px);padding:clamp(7px,.8vw,12px);
+  color:#fff;background:var(--ink);text-align:left;border-radius:3px}
+.plc-no{display:grid;width:clamp(23px,2.7vw,37px);aspect-ratio:1;place-items:center;
+  border:1px solid var(--c);border-radius:50%;color:var(--c);
+  font:600 clamp(7px,.68vw,11px)/1 ui-monospace,"SFMono-Regular",monospace}
+.plc-meta{min-width:0}
+.plc-name,.plc-role{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.plc-name{color:#fff;font-size:clamp(9px,.92vw,14px);font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.plc-role{margin-top:clamp(3px,.35vw,5px);color:var(--c);font-size:clamp(7px,.6vw,10px);
+  font-weight:700;letter-spacing:.06em;line-height:1}
+
+.plc-hint{margin:16px 0 0;text-align:center;font-size:13px;color:var(--mute);letter-spacing:-.2px}
+.plc-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+@media (max-width:768px){
+  .plc-head{margin-bottom:20px}
+  .plc-h2{font-size:23px;letter-spacing:-1px}
+  .plc-lead{font-size:14.5px}
+  .plc-stage{height:clamp(330px,80vw,430px);border-radius:18px;
+    background:
+      linear-gradient(90deg,rgba(160,120,115,.07) 1px,transparent 1px) 50% 0 / 50% 100%,
+      repeating-linear-gradient(0deg,transparent 0,transparent 87px,rgba(160,120,115,.1) 88px,transparent 89px),
+      radial-gradient(circle at 50% 50%,rgba(255,255,255,.95),transparent 36%),
+      var(--paper)}
+  .plc-card{width:clamp(142px,47vw,180px)}
+  .plc-hint{font-size:12px}
+}
+@media (prefers-reduced-motion:reduce){.plc-card{will-change:auto}}
+</style>
+
+<section class="plc-sec" aria-labelledby="plc-title">
+
+  <header class="plc-head">
+    <span class="plc-kw">9 Original Devices</span>
+    <h2 class="plc-h2" id="plc-title">한 대로 끝내지 않습니다.<br><em>아홉 대를 층에 맞춰</em> 조합합니다.</h2>
+    <p class="plc-lead">원리가 서로 다른 아홉 가지 오리지널 장비를 갖추고, 진단 결과에 따라 필요한 것만 골라 순서대로 씁니다.</p>
+  </header>
+
+  <div class="plc-stage" aria-label="장비 9종 둘러보기">
+    <p class="plc-sr">좌우로 끌거나 방향키로 장비를 넘길 수 있습니다. 카드를 누르면 해당 장비 페이지로 이동합니다.</p>
+    <div class="plc-deck"></div>
   </div>
+
+  <p class="plc-hint">카드를 끌어 넘기고, 눌러서 장비별 상세를 확인하세요</p>
 
 </section>
 
 <script>
 (function(){
-  var rail = document.querySelector('.plh-track-wrap');
-  if (!rail || rail.dataset.plhReady) return;
-  rail.dataset.plhReady = '1';
-  var track = rail.querySelector('.plh-track');
+  var root = document.querySelector('.plc-sec');
+  if (!root || root.dataset.plcReady) return;
+  root.dataset.plcReady = '1';
 
-  /* 화면 밖이거나 탭이 숨겨져 있으면 굴리지 않는다 */
-  function run(on){ track.style.animationPlayState = on ? 'running' : 'paused'; }
+  var CDN = 'https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered';
+  var profiles = [
+        ["소프웨이브","SUPERB 초음파","sofwave","/139"],
+        ["써마지 FLX","모노폴라 RF","thermage","/41"],
+        ["포트라 콰트로","4파장 다이오드","fortra","/titanium-fortra-quattro"],
+        ["세르프(XERF)","듀얼 모노폴라 RF","xerf","/155"],
+        ["덴서티","모노+바이폴라 RF","density","/153"],
+        ["온다","마이크로웨이브","onda","/42"],
+        ["올타이트","유전가열 DLTD","alltite","/alltite-lifting"],
+        ["리니어지","선·점 HIFU","linearz","/154"],
+        ["울쎄라피 프라임","초음파 HIFU","ulthera","/40"]
+      ].map(function(a){ return {name:a[0], role:a[1], slug:a[2], url:a[3]}; });
+
+  var stage = root.querySelector('.plc-stage');
+  var deck  = root.querySelector('.plc-deck');
+
+  var cards = profiles.map(function(p, index){
+    var card = document.createElement('a');
+    card.className = 'plc-card';
+    card.href = p.url;
+    card.dataset.index = String(index);
+    card.setAttribute('aria-label', p.name + ' · ' + p.role);
+    card.innerHTML =
+      '<span class="plc-shot"><img src="' + CDN + '/hero-' + p.slug + '.webp" alt="' + p.name +
+        '" loading="lazy" decoding="async"></span>' +
+      '<span class="plc-foot">' +
+        '<span class="plc-no">' + String(index + 1).padStart(2, '0') + '</span>' +
+        '<span class="plc-meta">' +
+          '<span class="plc-name">' + p.name + '</span>' +
+          '<span class="plc-role">' + p.role + '</span>' +
+        '</span>' +
+      '</span>';
+    deck.appendChild(card);
+    return card;
+  });
+
+  var count = cards.length;
+  var reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var state = {phase:3, target:3, base:3, pointerX:0, pointerY:0, active:false, lastInput:performance.now()};
+  var running = true, dragged = false;
+
+  function wrappedDelta(index, phase){
+    var d = index - phase;
+    while (d > count / 2) d -= count;
+    while (d < -count / 2) d += count;
+    return d;
+  }
+  function nearestIndex(){ return (Math.round(state.phase) % count + count) % count; }
+  function moveTo(index){
+    var cur = nearestIndex(), d = index - cur;
+    if (d > count / 2) d -= count;
+    if (d < -count / 2) d += count;
+    state.base += d; state.target = state.base; state.active = false;
+    state.lastInput = performance.now();
+  }
+
+  cards.forEach(function(card, index){
+    /* 카드가 링크라 클릭은 장비 페이지로 간다. 다만 끌어서 넘긴 직후의 클릭은 막는다. */
+    card.addEventListener('click', function(e){ if (dragged){ e.preventDefault(); dragged = false; } });
+    card.addEventListener('focus', function(){ moveTo(index); });
+  });
+
+  stage.addEventListener('pointermove', function(e){
+    var r = stage.getBoundingClientRect();
+    var nx = Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width - 0.5) * 2));
+    var ny = Math.max(-1, Math.min(1, ((e.clientY - r.top) / r.height - 0.5) * 2));
+    state.pointerX = nx; state.pointerY = ny; state.active = true;
+    state.target = state.base + nx * 3.1;
+    state.lastInput = performance.now();
+    stage.style.setProperty('--pointer-x', ((nx + 1) * 50) + '%');
+  });
+  stage.addEventListener('pointerleave', function(){
+    state.active = false; state.pointerX = 0; state.pointerY = 0; state.target = state.base;
+    stage.style.setProperty('--pointer-x', '50%');
+  });
+
+  /* 세로 휠은 페이지에 넘긴다 — 위젯 위에서 스크롤이 멈추면 안 된다.
+     가로 휠(트랙패드 좌우) 과 Shift+휠 만 카드 이동에 쓴다. */
+  stage.addEventListener('wheel', function(e){
+    var horizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey;
+    if (!horizontal) return;
+    var dir = Math.sign(e.shiftKey ? e.deltaY : e.deltaX);
+    if (!dir) return;
+    e.preventDefault();
+    state.base += dir; state.target = state.base; state.active = false;
+    state.lastInput = performance.now();
+  }, {passive:false});
+
+  /* 방향키는 위젯 안에 포커스가 있을 때만 — 페이지 전역에서 가로채면 안 된다 */
+  root.addEventListener('keydown', function(e){
+    var fwd = e.key === 'ArrowRight' || e.key === 'ArrowDown';
+    var back = e.key === 'ArrowLeft' || e.key === 'ArrowUp';
+    if (!fwd && !back) return;
+    e.preventDefault();
+    state.base += fwd ? 1 : -1; state.target = state.base; state.active = false;
+    state.lastInput = performance.now();
+  });
+
+  /* 터치·드래그로 넘기기 */
+  var down = false, x0 = 0, b0 = 0;
+  stage.addEventListener('pointerdown', function(e){
+    down = true; dragged = false; x0 = e.clientX; b0 = state.base;
+  });
+  stage.addEventListener('pointermove', function(e){
+    if (!down) return;
+    var d = (x0 - e.clientX) / (innerWidth < 769 ? 66 : 90);
+    if (Math.abs(d) > 0.12) dragged = true;
+    state.base = b0 + d; state.target = state.base; state.active = false;
+    state.lastInput = performance.now();
+  });
+  function release(){ if (!down) return; down = false; state.base = Math.round(state.base); state.target = state.base; }
+  stage.addEventListener('pointerup', release);
+  stage.addEventListener('pointercancel', release);
+  stage.addEventListener('pointerleave', release);
+
+  /* 화면 밖이거나 탭이 숨겨져 있으면 프레임을 돌리지 않는다 */
   if (window.IntersectionObserver){
     new IntersectionObserver(function(es){
-      for (var i = 0; i < es.length; i++) run(es[i].isIntersecting && !document.hidden);
-    }, {threshold:.05}).observe(rail);
+      for (var i = 0; i < es.length; i++){
+        var on = es[i].isIntersecting && !document.hidden;
+        if (on && !running){ running = true; previousTime = performance.now(); requestAnimationFrame(render); }
+        running = on;
+      }
+    }, {threshold:.04}).observe(stage);
   }
-  document.addEventListener('visibilitychange', function(){ run(!document.hidden); });
+  document.addEventListener('visibilitychange', function(){
+    if (!document.hidden && !running){ running = true; previousTime = performance.now(); requestAnimationFrame(render); }
+    else if (document.hidden) running = false;
+  });
 
-  /* 터치로도 넘길 수 있게 — 끌면 흐름을 멈추고 손에 맡긴다 */
-  var down = false, x0 = 0, l0 = 0;
-  rail.addEventListener('pointerdown', function(e){
-    down = true; x0 = e.clientX; l0 = rail.scrollLeft; run(false);
-  });
-  rail.addEventListener('pointermove', function(e){
-    if (down) rail.scrollLeft = l0 - (e.clientX - x0);
-  });
-  function up(){ if (down){ down = false; run(true); } }
-  rail.addEventListener('pointerup', up);
-  rail.addEventListener('pointercancel', up);
-  rail.addEventListener('pointerleave', up);
+  var previousTime = performance.now();
+
+  function render(time){
+    if (!running) return;
+    var dt = Math.min(32, time - previousTime);
+    previousTime = time;
+    var ease = reducedMotion ? 1 : 1 - Math.pow(0.001, dt / 1000);
+
+    if (!state.active && !down && time - state.lastInput > 3600){
+      var idle = time - state.lastInput - 3600;
+      state.target = state.base + Math.sin(idle * 0.00042) * 2.45;
+    }
+
+    state.phase += (state.target - state.phase) * ease;
+    var activeIndex = nearestIndex();
+    /* 간격을 카드 폭에 비례시키면 화면 크기와 무관하게 겹침 비율이 같다 */
+    var cardW = cards[0].offsetWidth || 200;
+    var hSpacing = cardW * 0.70;
+
+    cards.forEach(function(card, index){
+      var delta = wrappedDelta(index, state.phase);
+      var distance = Math.abs(delta);
+      var focus = Math.exp(-distance * distance * 1.28);
+      var side = Math.max(0, 1 - distance / 5);
+      var dir = Math.sign(delta);
+      var x = delta * hSpacing;
+      var y = distance * 8 + state.pointerY * focus * 10;
+      var z = focus * 145 - distance * 148;
+      var scale = 0.54 + side * 0.15 + focus * 0.54;
+      var rotateX = -state.pointerY * focus * 3.5;
+      var rotateY = -dir * (distance > 0.2 ? 14 + Math.min(distance, 3) * 5 : 0) + state.pointerX * focus * 3;
+      var rotateZ = delta * 0.7;
+
+      card.style.setProperty('--focus', focus.toFixed(4));
+      card.style.zIndex = String(Math.round(1000 - distance * 100));
+      card.style.opacity = String(Math.max(0.13, side * 0.76 + focus * 0.24));
+      card.style.filter = 'blur(' + (Math.max(0, distance - 1.5) * 0.38).toFixed(2) + 'px)';
+      card.style.transform = [
+        'translate(-50%, -50%)',
+        'translate3d(' + x.toFixed(2) + 'px, ' + y.toFixed(2) + 'px, ' + z.toFixed(2) + 'px)',
+        'rotateX(' + rotateX.toFixed(2) + 'deg)',
+        'rotateY(' + rotateY.toFixed(2) + 'deg)',
+        'rotateZ(' + rotateZ.toFixed(2) + 'deg)',
+        'scale(' + scale.toFixed(4) + ')'
+      ].join(' ');
+      card.setAttribute('aria-current', index === activeIndex ? 'true' : 'false');
+    });
+
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
 })();
 </script>
 
@@ -425,24 +504,28 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 .pll-rail-h u{flex:1;height:1px;text-decoration:none;
   background:linear-gradient(90deg,#f2dedc,#e5d4d2 50%,transparent)}
 .pll-rail-h small{font-size:12.5px;font-weight:600;color:var(--mute)}
+/* 장비 9종은 한 줄로 — 7+2 로 끊기면 어색하다. 대신 사진을 위로 올린 세로형 카드로 폭을 아낀다. */
 .pll-chips{list-style:none;margin:0;padding:0;display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:10px}
+  grid-template-columns:repeat(9,minmax(0,1fr));gap:clamp(6px,.7vw,12px)}
 .pll-chips li{margin:0;min-width:0}
-.pll-chip{position:relative;display:flex;align-items:center;gap:12px;height:100%;padding:10px 14px;
-  border-radius:14px;border:1px solid transparent;background:#faf7f6;text-decoration:none;overflow:hidden;
+.pll-chip{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;
+  height:100%;padding:14px 9px 13px;border-radius:14px;border:1px solid transparent;background:#faf7f6;
+  text-decoration:none;overflow:hidden;text-align:center;
   transition:background .24s,box-shadow .24s,transform .24s,border-color .24s}
-.pll-chip-img{position:relative;flex:none;width:38px;height:54px;display:flex;align-items:flex-end;
-  justify-content:center;z-index:1}
+.pll-chip-img{position:relative;flex:none;width:100%;height:clamp(50px,4.6vw,74px);
+  display:flex;align-items:flex-end;justify-content:center;z-index:1}
 .pll-chip-img img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;
   transition:transform .25s ease}
 .pll-chip:hover .pll-chip-img img,.pll-chip.is-on .pll-chip-img img{transform:scale(1.09)}
-.pll-chip-t{position:relative;z-index:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.pll-chip-t{position:relative;z-index:1;display:flex;flex-direction:column;gap:3px;min-width:0;width:100%}
 /* 활성 장비에만 은은한 색 번짐 — 어떤 색의 레이저인지 미리 보인다 */
 .pll-chip::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
   background:radial-gradient(120% 100% at 14% 50%,var(--h),transparent 62%);
   opacity:0;transition:opacity .28s}
-.pll-chip b{font-size:14.5px;font-weight:700;color:var(--ink);line-height:1.32;word-break:keep-all}
-.pll-chip em{font-style:normal;font-size:11.5px;color:var(--mute);line-height:1.35;word-break:keep-all}
+.pll-chip b{font-size:clamp(12px,1vw,14.5px);font-weight:700;color:var(--ink);
+  line-height:1.3;letter-spacing:-.3px;word-break:keep-all}
+.pll-chip em{font-style:normal;font-size:clamp(10px,.8vw,11.5px);color:var(--mute);
+  line-height:1.4;letter-spacing:-.2px;word-break:keep-all}
 .pll-chip:hover,.pll-chip:focus-visible,.pll-chip.is-on{background:#fff;outline:none;
   border-color:color-mix(in srgb,var(--h) 40%,transparent);
   box-shadow:0 8px 22px color-mix(in srgb,var(--h) 22%,transparent)}
@@ -567,8 +650,7 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 /* ── 태블릿 ── */
 @media (max-width:1100px){
   .pll-h2{font-size:30px}
-  .pll-chips{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .pll-chip{padding:10px 12px}
+  .pll-chips{grid-template-columns:repeat(5,minmax(0,1fr))}
 }
 /* ── 모바일 : 단면을 세로로 키워 층이 보이게 하고, 라벨은 아래로 내린다.
       지금은 모바일에 다이어그램이 아예 없어 여기서 처음 생긴다. ── */
@@ -592,9 +674,9 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
   .pll-badge{left:3%;bottom:4%;padding:7px 12px;font-size:12.5px;gap:6px}
   .pll-badge span{display:none}
   .pll-rail{margin:0 0 22px}
-  .pll-chips{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
-  .pll-chip{padding:8px 10px;gap:9px;align-items:center}
-  .pll-chip-img{width:26px;height:42px}
+  .pll-chips{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+  .pll-chip{padding:11px 6px 10px;gap:6px}
+  .pll-chip-img{height:44px}
   .pll-chip b{font-size:13.5px}
   .pll-chip em{font-size:11px}
 }
@@ -1085,317 +1167,6 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
   }, {rootMargin:'0px 0px -10% 0px', threshold:.06});
   var rv = root.querySelectorAll('.pls-rv');
   for (var i = 0; i < rv.length; i++){ rv[i].style.transitionDelay = (i * 0.07) + 's'; io.observe(rv[i]); }
-})();
-</script>
-
-</div>
-<div class="gap"></div>
-<div class="wrap"><p class="note"><b>비교용</b> — 위 히어로의 흐르는 장비 슬라이더 대신 쓸 수 있는 안입니다. 카드를 끌어 넘기고 눌러서 장비 페이지로 이동합니다. 둘 중 하나만 쓰면 됩니다.</p></div>
-<div class="gap-s"></div>
-<div class="wrap">
-<!-- ═══ 뷰티블라썸의원 · 장비 필름스트립 ═══
-     ThreeUI CharacterCarousel (filmstrip) 기반 · MIT 라이선스
-     원본: https://threeui.com/source-code/character-filmstrip.json
-     구조·모션·상호작용은 원본 그대로, 색·이미지·문구만 사이트에 맞췄다.
-     아임웹용 수정: html/body 규칙 제거, 세로 휠은 페이지에 양보, 방향키는 위젯 안에서만,
-                   클래스 plc- 접두사, 인물 사진 -> 장비 사진 R2 링크 -->
-<style>
-/* ═══ 뷰티블라썸의원 · 장비 필름스트립 ═══
-   ThreeUI CharacterCarousel (filmstrip) · MIT — 구조와 모션은 원본 그대로,
-   색·이미지·문구만 사이트에 맞췄다. 클래스는 전부 plc- 로 감싸 아임웹과 부딪히지 않는다. */
-.plc-sec{--c:#E9918E;--c-dk:#d4706d;--ink:#2f2523;--ink2:#5f5754;--mute:#918a87;--paper:#faf5f4;
-  width:100%;max-width:1720px;margin:0 auto;padding:8px 0 30px;color:var(--ink);
-  font-family:'Pretendard',-apple-system,BlinkMacSystemFont,system-ui,'Noto Sans KR',sans-serif;
-  word-break:keep-all;text-align:left}
-.plc-sec *{box-sizing:border-box}
-
-.plc-head{max-width:1000px;margin:0 auto 26px;text-align:center}
-.plc-kw{display:block;margin:0 0 12px;font-size:13px;font-weight:700;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--c)}
-.plc-h2{margin:0 0 14px;font-size:clamp(25px,2.7vw,38px);font-weight:700;line-height:1.35;letter-spacing:-1.3px}
-.plc-h2 em{font-style:normal;color:var(--c)}
-.plc-lead{margin:0;font-size:clamp(14.5px,1.2vw,17px);line-height:1.8;letter-spacing:-.6px;color:var(--ink2)}
-
-/* ── 무대 : 원근 레일 ── */
-.plc-stage{--pointer-x:50%;position:relative;width:100%;height:clamp(430px,42vw,620px);
-  overflow:hidden;isolation:isolate;perspective:1450px;cursor:ew-resize;touch-action:pan-y;
-  border-radius:24px;
-  background:
-    linear-gradient(90deg,rgba(160,120,115,.07) 1px,transparent 1px) 50% 0 / 25% 100%,
-    repeating-linear-gradient(0deg,transparent 0,transparent 109px,rgba(160,120,115,.1) 110px,transparent 111px),
-    radial-gradient(circle at var(--pointer-x) 46%,rgba(255,255,255,.95),transparent 36%),
-    var(--paper)}
-/* 종이 결 */
-.plc-stage::before{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;opacity:.22;
-  background:
-    repeating-radial-gradient(circle at 12% 18%,rgba(150,110,105,.14) 0 .5px,transparent .7px 4px),
-    repeating-radial-gradient(circle at 78% 71%,rgba(255,255,255,.4) 0 .5px,transparent .8px 5px);
-  mix-blend-mode:multiply}
-/* 양끝 그늘 */
-.plc-stage::after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;
-  background:linear-gradient(90deg,rgba(190,150,145,.16),transparent 14%,transparent 86%,rgba(190,150,145,.16))}
-
-.plc-deck{position:absolute;inset:0;z-index:2;transform-style:preserve-3d}
-
-.plc-card{--focus:0;position:absolute;top:50%;left:50%;
-  width:clamp(154px,16.8vw,238px);aspect-ratio:.72;padding:7px;overflow:hidden;
-  border:1px solid rgba(160,120,115,.34);border-radius:8px;color:var(--ink);background:#fff;
-  box-shadow:
-    0 calc(10px + var(--focus) * 24px) calc(18px + var(--focus) * 36px)
-      rgba(120,80,76,calc(.14 + var(--focus) * .2)),
-    inset 0 0 0 1px rgba(255,255,255,.9);
-  appearance:none;outline:none;transform-style:preserve-3d;
-  will-change:transform,opacity,filter;cursor:pointer;text-decoration:none;font:inherit}
-.plc-card::before{content:"";position:absolute;inset:5px;z-index:3;pointer-events:none;
-  border:1px solid rgba(160,120,115,calc(.16 + var(--focus) * .16))}
-.plc-card:focus-visible{box-shadow:0 26px 50px rgba(120,80,76,.34),0 0 0 4px rgba(233,145,142,.45)}
-
-/* 얼굴이 아니라 누끼 장비다 — 잘라내지 않고 담는다 */
-.plc-shot{position:absolute;inset:7px 7px 25%;overflow:hidden;display:flex;
-  align-items:flex-end;justify-content:center;padding:14px 12px 10px;
-  background:linear-gradient(180deg,#fdfbfa,#f4eeed)}
-.plc-shot img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;
-  transform:scale(calc(.96 + var(--focus) * .08));
-  filter:saturate(calc(.72 + var(--focus) * .28)) contrast(1.02);
-  transition:none}
-
-.plc-foot{position:absolute;right:7px;bottom:7px;left:7px;height:calc(25% - 7px);
-  display:grid;grid-template-columns:clamp(26px,3.2vw,43px) 1fr;align-items:center;
-  gap:clamp(6px,.7vw,11px);padding:clamp(7px,.8vw,12px);
-  color:#fff;background:var(--ink);text-align:left;border-radius:3px}
-.plc-no{display:grid;width:clamp(23px,2.7vw,37px);aspect-ratio:1;place-items:center;
-  border:1px solid var(--c);border-radius:50%;color:var(--c);
-  font:600 clamp(7px,.68vw,11px)/1 ui-monospace,"SFMono-Regular",monospace}
-.plc-meta{min-width:0}
-.plc-name,.plc-role{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.plc-name{color:#fff;font-size:clamp(9px,.92vw,14px);font-weight:800;letter-spacing:-.02em;line-height:1.15}
-.plc-role{margin-top:clamp(3px,.35vw,5px);color:var(--c);font-size:clamp(7px,.6vw,10px);
-  font-weight:700;letter-spacing:.06em;line-height:1}
-
-.plc-hint{margin:16px 0 0;text-align:center;font-size:13px;color:var(--mute);letter-spacing:-.2px}
-.plc-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
-  clip:rect(0,0,0,0);white-space:nowrap;border:0}
-
-@media (max-width:768px){
-  .plc-head{margin-bottom:20px}
-  .plc-h2{font-size:23px;letter-spacing:-1px}
-  .plc-lead{font-size:14.5px}
-  .plc-stage{height:clamp(330px,80vw,430px);border-radius:18px;
-    background:
-      linear-gradient(90deg,rgba(160,120,115,.07) 1px,transparent 1px) 50% 0 / 50% 100%,
-      repeating-linear-gradient(0deg,transparent 0,transparent 87px,rgba(160,120,115,.1) 88px,transparent 89px),
-      radial-gradient(circle at 50% 50%,rgba(255,255,255,.95),transparent 36%),
-      var(--paper)}
-  .plc-card{width:clamp(142px,47vw,180px)}
-  .plc-hint{font-size:12px}
-}
-@media (prefers-reduced-motion:reduce){.plc-card{will-change:auto}}
-</style>
-
-<section class="plc-sec" aria-labelledby="plc-title">
-
-  <header class="plc-head">
-    <span class="plc-kw">9 Original Devices</span>
-    <h2 class="plc-h2" id="plc-title">한 대로 끝내지 않습니다.<br><em>아홉 대를 층에 맞춰</em> 조합합니다.</h2>
-    <p class="plc-lead">원리가 서로 다른 아홉 가지 오리지널 장비를 갖추고, 진단 결과에 따라 필요한 것만 골라 순서대로 씁니다.</p>
-  </header>
-
-  <div class="plc-stage" aria-label="장비 9종 둘러보기">
-    <p class="plc-sr">좌우로 끌거나 방향키로 장비를 넘길 수 있습니다. 카드를 누르면 해당 장비 페이지로 이동합니다.</p>
-    <div class="plc-deck"></div>
-  </div>
-
-  <p class="plc-hint">카드를 끌어 넘기고, 눌러서 장비별 상세를 확인하세요</p>
-
-</section>
-
-<script>
-(function(){
-  var root = document.querySelector('.plc-sec');
-  if (!root || root.dataset.plcReady) return;
-  root.dataset.plcReady = '1';
-
-  var CDN = 'https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered';
-  var profiles = [
-        ["소프웨이브","SUPERB 초음파","sofwave","/139"],
-        ["써마지 FLX","모노폴라 RF","thermage","/41"],
-        ["포트라 콰트로","4파장 다이오드","fortra","/titanium-fortra-quattro"],
-        ["세르프(XERF)","듀얼 모노폴라 RF","xerf","/155"],
-        ["덴서티","모노+바이폴라 RF","density","/153"],
-        ["온다","마이크로웨이브","onda","/42"],
-        ["올타이트","유전가열 DLTD","alltite","/alltite-lifting"],
-        ["리니어지","선·점 HIFU","linearz","/154"],
-        ["울쎄라피 프라임","초음파 HIFU","ulthera","/40"]
-      ].map(function(a){ return {name:a[0], role:a[1], slug:a[2], url:a[3]}; });
-
-  var stage = root.querySelector('.plc-stage');
-  var deck  = root.querySelector('.plc-deck');
-
-  var cards = profiles.map(function(p, index){
-    var card = document.createElement('a');
-    card.className = 'plc-card';
-    card.href = p.url;
-    card.dataset.index = String(index);
-    card.setAttribute('aria-label', p.name + ' · ' + p.role);
-    card.innerHTML =
-      '<span class="plc-shot"><img src="' + CDN + '/hero-' + p.slug + '.webp" alt="' + p.name +
-        '" loading="lazy" decoding="async"></span>' +
-      '<span class="plc-foot">' +
-        '<span class="plc-no">' + String(index + 1).padStart(2, '0') + '</span>' +
-        '<span class="plc-meta">' +
-          '<span class="plc-name">' + p.name + '</span>' +
-          '<span class="plc-role">' + p.role + '</span>' +
-        '</span>' +
-      '</span>';
-    deck.appendChild(card);
-    return card;
-  });
-
-  var count = cards.length;
-  var reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var state = {phase:3, target:3, base:3, pointerX:0, pointerY:0, active:false, lastInput:performance.now()};
-  var running = true, dragged = false;
-
-  function wrappedDelta(index, phase){
-    var d = index - phase;
-    while (d > count / 2) d -= count;
-    while (d < -count / 2) d += count;
-    return d;
-  }
-  function nearestIndex(){ return (Math.round(state.phase) % count + count) % count; }
-  function moveTo(index){
-    var cur = nearestIndex(), d = index - cur;
-    if (d > count / 2) d -= count;
-    if (d < -count / 2) d += count;
-    state.base += d; state.target = state.base; state.active = false;
-    state.lastInput = performance.now();
-  }
-
-  cards.forEach(function(card, index){
-    /* 카드가 링크라 클릭은 장비 페이지로 간다. 다만 끌어서 넘긴 직후의 클릭은 막는다. */
-    card.addEventListener('click', function(e){ if (dragged){ e.preventDefault(); dragged = false; } });
-    card.addEventListener('focus', function(){ moveTo(index); });
-  });
-
-  stage.addEventListener('pointermove', function(e){
-    var r = stage.getBoundingClientRect();
-    var nx = Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width - 0.5) * 2));
-    var ny = Math.max(-1, Math.min(1, ((e.clientY - r.top) / r.height - 0.5) * 2));
-    state.pointerX = nx; state.pointerY = ny; state.active = true;
-    state.target = state.base + nx * 3.1;
-    state.lastInput = performance.now();
-    stage.style.setProperty('--pointer-x', ((nx + 1) * 50) + '%');
-  });
-  stage.addEventListener('pointerleave', function(){
-    state.active = false; state.pointerX = 0; state.pointerY = 0; state.target = state.base;
-    stage.style.setProperty('--pointer-x', '50%');
-  });
-
-  /* 세로 휠은 페이지에 넘긴다 — 위젯 위에서 스크롤이 멈추면 안 된다.
-     가로 휠(트랙패드 좌우) 과 Shift+휠 만 카드 이동에 쓴다. */
-  stage.addEventListener('wheel', function(e){
-    var horizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey;
-    if (!horizontal) return;
-    var dir = Math.sign(e.shiftKey ? e.deltaY : e.deltaX);
-    if (!dir) return;
-    e.preventDefault();
-    state.base += dir; state.target = state.base; state.active = false;
-    state.lastInput = performance.now();
-  }, {passive:false});
-
-  /* 방향키는 위젯 안에 포커스가 있을 때만 — 페이지 전역에서 가로채면 안 된다 */
-  root.addEventListener('keydown', function(e){
-    var fwd = e.key === 'ArrowRight' || e.key === 'ArrowDown';
-    var back = e.key === 'ArrowLeft' || e.key === 'ArrowUp';
-    if (!fwd && !back) return;
-    e.preventDefault();
-    state.base += fwd ? 1 : -1; state.target = state.base; state.active = false;
-    state.lastInput = performance.now();
-  });
-
-  /* 터치·드래그로 넘기기 */
-  var down = false, x0 = 0, b0 = 0;
-  stage.addEventListener('pointerdown', function(e){
-    down = true; dragged = false; x0 = e.clientX; b0 = state.base;
-  });
-  stage.addEventListener('pointermove', function(e){
-    if (!down) return;
-    var d = (x0 - e.clientX) / (innerWidth < 769 ? 66 : 90);
-    if (Math.abs(d) > 0.12) dragged = true;
-    state.base = b0 + d; state.target = state.base; state.active = false;
-    state.lastInput = performance.now();
-  });
-  function release(){ if (!down) return; down = false; state.base = Math.round(state.base); state.target = state.base; }
-  stage.addEventListener('pointerup', release);
-  stage.addEventListener('pointercancel', release);
-  stage.addEventListener('pointerleave', release);
-
-  /* 화면 밖이거나 탭이 숨겨져 있으면 프레임을 돌리지 않는다 */
-  if (window.IntersectionObserver){
-    new IntersectionObserver(function(es){
-      for (var i = 0; i < es.length; i++){
-        var on = es[i].isIntersecting && !document.hidden;
-        if (on && !running){ running = true; previousTime = performance.now(); requestAnimationFrame(render); }
-        running = on;
-      }
-    }, {threshold:.04}).observe(stage);
-  }
-  document.addEventListener('visibilitychange', function(){
-    if (!document.hidden && !running){ running = true; previousTime = performance.now(); requestAnimationFrame(render); }
-    else if (document.hidden) running = false;
-  });
-
-  var previousTime = performance.now();
-
-  function render(time){
-    if (!running) return;
-    var dt = Math.min(32, time - previousTime);
-    previousTime = time;
-    var ease = reducedMotion ? 1 : 1 - Math.pow(0.001, dt / 1000);
-
-    if (!state.active && !down && time - state.lastInput > 3600){
-      var idle = time - state.lastInput - 3600;
-      state.target = state.base + Math.sin(idle * 0.00042) * 2.45;
-    }
-
-    state.phase += (state.target - state.phase) * ease;
-    var activeIndex = nearestIndex();
-    /* 간격을 카드 폭에 비례시키면 화면 크기와 무관하게 겹침 비율이 같다 */
-    var cardW = cards[0].offsetWidth || 200;
-    var hSpacing = cardW * 0.70;
-
-    cards.forEach(function(card, index){
-      var delta = wrappedDelta(index, state.phase);
-      var distance = Math.abs(delta);
-      var focus = Math.exp(-distance * distance * 1.28);
-      var side = Math.max(0, 1 - distance / 5);
-      var dir = Math.sign(delta);
-      var x = delta * hSpacing;
-      var y = distance * 8 + state.pointerY * focus * 10;
-      var z = focus * 145 - distance * 148;
-      var scale = 0.54 + side * 0.15 + focus * 0.54;
-      var rotateX = -state.pointerY * focus * 3.5;
-      var rotateY = -dir * (distance > 0.2 ? 14 + Math.min(distance, 3) * 5 : 0) + state.pointerX * focus * 3;
-      var rotateZ = delta * 0.7;
-
-      card.style.setProperty('--focus', focus.toFixed(4));
-      card.style.zIndex = String(Math.round(1000 - distance * 100));
-      card.style.opacity = String(Math.max(0.13, side * 0.76 + focus * 0.24));
-      card.style.filter = 'blur(' + (Math.max(0, distance - 1.5) * 0.38).toFixed(2) + 'px)';
-      card.style.transform = [
-        'translate(-50%, -50%)',
-        'translate3d(' + x.toFixed(2) + 'px, ' + y.toFixed(2) + 'px, ' + z.toFixed(2) + 'px)',
-        'rotateX(' + rotateX.toFixed(2) + 'deg)',
-        'rotateY(' + rotateY.toFixed(2) + 'deg)',
-        'rotateZ(' + rotateZ.toFixed(2) + 'deg)',
-        'scale(' + scale.toFixed(4) + ')'
-      ].join(' ');
-      card.setAttribute('aria-current', index === activeIndex ? 'true' : 'false');
-    });
-
-    requestAnimationFrame(render);
-  }
-  requestAnimationFrame(render);
 })();
 </script>
 
