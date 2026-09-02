@@ -1473,15 +1473,31 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
     transition:color .18s var(--ease-out), transform .28s var(--ease-out);
   }
   .bbx__wm-sp{ display:inline-block; width:.34em; }
-  /* 커서가 닿은 글자는 흰 채움이 빠지고 뒤 장면이 그대로 드러난다.
-     글자와 3D 캔버스 사이에 불투명 층이 없어(전부 투명) 채움만 비우면
-     실제 캔버스가 보인다 — 배경 사진을 복사해 넣을 필요가 없다. */
+  /* 커서가 닿은 글자는 유리로 바뀐다 — 속은 진짜 구멍이라 뒤 3D 장면이 그대로
+     보이고, 글자 모양을 두 겹 더 얹어 두께를 만든다:
+       ::after  윗면 — 얇은 흰 하이라이트 + 10% 서리 (좌상단으로 1px)
+       ::before 아랫면 — 어두운 두께 + 떠 있는 그림자 (우하단으로 2px)
+     외곽선 한 줄이 아니라 빛 받는 면/그늘 면이 갈리므로 입체로 읽힌다. */
   .bbx__wm-ch{ position:relative; }
   .bbx__wm-ch:hover{
     -webkit-text-fill-color:transparent; color:transparent;
     text-shadow:none;
-    -webkit-text-stroke:1.4px rgba(223,231,224,.62);   /* 형태는 윤곽으로 남긴다 */
-    transform:translateY(-.06em);
+    transform:translateY(-.05em) scale(1.035);
+  }
+  .bbx__wm-ch:hover::before, .bbx__wm-ch:hover::after{
+    content:attr(data-ch); position:absolute; inset:0; pointer-events:none;
+    font:inherit; letter-spacing:inherit; line-height:inherit;
+  }
+  .bbx__wm-ch:hover::before{
+    z-index:-1; color:transparent;
+    -webkit-text-stroke:1.3px rgba(0,0,0,.58);
+    transform:translate(1.6px,2.2px);
+    filter:drop-shadow(0 14px 18px rgba(0,0,0,.55)) drop-shadow(0 3px 4px rgba(0,0,0,.35));
+  }
+  .bbx__wm-ch:hover::after{
+    color:rgba(255,255,255,.10);                 /* 서리 낀 유리처럼 아주 옅게 */
+    -webkit-text-stroke:1px rgba(255,255,255,.78);
+    transform:translate(-1px,-1.2px);
   }
   /* 마우스가 없는 기기에서는 호버가 잡히지 않으니 대비만 살짝 준다 */
   @media (hover:none){ .bbx__wordmark{ color:#e8efe9; } }
