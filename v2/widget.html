@@ -12,7 +12,7 @@
   --ink:#1c1c1c; --ink2:#2d2d2d; --mute:#76726f; --line:#e7e2dc; --cream:#f7f4ef; --cream2:#efe9e2;
   --accent:#b5726a; --dark:#2b2320;
   --font:Pretendard,"Pretendard Variable",-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;
-  --w:1180px; --pad:clamp(20px,4vw,48px);
+  --w:1320px; --pad:clamp(20px,4vw,48px);
   position:relative; background:#fff; color:var(--ink); font-family:var(--font); font-weight:400;
   font-size:16px; line-height:1.7; letter-spacing:-.01em; word-break:keep-all; overflow:visible;
 }
@@ -96,7 +96,10 @@
 .bbx__s2-copy .bbx__p{margin-top:14px}
 
 /* ===== S3 스티키 : 증상 / 층 / 부위 ===== */
-.bbx__s3-inner{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:clamp(32px,5vw,80px);align-items:start}
+/* 증상·층·부위 박스가 세로로 길어지지 않게 — 이 섹션만 넓은 컨테이너를 쓰고
+   좌측 제목 열을 340px 로 고정해 우측 박스가 남는 폭을 전부 가져간다 */
+.bbx__s3 .bbx__wrap{width:min(1600px,100% - var(--pad)*2)}
+.bbx__s3-inner{display:grid;grid-template-columns:minmax(260px,340px) minmax(0,1fr);gap:clamp(32px,4vw,64px);align-items:start}
 .bbx__s3-left{position:sticky;top:96px}
 .bbx__s3-left .bbx__p{margin-top:22px;max-width:36ch}
 .bbx__s3-item{padding-bottom:clamp(48px,6vw,88px)}
@@ -106,7 +109,7 @@
 .bbx__s3-head span{margin-left:auto;font-size:16px;font-weight:300;opacity:.9}
 .bbx__s3-body{border:1px solid var(--line);border-top:0;border-radius:0 0 6px 6px;padding:clamp(20px,2.6vw,36px)}
 .bbx__s3-body>.bbx__p{text-align:center;margin-bottom:26px}
-.bbx__sym{display:grid;grid-template-columns:240px 1fr;gap:28px;align-items:start;padding:24px 0;border-top:1px solid var(--line)}
+.bbx__sym{display:grid;grid-template-columns:300px 1fr;gap:32px;align-items:center;padding:26px 0;border-top:1px solid var(--line)}
 .bbx__sym:first-of-type{border-top:0;padding-top:0}
 .bbx__sym h5{margin:0 0 10px;font-size:19px;font-weight:600}
 .bbx__sym li{font-size:15.5px;color:var(--mute);line-height:1.75;padding-left:12px;text-indent:-12px}
@@ -117,9 +120,9 @@
 @media (max-width:520px){.bbx__rc{display:block;margin:0;padding:3px 0}}
 /* 그리드 자식은 min-width:auto 라 안쪽 min-width(760px SVG)가 열을 밀어 문서를 넘치게 한다 */
 .bbx__s3-inner>*,.bbx__s3-body,.bbx__s3-item,.bbx__sym>*,.bbx__areas>*,.bbx__s1-grid>*{min-width:0}
-.bbx__diagram-wrap{width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:6px}
+.bbx__diagram-wrap{width:100%;max-width:980px;margin-inline:auto;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:6px}
 .bbx__diagram{width:100%;height:auto;display:block}
-.bbx__diagram-note{margin-top:12px;font-size:14px;line-height:1.7;color:var(--mute)}
+.bbx__diagram-note{max-width:980px;margin:12px auto 0;font-size:14px;line-height:1.7;color:var(--mute)}
 .bbx__diagram-hint{display:none;margin-top:10px;font-size:13.5px;color:var(--mute);text-align:center}
 .bbx__areas{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;align-items:center}
 .bbx__areas ul{display:grid;gap:8px}
