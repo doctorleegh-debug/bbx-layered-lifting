@@ -7,9 +7,9 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Pretendard',Arial,sans-serif}
 body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
-.wrap{width:1250px;margin:0 auto}
-@media (max-width:1300px){.wrap{width:calc(100% - 40px)}}
-@media (max-width:768px){.wrap{width:345px}}
+/* 아임웹 '전체 너비' 섹션을 가정한 풀폭 그릇 */
+.wrap{width:100%;padding-inline:clamp(16px,3vw,48px)}
+@media (max-width:768px){.wrap{padding-inline:15px}}
 .bar{position:sticky;top:0;z-index:50;background:#2b2320;color:#fff;font-size:13px;line-height:1.5;
   padding:11px 20px;text-align:center;letter-spacing:-.2px}
 .bar b{color:#E9918E;font-weight:700}
@@ -31,14 +31,16 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
    · 사이트 전역 `*{margin:0;padding:0}` 을 전제로 여백을 전부 명시한다
    · Pretendard 는 바디코드가 이미 싣고 있어 다시 부르지 않는다 */
 .plh-sec{--c:#E9918E;--c-dk:#d4706d;--c-lt:#f4a6a3;--ink:#363636;--ink2:#6a6a6a;--mute:#8d8785;--line:#efe8e7;
-  max-width:1250px;margin:0 auto;padding:8px 0 30px;color:var(--ink);
+  width:100%;max-width:1720px;margin:0 auto;padding:8px 0 30px;color:var(--ink);
   font-family:'Pretendard',-apple-system,BlinkMacSystemFont,system-ui,'Noto Sans KR',sans-serif;
   word-break:keep-all;overflow-wrap:break-word;text-align:left}
 .plh-sec *{box-sizing:border-box}
 
 /* ── 위: 제목 / 특징 ── */
 .plh-top{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
-  gap:clamp(30px,4vw,64px);align-items:center;margin-bottom:clamp(34px,4vw,54px)}
+  gap:clamp(30px,4vw,64px);align-items:center;margin-bottom:clamp(34px,4vw,54px);
+  max-width:1400px;margin-inline:auto}
+.plh-lead,.plh-close{max-width:44ch}
 .plh-h1{margin:0 0 14px;font-size:clamp(38px,4.4vw,60px);font-weight:800;line-height:1.16;
   letter-spacing:-2.2px;color:var(--ink)}
 .plh-sub{display:block;margin:0 0 18px;font-size:clamp(20px,2vw,29px);font-weight:700;
@@ -85,10 +87,10 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 .plh-track-wrap:hover .plh-track,.plh-track-wrap:focus-within .plh-track{animation-play-state:paused}
 @keyframes plh-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .plh-slide{flex:none;margin:0;padding:0 clamp(14px,1.6vw,26px)}
-.plh-card{display:flex;flex-direction:column;align-items:center;width:clamp(150px,13vw,186px);
+.plh-card{display:flex;flex-direction:column;align-items:center;width:clamp(150px,12vw,220px);
   text-decoration:none;color:inherit}
 .plh-shot{display:flex;align-items:flex-end;justify-content:center;
-  height:clamp(150px,15vw,200px);margin-bottom:16px}
+  height:clamp(150px,14vw,246px);margin-bottom:16px}
 .plh-shot img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;
   filter:drop-shadow(0 10px 18px rgba(60,40,38,.12));transition:transform .35s cubic-bezier(.22,.61,.36,1)}
 .plh-card:hover .plh-shot img,.plh-card:focus-visible .plh-shot img{transform:translateY(-8px) scale(1.05)}
@@ -363,7 +365,7 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
    · 사이트 전역 `*{margin:0;padding:0}` 을 전제로 여백을 전부 명시한다
    · Pretendard 는 바디코드가 이미 싣고 있어 다시 부르지 않는다 */
 .pll-sec{--c:#E9918E;--c-dk:#d4706d;--ink:#363636;--ink2:#555;--mute:#8d8785;--line:#ece6e5;
-  max-width:1250px;margin:0 auto;padding:10px 0 28px;color:var(--ink);
+  width:100%;max-width:1720px;margin:0 auto;padding:10px 0 28px;color:var(--ink);
   font-family:'Pretendard',-apple-system,BlinkMacSystemFont,system-ui,'Noto Sans KR',sans-serif;
   word-break:keep-all;overflow-wrap:break-word;text-align:left}
 .pll-sec *{box-sizing:border-box}
@@ -379,7 +381,8 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 
 /* ── 단면 무대 : 층 이름이 그 층 위에 얹힌다 ── */
 .pll-diagram{position:relative}
-.pll-stage{position:relative;width:100%;aspect-ratio:2400/1018;border-radius:14px;overflow:hidden;
+.pll-stage{position:relative;width:100%;max-width:2400px;margin-inline:auto;
+  aspect-ratio:2400/1018;border-radius:14px;overflow:hidden;
   background:#fdf3f1;box-shadow:0 14px 38px rgba(0,0,0,.1)}
 .pll-stage>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:left center;
   transition:filter .7s ease}
@@ -421,7 +424,8 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 .pll-rail-h u{flex:1;height:1px;text-decoration:none;
   background:linear-gradient(90deg,#f2dedc,#e5d4d2 50%,transparent)}
 .pll-rail-h small{font-size:12.5px;font-weight:600;color:var(--mute)}
-.pll-chips{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
+.pll-chips{list-style:none;margin:0;padding:0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:10px}
 .pll-chips li{margin:0;min-width:0}
 .pll-chip{position:relative;display:flex;align-items:center;gap:12px;height:100%;padding:10px 14px;
   border-radius:14px;border:1px solid transparent;background:#faf7f6;text-decoration:none;overflow:hidden;
@@ -462,7 +466,6 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 .pll-chip.is-fire{animation:pll-press .42s cubic-bezier(.34,1.56,.64,1)}
 @keyframes pll-press{0%{transform:scale(.97)}55%{transform:translateY(-3px) scale(1.02)}100%{transform:none}}
 
-.pll-note{margin:18px 0 0;font-size:13.5px;line-height:1.75;color:var(--mute)}
 
 /* ═══ 레이저 — LaserFlow 계열 표현 ═══
    빔은 위가 실처럼 가늘고 아래로 퍼지다가 도달 깊이에서 터진다.
@@ -593,7 +596,6 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
   .pll-chip-img{width:26px;height:42px}
   .pll-chip b{font-size:13.5px}
   .pll-chip em{font-size:11px}
-  .pll-note{font-size:12.5px}
 }
 @media (prefers-reduced-motion:reduce){
   .pll-rv{opacity:1;transform:none;transition:none}
@@ -706,8 +708,6 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
   </div>
   </div>
 
-
-  <p class="pll-note pll-rv d2">장비 이름에 마우스를 올리면 해당 장비의 에너지가 닿는 깊이를 단면에서 확인할 수 있습니다. 각 장비는 주력 작용 층에 표기했으며 실제 도달 범위는 여러 층에 걸칩니다. 시술 구성은 의료진 진단 후 개인별로 설계됩니다.</p>
 
 </section>
 
