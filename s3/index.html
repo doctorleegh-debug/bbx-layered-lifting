@@ -136,12 +136,12 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
    ThreeUI CharacterCarousel (filmstrip) · MIT — 구조와 모션은 원본 그대로,
    색·이미지·문구만 사이트에 맞췄다. 클래스는 전부 plc- 로 감싸 아임웹과 부딪히지 않는다. */
 .plc-sec{--c:#E9918E;--c-dk:#d4706d;--ink:#2f2523;--ink2:#5f5754;--mute:#918a87;--paper:#faf5f4;
-  width:100%;max-width:1720px;margin:0 auto;padding:8px 0 30px;color:var(--ink);
+  width:100%;max-width:1720px;margin:0 auto;padding:8px 0 16px;color:var(--ink);
   font-family:'Pretendard',-apple-system,BlinkMacSystemFont,system-ui,'Noto Sans KR',sans-serif;
   word-break:keep-all;text-align:left}
 .plc-sec *{box-sizing:border-box}
 
-.plc-head{max-width:1000px;margin:0 auto 26px;text-align:center}
+.plc-head{max-width:1000px;margin:0 auto 22px;text-align:center}
 .plc-kw{display:block;margin:0 0 12px;font-size:13px;font-weight:700;letter-spacing:.22em;
   text-transform:uppercase;color:var(--c)}
 .plc-h2{margin:0 0 14px;font-size:clamp(25px,2.7vw,38px);font-weight:700;line-height:1.35;letter-spacing:-1.3px}
@@ -149,7 +149,7 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 .plc-lead{margin:0;font-size:clamp(14.5px,1.2vw,17px);line-height:1.8;letter-spacing:-.6px;color:var(--ink2)}
 
 /* ── 무대 : 원근 레일 ── */
-.plc-stage{--pointer-x:50%;position:relative;width:100%;height:clamp(430px,42vw,620px);
+.plc-stage{--pointer-x:50%;position:relative;width:100%;height:clamp(345px,33vw,500px);
   overflow:hidden;isolation:isolate;perspective:1450px;cursor:ew-resize;touch-action:pan-y;
   border-radius:24px;
   background:
@@ -211,7 +211,7 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
   .plc-head{margin-bottom:20px}
   .plc-h2{font-size:23px;letter-spacing:-1px}
   .plc-lead{font-size:14.5px}
-  .plc-stage{height:clamp(330px,80vw,430px);border-radius:18px;
+  .plc-stage{height:clamp(290px,72vw,380px);border-radius:18px;
     background:
       linear-gradient(90deg,rgba(160,120,115,.07) 1px,transparent 1px) 50% 0 / 50% 100%,
       repeating-linear-gradient(0deg,transparent 0,transparent 87px,rgba(160,120,115,.1) 88px,transparent 89px),
@@ -281,8 +281,9 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 
   var count = cards.length;
   var reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var state = {phase:3, target:3, base:3, pointerX:0, pointerY:0, active:false, lastInput:performance.now()};
-  var running = true, dragged = false;
+  var state = {phase:3, target:3, base:3};
+  var running = true, dragged = false, hovering = false;
+  var AUTO = 1 / 2600;   /* ms 당 카드 수 — 한 장 넘어가는 데 2.6초 */
 
   function wrappedDelta(index, phase){
     var d = index - phase;
@@ -295,9 +296,7 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
     var cur = nearestIndex(), d = index - cur;
     if (d > count / 2) d -= count;
     if (d < -count / 2) d += count;
-    state.base += d; state.target = state.base; state.active = false;
-    state.lastInput = performance.now();
-  }
+    state.base += d; state.target = state.base;   }
 
   cards.forEach(function(card, index){
     /* 카드가 링크라 클릭은 장비 페이지로 간다. 다만 끌어서 넘긴 직후의 클릭은 막는다. */
@@ -305,17 +304,16 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
     card.addEventListener('focus', function(){ moveTo(index); });
   });
 
+  /* 마우스를 올리는 것만으로는 덱이 움직이지 않는다 — 배경 조명만 따라온다.
+     대신 흐름을 멈춰 읽을 수 있게 한다. */
+  stage.addEventListener('pointerenter', function(){ hovering = true; });
   stage.addEventListener('pointermove', function(e){
     var r = stage.getBoundingClientRect();
     var nx = Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width - 0.5) * 2));
-    var ny = Math.max(-1, Math.min(1, ((e.clientY - r.top) / r.height - 0.5) * 2));
-    state.pointerX = nx; state.pointerY = ny; state.active = true;
-    state.target = state.base + nx * 3.1;
-    state.lastInput = performance.now();
     stage.style.setProperty('--pointer-x', ((nx + 1) * 50) + '%');
   });
   stage.addEventListener('pointerleave', function(){
-    state.active = false; state.pointerX = 0; state.pointerY = 0; state.target = state.base;
+    hovering = false;
     stage.style.setProperty('--pointer-x', '50%');
   });
 
@@ -327,9 +325,7 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
     var dir = Math.sign(e.shiftKey ? e.deltaY : e.deltaX);
     if (!dir) return;
     e.preventDefault();
-    state.base += dir; state.target = state.base; state.active = false;
-    state.lastInput = performance.now();
-  }, {passive:false});
+    state.base += dir; state.target = state.base;   }, {passive:false});
 
   /* 방향키는 위젯 안에 포커스가 있을 때만 — 페이지 전역에서 가로채면 안 된다 */
   root.addEventListener('keydown', function(e){
@@ -337,9 +333,7 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
     var back = e.key === 'ArrowLeft' || e.key === 'ArrowUp';
     if (!fwd && !back) return;
     e.preventDefault();
-    state.base += fwd ? 1 : -1; state.target = state.base; state.active = false;
-    state.lastInput = performance.now();
-  });
+    state.base += fwd ? 1 : -1; state.target = state.base;   });
 
   /* 터치·드래그로 넘기기 */
   var down = false, x0 = 0, b0 = 0;
@@ -350,13 +344,12 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
     if (!down) return;
     var d = (x0 - e.clientX) / (innerWidth < 769 ? 66 : 90);
     if (Math.abs(d) > 0.12) dragged = true;
-    state.base = b0 + d; state.target = state.base; state.active = false;
-    state.lastInput = performance.now();
-  });
-  function release(){ if (!down) return; down = false; state.base = Math.round(state.base); state.target = state.base; }
+    state.base = b0 + d; state.target = state.base;   });
+  function release(){ if (!down) return; down = false; state.target = state.base; }
   stage.addEventListener('pointerup', release);
   stage.addEventListener('pointercancel', release);
   stage.addEventListener('pointerleave', release);
+  stage.addEventListener('pointerup', function(){ setTimeout(function(){ dragged = false; }, 40); });
 
   /* 화면 밖이거나 탭이 숨겨져 있으면 프레임을 돌리지 않는다 */
   if (window.IntersectionObserver){
@@ -381,16 +374,17 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
     previousTime = time;
     var ease = reducedMotion ? 1 : 1 - Math.pow(0.001, dt / 1000);
 
-    if (!state.active && !down && time - state.lastInput > 3600){
-      var idle = time - state.lastInput - 3600;
-      state.target = state.base + Math.sin(idle * 0.00042) * 2.45;
+    /* 끌고 있거나 마우스를 올려두면 멈춘다. 그 밖에는 계속 흐른다. */
+    if (!down && !hovering && !reducedMotion){
+      state.base += AUTO * dt;
+      state.target = state.base;
     }
 
     state.phase += (state.target - state.phase) * ease;
     var activeIndex = nearestIndex();
     /* 간격을 카드 폭에 비례시키면 화면 크기와 무관하게 겹침 비율이 같다 */
     var cardW = cards[0].offsetWidth || 200;
-    var hSpacing = cardW * 0.70;
+    var hSpacing = cardW * 0.78;
 
     cards.forEach(function(card, index){
       var delta = wrappedDelta(index, state.phase);
@@ -399,11 +393,11 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
       var side = Math.max(0, 1 - distance / 5);
       var dir = Math.sign(delta);
       var x = delta * hSpacing;
-      var y = distance * 8 + state.pointerY * focus * 10;
+      var y = distance * 8;
       var z = focus * 145 - distance * 148;
       var scale = 0.54 + side * 0.15 + focus * 0.54;
-      var rotateX = -state.pointerY * focus * 3.5;
-      var rotateY = -dir * (distance > 0.2 ? 14 + Math.min(distance, 3) * 5 : 0) + state.pointerX * focus * 3;
+      var rotateX = 0;
+      var rotateY = -dir * (distance > 0.2 ? 14 + Math.min(distance, 3) * 5 : 0);
       var rotateZ = delta * 0.7;
 
       card.style.setProperty('--focus', focus.toFixed(4));
@@ -954,7 +948,7 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
   word-break:keep-all;overflow-wrap:break-word;text-align:left}
 .pls-sec *{box-sizing:border-box}
 
-.pls-head{max-width:1000px;margin:0 auto 38px;text-align:center}
+.pls-head{max-width:1000px;margin:0 auto 30px;text-align:center}
 .pls-kw{display:block;margin:0 0 14px;font-size:13px;font-weight:700;letter-spacing:.22em;
   text-transform:uppercase;color:var(--c)}
 .pls-h2{margin:0 0 16px;font-size:clamp(26px,2.9vw,40px);font-weight:700;line-height:1.35;letter-spacing:-1.4px}
@@ -962,10 +956,10 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 .pls-lead{margin:0;font-size:clamp(15px,1.25vw,18px);line-height:1.8;letter-spacing:-.6px;color:var(--ink2)}
 
 /* ── 증상 한 줄 ── */
-.pls-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px;
+.pls-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;
   max-width:1280px;margin-inline:auto}
-.pls-row{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.05fr);align-items:center;
-  gap:clamp(16px,2.4vw,38px);padding:24px clamp(22px,2.6vw,36px);background:#fff;border-radius:22px;
+.pls-row{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.1fr);align-items:center;
+  gap:clamp(14px,2vw,30px);padding:16px clamp(18px,2.2vw,28px);background:#fff;border-radius:20px;
   border:1px solid var(--line);box-shadow:0 8px 26px rgba(80,55,52,.06);
   transition:transform .3s cubic-bezier(.22,.61,.36,1),box-shadow .3s,border-color .3s}
 .pls-row:hover{transform:translateY(-4px);border-color:rgba(233,145,142,.45);
@@ -973,8 +967,8 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 
 .pls-symptom{position:relative;min-width:0;text-align:right;padding-right:clamp(4px,1vw,14px)}
 .pls-no{display:block;margin:0 0 7px;font-size:12px;font-weight:800;letter-spacing:.16em;color:var(--c);opacity:.8}
-.pls-title{margin:0 0 8px;font-size:clamp(18px,1.6vw,23px);font-weight:700;line-height:1.35;letter-spacing:-.8px}
-.pls-desc{margin:0 0 10px;font-size:clamp(13.5px,1.05vw,15px);line-height:1.65;color:var(--ink2)}
+.pls-title{margin:0 0 6px;font-size:clamp(18px,1.6vw,23px);font-weight:700;line-height:1.35;letter-spacing:-.8px}
+.pls-desc{margin:0 0 8px;font-size:clamp(13.5px,1.05vw,15px);line-height:1.65;color:var(--ink2)}
 .pls-layer{display:inline-block;padding:5px 12px;border-radius:999px;background:var(--c-bg);
   font-size:12px;font-weight:700;letter-spacing:-.2px;color:var(--c-dk)}
 
@@ -986,21 +980,24 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 .pls-devs{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;
   gap:clamp(10px,1.4vw,20px);min-width:0}
 .pls-devs li{margin:0;min-width:0}
-.pls-dev{display:flex;align-items:center;gap:13px;padding:10px 16px 10px 12px;border-radius:16px;
-  background:#fbf8f7;text-decoration:none;color:inherit;transition:background .25s,box-shadow .25s}
-.pls-dev:hover,.pls-dev:focus-visible{background:#fff;outline:none;
-  box-shadow:0 6px 18px rgba(233,145,142,.24),0 0 0 1px rgba(233,145,142,.35)}
-.pls-shot{flex:none;display:flex;align-items:flex-end;justify-content:center;width:44px;height:66px}
+.pls-dev{display:flex;flex-direction:column;align-items:stretch;gap:8px;
+  width:clamp(128px,11.4vw,168px);aspect-ratio:1;padding:13px 11px;border-radius:18px;
+  background:#fbf8f7;text-decoration:none;color:inherit;text-align:center;
+  transition:background .25s,box-shadow .25s,transform .25s}
+.pls-dev:hover,.pls-dev:focus-visible{background:#fff;outline:none;transform:translateY(-3px);
+  box-shadow:0 10px 24px rgba(233,145,142,.24),0 0 0 1px rgba(233,145,142,.35)}
+/* 사진이 남는 높이를 전부 가져간다 — 그래야 카드가 정사각을 지킨다 */
+.pls-shot{flex:1 1 0;min-height:0;display:flex;align-items:flex-end;justify-content:center;width:100%}
 .pls-shot img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;
   filter:drop-shadow(0 6px 10px rgba(60,40,38,.14));transition:transform .3s cubic-bezier(.22,.61,.36,1)}
 .pls-dev:hover .pls-shot img,.pls-dev:focus-visible .pls-shot img{transform:translateY(-4px) scale(1.06)}
-.pls-dev-t{display:flex;flex-direction:column;gap:2px;min-width:0}
-.pls-dev-t b{font-size:clamp(14px,1.15vw,16px);font-weight:700;line-height:1.3;letter-spacing:-.4px;
-  transition:color .25s}
+.pls-dev-t{flex:none;display:flex;flex-direction:column;gap:1px;min-width:0;width:100%;text-align:center}
+.pls-dev-t b{font-size:clamp(13px,1.05vw,15.5px);font-weight:700;line-height:1.28;letter-spacing:-.4px;
+  word-break:keep-all;transition:color .25s}
 .pls-dev:hover b,.pls-dev:focus-visible b{color:var(--c-dk)}
 .pls-dev-t em{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.08em;
   text-transform:uppercase;color:var(--c)}
-.pls-dev-t i{font-style:normal;font-size:12px;color:var(--mute);line-height:1.35}
+.pls-dev-t i{font-style:normal;font-size:clamp(11px,.88vw,12px);color:var(--mute);line-height:1.35}
 
 /* 스크롤 등장 */
 .pls-rv{opacity:0;transform:translateY(24px);
@@ -1009,9 +1006,8 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
 
 /* ── 태블릿 ── */
 @media (max-width:1080px){
-  .pls-row{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:18px;padding:20px 22px}
-  .pls-dev{padding:8px 12px 8px 9px;gap:10px}
-  .pls-shot{width:38px;height:56px}
+  .pls-row{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:16px;padding:15px 18px}
+  .pls-dev{width:clamp(118px,13vw,150px);padding:12px 9px;gap:7px}
 }
 /* ── 모바일 : 증상 위 / 장비 아래 ── */
 @media (max-width:768px){
@@ -1030,14 +1026,13 @@ body{margin:0;background:#fff;-webkit-font-smoothing:antialiased}
   .pls-row:hover .pls-arrow{transform:rotate(90deg)}
   .pls-arrow svg{width:18px;height:18px}
   .pls-devs{justify-content:center;gap:9px}
-  .pls-devs li{flex:1 1 calc(50% - 5px);max-width:210px}
-  .pls-dev{padding:9px 10px;gap:9px}
-  .pls-shot{width:34px;height:50px}
+  .pls-devs li{flex:0 1 auto}
+  .pls-dev{width:clamp(112px,33vw,142px);padding:12px 8px;gap:7px}
   .pls-dev-t b{font-size:13.5px}
   .pls-dev-t i{font-size:11.5px}
 }
 @media (max-width:400px){
-  .pls-devs li{flex-basis:100%;max-width:none}
+  .pls-dev{width:calc(50vw - 46px)}
 }
 @media (prefers-reduced-motion:reduce){
   .pls-rv{opacity:1;transform:none;transition:none}
