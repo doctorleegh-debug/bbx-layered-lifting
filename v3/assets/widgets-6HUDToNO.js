@@ -1,4 +1,4 @@
-(function(){const a=document.createElement("link").relList;if(a&&a.supports&&a.supports("modulepreload"))return;for(const n of document.querySelectorAll('link[rel="modulepreload"]'))t(n);new MutationObserver(n=>{for(const e of n)if(e.type==="childList")for(const s of e.addedNodes)s.tagName==="LINK"&&s.rel==="modulepreload"&&t(s)}).observe(document,{childList:!0,subtree:!0});function i(n){const e={};return n.integrity&&(e.integrity=n.integrity),n.referrerPolicy&&(e.referrerPolicy=n.referrerPolicy),n.crossOrigin==="use-credentials"?e.credentials="include":n.crossOrigin==="anonymous"?e.credentials="omit":e.credentials="same-origin",e}function t(n){if(n.ep)return;n.ep=!0;const e=i(n);fetch(n.href,e)}})();const p=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 히어로 v3 ═══
+(function(){const a=document.createElement("link").relList;if(a&&a.supports&&a.supports("modulepreload"))return;for(const n of document.querySelectorAll('link[rel="modulepreload"]'))t(n);new MutationObserver(n=>{for(const e of n)if(e.type==="childList")for(const p of e.addedNodes)p.tagName==="LINK"&&p.rel==="modulepreload"&&t(p)}).observe(document,{childList:!0,subtree:!0});function i(n){const e={};return n.integrity&&(e.integrity=n.integrity),n.referrerPolicy&&(e.referrerPolicy=n.referrerPolicy),n.crossOrigin==="use-credentials"?e.credentials="include":n.crossOrigin==="anonymous"?e.credentials="omit":e.credentials="same-origin",e}function t(n){if(n.ep)return;n.ep=!0;const e=i(n);fetch(n.href,e)}})();const r=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 히어로 v3 ═══
      영상을 배경으로 꽉 채운 진짜 히어로 밴드.
      · 영상 평균 밝기가 128~184 로 밝아 흰 글씨가 그냥은 안 읽힌다.
        왼쪽에 브랜드 톤의 진한 스크림을 깔아 글자 쪽만 눌렀다. 오른쪽은 영상이 그대로 보인다.
@@ -1904,7 +1904,181 @@
   ]
 }
 <\/script>
-`,g=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 오시는 길 · 진료시간 ═══
+`,g=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 원내 공간 ═══
+     사진 5장은 R2 에 올라간 1920x1080(16:9) 원본을 그대로 쓴다.
+     문구는 확인된 사실만 담았다. 6층·8층 두 개 층, 접수는 6층,
+     점심시간 없이 진료 — 전부 라이브 /39 와 진료안내에 있는 내용이다.
+     예약제 여부·회복실·샤워실 같은 미확인 시설은 쓰지 않았다.
+     예약·상담 유도 버튼은 넣지 않았다.
+     접두사 psp- : 다른 위젯과 겹치지 않는다
+     body·html 선택자 없음 -->
+<style>
+.psp-sec{--c:#E9918E;--c-dk:#d4706d;--c-bg:#fdf3f2;--ink:#2f2523;--ink2:#5f5754;--mute:#918a87;
+  --line:#efe7e6;--paper:#faf6f5;
+  width:100%;max-width:none;margin:0 auto;padding:14px 0 44px;color:var(--ink);
+  font-family:'Pretendard',-apple-system,BlinkMacSystemFont,system-ui,'Noto Sans KR',sans-serif;
+  word-break:keep-all;overflow-wrap:break-word;text-align:left}
+.psp-sec *{box-sizing:border-box}
+
+.psp-wrap{max-width:min(1720px,calc(100% - 48px));margin:0 auto;
+  display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);
+  gap:clamp(26px,3.2vw,56px);align-items:center}
+
+/* ── 왼쪽 : 사진 5장이 겹쳐 있고 하나씩 떠오른다 ── */
+.psp-stage{position:relative;aspect-ratio:16/10;border-radius:22px;overflow:hidden;
+  background:var(--paper);border:1px solid var(--line)}
+.psp-shot{position:absolute;inset:0;margin:0;opacity:0;transform:scale(1.045);
+  transition:opacity 1.1s ease,transform 6s ease}
+.psp-shot.is-on{opacity:1;transform:scale(1)}
+.psp-shot img{width:100%;height:100%;object-fit:cover;display:block}
+.psp-cap{position:absolute;left:0;right:0;bottom:0;z-index:2;pointer-events:none;
+  padding:clamp(38px,5vw,64px) clamp(18px,2vw,26px) clamp(15px,1.6vw,20px);
+  background:linear-gradient(180deg,transparent,rgba(38,22,21,.62));
+  color:#fff;font-size:clamp(13px,1.05vw,15px);font-weight:600;letter-spacing:-.3px}
+
+.psp-dots{display:flex;gap:8px;margin:14px 0 0;padding:0;list-style:none;flex-wrap:wrap}
+.psp-dot{width:44px;height:4px;padding:0;border:0;border-radius:99px;cursor:pointer;
+  background:#e6dcda;transition:background .3s,width .3s}
+.psp-dot.is-on{background:var(--c);width:64px}
+.psp-dot:focus-visible{outline:2px solid var(--c-dk);outline-offset:3px}
+
+/* ── 오른쪽 : 글 ── */
+.psp-kw{display:block;margin:0 0 13px;font-size:13px;font-weight:700;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--c)}
+.psp-h2{margin:0 0 clamp(16px,1.8vw,24px);font-size:clamp(25px,2.8vw,38px);font-weight:700;
+  line-height:1.4;letter-spacing:-1.4px;text-wrap:balance}
+.psp-h2 em{font-style:normal;color:var(--c)}
+.psp-body{margin:0 0 14px;font-size:clamp(15px,1.2vw,17.5px);line-height:1.95;
+  letter-spacing:-.5px;color:var(--ink2)}
+.psp-body b{font-weight:700;color:var(--ink)}
+.psp-facts{list-style:none;margin:clamp(18px,2vw,26px) 0 0;padding:0}
+.psp-facts li{display:flex;gap:16px;align-items:baseline;padding:13px 0;
+  border-top:1px solid var(--line);font-size:clamp(14px,1.1vw,16px);letter-spacing:-.4px}
+.psp-facts li:first-child{border-top:0}
+.psp-facts b{flex:none;width:6.5em;font-weight:700;color:var(--mute);font-size:.9em}
+.psp-facts span{font-weight:600;color:var(--ink)}
+
+@media (max-width:1000px){
+  .psp-wrap{grid-template-columns:1fr;gap:24px}
+  .psp-stage{aspect-ratio:16/11}
+}
+@media (max-width:768px){
+  .psp-sec{padding:8px 0 28px}
+  .psp-wrap{max-width:none;padding:0 16px}
+  .psp-stage{aspect-ratio:4/3;border-radius:16px}
+  .psp-h2{font-size:23px;letter-spacing:-1.1px}
+  .psp-dot{width:34px}
+  .psp-dot.is-on{width:48px}
+}
+
+/* ── 선 발광 ── */
+.psp-stage{transition:border-color .3s ease,box-shadow .3s ease}
+.psp-stage:hover,.psp-stage:focus-within{border-color:rgba(233,145,142,.7)!important;
+  box-shadow:0 0 0 1px rgba(233,145,142,.45),
+             0 0 14px rgba(233,145,142,.35),
+             0 0 34px rgba(233,145,142,.18),
+             0 14px 34px rgba(140,80,78,.14)}
+
+/* ── 스크롤 등장 : .js-anim 이 붙었을 때만 숨긴다.
+       스크립트가 안 돌면 숨김 규칙 자체가 없어 전부 그냥 보인다 ── */
+.psp-sec.js-anim .psp-stage{opacity:0;transform:translateY(30px)}
+.psp-sec.js-anim .psp-copy>*{opacity:0;transform:translateX(28px)}
+.psp-sec.js-anim .psp-stage,.psp-sec.js-anim .psp-copy>*{
+  transition:opacity .62s cubic-bezier(.22,.61,.36,1),transform .72s cubic-bezier(.22,.61,.36,1)}
+.psp-sec.js-anim.is-in .psp-stage,.psp-sec.js-anim.is-in .psp-copy>*{opacity:1;transform:none}
+.psp-sec.js-anim.is-in .psp-copy>*:nth-child(1){transition-delay:.12s}
+.psp-sec.js-anim.is-in .psp-copy>*:nth-child(2){transition-delay:.20s}
+.psp-sec.js-anim.is-in .psp-copy>*:nth-child(3){transition-delay:.28s}
+.psp-sec.js-anim.is-in .psp-copy>*:nth-child(4){transition-delay:.36s}
+.psp-sec.js-anim.is-in .psp-copy>*:nth-child(5){transition-delay:.44s}
+@media (max-width:768px){.psp-sec.js-anim .psp-copy>*{transform:translateY(20px)}}
+@media (prefers-reduced-motion:reduce){
+  .psp-sec.js-anim .psp-stage,.psp-sec.js-anim .psp-copy>*{
+    opacity:1!important;transform:none!important;transition:none!important}
+  .psp-shot{transition:none}
+}
+</style>
+
+<section class="psp-sec" aria-labelledby="psp-title">
+  <div class="psp-wrap">
+
+    <div class="psp-media">
+      <div class="psp-stage" role="group" aria-label="뷰티블라썸의원 원내 사진">
+        <figure class="psp-shot is-on"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/clinic-interiors/16x9/8f-48-clinic-front.v1.webp" alt="뷰티블라썸의원 진료실 정면" width="1920" height="1080" loading="lazy" decoding="async"><figcaption class="psp-cap">진료실</figcaption></figure>
+        <figure class="psp-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/clinic-interiors/16x9/8f-49-clinic-front-lighting.v1.webp" alt="조명을 낮춘 뷰티블라썸의원 진료실" width="1920" height="1080" loading="lazy" decoding="async"><figcaption class="psp-cap">진료실 · 조명</figcaption></figure>
+        <figure class="psp-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/clinic-interiors/16x9/8f-50-treatment-chair-room.v1.webp" alt="장비가 놓인 뷰티블라썸의원 시술 체어룸" width="1920" height="1080" loading="lazy" decoding="async"><figcaption class="psp-cap">시술 체어룸</figcaption></figure>
+        <figure class="psp-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/clinic-interiors/16x9/clinic-1-3.v1.webp" alt="뷰티블라썸의원 원내 전경" width="1920" height="1080" loading="lazy" decoding="async"><figcaption class="psp-cap">원내 전경</figcaption></figure>
+        <figure class="psp-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/clinic-interiors/16x9/clinic-1-4.v1.webp" alt="뷰티블라썸의원 원내 복도" width="1920" height="1080" loading="lazy" decoding="async"><figcaption class="psp-cap">원내 전경</figcaption></figure>
+      </div>
+      <ul class="psp-dots" aria-label="사진 선택"></ul>
+    </div>
+
+    <div class="psp-copy">
+      <span class="psp-kw">Private Space</span>
+      <h2 class="psp-h2" id="psp-title">시술이 이루어지는 자리를<br><em>그대로 보여드립니다.</em></h2>
+      <p class="psp-body">장비 아홉 대가 놓인 자리, 진단과 상담이 오가는 자리를 사진 그대로 담았습니다. <b>보정하지 않은 원내 모습</b>입니다.</p>
+      <p class="psp-body">뷰티블라썸의원은 합정 메디원메디컬센터 <b>6층과 8층</b>, 두 개 층을 씁니다. 진료실과 시술실을 나눠 두어 상담과 시술이 서로 겹치지 않습니다.</p>
+      <ul class="psp-facts">
+        <li><b>위치</b><span>메디원메디컬센터 6층 · 8층</span></li>
+        <li><b>접수</b><span>6층</span></li>
+        <li><b>진료</b><span>점심시간 없이 운영</span></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<script>
+/* 원내 사진 — 5장이 천천히 겹쳐 넘어간다. 점을 누르면 그 사진으로 간다.
+   마우스를 올리면 멈추고, 화면 밖에 있을 때는 돌지 않는다. */
+(function(){
+  var sec=document.querySelector('.psp-sec');
+  if(!sec||sec.getAttribute('data-psp'))return;
+  sec.setAttribute('data-psp','1');
+  var shots=sec.querySelectorAll('.psp-shot'), dots=sec.querySelector('.psp-dots');
+  if(!shots.length||!dots)return;
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  var btns=[];
+  for(var i=0;i<shots.length;i++){
+    var cap=shots[i].querySelector('.psp-cap');
+    var li=document.createElement('li');
+    var b=document.createElement('button');
+    b.type='button';
+    b.className=(i===0)?'psp-dot is-on':'psp-dot';
+    b.setAttribute('aria-label',(cap?cap.textContent:'사진')+' 보기');
+    (function(n){ b.addEventListener('click',function(){ show(n); rest(); }); })(i);
+    li.appendChild(b); dots.appendChild(li); btns.push(b);
+  }
+
+  var at=0;
+  function show(n){
+    at=(n+shots.length)%shots.length;
+    for(var i=0;i<shots.length;i++){
+      shots[i].className=(i===at)?'psp-shot is-on':'psp-shot';
+      btns[i].className=(i===at)?'psp-dot is-on':'psp-dot';
+    }
+  }
+
+  var timer=0, seen=false, hover=false;
+  function stop(){ if(timer){ clearInterval(timer); timer=0; } }
+  function rest(){ stop(); if(!reduce && seen && !hover) timer=setInterval(function(){ show(at+1); },4600); }
+
+  sec.addEventListener('mouseenter',function(){ hover=true; stop(); });
+  sec.addEventListener('mouseleave',function(){ hover=false; rest(); });
+
+  if('IntersectionObserver' in window){
+    if(!reduce) sec.className='psp-sec js-anim';
+    new IntersectionObserver(function(es){
+      for(var i=0;i<es.length;i++){
+        if(es[i].isIntersecting){ sec.classList.add('is-in'); seen=true; rest(); }
+        else { seen=false; stop(); }
+      }
+    },{threshold:.2}).observe(sec);
+  }else{ seen=true; rest(); }
+})();
+<\/script>
+`,u=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 오시는 길 · 진료시간 ═══
      주소·시간은 라이브 /39 원본 그대로. 지역 검색에 직접 기여하는 구간이다.
      지도는 구글 지도 퍼가기 iframe. API 키가 필요 없고 코드위젯 안에서 그대로 돈다.
      전화·예약 유도 버튼은 넣지 않았다. 필요하면 말씀만 주시면 붙인다.
@@ -2074,4 +2248,4 @@
   io.observe(el);
 })();
 <\/script>
-`,v=[{id:"01-hero",file:"01-hero.html",name:"히어로",prefix:"plh",desc:"제목 · 배경 영상 · 특징 패널",src:p},{id:"02-intro",file:"02-intro.html",name:"9 Original Devices",prefix:"plc",desc:"헤딩 · 특징 3가지 · 장비 슬라이더",src:o},{id:"05-depth-intro",file:"05-depth-intro.html",name:"부위별 노화 도입",prefix:"pld",desc:"워드마크 3D 압출 + 도입 카피",src:l},{id:"06-devices",file:"06-devices.html",name:"장비 9종 상세",prefix:"pdv",desc:"장비마다 큰 블록 + 깊이 막대",src:d},{id:"11-face-zones",file:"11-face-zones.html",name:"부위별 노화 지도",prefix:"pfz",desc:"얼굴 위 4구역 · 연결선 · 마우스 연동 · 스크롤 줌",src:c},{id:"07-process",file:"07-process.html",name:"시술 과정 4단계",prefix:"ppc",desc:"정밀 진단 → 맞춤 설계 → 시술 진행 → 회복 관리",src:f},{id:"08-info",file:"08-info.html",name:"이런 분께 · 시술 정보",prefix:"pin",desc:"추천 대상 3가지 + 소요 시간·구성 표",src:h},{id:"09-faq",file:"09-faq.html",name:"자주 묻는 질문",prefix:"pfq",desc:"문답 5개 + FAQPage 구조화 데이터",src:m},{id:"10-visit",file:"10-visit.html",name:"오시는 길 · 진료시간",prefix:"pvs",desc:"주소 · 도보 안내 · 진료시간",src:g}];function u(r,a){r.innerHTML=a,r.querySelectorAll("script").forEach(i=>{const t=document.createElement("script");for(const n of i.attributes)t.setAttribute(n.name,n.value);t.textContent=i.textContent,i.replaceWith(t)})}export{v as W,u as m};
+`,v=[{id:"01-hero",file:"01-hero.html",name:"히어로",prefix:"plh",desc:"제목 · 배경 영상 · 특징 패널",src:r},{id:"02-intro",file:"02-intro.html",name:"9 Original Devices",prefix:"plc",desc:"헤딩 · 특징 3가지 · 장비 슬라이더",src:o},{id:"05-depth-intro",file:"05-depth-intro.html",name:"부위별 노화 도입",prefix:"pld",desc:"워드마크 3D 압출 + 도입 카피",src:l},{id:"06-devices",file:"06-devices.html",name:"장비 9종 상세",prefix:"pdv",desc:"장비마다 큰 블록 + 깊이 막대",src:d},{id:"11-face-zones",file:"11-face-zones.html",name:"부위별 노화 지도",prefix:"pfz",desc:"얼굴 위 4구역 · 연결선 · 마우스 연동 · 스크롤 줌",src:c},{id:"07-process",file:"07-process.html",name:"시술 과정 4단계",prefix:"ppc",desc:"정밀 진단 → 맞춤 설계 → 시술 진행 → 회복 관리",src:f},{id:"08-info",file:"08-info.html",name:"이런 분께 · 시술 정보",prefix:"pin",desc:"추천 대상 3가지 + 소요 시간·구성 표",src:h},{id:"09-faq",file:"09-faq.html",name:"자주 묻는 질문",prefix:"pfq",desc:"문답 5개 + FAQPage 구조화 데이터",src:m},{id:"12-space",file:"12-space.html",name:"원내 공간",prefix:"psp",desc:"원내 사진 5장 겹침 전환 + 공간 설명",src:g},{id:"10-visit",file:"10-visit.html",name:"오시는 길 · 진료시간",prefix:"pvs",desc:"주소 · 도보 안내 · 진료시간",src:u}];function x(s,a){s.innerHTML=a,s.querySelectorAll("script").forEach(i=>{const t=document.createElement("script");for(const n of i.attributes)t.setAttribute(n.name,n.value);t.textContent=i.textContent,i.replaceWith(t)})}export{v as W,x as m};
