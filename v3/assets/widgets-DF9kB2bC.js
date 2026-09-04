@@ -1,4 +1,4 @@
-(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const n of document.querySelectorAll('link[rel="modulepreload"]'))a(n);new MutationObserver(n=>{for(const e of n)if(e.type==="childList")for(const s of e.addedNodes)s.tagName==="LINK"&&s.rel==="modulepreload"&&a(s)}).observe(document,{childList:!0,subtree:!0});function i(n){const e={};return n.integrity&&(e.integrity=n.integrity),n.referrerPolicy&&(e.referrerPolicy=n.referrerPolicy),n.crossOrigin==="use-credentials"?e.credentials="include":n.crossOrigin==="anonymous"?e.credentials="omit":e.credentials="same-origin",e}function a(n){if(n.ep)return;n.ep=!0;const e=i(n);fetch(n.href,e)}})();const r=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 히어로 v3 ═══
+(function(){const a=document.createElement("link").relList;if(a&&a.supports&&a.supports("modulepreload"))return;for(const n of document.querySelectorAll('link[rel="modulepreload"]'))t(n);new MutationObserver(n=>{for(const e of n)if(e.type==="childList")for(const p of e.addedNodes)p.tagName==="LINK"&&p.rel==="modulepreload"&&t(p)}).observe(document,{childList:!0,subtree:!0});function i(n){const e={};return n.integrity&&(e.integrity=n.integrity),n.referrerPolicy&&(e.referrerPolicy=n.referrerPolicy),n.crossOrigin==="use-credentials"?e.credentials="include":n.crossOrigin==="anonymous"?e.credentials="omit":e.credentials="same-origin",e}function t(n){if(n.ep)return;n.ep=!0;const e=i(n);fetch(n.href,e)}})();const s=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 히어로 v3 ═══
      영상을 배경으로 꽉 채운 진짜 히어로 밴드.
      · 영상 평균 밝기가 128~184 로 밝아 흰 글씨가 그냥은 안 읽힌다.
        왼쪽에 브랜드 톤의 진한 스크림을 깔아 글자 쪽만 눌렀다. 오른쪽은 영상이 그대로 보인다.
@@ -121,7 +121,7 @@
 .plc-head{max-width:1000px;margin:0 auto 22px;text-align:center}
 .plc-kw{display:block;margin:0 0 12px;font-size:13px;font-weight:700;letter-spacing:.22em;
   text-transform:uppercase;color:var(--c)}
-.plc-h2{margin:0 0 14px;font-size:clamp(25px,2.6vw,38px);font-weight:700;line-height:1.35;letter-spacing:-1.3px}
+.plc-h2{margin:0 0 14px;font-size:clamp(30px,3.1vw,45.6px);font-weight:700;line-height:1.35;letter-spacing:-1.3px}
 .plc-h2 em{font-style:normal;color:var(--c)}
 .plc-lead{margin:0;font-size:clamp(14.5px,1.2vw,17px);line-height:1.8;letter-spacing:-.6px;color:var(--ink2)}
 
@@ -230,6 +230,15 @@
 @media (prefers-reduced-motion:reduce){
   .plc-point::after{display:none}
 }
+
+/* ── 헤딩 타이핑 효과 ── 원문은 HTML 에 그대로 있어 크롤러가 읽는다.
+   스크롤로 화면에 들어올 때 한 번만 친다. 반복하지 않는다. */
+.plc-h2{min-height:var(--plc-h2h,auto)}
+.plc-cur{display:inline-block;margin-left:.06em;color:var(--c);font-weight:400;
+  animation:plc-bl .62s steps(1,end) infinite}
+.plc-cur.is-done{display:none}
+@keyframes plc-bl{0%,49%{opacity:1}50%,100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.plc-cur{display:none}}
 </style>
 <section class="plc-sec" aria-labelledby="plc-title">
 
@@ -467,6 +476,47 @@
   requestAnimationFrame(render);
 })();
 <\/script>
+
+<script>
+/* 헤딩 타이핑 — 글자는 이미 DOM 에 있고, 잠시 비웠다가 다시 채운다.
+   자바스크립트가 없거나 모션을 끈 환경에서는 그냥 완성된 문장이 보인다. */
+(function(){
+  var el=document.querySelector('.plc-h2');
+  if(!el||el.getAttribute('data-tt'))return;
+  if(!('IntersectionObserver' in window))return;
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  el.setAttribute('data-tt','1');
+
+  var parts=[],w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null,false),n;
+  while(n=w.nextNode()){ if(n.nodeValue.length) parts.push({n:n,t:n.nodeValue}); }
+  var total=0; for(var i=0;i<parts.length;i++) total+=parts[i].t.length;
+  if(!total)return;
+
+  el.style.setProperty('--plc-h2h', el.getBoundingClientRect().height+'px');  /* 비워도 안 접히게 */
+
+  var cur=document.createElement('span');
+  cur.className='plc-cur'; cur.setAttribute('aria-hidden','true'); cur.textContent='|';
+
+  function draw(k){ var left=k;
+    for(var j=0;j<parts.length;j++){ var o=parts[j],take=Math.max(0,Math.min(o.t.length,left));
+      o.n.nodeValue=o.t.slice(0,take); left-=take; } }
+
+  draw(0); el.appendChild(cur);
+
+  var run=false;
+  var io=new IntersectionObserver(function(es){
+    for(var i=0;i<es.length;i++){ if(es[i].isIntersecting&&!run){ run=true; io.disconnect();
+      var k=0;
+      (function step(){
+        if(k>=total){ setTimeout(function(){cur.className='plc-cur is-done';},900); return; }
+        draw(++k);
+        setTimeout(step, 34+Math.random()*30);
+      })();
+    } }
+  },{threshold:.3});
+  io.observe(el);
+})();
+<\/script>
 `,l=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 부위별 노화 도입부 ═══
      React Bits 의 DepthText 를 **바닐라 JS 로 포팅**했다. 아임웹 코드위젯에는 React 를 못 쓴다.
      · 원리는 그대로 : 같은 대상을 N겹 쌓고 translateZ 로 밀어 압출을 만든다.
@@ -497,7 +547,7 @@
   filter:drop-shadow(0 30px 44px rgba(140,63,68,.3)) drop-shadow(0 6px 12px rgba(60,30,32,.2))}
 
 /* ── 글 ── */
-.pld-h2{margin:0 0 clamp(18px,2vw,26px);font-size:clamp(23px,2.6vw,37px);font-weight:700;
+.pld-h2{margin:0 0 clamp(18px,2vw,26px);font-size:clamp(27.6px,3.1vw,44.4px);font-weight:700;
   line-height:1.4;letter-spacing:-1.4px;text-wrap:balance}
 .pld-body{margin:0;font-size:clamp(14.5px,1.2vw,17px);line-height:1.95;letter-spacing:-.5px;
   color:var(--ink2)}
@@ -515,6 +565,15 @@
 @media (prefers-reduced-motion:reduce){
   .pld-stage{will-change:auto;transform:rotateX(-2.4deg) rotateY(3.2deg)!important}
 }
+
+/* ── 헤딩 타이핑 효과 ── 원문은 HTML 에 그대로 있어 크롤러가 읽는다.
+   스크롤로 화면에 들어올 때 한 번만 친다. 반복하지 않는다. */
+.pld-h2{min-height:var(--pld-h2h,auto)}
+.pld-cur{display:inline-block;margin-left:.06em;color:var(--c);font-weight:400;
+  animation:pld-bl .62s steps(1,end) infinite}
+.pld-cur.is-done{display:none}
+@keyframes pld-bl{0%,49%{opacity:1}50%,100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.pld-cur{display:none}}
 </style>
 
 <section class="pld-sec" aria-labelledby="pld-title">
@@ -616,6 +675,47 @@
   }
   apply();
   raf = requestAnimationFrame(tick);
+})();
+<\/script>
+
+<script>
+/* 헤딩 타이핑 — 글자는 이미 DOM 에 있고, 잠시 비웠다가 다시 채운다.
+   자바스크립트가 없거나 모션을 끈 환경에서는 그냥 완성된 문장이 보인다. */
+(function(){
+  var el=document.querySelector('.pld-h2');
+  if(!el||el.getAttribute('data-tt'))return;
+  if(!('IntersectionObserver' in window))return;
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  el.setAttribute('data-tt','1');
+
+  var parts=[],w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null,false),n;
+  while(n=w.nextNode()){ if(n.nodeValue.length) parts.push({n:n,t:n.nodeValue}); }
+  var total=0; for(var i=0;i<parts.length;i++) total+=parts[i].t.length;
+  if(!total)return;
+
+  el.style.setProperty('--pld-h2h', el.getBoundingClientRect().height+'px');  /* 비워도 안 접히게 */
+
+  var cur=document.createElement('span');
+  cur.className='pld-cur'; cur.setAttribute('aria-hidden','true'); cur.textContent='|';
+
+  function draw(k){ var left=k;
+    for(var j=0;j<parts.length;j++){ var o=parts[j],take=Math.max(0,Math.min(o.t.length,left));
+      o.n.nodeValue=o.t.slice(0,take); left-=take; } }
+
+  draw(0); el.appendChild(cur);
+
+  var run=false;
+  var io=new IntersectionObserver(function(es){
+    for(var i=0;i<es.length;i++){ if(es[i].isIntersecting&&!run){ run=true; io.disconnect();
+      var k=0;
+      (function step(){
+        if(k>=total){ setTimeout(function(){cur.className='pld-cur is-done';},900); return; }
+        draw(++k);
+        setTimeout(step, 34+Math.random()*30);
+      })();
+    } }
+  },{threshold:.3});
+  io.observe(el);
 })();
 <\/script>
 `,d=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 장비 9종 상세 ═══
@@ -882,7 +982,7 @@
 .pfz-head{max-width:1000px;margin:0 auto 24px;text-align:center;padding:0 20px}
 .pfz-kw{display:block;margin:0 0 13px;font-size:13px;font-weight:700;letter-spacing:.22em;
   text-transform:uppercase;color:var(--c)}
-.pfz-h2{margin:0 0 14px;font-size:clamp(25px,2.8vw,38px);font-weight:700;line-height:1.38;
+.pfz-h2{margin:0 0 14px;font-size:clamp(30px,3.4vw,45.6px);font-weight:700;line-height:1.38;
   letter-spacing:-1.4px;text-wrap:balance}
 .pfz-h2 em{font-style:normal;color:var(--c)}
 .pfz-lead{margin:0;font-size:clamp(15px,1.3vw,18px);line-height:1.8;letter-spacing:-.6px;color:var(--ink2)}
@@ -970,6 +1070,15 @@
   .pfz-line{stroke-dashoffset:0}
   .pfz-card,.pfz-dot,.pfz-line{transition:none}
 }
+
+/* ── 헤딩 타이핑 효과 ── 원문은 HTML 에 그대로 있어 크롤러가 읽는다.
+   스크롤로 화면에 들어올 때 한 번만 친다. 반복하지 않는다. */
+.pfz-h2{min-height:var(--pfz-h2h,auto)}
+.pfz-cur{display:inline-block;margin-left:.06em;color:var(--c);font-weight:400;
+  animation:pfz-bl .62s steps(1,end) infinite}
+.pfz-cur.is-done{display:none}
+@keyframes pfz-bl{0%,49%{opacity:1}50%,100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.pfz-cur{display:none}}
 </style>
 
 <section class="pfz-sec" aria-labelledby="pfz-title">
@@ -982,7 +1091,7 @@
 
   <div class="pfz-stage" id="pfz-stage">
     <img class="pfz-bg" src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/treatment-area-pink-glass-bg.v1.webp" alt="" aria-hidden="true" width="1920" height="1080" loading="lazy" decoding="async">
-    <img class="pfz-person" src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/treatment-area-person-nolines.v1.webp" alt="얼굴 부위별 노화 양상을 표시한 인물 이미지" width="1920" height="1080" loading="lazy" decoding="async">
+    <img class="pfz-person" src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered/treatment-area-person-ponytail-nobangs.v2.webp" alt="얼굴 부위별 노화 양상을 표시한 인물 이미지" width="1920" height="1080" loading="lazy" decoding="async">
 
     <svg class="pfz-lines" aria-hidden="true" focusable="false" preserveAspectRatio="none">
       <defs>
@@ -999,11 +1108,11 @@
       <path class="pfz-line" data-z="neck" pathLength="1" stroke="url(#pfz-g-neck)"></path>
     </svg>
 
-    <button class="pfz-dot" data-z="up"   style="left:55.5%;top:32.5%" type="button" aria-label="상안면 — 눈썹·눈가"></button>
-    <button class="pfz-dot" data-z="mid"  style="left:42.6%;top:45.4%" type="button" aria-label="중안면 — 앞볼·광대"></button>
-    <button class="pfz-dot" data-z="low"  style="left:54.5%;top:57.5%" type="button" aria-label="하안면 — 마리오넷·심부볼"></button>
-    <button class="pfz-dot" data-z="jaw"  style="left:44.5%;top:66.5%" type="button" aria-label="페이스라인 — 턱선"></button>
-    <button class="pfz-dot" data-z="neck" style="left:49.1%;top:77.5%" type="button" aria-label="목주름 — 목"></button>
+    <button class="pfz-dot" data-z="up"   style="left:56.5%;top:36.0%" type="button" aria-label="상안면 — 눈썹·눈가"></button>
+    <button class="pfz-dot" data-z="mid"  style="left:41.5%;top:45.5%" type="button" aria-label="중안면 — 앞볼·광대"></button>
+    <button class="pfz-dot" data-z="low"  style="left:55.5%;top:61.0%" type="button" aria-label="하안면 — 마리오넷·심부볼"></button>
+    <button class="pfz-dot" data-z="jaw"  style="left:43.2%;top:65.5%" type="button" aria-label="페이스라인 — 턱선"></button>
+    <button class="pfz-dot" data-z="neck" style="left:47.0%;top:76.0%" type="button" aria-label="목주름 — 목"></button>
 
     <div class="pfz-cards">
       <div class="pfz-card" data-z="up" tabindex="0">
@@ -1164,6 +1273,47 @@
   setTimeout(drawLines, 1200);
 })();
 <\/script>
+
+<script>
+/* 헤딩 타이핑 — 글자는 이미 DOM 에 있고, 잠시 비웠다가 다시 채운다.
+   자바스크립트가 없거나 모션을 끈 환경에서는 그냥 완성된 문장이 보인다. */
+(function(){
+  var el=document.querySelector('.pfz-h2');
+  if(!el||el.getAttribute('data-tt'))return;
+  if(!('IntersectionObserver' in window))return;
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  el.setAttribute('data-tt','1');
+
+  var parts=[],w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null,false),n;
+  while(n=w.nextNode()){ if(n.nodeValue.length) parts.push({n:n,t:n.nodeValue}); }
+  var total=0; for(var i=0;i<parts.length;i++) total+=parts[i].t.length;
+  if(!total)return;
+
+  el.style.setProperty('--pfz-h2h', el.getBoundingClientRect().height+'px');  /* 비워도 안 접히게 */
+
+  var cur=document.createElement('span');
+  cur.className='pfz-cur'; cur.setAttribute('aria-hidden','true'); cur.textContent='|';
+
+  function draw(k){ var left=k;
+    for(var j=0;j<parts.length;j++){ var o=parts[j],take=Math.max(0,Math.min(o.t.length,left));
+      o.n.nodeValue=o.t.slice(0,take); left-=take; } }
+
+  draw(0); el.appendChild(cur);
+
+  var run=false;
+  var io=new IntersectionObserver(function(es){
+    for(var i=0;i<es.length;i++){ if(es[i].isIntersecting&&!run){ run=true; io.disconnect();
+      var k=0;
+      (function step(){
+        if(k>=total){ setTimeout(function(){cur.className='pfz-cur is-done';},900); return; }
+        draw(++k);
+        setTimeout(step, 34+Math.random()*30);
+      })();
+    } }
+  },{threshold:.3});
+  io.observe(el);
+})();
+<\/script>
 `,f=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 시술 과정 4단계 ═══
      문구는 라이브 /39 원본 그대로. 새로 지어내지 않았다.
      사진 4장은 R2 에 올라간 1200x900 원본을 그대로 쓴다. lazy 로 불러온다.
@@ -1180,7 +1330,7 @@
 .ppc-head{max-width:1000px;margin:0 auto 44px;text-align:center;padding:0 20px}
 .ppc-kw{display:block;margin:0 0 13px;font-size:13px;font-weight:700;letter-spacing:.22em;
   text-transform:uppercase;color:var(--c)}
-.ppc-h2{margin:0 0 15px;font-size:clamp(25px,2.8vw,38px);font-weight:700;line-height:1.38;
+.ppc-h2{margin:0 0 15px;font-size:clamp(30px,3.4vw,45.6px);font-weight:700;line-height:1.38;
   letter-spacing:-1.4px;text-wrap:balance}
 .ppc-h2 em{font-style:normal;color:var(--c)}
 .ppc-lead{margin:0;font-size:clamp(15px,1.3vw,18px);line-height:1.8;letter-spacing:-.6px;color:var(--ink2)}
@@ -1233,6 +1383,15 @@
              0 0 34px rgba(233,145,142,.18),
              0 14px 34px rgba(140,80,78,.14)}
 @media (prefers-reduced-motion:reduce){.ppc-step,.ppc-figure{transition:none}}
+
+/* ── 헤딩 타이핑 효과 ── 원문은 HTML 에 그대로 있어 크롤러가 읽는다.
+   스크롤로 화면에 들어올 때 한 번만 친다. 반복하지 않는다. */
+.ppc-h2{min-height:var(--ppc-h2h,auto)}
+.ppc-cur{display:inline-block;margin-left:.06em;color:var(--c);font-weight:400;
+  animation:ppc-bl .62s steps(1,end) infinite}
+.ppc-cur.is-done{display:none}
+@keyframes ppc-bl{0%,49%{opacity:1}50%,100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.ppc-cur{display:none}}
 </style>
 
 <section class="ppc-sec" aria-labelledby="ppc-title">
@@ -1292,7 +1451,48 @@
   </ol>
 
 </section>
-`,g=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 시술 정보 · 이런 분께 ═══
+
+<script>
+/* 헤딩 타이핑 — 글자는 이미 DOM 에 있고, 잠시 비웠다가 다시 채운다.
+   자바스크립트가 없거나 모션을 끈 환경에서는 그냥 완성된 문장이 보인다. */
+(function(){
+  var el=document.querySelector('.ppc-h2');
+  if(!el||el.getAttribute('data-tt'))return;
+  if(!('IntersectionObserver' in window))return;
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  el.setAttribute('data-tt','1');
+
+  var parts=[],w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null,false),n;
+  while(n=w.nextNode()){ if(n.nodeValue.length) parts.push({n:n,t:n.nodeValue}); }
+  var total=0; for(var i=0;i<parts.length;i++) total+=parts[i].t.length;
+  if(!total)return;
+
+  el.style.setProperty('--ppc-h2h', el.getBoundingClientRect().height+'px');  /* 비워도 안 접히게 */
+
+  var cur=document.createElement('span');
+  cur.className='ppc-cur'; cur.setAttribute('aria-hidden','true'); cur.textContent='|';
+
+  function draw(k){ var left=k;
+    for(var j=0;j<parts.length;j++){ var o=parts[j],take=Math.max(0,Math.min(o.t.length,left));
+      o.n.nodeValue=o.t.slice(0,take); left-=take; } }
+
+  draw(0); el.appendChild(cur);
+
+  var run=false;
+  var io=new IntersectionObserver(function(es){
+    for(var i=0;i<es.length;i++){ if(es[i].isIntersecting&&!run){ run=true; io.disconnect();
+      var k=0;
+      (function step(){
+        if(k>=total){ setTimeout(function(){cur.className='ppc-cur is-done';},900); return; }
+        draw(++k);
+        setTimeout(step, 34+Math.random()*30);
+      })();
+    } }
+  },{threshold:.3});
+  io.observe(el);
+})();
+<\/script>
+`,h=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 시술 정보 · 이런 분께 ═══
      문구는 라이브 /39 원본 그대로.
      접두사 pin- : bb-, plh-, plc-, pld-, pdv-, pls-, ppc- 와 겹치지 않는다
      body·html 선택자 없음 -->
@@ -1309,7 +1509,7 @@
 /* ── 이런 분께 ── */
 .pin-kw{display:block;margin:0 0 12px;font-size:12.6px;font-weight:700;letter-spacing:.2em;
   text-transform:uppercase;color:var(--c)}
-.pin-h2{margin:0 0 22px;font-size:clamp(23px,2.6vw,34px);font-weight:700;line-height:1.38;
+.pin-h2{margin:0 0 22px;font-size:clamp(27.6px,3.1vw,40.8px);font-weight:700;line-height:1.38;
   letter-spacing:-1.3px;text-wrap:balance}
 .pin-h2 em{font-style:normal;color:var(--c)}
 
@@ -1361,6 +1561,15 @@
              0 0 34px rgba(233,145,142,.18),
              0 14px 34px rgba(140,80,78,.14)}
 @media (prefers-reduced-motion:reduce){.pin-card,.pin-who li{transition:none}}
+
+/* ── 헤딩 타이핑 효과 ── 원문은 HTML 에 그대로 있어 크롤러가 읽는다.
+   스크롤로 화면에 들어올 때 한 번만 친다. 반복하지 않는다. */
+.pin-h2{min-height:var(--pin-h2h,auto)}
+.pin-cur{display:inline-block;margin-left:.06em;color:var(--c);font-weight:400;
+  animation:pin-bl .62s steps(1,end) infinite}
+.pin-cur.is-done{display:none}
+@keyframes pin-bl{0%,49%{opacity:1}50%,100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.pin-cur{display:none}}
 </style>
 
 <section class="pin-sec" aria-labelledby="pin-title">
@@ -1391,7 +1600,48 @@
 
   </div>
 </section>
-`,h=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 자주 묻는 질문 ═══
+
+<script>
+/* 헤딩 타이핑 — 글자는 이미 DOM 에 있고, 잠시 비웠다가 다시 채운다.
+   자바스크립트가 없거나 모션을 끈 환경에서는 그냥 완성된 문장이 보인다. */
+(function(){
+  var el=document.querySelector('.pin-h2');
+  if(!el||el.getAttribute('data-tt'))return;
+  if(!('IntersectionObserver' in window))return;
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  el.setAttribute('data-tt','1');
+
+  var parts=[],w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null,false),n;
+  while(n=w.nextNode()){ if(n.nodeValue.length) parts.push({n:n,t:n.nodeValue}); }
+  var total=0; for(var i=0;i<parts.length;i++) total+=parts[i].t.length;
+  if(!total)return;
+
+  el.style.setProperty('--pin-h2h', el.getBoundingClientRect().height+'px');  /* 비워도 안 접히게 */
+
+  var cur=document.createElement('span');
+  cur.className='pin-cur'; cur.setAttribute('aria-hidden','true'); cur.textContent='|';
+
+  function draw(k){ var left=k;
+    for(var j=0;j<parts.length;j++){ var o=parts[j],take=Math.max(0,Math.min(o.t.length,left));
+      o.n.nodeValue=o.t.slice(0,take); left-=take; } }
+
+  draw(0); el.appendChild(cur);
+
+  var run=false;
+  var io=new IntersectionObserver(function(es){
+    for(var i=0;i<es.length;i++){ if(es[i].isIntersecting&&!run){ run=true; io.disconnect();
+      var k=0;
+      (function step(){
+        if(k>=total){ setTimeout(function(){cur.className='pin-cur is-done';},900); return; }
+        draw(++k);
+        setTimeout(step, 34+Math.random()*30);
+      })();
+    } }
+  },{threshold:.3});
+  io.observe(el);
+})();
+<\/script>
+`,g=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 자주 묻는 질문 ═══
      문답은 라이브 /39 원본 그대로. 다만 예약·연락 유도 문장은 뺐다.
      JSON-LD FAQPage 를 함께 넣어 검색 결과에 질문이 펼쳐지게 한다.
      접두사 pfq- : 다른 위젯과 겹치지 않는다
@@ -1539,7 +1789,7 @@
   ]
 }
 <\/script>
-`,x=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 오시는 길 · 진료시간 ═══
+`,m=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 오시는 길 · 진료시간 ═══
      주소·시간은 라이브 /39 원본 그대로. 지역 검색에 직접 기여하는 구간이다.
      지도는 구글 지도 퍼가기 iframe. API 키가 필요 없고 코드위젯 안에서 그대로 돈다.
      전화·예약 유도 버튼은 넣지 않았다. 필요하면 말씀만 주시면 붙인다.
@@ -1556,7 +1806,7 @@
 .pvs-head{max-width:1000px;margin:0 auto 32px;text-align:center;padding:0 20px}
 .pvs-kw{display:block;margin:0 0 13px;font-size:13px;font-weight:700;letter-spacing:.22em;
   text-transform:uppercase;color:var(--c)}
-.pvs-h2{margin:0;font-size:clamp(25px,2.8vw,38px);font-weight:700;line-height:1.38;
+.pvs-h2{margin:0;font-size:clamp(30px,3.4vw,45.6px);font-weight:700;line-height:1.38;
   letter-spacing:-1.4px;text-wrap:balance}
 .pvs-h2 em{font-style:normal;color:var(--c)}
 
@@ -1605,6 +1855,15 @@
              0 0 34px rgba(233,145,142,.18),
              0 14px 34px rgba(140,80,78,.14)}
 @media (prefers-reduced-motion:reduce){.pvs-card,.pvs-map{transition:none}}
+
+/* ── 헤딩 타이핑 효과 ── 원문은 HTML 에 그대로 있어 크롤러가 읽는다.
+   스크롤로 화면에 들어올 때 한 번만 친다. 반복하지 않는다. */
+.pvs-h2{min-height:var(--pvs-h2h,auto)}
+.pvs-cur{display:inline-block;margin-left:.06em;color:var(--c);font-weight:400;
+  animation:pvs-bl .62s steps(1,end) infinite}
+.pvs-cur.is-done{display:none}
+@keyframes pvs-bl{0%,49%{opacity:1}50%,100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.pvs-cur{display:none}}
 </style>
 
 <section class="pvs-sec" aria-labelledby="pvs-title">
@@ -1646,4 +1905,45 @@
   </div>
 
 </section>
-`,m=[{id:"01-hero",file:"01-hero.html",name:"히어로",prefix:"plh",desc:"제목 · 배경 영상 · 특징 패널",src:r},{id:"02-intro",file:"02-intro.html",name:"9 Original Devices",prefix:"plc",desc:"헤딩 · 특징 3가지 · 장비 슬라이더",src:o},{id:"05-depth-intro",file:"05-depth-intro.html",name:"부위별 노화 도입",prefix:"pld",desc:"워드마크 3D 압출 + 도입 카피",src:l},{id:"06-devices",file:"06-devices.html",name:"장비 9종 상세",prefix:"pdv",desc:"장비마다 큰 블록 + 깊이 막대",src:d},{id:"11-face-zones",file:"11-face-zones.html",name:"부위별 노화 지도",prefix:"pfz",desc:"얼굴 위 4구역 · 연결선 · 마우스 연동 · 스크롤 줌",src:c},{id:"07-process",file:"07-process.html",name:"시술 과정 4단계",prefix:"ppc",desc:"정밀 진단 → 맞춤 설계 → 시술 진행 → 회복 관리",src:f},{id:"08-info",file:"08-info.html",name:"이런 분께 · 시술 정보",prefix:"pin",desc:"추천 대상 3가지 + 소요 시간·구성 표",src:g},{id:"09-faq",file:"09-faq.html",name:"자주 묻는 질문",prefix:"pfq",desc:"문답 5개 + FAQPage 구조화 데이터",src:h},{id:"10-visit",file:"10-visit.html",name:"오시는 길 · 진료시간",prefix:"pvs",desc:"주소 · 도보 안내 · 진료시간",src:x}];function v(p,t){p.innerHTML=t,p.querySelectorAll("script").forEach(i=>{const a=document.createElement("script");for(const n of i.attributes)a.setAttribute(n.name,n.value);a.textContent=i.textContent,i.replaceWith(a)})}export{m as W,v as m};
+
+<script>
+/* 헤딩 타이핑 — 글자는 이미 DOM 에 있고, 잠시 비웠다가 다시 채운다.
+   자바스크립트가 없거나 모션을 끈 환경에서는 그냥 완성된 문장이 보인다. */
+(function(){
+  var el=document.querySelector('.pvs-h2');
+  if(!el||el.getAttribute('data-tt'))return;
+  if(!('IntersectionObserver' in window))return;
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  el.setAttribute('data-tt','1');
+
+  var parts=[],w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null,false),n;
+  while(n=w.nextNode()){ if(n.nodeValue.length) parts.push({n:n,t:n.nodeValue}); }
+  var total=0; for(var i=0;i<parts.length;i++) total+=parts[i].t.length;
+  if(!total)return;
+
+  el.style.setProperty('--pvs-h2h', el.getBoundingClientRect().height+'px');  /* 비워도 안 접히게 */
+
+  var cur=document.createElement('span');
+  cur.className='pvs-cur'; cur.setAttribute('aria-hidden','true'); cur.textContent='|';
+
+  function draw(k){ var left=k;
+    for(var j=0;j<parts.length;j++){ var o=parts[j],take=Math.max(0,Math.min(o.t.length,left));
+      o.n.nodeValue=o.t.slice(0,take); left-=take; } }
+
+  draw(0); el.appendChild(cur);
+
+  var run=false;
+  var io=new IntersectionObserver(function(es){
+    for(var i=0;i<es.length;i++){ if(es[i].isIntersecting&&!run){ run=true; io.disconnect();
+      var k=0;
+      (function step(){
+        if(k>=total){ setTimeout(function(){cur.className='pvs-cur is-done';},900); return; }
+        draw(++k);
+        setTimeout(step, 34+Math.random()*30);
+      })();
+    } }
+  },{threshold:.3});
+  io.observe(el);
+})();
+<\/script>
+`,u=[{id:"01-hero",file:"01-hero.html",name:"히어로",prefix:"plh",desc:"제목 · 배경 영상 · 특징 패널",src:s},{id:"02-intro",file:"02-intro.html",name:"9 Original Devices",prefix:"plc",desc:"헤딩 · 특징 3가지 · 장비 슬라이더",src:o},{id:"05-depth-intro",file:"05-depth-intro.html",name:"부위별 노화 도입",prefix:"pld",desc:"워드마크 3D 압출 + 도입 카피",src:l},{id:"06-devices",file:"06-devices.html",name:"장비 9종 상세",prefix:"pdv",desc:"장비마다 큰 블록 + 깊이 막대",src:d},{id:"11-face-zones",file:"11-face-zones.html",name:"부위별 노화 지도",prefix:"pfz",desc:"얼굴 위 4구역 · 연결선 · 마우스 연동 · 스크롤 줌",src:c},{id:"07-process",file:"07-process.html",name:"시술 과정 4단계",prefix:"ppc",desc:"정밀 진단 → 맞춤 설계 → 시술 진행 → 회복 관리",src:f},{id:"08-info",file:"08-info.html",name:"이런 분께 · 시술 정보",prefix:"pin",desc:"추천 대상 3가지 + 소요 시간·구성 표",src:h},{id:"09-faq",file:"09-faq.html",name:"자주 묻는 질문",prefix:"pfq",desc:"문답 5개 + FAQPage 구조화 데이터",src:g},{id:"10-visit",file:"10-visit.html",name:"오시는 길 · 진료시간",prefix:"pvs",desc:"주소 · 도보 안내 · 진료시간",src:m}];function x(r,a){r.innerHTML=a,r.querySelectorAll("script").forEach(i=>{const t=document.createElement("script");for(const n of i.attributes)t.setAttribute(n.name,n.value);t.textContent=i.textContent,i.replaceWith(t)})}export{u as W,x as m};
