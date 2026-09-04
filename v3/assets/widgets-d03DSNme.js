@@ -1,4 +1,4 @@
-(function(){const a=document.createElement("link").relList;if(a&&a.supports&&a.supports("modulepreload"))return;for(const n of document.querySelectorAll('link[rel="modulepreload"]'))t(n);new MutationObserver(n=>{for(const e of n)if(e.type==="childList")for(const s of e.addedNodes)s.tagName==="LINK"&&s.rel==="modulepreload"&&t(s)}).observe(document,{childList:!0,subtree:!0});function i(n){const e={};return n.integrity&&(e.integrity=n.integrity),n.referrerPolicy&&(e.referrerPolicy=n.referrerPolicy),n.crossOrigin==="use-credentials"?e.credentials="include":n.crossOrigin==="anonymous"?e.credentials="omit":e.credentials="same-origin",e}function t(n){if(n.ep)return;n.ep=!0;const e=i(n);fetch(n.href,e)}})();const r=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 히어로 v3 ═══
+(function(){const a=document.createElement("link").relList;if(a&&a.supports&&a.supports("modulepreload"))return;for(const n of document.querySelectorAll('link[rel="modulepreload"]'))t(n);new MutationObserver(n=>{for(const e of n)if(e.type==="childList")for(const s of e.addedNodes)s.tagName==="LINK"&&s.rel==="modulepreload"&&t(s)}).observe(document,{childList:!0,subtree:!0});function i(n){const e={};return n.integrity&&(e.integrity=n.integrity),n.referrerPolicy&&(e.referrerPolicy=n.referrerPolicy),n.crossOrigin==="use-credentials"?e.credentials="include":n.crossOrigin==="anonymous"?e.credentials="omit":e.credentials="same-origin",e}function t(n){if(n.ep)return;n.ep=!0;const e=i(n);fetch(n.href,e)}})();const p=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 히어로 v3 ═══
      영상을 배경으로 꽉 채운 진짜 히어로 밴드.
      · 영상 평균 밝기가 128~184 로 밝아 흰 글씨가 그냥은 안 읽힌다.
        왼쪽에 브랜드 톤의 진한 스크림을 깔아 글자 쪽만 눌렀다. 오른쪽은 영상이 그대로 보인다.
@@ -269,12 +269,221 @@
 
 </section>
 <script>
-/* 헤딩 타이핑 — 스크롤 위치에 글자 수를 물린다.
-   내려가면 써지고 올라가면 지워진다. 다시 내려오면 다시 써진다.
+(function(){
+  var root = document.querySelector('.plc-sec');
+  if (!root || root.dataset.plcReady) return;
+  root.dataset.plcReady = '1';
+
+  var CDN = 'https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/layered';
+  // 장비 사진 파일명 — 규칙은 hero-<slug>.webp 이고, 교체본이 있는 것만 예외로 적는다
+  var SHOTS = { linearz: 'hero-linearz-white.v1.webp' };
+  function shot(slug){ return SHOTS[slug] || ('hero-' + slug + '.webp'); }
+
+  var profiles = [
+        ["소프웨이브","SUPERB 초음파","sofwave","https://beautyblossom.kr/139"],
+        ["써마지 FLX","모노폴라 RF","thermage","https://beautyblossom.kr/41"],
+        ["포트라 콰트로","4파장 다이오드","fortra","https://beautyblossom.kr/titanium-fortra-quattro"],
+        ["세르프(XERF)","듀얼 모노폴라 RF","xerf","https://beautyblossom.kr/155"],
+        ["덴서티","모노+바이폴라 RF","density","https://beautyblossom.kr/153"],
+        ["온다","마이크로웨이브","onda","https://beautyblossom.kr/42"],
+        ["올타이트","유전가열 DLTD","alltite","https://beautyblossom.kr/alltite-lifting"],
+        ["리니어지","선·점 HIFU","linearz","https://beautyblossom.kr/154"],
+        ["울쎄라피 프라임","초음파 HIFU","ulthera","https://beautyblossom.kr/40"]
+      ].map(function(a){ return {name:a[0], role:a[1], slug:a[2], url:a[3]}; });
+
+  var stage = root.querySelector('.plc-stage');
+  var deck  = root.querySelector('.plc-deck');
+
+  var cards = profiles.map(function(p, index){
+    var card = document.createElement('a');
+    card.className = 'plc-card';
+    card.href = p.url;
+    card.draggable = false;
+    card.dataset.index = String(index);
+    card.setAttribute('aria-label', p.name + ' · ' + p.role);
+    card.innerHTML =
+      '<span class="plc-shot"><img src="' + CDN + '/' + shot(p.slug) + '" alt="' + p.name +
+        '" loading="lazy" decoding="async" draggable="false"></span>' +
+      '<span class="plc-foot">' +
+        '<span class="plc-no">' + String(index + 1).padStart(2, '0') + '</span>' +
+        '<span class="plc-meta">' +
+          '<span class="plc-name">' + p.name + '</span>' +
+          '<span class="plc-role">' + p.role + '</span>' +
+        '</span>' +
+      '</span>';
+    deck.appendChild(card);
+    return card;
+  });
+
+  var count = cards.length;
+  var reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var state = {phase:3, target:3, base:3};
+  var running = true, dragged = false, hovering = false;
+  var AUTO = 1 / 2600;   /* ms 당 카드 수 — 한 장 넘어가는 데 2.6초 */
+
+  function wrappedDelta(index, phase){
+    var d = index - phase;
+    while (d > count / 2) d -= count;
+    while (d < -count / 2) d += count;
+    return d;
+  }
+  function nearestIndex(){ return (Math.round(state.phase) % count + count) % count; }
+  function moveTo(index){
+    var cur = nearestIndex(), d = index - cur;
+    if (d > count / 2) d -= count;
+    if (d < -count / 2) d += count;
+    state.base += d; state.target = state.base;   }
+
+  cards.forEach(function(card, index){
+    /* 카드가 링크라 클릭은 장비 페이지로 간다. 다만 끌어서 넘긴 직후의 클릭은 막는다. */
+    card.addEventListener('click', function(e){ if (dragged) e.preventDefault(); });
+    card.addEventListener('focus', function(){ moveTo(index); });
+  });
+
+  /* 마우스를 올리는 것만으로는 덱이 움직이지 않는다 — 배경 조명만 따라온다.
+     대신 흐름을 멈춰 읽을 수 있게 한다. */
+  stage.addEventListener('pointerenter', function(){ hovering = true; });
+  stage.addEventListener('pointermove', function(e){
+    var r = stage.getBoundingClientRect();
+    var nx = Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width - 0.5) * 2));
+    stage.style.setProperty('--pointer-x', ((nx + 1) * 50) + '%');
+  });
+  stage.addEventListener('pointerleave', function(){
+    hovering = false;
+    stage.style.setProperty('--pointer-x', '50%');
+  });
+
+  /* 세로 휠은 페이지에 넘긴다 — 위젯 위에서 스크롤이 멈추면 안 된다.
+     가로 휠(트랙패드 좌우) 과 Shift+휠 만 카드 이동에 쓴다. */
+  stage.addEventListener('wheel', function(e){
+    var horizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey;
+    if (!horizontal) return;
+    var dir = Math.sign(e.shiftKey ? e.deltaY : e.deltaX);
+    if (!dir) return;
+    e.preventDefault();
+    state.base += dir; state.target = state.base;   }, {passive:false});
+
+  /* 방향키는 위젯 안에 포커스가 있을 때만 — 페이지 전역에서 가로채면 안 된다 */
+  root.addEventListener('keydown', function(e){
+    var fwd = e.key === 'ArrowRight' || e.key === 'ArrowDown';
+    var back = e.key === 'ArrowLeft' || e.key === 'ArrowUp';
+    if (!fwd && !back) return;
+    e.preventDefault();
+    state.base += fwd ? 1 : -1; state.target = state.base;   });
+
+  /* 터치·드래그로 넘기기 */
+  var down = false, x0 = 0, b0 = 0, pid = null, moved = 0, lastDrag = 0;
+
+  /* 브라우저 기본 드래그(고스트 이미지)를 막는다 — 이게 포인터 흐름을 통째로 가져간다 */
+  stage.addEventListener('dragstart', function(e){ e.preventDefault(); });
+
+  stage.addEventListener('pointerdown', function(e){
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    down = true; dragged = false; moved = 0;
+    x0 = e.clientX; b0 = state.base; pid = e.pointerId;
+    /* 포인터를 무대에 묶어 두면 커서가 밖으로 나가도 끝까지 따라온다 */
+    try { stage.setPointerCapture(pid); } catch (err) {}
+  });
+
+  stage.addEventListener('pointermove', function(e){
+    if (!down) return;
+    var dx = x0 - e.clientX;
+    if (Math.abs(dx) > moved) moved = Math.abs(dx);
+    state.base = b0 + dx / (innerWidth < 769 ? 66 : 90);
+    state.target = state.base;
+  });
+
+  function endDrag(){
+    if (!down) return;
+    down = false;
+    dragged = moved > 6;          /* 6px 넘게 끌었으면 클릭이 아니라 끌기다 */
+    lastDrag = performance.now();
+    if (pid !== null){ try { stage.releasePointerCapture(pid); } catch (err) {} pid = null; }
+    state.target = state.base;
+  }
+  stage.addEventListener('pointerup', endDrag);
+  stage.addEventListener('pointercancel', endDrag);
+  /* pointerleave 로는 끝내지 않는다 — 캡처 중이라 밖으로 나가도 이어진다 */
+  stage.addEventListener('pointerup', function(){ setTimeout(function(){ dragged = false; }, 40); });
+
+  /* 화면 밖이거나 탭이 숨겨져 있으면 프레임을 돌리지 않는다 */
+  if (window.IntersectionObserver){
+    new IntersectionObserver(function(es){
+      for (var i = 0; i < es.length; i++){
+        var on = es[i].isIntersecting && !document.hidden;
+        if (on && !running){ running = true; previousTime = performance.now(); requestAnimationFrame(render); }
+        running = on;
+      }
+    }, {threshold:.04}).observe(stage);
+  }
+  document.addEventListener('visibilitychange', function(){
+    if (!document.hidden && !running){ running = true; previousTime = performance.now(); requestAnimationFrame(render); }
+    else if (document.hidden) running = false;
+  });
+
+  var previousTime = performance.now();
+
+  function render(time){
+    if (!running) return;
+    var dt = Math.min(32, time - previousTime);
+    previousTime = time;
+    var ease = reducedMotion ? 1 : 1 - Math.pow(0.001, dt / 1000);
+
+    /* 끌고 있거나 마우스를 올려두면 멈춘다. 그 밖에는 계속 흐른다. */
+    if (!down && !hovering && !reducedMotion && time - lastDrag > 2500){
+      state.base += AUTO * dt;
+      state.target = state.base;
+    }
+
+    state.phase += (state.target - state.phase) * ease;
+    var activeIndex = nearestIndex();
+    /* 간격을 카드 폭에 비례시키면 화면 크기와 무관하게 겹침 비율이 같다 */
+    var cardW = cards[0].offsetWidth || 200;
+    var hSpacing = cardW * 0.78;
+
+    cards.forEach(function(card, index){
+      var delta = wrappedDelta(index, state.phase);
+      var distance = Math.abs(delta);
+      var focus = Math.exp(-distance * distance * 1.28);
+      var side = Math.max(0, 1 - distance / 5);
+      var dir = Math.sign(delta);
+      var x = delta * hSpacing;
+      var y = distance * 8;
+      var z = focus * 145 - distance * 148;
+      var scale = 0.54 + side * 0.15 + focus * 0.54;
+      var rotateX = 0;
+      var rotateY = -dir * (distance > 0.2 ? 14 + Math.min(distance, 3) * 5 : 0);
+      var rotateZ = delta * 0.7;
+
+      card.style.setProperty('--focus', focus.toFixed(4));
+      card.style.zIndex = String(Math.round(1000 - distance * 100));
+      card.style.opacity = String(Math.max(0.13, side * 0.76 + focus * 0.24));
+      card.style.filter = 'blur(' + (Math.max(0, distance - 1.5) * 0.38).toFixed(2) + 'px)';
+      card.style.transform = [
+        'translate(-50%, -50%)',
+        'translate3d(' + x.toFixed(2) + 'px, ' + y.toFixed(2) + 'px, ' + z.toFixed(2) + 'px)',
+        'rotateX(' + rotateX.toFixed(2) + 'deg)',
+        'rotateY(' + rotateY.toFixed(2) + 'deg)',
+        'rotateZ(' + rotateZ.toFixed(2) + 'deg)',
+        'scale(' + scale.toFixed(4) + ')'
+      ].join(' ');
+      card.setAttribute('aria-current', index === activeIndex ? 'true' : 'false');
+    });
+
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+})();
+<\/script>
+<script>
+/* 헤딩 타이핑 — 화면에 들어오면 친다. 내려와서 보일 때도, 올라와서 보일 때도.
+   화면 밖으로 나가면 되감아 두므로 다시 보일 때 처음부터 다시 쳐진다.
+   커서는 끝난 뒤에도 계속 깜박인다.
    글자는 이미 DOM 에 있고 잠시 감췄다 되돌리는 방식이라 크롤러는 완성문을 본다. */
 (function(){
   var el=document.querySelector('.plc-h2');
   if(!el||el.getAttribute('data-tt'))return;
+  if(!('IntersectionObserver' in window))return;
   if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)return;
   el.setAttribute('data-tt','1');
 
@@ -297,33 +506,27 @@
       var o=parts[j],take=left<0?0:(left>o.t.length?o.t.length:left);
       o.n.nodeValue=o.t.slice(0,take); left-=take;
     }
-    cur.style.opacity=(k>=total)?'0':'1';
+  }
+  var timer=0;
+  function stop(){ if(timer){ clearTimeout(timer); timer=0; } }
+  function play(){
+    stop(); draw(0);
+    var k=0;
+    (function step(){
+      if(k>=total){ timer=0; return; }
+      draw(++k);
+      timer=setTimeout(step, 30+Math.random()*26);
+    })();
   }
 
-  var raf=0;
-  function update(){
-    raf=0;
-    var r=el.getBoundingClientRect();
-    var vh=window.innerHeight||document.documentElement.clientHeight;
-    var start=vh*0.90, end=vh*0.44;      /* 이 구간을 지나는 동안 문장이 완성된다 */
-    var p=(start-r.top)/(start-end);
-    p=p<0?0:(p>1?1:p);
-    draw(Math.round(p*total));
-  }
-  /* 늘 최신 프레임으로 다시 잡는다. 불린 잠금을 쓰면 한 번 걸렸을 때
-     다음 스크롤을 통째로 건너뛰어 한 박자 늦은 글자가 남는다. */
-  function onMove(){
-    if(raf) cancelAnimationFrame(raf);
-    raf=requestAnimationFrame(update);
-  }
-
-  window.addEventListener('scroll',onMove,{passive:true});
-  window.addEventListener('resize',onMove);
-  window.addEventListener('load',onMove);
-  /* 지연 로딩 이미지가 뒤늦게 들어오면 문서 높이가 바뀐다.
-     그때는 스크롤 이벤트가 없으므로 몇 번 더 확인한다. */
-  setTimeout(onMove,400); setTimeout(onMove,1200); setTimeout(onMove,2500);
-  update();
+  draw(0);
+  var io=new IntersectionObserver(function(es){
+    for(var i=0;i<es.length;i++){
+      if(es[i].isIntersecting) play();
+      else { stop(); draw(0); }
+    }
+  },{threshold:.35});
+  io.observe(el);
 })();
 <\/script>
 `,l=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 부위별 노화 도입부 ═══
@@ -405,12 +608,95 @@
 </section>
 
 <script>
-/* 헤딩 타이핑 — 스크롤 위치에 글자 수를 물린다.
-   내려가면 써지고 올라가면 지워진다. 다시 내려오면 다시 써진다.
+(function(){
+  var root = document.getElementById('pld-mark');
+  if (!root || root.dataset.pldReady) return;
+  root.dataset.pldReady = '1';
+
+  var stage = root.querySelector('.pld-stage');
+  var face  = root.querySelector('.pld-face');
+  if (!stage || !face) return;
+
+  var LAYERS = 20;      // 워드마크는 이미지라 글자보다 적게 쌓아도 두께가 난다
+  var DEPTH  = 3.6;     // 겹 간격(px) — 로고가 커진 만큼 두껍게
+  var TILT   = 7;       // 최대 회전(도)
+  var SMOOTH = 0.14;
+
+  // 뒤로 갈수록 깊은 로즈로 — 원본 PNG 를 필터로 물들인다
+  for (var i = LAYERS; i >= 1; i--) {
+    var t = i / LAYERS, e = t * t;
+    var img = face.cloneNode();
+    img.className = 'pld-layer';
+    img.setAttribute('aria-hidden', 'true');
+    img.removeAttribute('alt');
+    img.alt = '';
+    img.style.transform = 'translateZ(' + (-i * DEPTH).toFixed(2) + 'px)';
+    img.style.filter = 'brightness(' + (1 - e * 0.62).toFixed(3) + ') '
+                     + 'saturate(' + (1 + e * 0.5).toFixed(3) + ') '
+                     + 'hue-rotate(' + (-e * 8).toFixed(1) + 'deg)';
+    stage.insertBefore(img, face);
+  }
+
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+
+  var fine = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var base = { x: -TILT * 0.32, y: TILT * 0.42 };
+  var cur = { x: base.x, y: base.y }, tgt = { x: base.x, y: base.y };
+  var active = false, t0 = performance.now(), raf = 0, visible = true;
+
+  function clamp(v, a, b){ return v < a ? a : v > b ? b : v; }
+  function apply(){ stage.style.transform = 'rotateX(' + cur.x.toFixed(3) + 'deg) rotateY(' + cur.y.toFixed(3) + 'deg)'; }
+
+  function onMove(ev){
+    var r = root.getBoundingClientRect();
+    if (!r.width || !r.height) return;
+    active = true;
+    var x = clamp((ev.clientX - (r.left + r.width / 2)) / (r.width * 0.8), -1, 1);
+    var y = clamp((ev.clientY - (r.top + r.height / 2)) / (r.height * 0.8), -1, 1);
+    tgt.x = base.x - y * TILT;
+    tgt.y = base.y + x * TILT;
+  }
+  function onLeave(){ active = false; tgt.x = base.x; tgt.y = base.y; }
+
+  if (fine) {
+    addEventListener('pointermove', onMove, { passive: true });
+    addEventListener('pointerleave', onLeave);
+    addEventListener('blur', onLeave);
+  }
+
+  // 화면 밖이면 멈춘다 — 배터리와 CPU 를 아낀다
+  if (window.IntersectionObserver) {
+    new IntersectionObserver(function(es){ visible = es[0].isIntersecting; }, { threshold: 0 }).observe(root);
+  }
+
+  function tick(now){
+    if (visible) {
+      if (!fine || !active) {                       // 마우스가 없으면 천천히 자전
+        var s = (now - t0) / 1000 * 0.35 * Math.PI * 2;
+        var amt = fine ? 0.18 : 0.55;
+        tgt.x = base.x + Math.sin(s) * TILT * amt;
+        tgt.y = base.y + Math.cos(s * 0.85) * TILT * amt;
+      }
+      cur.x += (tgt.x - cur.x) * SMOOTH;
+      cur.y += (tgt.y - cur.y) * SMOOTH;
+      apply();
+    }
+    raf = requestAnimationFrame(tick);
+  }
+  apply();
+  raf = requestAnimationFrame(tick);
+})();
+<\/script>
+<script>
+/* 헤딩 타이핑 — 화면에 들어오면 친다. 내려와서 보일 때도, 올라와서 보일 때도.
+   화면 밖으로 나가면 되감아 두므로 다시 보일 때 처음부터 다시 쳐진다.
+   커서는 끝난 뒤에도 계속 깜박인다.
    글자는 이미 DOM 에 있고 잠시 감췄다 되돌리는 방식이라 크롤러는 완성문을 본다. */
 (function(){
   var el=document.querySelector('.pld-h2');
   if(!el||el.getAttribute('data-tt'))return;
+  if(!('IntersectionObserver' in window))return;
   if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)return;
   el.setAttribute('data-tt','1');
 
@@ -433,33 +719,27 @@
       var o=parts[j],take=left<0?0:(left>o.t.length?o.t.length:left);
       o.n.nodeValue=o.t.slice(0,take); left-=take;
     }
-    cur.style.opacity=(k>=total)?'0':'1';
+  }
+  var timer=0;
+  function stop(){ if(timer){ clearTimeout(timer); timer=0; } }
+  function play(){
+    stop(); draw(0);
+    var k=0;
+    (function step(){
+      if(k>=total){ timer=0; return; }
+      draw(++k);
+      timer=setTimeout(step, 30+Math.random()*26);
+    })();
   }
 
-  var raf=0;
-  function update(){
-    raf=0;
-    var r=el.getBoundingClientRect();
-    var vh=window.innerHeight||document.documentElement.clientHeight;
-    var start=vh*0.90, end=vh*0.44;      /* 이 구간을 지나는 동안 문장이 완성된다 */
-    var p=(start-r.top)/(start-end);
-    p=p<0?0:(p>1?1:p);
-    draw(Math.round(p*total));
-  }
-  /* 늘 최신 프레임으로 다시 잡는다. 불린 잠금을 쓰면 한 번 걸렸을 때
-     다음 스크롤을 통째로 건너뛰어 한 박자 늦은 글자가 남는다. */
-  function onMove(){
-    if(raf) cancelAnimationFrame(raf);
-    raf=requestAnimationFrame(update);
-  }
-
-  window.addEventListener('scroll',onMove,{passive:true});
-  window.addEventListener('resize',onMove);
-  window.addEventListener('load',onMove);
-  /* 지연 로딩 이미지가 뒤늦게 들어오면 문서 높이가 바뀐다.
-     그때는 스크롤 이벤트가 없으므로 몇 번 더 확인한다. */
-  setTimeout(onMove,400); setTimeout(onMove,1200); setTimeout(onMove,2500);
-  update();
+  draw(0);
+  var io=new IntersectionObserver(function(es){
+    for(var i=0;i<es.length;i++){
+      if(es[i].isIntersecting) play();
+      else { stop(); draw(0); }
+    }
+  },{threshold:.35});
+  io.observe(el);
 })();
 <\/script>
 `,d=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 장비 9종 상세 ═══
@@ -956,12 +1236,128 @@
 </section>
 
 <script>
-/* 헤딩 타이핑 — 스크롤 위치에 글자 수를 물린다.
-   내려가면 써지고 올라가면 지워진다. 다시 내려오면 다시 써진다.
+(function(){
+  var stage = document.getElementById('pfz-stage');
+  if (!stage || stage.dataset.pfzReady) return;
+  stage.dataset.pfzReady = '1';
+
+  var svg   = stage.querySelector('.pfz-lines');
+  var cards = stage.querySelectorAll('.pfz-card');
+  var dots  = stage.querySelectorAll('.pfz-dot');
+  var lines = stage.querySelectorAll('.pfz-line');
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function byZ(list, z){
+    for (var i = 0; i < list.length; i++) if (list[i].dataset.z === z) return list[i];
+    return null;
+  }
+
+  /* 카드 모서리에서 얼굴 위 점까지 — 실제 렌더 좌표로 잇는다.
+     좌표를 손으로 박으면 폭이 바뀔 때마다 어긋난다. */
+  function drawLines(){
+    var box = stage.getBoundingClientRect();
+    if (!box.width || getComputedStyle(svg).display === 'none') return;
+    svg.setAttribute('viewBox', '0 0 ' + box.width + ' ' + box.height);
+
+    for (var i = 0; i < lines.length; i++) {
+      var z = lines[i].dataset.z;
+      var card = byZ(cards, z), dot = byZ(dots, z);
+      if (!card || !dot) continue;
+
+      var c = card.getBoundingClientRect();
+      var d = dot.getBoundingClientRect();
+      var dx = d.left - box.left + d.width / 2;
+      var dy = d.top - box.top + d.height / 2;
+
+      /* 점이 카드 오른쪽에 있으면 카드 오른쪽 모서리에서, 왼쪽이면 왼쪽 모서리에서 출발 */
+      var fromRight = dx > (c.left - box.left + c.width / 2);
+      var sx = (fromRight ? c.right : c.left) - box.left;
+      var sy = c.top - box.top + c.height / 2;
+
+      /* 카드에서 잠깐 수평으로 나갔다가 점으로 꺾어 들어간다 */
+      var ex = sx + (dx - sx) * 0.52;
+      lines[i].setAttribute('d',
+        'M' + sx.toFixed(1) + ',' + sy.toFixed(1) +
+        ' L' + ex.toFixed(1) + ',' + sy.toFixed(1) +
+        ' L' + dx.toFixed(1) + ',' + dy.toFixed(1));
+
+      /* 그라디언트를 선 방향에 맞춘다 — 카드 쪽은 뚜렷, 얼굴 쪽은 옅게 */
+      var g = svg.querySelector('#pfz-g-' + z);
+      if (g) {
+        g.setAttribute('x1', sx.toFixed(1)); g.setAttribute('y1', sy.toFixed(1));
+        g.setAttribute('x2', dx.toFixed(1)); g.setAttribute('y2', dy.toFixed(1));
+      }
+    }
+  }
+
+  function set(z, on){
+    [cards, dots, lines].forEach(function(group){
+      for (var i = 0; i < group.length; i++) {
+        if (group[i].dataset.z === z) group[i].classList.toggle('is-hot', on);
+      }
+    });
+  }
+  function bind(el){
+    var z = el.dataset.z;
+    el.addEventListener('mouseenter', function(){ set(z, true); });
+    el.addEventListener('mouseleave', function(){ set(z, false); });
+    el.addEventListener('focus', function(){ set(z, true); });
+    el.addEventListener('blur', function(){ set(z, false); });
+    el.addEventListener('click', function(){ set(z, true); });
+  }
+  for (var i = 0; i < cards.length; i++) bind(cards[i]);
+  for (var j = 0; j < dots.length; j++) bind(dots[j]);
+
+  /* 스크롤에 따라 배경·인물이 아주 살짝 확대된다 */
+  var ticking = false;
+  function zoom(){
+    ticking = false;
+    if (reduce) return;
+    var box = stage.getBoundingClientRect();
+    var vh = innerHeight || document.documentElement.clientHeight;
+    if (box.bottom < 0 || box.top > vh) return;
+    var p = 1 - (box.top + box.height / 2) / (vh + box.height / 2);   /* 0 → 1 */
+    p = p < 0 ? 0 : p > 1 ? 1 : p;
+    stage.style.setProperty('--zoom', (1 + p * 0.075).toFixed(4));
+  }
+  function onScroll(){ if (!ticking) { ticking = true; requestAnimationFrame(zoom); } }
+  addEventListener('scroll', onScroll, { passive: true });
+
+  function onResize(){ drawLines(); zoom(); }
+  addEventListener('resize', onResize);
+
+  /* 이미지가 늦게 오면 크기가 바뀌므로 로드 뒤 다시 잰다 */
+  var imgs = stage.querySelectorAll('img');
+  for (var k = 0; k < imgs.length; k++) {
+    if (!imgs[k].complete) imgs[k].addEventListener('load', drawLines);
+  }
+
+  if (window.IntersectionObserver) {
+    var io = new IntersectionObserver(function(es){
+      if (es[0].isIntersecting) { drawLines(); stage.classList.add('is-in'); io.disconnect(); }
+    }, { threshold: .18 });
+    io.observe(stage);
+  } else {
+    stage.classList.add('is-in');
+  }
+
+  for (var m = 0; m < lines.length; m++) lines[m].style.animationDelay = (m * 0.14) + 's';
+  for (var n = 0; n < dots.length; n++) dots[n].style.animationDelay = (0.55 + n * 0.12) + 's';
+
+  drawLines(); zoom();
+  setTimeout(drawLines, 300);
+  setTimeout(drawLines, 1200);
+})();
+<\/script>
+<script>
+/* 헤딩 타이핑 — 화면에 들어오면 친다. 내려와서 보일 때도, 올라와서 보일 때도.
+   화면 밖으로 나가면 되감아 두므로 다시 보일 때 처음부터 다시 쳐진다.
+   커서는 끝난 뒤에도 계속 깜박인다.
    글자는 이미 DOM 에 있고 잠시 감췄다 되돌리는 방식이라 크롤러는 완성문을 본다. */
 (function(){
   var el=document.querySelector('.pfz-h2');
   if(!el||el.getAttribute('data-tt'))return;
+  if(!('IntersectionObserver' in window))return;
   if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)return;
   el.setAttribute('data-tt','1');
 
@@ -984,33 +1380,27 @@
       var o=parts[j],take=left<0?0:(left>o.t.length?o.t.length:left);
       o.n.nodeValue=o.t.slice(0,take); left-=take;
     }
-    cur.style.opacity=(k>=total)?'0':'1';
+  }
+  var timer=0;
+  function stop(){ if(timer){ clearTimeout(timer); timer=0; } }
+  function play(){
+    stop(); draw(0);
+    var k=0;
+    (function step(){
+      if(k>=total){ timer=0; return; }
+      draw(++k);
+      timer=setTimeout(step, 30+Math.random()*26);
+    })();
   }
 
-  var raf=0;
-  function update(){
-    raf=0;
-    var r=el.getBoundingClientRect();
-    var vh=window.innerHeight||document.documentElement.clientHeight;
-    var start=vh*0.90, end=vh*0.44;      /* 이 구간을 지나는 동안 문장이 완성된다 */
-    var p=(start-r.top)/(start-end);
-    p=p<0?0:(p>1?1:p);
-    draw(Math.round(p*total));
-  }
-  /* 늘 최신 프레임으로 다시 잡는다. 불린 잠금을 쓰면 한 번 걸렸을 때
-     다음 스크롤을 통째로 건너뛰어 한 박자 늦은 글자가 남는다. */
-  function onMove(){
-    if(raf) cancelAnimationFrame(raf);
-    raf=requestAnimationFrame(update);
-  }
-
-  window.addEventListener('scroll',onMove,{passive:true});
-  window.addEventListener('resize',onMove);
-  window.addEventListener('load',onMove);
-  /* 지연 로딩 이미지가 뒤늦게 들어오면 문서 높이가 바뀐다.
-     그때는 스크롤 이벤트가 없으므로 몇 번 더 확인한다. */
-  setTimeout(onMove,400); setTimeout(onMove,1200); setTimeout(onMove,2500);
-  update();
+  draw(0);
+  var io=new IntersectionObserver(function(es){
+    for(var i=0;i<es.length;i++){
+      if(es[i].isIntersecting) play();
+      else { stop(); draw(0); }
+    }
+  },{threshold:.35});
+  io.observe(el);
 })();
 <\/script>
 `,f=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 시술 과정 4단계 ═══
@@ -1027,23 +1417,23 @@
 .ppc-sec *{box-sizing:border-box}
 
 .ppc-head{max-width:1000px;margin:0 auto 44px;text-align:center;padding:0 20px}
-.ppc-kw{display:block;margin:0 0 13px;font-size:13px;font-weight:700;letter-spacing:.22em;
+.ppc-kw{display:block;margin:0 0 13px;font-size:16.2px;font-weight:700;letter-spacing:.22em;
   text-transform:uppercase;color:var(--c)}
 .ppc-h2{margin:0 0 15px;font-size:clamp(30px,3.4vw,45.6px);font-weight:700;line-height:1.38;
   letter-spacing:-1.4px;text-wrap:balance}
 .ppc-h2 em{font-style:normal;color:var(--c)}
-.ppc-lead{margin:0;font-size:clamp(15px,1.3vw,18px);line-height:1.8;letter-spacing:-.6px;color:var(--ink2)}
+.ppc-lead{margin:0;font-size:clamp(15px,1.6vw,22.5px);line-height:1.8;letter-spacing:-.6px;color:var(--ink2)}
 
 /* ── 4단계 ── */
 .ppc-list{list-style:none;margin:0 auto;padding:0 20px;max-width:min(1720px,calc(100% - 48px));
-  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,1.6vw,22px)}
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,2vw,27.5px)}
 .ppc-step{position:relative;display:flex;flex-direction:column;
-  padding:clamp(20px,2vw,26px);border-radius:20px;background:#fff;border:1px solid var(--line);
+  padding:clamp(20px,2.5vw,32.5px);border-radius:20px;background:#fff;border:1px solid var(--line);
   box-shadow:0 8px 26px rgba(80,55,52,.05);transition:transform .3s cubic-bezier(.22,.61,.36,1),box-shadow .3s}
 .ppc-step:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(233,145,142,.16)}
 
 .ppc-no{display:flex;align-items:center;gap:9px;margin:0 0 14px;
-  font-size:12px;font-weight:800;letter-spacing:.18em;color:var(--c);font-variant-numeric:tabular-nums}
+  font-size:15px;font-weight:800;letter-spacing:.18em;color:var(--c);font-variant-numeric:tabular-nums}
 .ppc-no::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--c),transparent)}
 
 /* 시술 과정 사진 4장 — R2, 1200x900 (4:3) */
@@ -1052,10 +1442,10 @@
   background:var(--paper);border:1px solid var(--line)}
 .ppc-figure img{width:100%;height:100%;object-fit:cover;display:block}
 
-.ppc-en{display:block;margin:0 0 5px;font-size:11.4px;font-weight:700;letter-spacing:.12em;
+.ppc-en{display:block;margin:0 0 5px;font-size:14.2px;font-weight:700;letter-spacing:.12em;
   text-transform:uppercase;color:var(--mute)}
-.ppc-t{margin:0 0 10px;font-size:clamp(17px,1.4vw,21px);font-weight:700;line-height:1.3;letter-spacing:-.8px}
-.ppc-d{margin:0;font-size:clamp(13.5px,1.0vw,15px);line-height:1.85;letter-spacing:-.4px;color:var(--ink2)}
+.ppc-t{margin:0 0 10px;font-size:clamp(17px,1.8vw,26.2px);font-weight:700;line-height:1.3;letter-spacing:-.8px}
+.ppc-d{margin:0;font-size:clamp(13.5px,1.2vw,18.8px);line-height:1.85;letter-spacing:-.4px;color:var(--ink2)}
 
 @media (max-width:1000px){
   .ppc-list{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -1151,12 +1541,14 @@
 </section>
 
 <script>
-/* 헤딩 타이핑 — 스크롤 위치에 글자 수를 물린다.
-   내려가면 써지고 올라가면 지워진다. 다시 내려오면 다시 써진다.
+/* 헤딩 타이핑 — 화면에 들어오면 친다. 내려와서 보일 때도, 올라와서 보일 때도.
+   화면 밖으로 나가면 되감아 두므로 다시 보일 때 처음부터 다시 쳐진다.
+   커서는 끝난 뒤에도 계속 깜박인다.
    글자는 이미 DOM 에 있고 잠시 감췄다 되돌리는 방식이라 크롤러는 완성문을 본다. */
 (function(){
   var el=document.querySelector('.ppc-h2');
   if(!el||el.getAttribute('data-tt'))return;
+  if(!('IntersectionObserver' in window))return;
   if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)return;
   el.setAttribute('data-tt','1');
 
@@ -1179,33 +1571,27 @@
       var o=parts[j],take=left<0?0:(left>o.t.length?o.t.length:left);
       o.n.nodeValue=o.t.slice(0,take); left-=take;
     }
-    cur.style.opacity=(k>=total)?'0':'1';
+  }
+  var timer=0;
+  function stop(){ if(timer){ clearTimeout(timer); timer=0; } }
+  function play(){
+    stop(); draw(0);
+    var k=0;
+    (function step(){
+      if(k>=total){ timer=0; return; }
+      draw(++k);
+      timer=setTimeout(step, 30+Math.random()*26);
+    })();
   }
 
-  var raf=0;
-  function update(){
-    raf=0;
-    var r=el.getBoundingClientRect();
-    var vh=window.innerHeight||document.documentElement.clientHeight;
-    var start=vh*0.90, end=vh*0.44;      /* 이 구간을 지나는 동안 문장이 완성된다 */
-    var p=(start-r.top)/(start-end);
-    p=p<0?0:(p>1?1:p);
-    draw(Math.round(p*total));
-  }
-  /* 늘 최신 프레임으로 다시 잡는다. 불린 잠금을 쓰면 한 번 걸렸을 때
-     다음 스크롤을 통째로 건너뛰어 한 박자 늦은 글자가 남는다. */
-  function onMove(){
-    if(raf) cancelAnimationFrame(raf);
-    raf=requestAnimationFrame(update);
-  }
-
-  window.addEventListener('scroll',onMove,{passive:true});
-  window.addEventListener('resize',onMove);
-  window.addEventListener('load',onMove);
-  /* 지연 로딩 이미지가 뒤늦게 들어오면 문서 높이가 바뀐다.
-     그때는 스크롤 이벤트가 없으므로 몇 번 더 확인한다. */
-  setTimeout(onMove,400); setTimeout(onMove,1200); setTimeout(onMove,2500);
-  update();
+  draw(0);
+  var io=new IntersectionObserver(function(es){
+    for(var i=0;i<es.length;i++){
+      if(es[i].isIntersecting) play();
+      else { stop(); draw(0); }
+    }
+  },{threshold:.35});
+  io.observe(el);
 })();
 <\/script>
 `,h=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 시술 정보 · 이런 분께 ═══
@@ -1220,10 +1606,10 @@
   word-break:keep-all;overflow-wrap:break-word;text-align:left}
 .pin-sec *{box-sizing:border-box}
 .pin-wrap{max-width:min(1720px,calc(100% - 48px));margin:0 auto;padding:0 20px;
-  display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(24px,3.4vw,52px);align-items:start}
+  display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(24px,4.2vw,65px);align-items:start}
 
 /* ── 이런 분께 ── */
-.pin-kw{display:block;margin:0 0 12px;font-size:12.6px;font-weight:700;letter-spacing:.2em;
+.pin-kw{display:block;margin:0 0 12px;font-size:15.8px;font-weight:700;letter-spacing:.2em;
   text-transform:uppercase;color:var(--c)}
 .pin-h2{margin:0 0 22px;font-size:clamp(27.6px,3.1vw,40.8px);font-weight:700;line-height:1.38;
   letter-spacing:-1.3px;text-wrap:balance}
@@ -1232,27 +1618,27 @@
 .pin-who{list-style:none;margin:0 0 20px;padding:0;display:flex;flex-direction:column;gap:11px}
 .pin-who li{position:relative;padding:15px 18px 15px 50px;border-radius:14px;
   background:var(--paper);border:1px solid var(--line);
-  font-size:clamp(14.5px,1.2vw,16.5px);line-height:1.6;letter-spacing:-.4px;font-weight:500}
+  font-size:clamp(14.5px,1.5vw,20.6px);line-height:1.6;letter-spacing:-.4px;font-weight:500}
 .pin-who li::before{content:'';position:absolute;left:18px;top:50%;width:18px;height:18px;
   margin-top:-9px;border-radius:50%;background:var(--c);
   -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.6 4.5L19 7.5'/%3E%3C/svg%3E") center/13px no-repeat;
   mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.6 4.5L19 7.5'/%3E%3C/svg%3E") center/13px no-repeat}
-.pin-note{margin:0;font-size:13.4px;line-height:1.75;letter-spacing:-.3px;color:var(--mute)}
+.pin-note{margin:0;font-size:16.8px;line-height:1.75;letter-spacing:-.3px;color:var(--mute)}
 
 /* ── 시술 정보 ── */
-.pin-card{padding:clamp(22px,2.4vw,32px);border-radius:22px;background:#fff;
+.pin-card{padding:clamp(22px,3vw,40px);border-radius:22px;background:#fff;
   border:1px solid var(--line);box-shadow:0 10px 30px rgba(80,55,52,.06)}
-.pin-ct{margin:0 0 18px;font-size:clamp(17px,1.4vw,21px);font-weight:700;letter-spacing:-.8px}
+.pin-ct{margin:0 0 18px;font-size:clamp(17px,1.8vw,26.2px);font-weight:700;letter-spacing:-.8px}
 .pin-spec{margin:0;display:grid;grid-template-columns:auto 1fr;gap:0}
-.pin-spec dt{padding:14px 0;font-size:13.4px;font-weight:700;letter-spacing:-.3px;color:var(--mute);
+.pin-spec dt{padding:14px 0;font-size:16.8px;font-weight:700;letter-spacing:-.3px;color:var(--mute);
   border-top:1px solid var(--line);white-space:nowrap}
-.pin-spec dd{margin:0;padding:14px 0 14px 22px;font-size:clamp(14.5px,1.2vw,16px);font-weight:600;
+.pin-spec dd{margin:0;padding:14px 0 14px 22px;font-size:clamp(14.5px,1.5vw,20px);font-weight:600;
   letter-spacing:-.4px;line-height:1.6;border-top:1px solid var(--line);text-align:right}
 .pin-spec dt:first-of-type,.pin-spec dt:first-of-type + dd{border-top:0}
 .pin-spec dd b{color:var(--c-dk);font-weight:800}
 
 .pin-why{margin:22px 0 0;padding:18px 20px;border-radius:16px;background:var(--c-bg);
-  font-size:clamp(14px,1.0vw,15.5px);line-height:1.85;letter-spacing:-.4px;color:var(--ink2)}
+  font-size:clamp(14px,1.2vw,19.4px);line-height:1.85;letter-spacing:-.4px;color:var(--ink2)}
 .pin-why b{font-weight:700;color:var(--c-dk)}
 
 @media (max-width:1000px){
@@ -1317,12 +1703,14 @@
 </section>
 
 <script>
-/* 헤딩 타이핑 — 스크롤 위치에 글자 수를 물린다.
-   내려가면 써지고 올라가면 지워진다. 다시 내려오면 다시 써진다.
+/* 헤딩 타이핑 — 화면에 들어오면 친다. 내려와서 보일 때도, 올라와서 보일 때도.
+   화면 밖으로 나가면 되감아 두므로 다시 보일 때 처음부터 다시 쳐진다.
+   커서는 끝난 뒤에도 계속 깜박인다.
    글자는 이미 DOM 에 있고 잠시 감췄다 되돌리는 방식이라 크롤러는 완성문을 본다. */
 (function(){
   var el=document.querySelector('.pin-h2');
   if(!el||el.getAttribute('data-tt'))return;
+  if(!('IntersectionObserver' in window))return;
   if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)return;
   el.setAttribute('data-tt','1');
 
@@ -1345,33 +1733,27 @@
       var o=parts[j],take=left<0?0:(left>o.t.length?o.t.length:left);
       o.n.nodeValue=o.t.slice(0,take); left-=take;
     }
-    cur.style.opacity=(k>=total)?'0':'1';
+  }
+  var timer=0;
+  function stop(){ if(timer){ clearTimeout(timer); timer=0; } }
+  function play(){
+    stop(); draw(0);
+    var k=0;
+    (function step(){
+      if(k>=total){ timer=0; return; }
+      draw(++k);
+      timer=setTimeout(step, 30+Math.random()*26);
+    })();
   }
 
-  var raf=0;
-  function update(){
-    raf=0;
-    var r=el.getBoundingClientRect();
-    var vh=window.innerHeight||document.documentElement.clientHeight;
-    var start=vh*0.90, end=vh*0.44;      /* 이 구간을 지나는 동안 문장이 완성된다 */
-    var p=(start-r.top)/(start-end);
-    p=p<0?0:(p>1?1:p);
-    draw(Math.round(p*total));
-  }
-  /* 늘 최신 프레임으로 다시 잡는다. 불린 잠금을 쓰면 한 번 걸렸을 때
-     다음 스크롤을 통째로 건너뛰어 한 박자 늦은 글자가 남는다. */
-  function onMove(){
-    if(raf) cancelAnimationFrame(raf);
-    raf=requestAnimationFrame(update);
-  }
-
-  window.addEventListener('scroll',onMove,{passive:true});
-  window.addEventListener('resize',onMove);
-  window.addEventListener('load',onMove);
-  /* 지연 로딩 이미지가 뒤늦게 들어오면 문서 높이가 바뀐다.
-     그때는 스크롤 이벤트가 없으므로 몇 번 더 확인한다. */
-  setTimeout(onMove,400); setTimeout(onMove,1200); setTimeout(onMove,2500);
-  update();
+  draw(0);
+  var io=new IntersectionObserver(function(es){
+    for(var i=0;i<es.length;i++){
+      if(es[i].isIntersecting) play();
+      else { stop(); draw(0); }
+    }
+  },{threshold:.35});
+  io.observe(el);
 })();
 <\/script>
 `,m=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 자주 묻는 질문 ═══
@@ -1639,12 +2021,14 @@
 </section>
 
 <script>
-/* 헤딩 타이핑 — 스크롤 위치에 글자 수를 물린다.
-   내려가면 써지고 올라가면 지워진다. 다시 내려오면 다시 써진다.
+/* 헤딩 타이핑 — 화면에 들어오면 친다. 내려와서 보일 때도, 올라와서 보일 때도.
+   화면 밖으로 나가면 되감아 두므로 다시 보일 때 처음부터 다시 쳐진다.
+   커서는 끝난 뒤에도 계속 깜박인다.
    글자는 이미 DOM 에 있고 잠시 감췄다 되돌리는 방식이라 크롤러는 완성문을 본다. */
 (function(){
   var el=document.querySelector('.pvs-h2');
   if(!el||el.getAttribute('data-tt'))return;
+  if(!('IntersectionObserver' in window))return;
   if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)return;
   el.setAttribute('data-tt','1');
 
@@ -1667,33 +2051,27 @@
       var o=parts[j],take=left<0?0:(left>o.t.length?o.t.length:left);
       o.n.nodeValue=o.t.slice(0,take); left-=take;
     }
-    cur.style.opacity=(k>=total)?'0':'1';
+  }
+  var timer=0;
+  function stop(){ if(timer){ clearTimeout(timer); timer=0; } }
+  function play(){
+    stop(); draw(0);
+    var k=0;
+    (function step(){
+      if(k>=total){ timer=0; return; }
+      draw(++k);
+      timer=setTimeout(step, 30+Math.random()*26);
+    })();
   }
 
-  var raf=0;
-  function update(){
-    raf=0;
-    var r=el.getBoundingClientRect();
-    var vh=window.innerHeight||document.documentElement.clientHeight;
-    var start=vh*0.90, end=vh*0.44;      /* 이 구간을 지나는 동안 문장이 완성된다 */
-    var p=(start-r.top)/(start-end);
-    p=p<0?0:(p>1?1:p);
-    draw(Math.round(p*total));
-  }
-  /* 늘 최신 프레임으로 다시 잡는다. 불린 잠금을 쓰면 한 번 걸렸을 때
-     다음 스크롤을 통째로 건너뛰어 한 박자 늦은 글자가 남는다. */
-  function onMove(){
-    if(raf) cancelAnimationFrame(raf);
-    raf=requestAnimationFrame(update);
-  }
-
-  window.addEventListener('scroll',onMove,{passive:true});
-  window.addEventListener('resize',onMove);
-  window.addEventListener('load',onMove);
-  /* 지연 로딩 이미지가 뒤늦게 들어오면 문서 높이가 바뀐다.
-     그때는 스크롤 이벤트가 없으므로 몇 번 더 확인한다. */
-  setTimeout(onMove,400); setTimeout(onMove,1200); setTimeout(onMove,2500);
-  update();
+  draw(0);
+  var io=new IntersectionObserver(function(es){
+    for(var i=0;i<es.length;i++){
+      if(es[i].isIntersecting) play();
+      else { stop(); draw(0); }
+    }
+  },{threshold:.35});
+  io.observe(el);
 })();
 <\/script>
-`,v=[{id:"01-hero",file:"01-hero.html",name:"히어로",prefix:"plh",desc:"제목 · 배경 영상 · 특징 패널",src:r},{id:"02-intro",file:"02-intro.html",name:"9 Original Devices",prefix:"plc",desc:"헤딩 · 특징 3가지 · 장비 슬라이더",src:o},{id:"05-depth-intro",file:"05-depth-intro.html",name:"부위별 노화 도입",prefix:"pld",desc:"워드마크 3D 압출 + 도입 카피",src:l},{id:"06-devices",file:"06-devices.html",name:"장비 9종 상세",prefix:"pdv",desc:"장비마다 큰 블록 + 깊이 막대",src:d},{id:"11-face-zones",file:"11-face-zones.html",name:"부위별 노화 지도",prefix:"pfz",desc:"얼굴 위 4구역 · 연결선 · 마우스 연동 · 스크롤 줌",src:c},{id:"07-process",file:"07-process.html",name:"시술 과정 4단계",prefix:"ppc",desc:"정밀 진단 → 맞춤 설계 → 시술 진행 → 회복 관리",src:f},{id:"08-info",file:"08-info.html",name:"이런 분께 · 시술 정보",prefix:"pin",desc:"추천 대상 3가지 + 소요 시간·구성 표",src:h},{id:"09-faq",file:"09-faq.html",name:"자주 묻는 질문",prefix:"pfq",desc:"문답 5개 + FAQPage 구조화 데이터",src:m},{id:"10-visit",file:"10-visit.html",name:"오시는 길 · 진료시간",prefix:"pvs",desc:"주소 · 도보 안내 · 진료시간",src:g}];function x(p,a){p.innerHTML=a,p.querySelectorAll("script").forEach(i=>{const t=document.createElement("script");for(const n of i.attributes)t.setAttribute(n.name,n.value);t.textContent=i.textContent,i.replaceWith(t)})}export{v as W,x as m};
+`,v=[{id:"01-hero",file:"01-hero.html",name:"히어로",prefix:"plh",desc:"제목 · 배경 영상 · 특징 패널",src:p},{id:"02-intro",file:"02-intro.html",name:"9 Original Devices",prefix:"plc",desc:"헤딩 · 특징 3가지 · 장비 슬라이더",src:o},{id:"05-depth-intro",file:"05-depth-intro.html",name:"부위별 노화 도입",prefix:"pld",desc:"워드마크 3D 압출 + 도입 카피",src:l},{id:"06-devices",file:"06-devices.html",name:"장비 9종 상세",prefix:"pdv",desc:"장비마다 큰 블록 + 깊이 막대",src:d},{id:"11-face-zones",file:"11-face-zones.html",name:"부위별 노화 지도",prefix:"pfz",desc:"얼굴 위 4구역 · 연결선 · 마우스 연동 · 스크롤 줌",src:c},{id:"07-process",file:"07-process.html",name:"시술 과정 4단계",prefix:"ppc",desc:"정밀 진단 → 맞춤 설계 → 시술 진행 → 회복 관리",src:f},{id:"08-info",file:"08-info.html",name:"이런 분께 · 시술 정보",prefix:"pin",desc:"추천 대상 3가지 + 소요 시간·구성 표",src:h},{id:"09-faq",file:"09-faq.html",name:"자주 묻는 질문",prefix:"pfq",desc:"문답 5개 + FAQPage 구조화 데이터",src:m},{id:"10-visit",file:"10-visit.html",name:"오시는 길 · 진료시간",prefix:"pvs",desc:"주소 · 도보 안내 · 진료시간",src:g}];function u(r,a){r.innerHTML=a,r.querySelectorAll("script").forEach(i=>{const t=document.createElement("script");for(const n of i.attributes)t.setAttribute(n.name,n.value);t.textContent=i.textContent,i.replaceWith(t)})}export{v as W,u as m};

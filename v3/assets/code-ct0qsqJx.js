@@ -1,4 +1,4 @@
-import{W as u}from"./widgets-t40Fzr7Y.js";const v=document.getElementById("code"),h=[1440,1024,375],y={1440:1500,1024:1700,375:2100},f=(t,s)=>`<!doctype html><html lang="ko"><head><meta charset="utf-8">
+import{W as u}from"./widgets-d03DSNme.js";const v=document.getElementById("code"),h=[1440,1024,375],y={1440:1500,1024:1700,375:2100},f=(t,s)=>`<!doctype html><html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
 <style>html,body{margin:0}body{background:#fff;padding:20px 16px;overflow:hidden;
