@@ -1,0 +1,1 @@
+import{W as o,m as n}from"./widgets-LhN6N8FE.js";const s=document.getElementById("page");for(const e of o){const t=document.createElement("div");t.className="slot",t.dataset.widget=e.id,s.appendChild(t),n(t,e.src)}console.info("[bbx] %d개 위젯 마운트: %s",o.length,o.map(e=>e.name).join(" → "));
