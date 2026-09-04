@@ -300,9 +300,9 @@
     cur.style.opacity=(k>=total)?'0':'1';
   }
 
-  var queued=false;
+  var raf=0;
   function update(){
-    queued=false;
+    raf=0;
     var r=el.getBoundingClientRect();
     var vh=window.innerHeight||document.documentElement.clientHeight;
     var start=vh*0.90, end=vh*0.44;      /* 이 구간을 지나는 동안 문장이 완성된다 */
@@ -310,16 +310,19 @@
     p=p<0?0:(p>1?1:p);
     draw(Math.round(p*total));
   }
-  function onMove(){ if(!queued){ queued=true; requestAnimationFrame(update); } }
+  /* 늘 최신 프레임으로 다시 잡는다. 불린 잠금을 쓰면 한 번 걸렸을 때
+     다음 스크롤을 통째로 건너뛰어 한 박자 늦은 글자가 남는다. */
+  function onMove(){
+    if(raf) cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(update);
+  }
 
   window.addEventListener('scroll',onMove,{passive:true});
   window.addEventListener('resize',onMove);
   window.addEventListener('load',onMove);
   /* 지연 로딩 이미지가 뒤늦게 들어오면 문서 높이가 바뀐다.
-     그때는 스크롤 이벤트가 없으므로 따로 다시 계산해야 한다. */
-  if('ResizeObserver' in window){
-    try{ new ResizeObserver(onMove).observe(document.documentElement); }catch(e){}
-  }
+     그때는 스크롤 이벤트가 없으므로 몇 번 더 확인한다. */
+  setTimeout(onMove,400); setTimeout(onMove,1200); setTimeout(onMove,2500);
   update();
 })();
 <\/script>
@@ -433,9 +436,9 @@
     cur.style.opacity=(k>=total)?'0':'1';
   }
 
-  var queued=false;
+  var raf=0;
   function update(){
-    queued=false;
+    raf=0;
     var r=el.getBoundingClientRect();
     var vh=window.innerHeight||document.documentElement.clientHeight;
     var start=vh*0.90, end=vh*0.44;      /* 이 구간을 지나는 동안 문장이 완성된다 */
@@ -443,16 +446,19 @@
     p=p<0?0:(p>1?1:p);
     draw(Math.round(p*total));
   }
-  function onMove(){ if(!queued){ queued=true; requestAnimationFrame(update); } }
+  /* 늘 최신 프레임으로 다시 잡는다. 불린 잠금을 쓰면 한 번 걸렸을 때
+     다음 스크롤을 통째로 건너뛰어 한 박자 늦은 글자가 남는다. */
+  function onMove(){
+    if(raf) cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(update);
+  }
 
   window.addEventListener('scroll',onMove,{passive:true});
   window.addEventListener('resize',onMove);
   window.addEventListener('load',onMove);
   /* 지연 로딩 이미지가 뒤늦게 들어오면 문서 높이가 바뀐다.
-     그때는 스크롤 이벤트가 없으므로 따로 다시 계산해야 한다. */
-  if('ResizeObserver' in window){
-    try{ new ResizeObserver(onMove).observe(document.documentElement); }catch(e){}
-  }
+     그때는 스크롤 이벤트가 없으므로 몇 번 더 확인한다. */
+  setTimeout(onMove,400); setTimeout(onMove,1200); setTimeout(onMove,2500);
   update();
 })();
 <\/script>
@@ -981,9 +987,9 @@
     cur.style.opacity=(k>=total)?'0':'1';
   }
 
-  var queued=false;
+  var raf=0;
   function update(){
-    queued=false;
+    raf=0;
     var r=el.getBoundingClientRect();
     var vh=window.innerHeight||document.documentElement.clientHeight;
     var start=vh*0.90, end=vh*0.44;      /* 이 구간을 지나는 동안 문장이 완성된다 */
@@ -991,16 +997,19 @@
     p=p<0?0:(p>1?1:p);
     draw(Math.round(p*total));
   }
-  function onMove(){ if(!queued){ queued=true; requestAnimationFrame(update); } }
+  /* 늘 최신 프레임으로 다시 잡는다. 불린 잠금을 쓰면 한 번 걸렸을 때
+     다음 스크롤을 통째로 건너뛰어 한 박자 늦은 글자가 남는다. */
+  function onMove(){
+    if(raf) cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(update);
+  }
 
   window.addEventListener('scroll',onMove,{passive:true});
   window.addEventListener('resize',onMove);
   window.addEventListener('load',onMove);
   /* 지연 로딩 이미지가 뒤늦게 들어오면 문서 높이가 바뀐다.
-     그때는 스크롤 이벤트가 없으므로 따로 다시 계산해야 한다. */
-  if('ResizeObserver' in window){
-    try{ new ResizeObserver(onMove).observe(document.documentElement); }catch(e){}
-  }
+     그때는 스크롤 이벤트가 없으므로 몇 번 더 확인한다. */
+  setTimeout(onMove,400); setTimeout(onMove,1200); setTimeout(onMove,2500);
   update();
 })();
 <\/script>
@@ -1173,9 +1182,9 @@
     cur.style.opacity=(k>=total)?'0':'1';
   }
 
-  var queued=false;
+  var raf=0;
   function update(){
-    queued=false;
+    raf=0;
     var r=el.getBoundingClientRect();
     var vh=window.innerHeight||document.documentElement.clientHeight;
     var start=vh*0.90, end=vh*0.44;      /* 이 구간을 지나는 동안 문장이 완성된다 */
@@ -1183,16 +1192,19 @@
     p=p<0?0:(p>1?1:p);
     draw(Math.round(p*total));
   }
-  function onMove(){ if(!queued){ queued=true; requestAnimationFrame(update); } }
+  /* 늘 최신 프레임으로 다시 잡는다. 불린 잠금을 쓰면 한 번 걸렸을 때
+     다음 스크롤을 통째로 건너뛰어 한 박자 늦은 글자가 남는다. */
+  function onMove(){
+    if(raf) cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(update);
+  }
 
   window.addEventListener('scroll',onMove,{passive:true});
   window.addEventListener('resize',onMove);
   window.addEventListener('load',onMove);
   /* 지연 로딩 이미지가 뒤늦게 들어오면 문서 높이가 바뀐다.
-     그때는 스크롤 이벤트가 없으므로 따로 다시 계산해야 한다. */
-  if('ResizeObserver' in window){
-    try{ new ResizeObserver(onMove).observe(document.documentElement); }catch(e){}
-  }
+     그때는 스크롤 이벤트가 없으므로 몇 번 더 확인한다. */
+  setTimeout(onMove,400); setTimeout(onMove,1200); setTimeout(onMove,2500);
   update();
 })();
 <\/script>
@@ -1336,9 +1348,9 @@
     cur.style.opacity=(k>=total)?'0':'1';
   }
 
-  var queued=false;
+  var raf=0;
   function update(){
-    queued=false;
+    raf=0;
     var r=el.getBoundingClientRect();
     var vh=window.innerHeight||document.documentElement.clientHeight;
     var start=vh*0.90, end=vh*0.44;      /* 이 구간을 지나는 동안 문장이 완성된다 */
@@ -1346,16 +1358,19 @@
     p=p<0?0:(p>1?1:p);
     draw(Math.round(p*total));
   }
-  function onMove(){ if(!queued){ queued=true; requestAnimationFrame(update); } }
+  /* 늘 최신 프레임으로 다시 잡는다. 불린 잠금을 쓰면 한 번 걸렸을 때
+     다음 스크롤을 통째로 건너뛰어 한 박자 늦은 글자가 남는다. */
+  function onMove(){
+    if(raf) cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(update);
+  }
 
   window.addEventListener('scroll',onMove,{passive:true});
   window.addEventListener('resize',onMove);
   window.addEventListener('load',onMove);
   /* 지연 로딩 이미지가 뒤늦게 들어오면 문서 높이가 바뀐다.
-     그때는 스크롤 이벤트가 없으므로 따로 다시 계산해야 한다. */
-  if('ResizeObserver' in window){
-    try{ new ResizeObserver(onMove).observe(document.documentElement); }catch(e){}
-  }
+     그때는 스크롤 이벤트가 없으므로 몇 번 더 확인한다. */
+  setTimeout(onMove,400); setTimeout(onMove,1200); setTimeout(onMove,2500);
   update();
 })();
 <\/script>
@@ -1655,9 +1670,9 @@
     cur.style.opacity=(k>=total)?'0':'1';
   }
 
-  var queued=false;
+  var raf=0;
   function update(){
-    queued=false;
+    raf=0;
     var r=el.getBoundingClientRect();
     var vh=window.innerHeight||document.documentElement.clientHeight;
     var start=vh*0.90, end=vh*0.44;      /* 이 구간을 지나는 동안 문장이 완성된다 */
@@ -1665,17 +1680,20 @@
     p=p<0?0:(p>1?1:p);
     draw(Math.round(p*total));
   }
-  function onMove(){ if(!queued){ queued=true; requestAnimationFrame(update); } }
+  /* 늘 최신 프레임으로 다시 잡는다. 불린 잠금을 쓰면 한 번 걸렸을 때
+     다음 스크롤을 통째로 건너뛰어 한 박자 늦은 글자가 남는다. */
+  function onMove(){
+    if(raf) cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(update);
+  }
 
   window.addEventListener('scroll',onMove,{passive:true});
   window.addEventListener('resize',onMove);
   window.addEventListener('load',onMove);
   /* 지연 로딩 이미지가 뒤늦게 들어오면 문서 높이가 바뀐다.
-     그때는 스크롤 이벤트가 없으므로 따로 다시 계산해야 한다. */
-  if('ResizeObserver' in window){
-    try{ new ResizeObserver(onMove).observe(document.documentElement); }catch(e){}
-  }
+     그때는 스크롤 이벤트가 없으므로 몇 번 더 확인한다. */
+  setTimeout(onMove,400); setTimeout(onMove,1200); setTimeout(onMove,2500);
   update();
 })();
 <\/script>
-`,v=[{id:"01-hero",file:"01-hero.html",name:"히어로",prefix:"plh",desc:"제목 · 배경 영상 · 특징 패널",src:r},{id:"02-intro",file:"02-intro.html",name:"9 Original Devices",prefix:"plc",desc:"헤딩 · 특징 3가지 · 장비 슬라이더",src:o},{id:"05-depth-intro",file:"05-depth-intro.html",name:"부위별 노화 도입",prefix:"pld",desc:"워드마크 3D 압출 + 도입 카피",src:l},{id:"06-devices",file:"06-devices.html",name:"장비 9종 상세",prefix:"pdv",desc:"장비마다 큰 블록 + 깊이 막대",src:d},{id:"11-face-zones",file:"11-face-zones.html",name:"부위별 노화 지도",prefix:"pfz",desc:"얼굴 위 4구역 · 연결선 · 마우스 연동 · 스크롤 줌",src:c},{id:"07-process",file:"07-process.html",name:"시술 과정 4단계",prefix:"ppc",desc:"정밀 진단 → 맞춤 설계 → 시술 진행 → 회복 관리",src:f},{id:"08-info",file:"08-info.html",name:"이런 분께 · 시술 정보",prefix:"pin",desc:"추천 대상 3가지 + 소요 시간·구성 표",src:h},{id:"09-faq",file:"09-faq.html",name:"자주 묻는 질문",prefix:"pfq",desc:"문답 5개 + FAQPage 구조화 데이터",src:m},{id:"10-visit",file:"10-visit.html",name:"오시는 길 · 진료시간",prefix:"pvs",desc:"주소 · 도보 안내 · 진료시간",src:g}];function u(p,a){p.innerHTML=a,p.querySelectorAll("script").forEach(i=>{const t=document.createElement("script");for(const n of i.attributes)t.setAttribute(n.name,n.value);t.textContent=i.textContent,i.replaceWith(t)})}export{v as W,u as m};
+`,v=[{id:"01-hero",file:"01-hero.html",name:"히어로",prefix:"plh",desc:"제목 · 배경 영상 · 특징 패널",src:r},{id:"02-intro",file:"02-intro.html",name:"9 Original Devices",prefix:"plc",desc:"헤딩 · 특징 3가지 · 장비 슬라이더",src:o},{id:"05-depth-intro",file:"05-depth-intro.html",name:"부위별 노화 도입",prefix:"pld",desc:"워드마크 3D 압출 + 도입 카피",src:l},{id:"06-devices",file:"06-devices.html",name:"장비 9종 상세",prefix:"pdv",desc:"장비마다 큰 블록 + 깊이 막대",src:d},{id:"11-face-zones",file:"11-face-zones.html",name:"부위별 노화 지도",prefix:"pfz",desc:"얼굴 위 4구역 · 연결선 · 마우스 연동 · 스크롤 줌",src:c},{id:"07-process",file:"07-process.html",name:"시술 과정 4단계",prefix:"ppc",desc:"정밀 진단 → 맞춤 설계 → 시술 진행 → 회복 관리",src:f},{id:"08-info",file:"08-info.html",name:"이런 분께 · 시술 정보",prefix:"pin",desc:"추천 대상 3가지 + 소요 시간·구성 표",src:h},{id:"09-faq",file:"09-faq.html",name:"자주 묻는 질문",prefix:"pfq",desc:"문답 5개 + FAQPage 구조화 데이터",src:m},{id:"10-visit",file:"10-visit.html",name:"오시는 길 · 진료시간",prefix:"pvs",desc:"주소 · 도보 안내 · 진료시간",src:g}];function x(p,a){p.innerHTML=a,p.querySelectorAll("script").forEach(i=>{const t=document.createElement("script");for(const n of i.attributes)t.setAttribute(n.name,n.value);t.textContent=i.textContent,i.replaceWith(t)})}export{v as W,x as m};
