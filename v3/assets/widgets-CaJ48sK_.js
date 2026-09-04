@@ -1906,8 +1906,8 @@
 <\/script>
 `,g=`<!-- ═══ 뷰티블라썸의원 · 퍼스널 레이어드 리프팅 — 원내 공간 ═══
      사진 5장은 R2 에 올라간 1920x1080(16:9) 원본을 그대로 쓴다.
-     문구는 확인된 사실만 담았다. 6층·8층 두 개 층, 접수는 6층,
-     점심시간 없이 진료 — 전부 라이브 /39 와 진료안내에 있는 내용이다.
+     문구는 확인된 사실만 담았다. 6층·8층, 접수는 6층, 점심시간 없이 진료.
+     사진 위 라벨은 넣지 않는다.
      예약제 여부·회복실·샤워실 같은 미확인 시설은 쓰지 않았다.
      예약·상담 유도 버튼은 넣지 않았다.
      접두사 psp- : 다른 위젯과 겹치지 않는다
@@ -1931,11 +1931,6 @@
   transition:opacity 1.1s ease,transform 6s ease}
 .psp-shot.is-on{opacity:1;transform:scale(1)}
 .psp-shot img{width:100%;height:100%;object-fit:cover;display:block}
-.psp-cap{position:absolute;left:0;right:0;bottom:0;z-index:2;pointer-events:none;
-  padding:clamp(38px,5vw,64px) clamp(18px,2vw,26px) clamp(15px,1.6vw,20px);
-  background:linear-gradient(180deg,transparent,rgba(38,22,21,.62));
-  color:#fff;font-size:clamp(13px,1.05vw,15px);font-weight:600;letter-spacing:-.3px}
-
 .psp-dots{display:flex;gap:8px;margin:14px 0 0;padding:0;list-style:none;flex-wrap:wrap}
 .psp-dot{width:44px;height:4px;padding:0;border:0;border-radius:99px;cursor:pointer;
   background:#e6dcda;transition:background .3s,width .3s}
@@ -2004,20 +1999,20 @@
 
     <div class="psp-media">
       <div class="psp-stage" role="group" aria-label="뷰티블라썸의원 원내 사진">
-        <figure class="psp-shot is-on"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/clinic-interiors/16x9/8f-48-clinic-front.v1.webp" alt="뷰티블라썸의원 진료실 정면" width="1920" height="1080" loading="lazy" decoding="async"><figcaption class="psp-cap">진료실</figcaption></figure>
-        <figure class="psp-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/clinic-interiors/16x9/8f-49-clinic-front-lighting.v1.webp" alt="조명을 낮춘 뷰티블라썸의원 진료실" width="1920" height="1080" loading="lazy" decoding="async"><figcaption class="psp-cap">진료실 · 조명</figcaption></figure>
-        <figure class="psp-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/clinic-interiors/16x9/8f-50-treatment-chair-room.v1.webp" alt="장비가 놓인 뷰티블라썸의원 시술 체어룸" width="1920" height="1080" loading="lazy" decoding="async"><figcaption class="psp-cap">시술 체어룸</figcaption></figure>
-        <figure class="psp-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/clinic-interiors/16x9/clinic-1-3.v1.webp" alt="뷰티블라썸의원 원내 전경" width="1920" height="1080" loading="lazy" decoding="async"><figcaption class="psp-cap">원내 전경</figcaption></figure>
-        <figure class="psp-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/clinic-interiors/16x9/clinic-1-4.v1.webp" alt="뷰티블라썸의원 원내 복도" width="1920" height="1080" loading="lazy" decoding="async"><figcaption class="psp-cap">원내 전경</figcaption></figure>
+        <figure class="psp-shot is-on"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/clinic-interiors/16x9/8f-48-clinic-front.v1.webp" alt="뷰티블라썸의원 진료실 정면" width="1920" height="1080" loading="lazy" decoding="async"></figure>
+        <figure class="psp-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/clinic-interiors/16x9/8f-49-clinic-front-lighting.v1.webp" alt="조명을 낮춘 뷰티블라썸의원 진료실" width="1920" height="1080" loading="lazy" decoding="async"></figure>
+        <figure class="psp-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/clinic-interiors/16x9/8f-50-treatment-chair-room.v1.webp" alt="장비가 놓인 뷰티블라썸의원 시술 체어룸" width="1920" height="1080" loading="lazy" decoding="async"></figure>
+        <figure class="psp-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/clinic-interiors/16x9/clinic-1-3.v1.webp" alt="뷰티블라썸의원 원내 전경" width="1920" height="1080" loading="lazy" decoding="async"></figure>
+        <figure class="psp-shot"><img src="https://pub-7ab1b86fbb9c4442971f0a3a7b5adf9f.r2.dev/beautyblossom/clinic-interiors/16x9/clinic-1-4.v1.webp" alt="뷰티블라썸의원 원내 복도" width="1920" height="1080" loading="lazy" decoding="async"></figure>
       </div>
       <ul class="psp-dots" aria-label="사진 선택"></ul>
     </div>
 
     <div class="psp-copy">
       <span class="psp-kw">Private Space</span>
-      <h2 class="psp-h2" id="psp-title">시술이 이루어지는 자리를<br><em>그대로 보여드립니다.</em></h2>
-      <p class="psp-body">장비 아홉 대가 놓인 자리, 진단과 상담이 오가는 자리를 사진 그대로 담았습니다. <b>보정하지 않은 원내 모습</b>입니다.</p>
-      <p class="psp-body">뷰티블라썸의원은 합정 메디원메디컬센터 <b>6층과 8층</b>, 두 개 층을 씁니다. 진료실과 시술실을 나눠 두어 상담과 시술이 서로 겹치지 않습니다.</p>
+      <h2 class="psp-h2" id="psp-title">편안하게 머무실 수 있는<br><em>프라이빗한 공간</em>입니다.</h2>
+      <p class="psp-body">밝기를 낮춘 조명과 차분한 마감으로 꾸몄습니다. 시술을 기다리는 동안에도 <b>긴장이 덜하도록</b> 만든 자리입니다.</p>
+      <p class="psp-body">합정 메디원메디컬센터 <b>6층과 8층</b>을 씁니다. 진료실과 시술실이 나뉘어 있어 상담과 시술이 서로 겹치지 않습니다.</p>
       <ul class="psp-facts">
         <li><b>위치</b><span>메디원메디컬센터 6층 · 8층</span></li>
         <li><b>접수</b><span>6층</span></li>
@@ -2041,12 +2036,12 @@
 
   var btns=[];
   for(var i=0;i<shots.length;i++){
-    var cap=shots[i].querySelector('.psp-cap');
+    var im=shots[i].querySelector('img');
     var li=document.createElement('li');
     var b=document.createElement('button');
     b.type='button';
     b.className=(i===0)?'psp-dot is-on':'psp-dot';
-    b.setAttribute('aria-label',(cap?cap.textContent:'사진')+' 보기');
+    b.setAttribute('aria-label',(im?im.alt:'원내 사진')+' 보기');
     (function(n){ b.addEventListener('click',function(){ show(n); rest(); }); })(i);
     li.appendChild(b); dots.appendChild(li); btns.push(b);
   }
