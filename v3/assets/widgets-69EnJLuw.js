@@ -14,7 +14,7 @@
 .plh-sec *{box-sizing:border-box}
 
 .plh-hero{position:relative;isolation:isolate;overflow:hidden;
-  aspect-ratio:16/9;min-height:440px;max-height:88vh;display:flex;align-items:center;
+  aspect-ratio:16/9;min-height:440px;display:flex;align-items:center;
   background:#2c1917}
 
 /* 배경 영상 — 잘려도 되는 장식이므로 cover 로 채운다 */
@@ -35,18 +35,18 @@
 
 .plh-inner{position:relative;z-index:2;width:100%;max-width:1400px;
   margin-inline:auto;padding:clamp(48px,6vw,84px) clamp(22px,4vw,64px)}
-.plh-copy{max-width:min(560px,52%)}
+.plh-copy{max-width:min(860px,54%)}
 
-.plh-h1{margin:0 0 12px;font-size:clamp(33px,4.2vw,58px);font-weight:800;line-height:1.14;
+.plh-h1{margin:0 0 12px;font-size:clamp(49.5px,6.3vw,87px);font-weight:800;line-height:1.14;
   letter-spacing:-2.2px;color:var(--ink);text-wrap:balance;
   text-shadow:0 2px 18px rgba(30,14,13,.45)}
-.plh-sub{display:block;margin:0 0 18px;font-size:clamp(18px,1.85vw,26px);font-weight:700;
+.plh-sub{display:block;margin:0 0 18px;font-size:clamp(27px,2.78vw,39px);font-weight:700;
   letter-spacing:-1.1px;color:var(--c-lt);text-shadow:0 2px 14px rgba(30,14,13,.4)}
-.plh-rule{height:2px;border:0;margin:0 0 20px;max-width:300px;
+.plh-rule{height:2px;border:0;margin:0 0 20px;max-width:450px;
   background:linear-gradient(90deg,var(--c-lt),rgba(247,179,176,.15) 70%,transparent)}
-.plh-lead{margin:0 0 16px;font-size:clamp(15px,1.25vw,17.5px);line-height:1.8;letter-spacing:-.8px;
+.plh-lead{margin:0 0 16px;font-size:clamp(22.5px,1.88vw,26.3px);line-height:1.8;letter-spacing:-.8px;
   color:rgba(255,255,255,.9)}
-.plh-close{margin:0;font-size:clamp(15px,1.25vw,17.5px);font-weight:700;line-height:1.6;
+.plh-close{margin:0;font-size:clamp(22.5px,1.88vw,26.3px);font-weight:700;line-height:1.6;
   letter-spacing:-.8px;color:#fff}
 .plh-close em{font-style:normal;color:var(--c-lt)}
 
