@@ -38,10 +38,10 @@
 .skin-art .skin-effects{position:absolute;inset:0;width:100%;height:100%;padding:0}
 .skin-syringe{position:absolute;z-index:2;left:36.5%;top:10%;width:27%;transform:translateY(-67%);opacity:0;pointer-events:none}
 .skin-syringe img{width:100%;height:auto}
-.skin-stage[data-phase="0"] .skin-syringe{animation:sc-injection var(--injection-duration,6600ms) cubic-bezier(.4,0,.2,1) both paused}
+.skin-stage[data-phase="0"] .skin-syringe{animation:sc-injection var(--injection-duration,3600ms) cubic-bezier(.4,0,.2,1) both paused}
 .skin-stage[data-phase="0"].is-visible .skin-syringe,.skin-stage[data-phase="0"].is-visible .skin-beads{animation-play-state:running}
 .skin-beads{transform-box:fill-box;transform-origin:center;transition:opacity 1.8s,transform 2.5s;opacity:.95}
-.skin-stage[data-phase="0"] .skin-beads{animation:sc-deposit var(--injection-duration,6600ms) ease-out both paused}
+.skin-stage[data-phase="0"] .skin-beads{animation:sc-deposit var(--injection-duration,3600ms) ease-out both paused}
 .skin-stage[data-phase="1"] .skin-beads{transform:scale(1.75,1.1);opacity:.72}
 .skin-stage[data-phase="2"] .skin-beads{transform:scale(2.5,1.1);opacity:.2}
 .skin-glow{opacity:.15;transform-origin:center;transition:opacity 2.2s}
@@ -113,8 +113,8 @@
 .visit-layout .hours>div{display:block;margin:0 0 10px}
 .visit-layout .hours dd{margin-top:2px}
 .visit-layout .contact-grid .text-link{margin-top:13px}
-@keyframes sc-injection{0%{transform:translateY(-67%);opacity:0}8%{transform:translateY(-67%);opacity:1}38%,66%{transform:translateY(0);opacity:1}94%{transform:translateY(-67%);opacity:1}100%{transform:translateY(-67%);opacity:0}}
-@keyframes sc-deposit{0%,38%{opacity:0}56%,100%{opacity:.95}}
+@keyframes sc-injection{0%{transform:translateY(-67%);opacity:0}4%{transform:translateY(-63%);opacity:1}28%,64%{transform:translateY(0);opacity:1}94%{transform:translateY(-67%);opacity:1}100%{transform:translateY(-67%);opacity:0}}
+@keyframes sc-deposit{0%,28%{opacity:0}50%,100%{opacity:.95}}
 @media(max-width:1100px){.collagen-layout{gap:30px}.benefits-layout{gap:28px;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}.benefits-layout .benefit{padding:17px 17px 17px 57px}.benefits-layout .benefit-number{left:17px;top:19px;font-size:22px}.benefits-layout .benefit h3{font-size:18px}.benefits-layout .benefit p{font-size:14px}.visit-layout{gap:30px;grid-template-columns:1fr 1fr}.visit-layout .contact-grid{grid-template-columns:1fr}.visit-layout .contact-grid>div:first-child{padding-bottom:18px}.clinic-gallery-bottom{flex-wrap:wrap}}
 @media(max-width:767px){.collagen-layout,.benefits-layout,.visit-layout{grid-template-columns:1fr;gap:30px}.skin-copy-title{font-size:27px}.skin-stage .diagram-footer{padding:14px 17px;font-size:9px}.skin-layer{padding:4px 6px;font-size:11px}.skin-plla-label{font-size:8px;padding:2px 5px}.benefit-film{max-width:320px;justify-self:center;border-radius:15px}.benefits-layout .benefit-grid{gap:13px}.benefits-layout .benefit{padding:22px 20px 22px 63px}.benefits-layout .benefit-number{left:20px;top:25px}.benefits-layout .benefit h3{font-size:20px}.benefits-layout .benefit p{font-size:16px}.massage-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.massage-cell{border-radius:10px}.massage-cell figcaption{left:8px;top:8px;width:25px;height:25px;font-size:11px}.visit-layout{padding-top:30px;gap:34px}.clinic-photos{aspect-ratio:16/11}.clinic-gallery-bottom{flex-wrap:nowrap}.clinic-gallery-bottom>.eyebrow{font-size:8px;max-width:125px}.clinic-dot{width:27px}.visit-layout .contact-grid{gap:27px}.visit-layout .contact-grid .contact-address{font-size:18px}.visit-layout .hours>div{display:flex;justify-content:space-between}.visit-layout .hours dd{margin:0}.visit-layout .contact-grid>div:last-child .text-link{display:table}}
 @media(prefers-reduced-motion:reduce){.skin-syringe{display:none}.skin-beads{opacity:.7!important;transform:none!important}.skin-fibers path{stroke-dashoffset:0!important;opacity:.5!important}.benefits-layout .benefit,.massage-cell.active{transform:none!important}.benefit-film iframe{visibility:hidden}.science-panels.is-carousel .science-panel{transition:none}.clinic-shot{transition:none}}
@@ -632,7 +632,7 @@ body { background: #fff; }
   const stage = root.querySelector('.collagen-stage');
   let collagenVisible = false;
   let phase = 0;
-  const phaseDurations = [6600, 4800, 4800];
+  const phaseDurations = [3600, 4800, 4800];
   let phaseElapsed = 0;
   let phaseLastFrame = 0;
   let lastReduced = reduced.matches;
