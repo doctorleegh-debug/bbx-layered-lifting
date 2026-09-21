@@ -15,3 +15,38 @@
 
 /* Preserve the final glyph inside the masked title bounds. */
 .hero-word{padding-right:.16em}
+
+/* Coretox R02: foreground pearl lettering with a continuous diagonal prism pass. */
+.hero-word{
+ z-index:10;
+ -webkit-mask-image:none;mask-image:none;
+ color:#b9a5b6;
+ text-shadow:none;
+ filter:drop-shadow(0 3px 7px #6a43612e) drop-shadow(0 0 13px #d9a9db29);
+}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+ .hero-word{
+  background-image:linear-gradient(112deg,
+   transparent 0%,transparent 39%,
+   #fb77a300 40%,#fb77a3d9 42%,#ffab75f0 44%,
+   #fff0a3 46%,#aaffdc 48%,#a0eeff 50%,
+   #b3b2ff 52%,#e2a1ffed 54%,#ffadd58c 56%,
+   transparent 59%,transparent 100%),
+   linear-gradient(105deg,#ae91a6 0%,#f8f2f7 33%,#b8a4b8 72%,#907f99 100%);
+  background-size:300% 100%,100% 100%;
+  background-repeat:no-repeat;
+  background-position:100% 0,0 0;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:coretox-prism-pass 7.8s cubic-bezier(.4,0,.35,1) 1.5s infinite;
+ }
+}
+@keyframes coretox-prism-pass{
+ 0%,8%{background-position:100% 0,0 0}
+ 76%,100%{background-position:0% 0,0 0}
+}
+@media(prefers-reduced-motion:reduce){
+ .hero-word{animation:none!important;background-position:50% 0,0 0}
+}
+
+.expression-photo{height:160px;overflow:hidden}.expression-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 45%}.formula-grid .big-number,.formula-grid .ingredient-art{height:160px}@media(max-width:700px){.expression-photo{height:170px}.formula-grid .big-number,.formula-grid .ingredient-art{height:108px}}
