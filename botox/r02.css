@@ -1,0 +1,93 @@
+/* R02: authored raster assets, restrained motion, individual facial regions. */
+#bb-botox .hero-art{isolation:isolate}
+#bb-botox .hero-art>img{animation:botox-hero-drift 7s ease-in-out infinite alternate;transform-origin:50% 40%;will-change:transform}
+#bb-botox .hero-art:after{content:"";position:absolute;inset:-25%;pointer-events:none;background:linear-gradient(110deg,transparent 34%,#fff8 49%,transparent 62%);mix-blend-mode:soft-light;animation:botox-light-pass 9s ease-in-out infinite;z-index:1}
+#bb-botox .hero-display{z-index:2;animation:botox-title-float 7s ease-in-out infinite alternate}
+@keyframes botox-hero-drift{from{transform:scale(1.015) translate3d(-.5%,.2%,0)}to{transform:scale(1.09) translate3d(.8%,-1%,0)}}
+@keyframes botox-light-pass{0%,12%{transform:translateX(-60%);opacity:0}35%,65%{opacity:.35}88%,100%{transform:translateX(60%);opacity:0}}
+@keyframes botox-title-float{from{translate:0 0}to{translate:0 -9px}}
+#bb-botox .neuro-art{aspect-ratio:3/2;background:#fff3f5;overflow:hidden}
+#bb-botox .neuro-scene{position:relative;width:100%;height:100%;overflow:hidden}
+#bb-botox .neuro-tissue{width:100%;height:100%;object-fit:cover}
+#bb-botox .neuro-caption{position:absolute;border-radius:30px;padding:6px 12px;background:#fff9;color:#573341;font-size:12px;line-height:1.5;backdrop-filter:blur(8px)}
+#bb-botox .neuro-nerve{right:4%;top:14%}#bb-botox .neuro-gap{right:4%;top:52%}#bb-botox .neuro-muscle{right:4%;bottom:6%}
+#bb-botox .signal-pulse{position:absolute;width:5%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#fff 0%,#fff3d8bb 22%,#fff3d800 70%);filter:blur(2px);translate:-50% -50%;box-shadow:none}
+#bb-botox [data-particle]{position:absolute;width:1%;aspect-ratio:1;border-radius:50%;background:#fff8e7;box-shadow:0 0 7px #fff8ed;opacity:0}
+#bb-botox .neuro-response{position:absolute;inset:70% 0 0;background:linear-gradient(0deg,transparent,#fff5e9);opacity:var(--response,.2);mix-blend-mode:soft-light}
+#bb-botox .face-photo{aspect-ratio:1122/1402}
+#bb-botox .face-photo>img{object-fit:contain;display:block}
+#bb-botox .face-region{display:none;fill:url(#face-light);filter:url(#face-soft);animation:area-glow 2.8s ease-in-out infinite;opacity:.8}
+#bb-botox .face-model[data-area] .face-region{display:none}
+#bb-botox .face-model[data-area="0"] .region-expression,#bb-botox .face-model[data-area="0"] .region-jaw,#bb-botox .face-model[data-area="0"] .region-chin,
+#bb-botox .face-model[data-area="1"] .region-expression,#bb-botox .face-model[data-area="2"] .region-jaw,#bb-botox .face-model[data-area="3"] .region-chin,#bb-botox .face-model[data-area="4"] .region-skin{display:block}
+#bb-botox .area-layout{align-items:start}
+#bb-botox .area-label{font-size:12px;background:#fff9;color:#642241}
+#bb-botox .area-option{padding:17px 0 20px}#bb-botox .area-select{font-size:23px}
+#bb-botox .area-option p{margin-top:11px}
+#bb-botox .skin-art{overflow:hidden;isolation:isolate}
+#bb-botox .skin-motion{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#bb-botox .skin-needle{animation:skin-needle-path 10s ease-in-out infinite}
+#bb-botox .skin-dose{opacity:0;transform-box:fill-box;transform-origin:center;animation:skin-dose-pulse 10s ease-in-out infinite}
+#bb-botox .skin-dose-b{animation-delay:4.3s}
+#bb-botox .skin-upper{top:37%}#bb-botox .skin-lower{top:54%}
+#bb-botox .skin-step{position:absolute;left:4%;top:5%;font-size:12px;color:#6c3a50;line-height:1.5;padding:6px 12px;border:1px solid #fff8;border-radius:30px;background:#fff8;min-width:180px}
+#bb-botox .skin-step>span{display:block;animation:skin-step-one 10s linear infinite}
+#bb-botox .skin-step>span+span{position:absolute;inset:6px 12px;animation-name:skin-step-two}
+@keyframes skin-needle-path{0%{transform:translate(-95px,-95px);opacity:0}8%{opacity:1}15%,30%{transform:translate(0,0);opacity:1}40%{transform:translate(-95px,-95px);opacity:0}45%{transform:translate(215px,-95px);opacity:0}53%{opacity:1}60%,73%{transform:translate(310px,0);opacity:1}85%,100%{transform:translate(215px,-95px);opacity:0}}
+@keyframes skin-dose-pulse{0%,18%{opacity:0;scale:.22}26%{opacity:.85;scale:.7}42%{opacity:.45;scale:1.6}57%,100%{opacity:0;scale:2.15}}
+@keyframes skin-step-one{0%,40%{opacity:1}45%,95%{opacity:0}100%{opacity:1}}
+@keyframes skin-step-two{0%,40%{opacity:0}45%,95%{opacity:1}100%{opacity:0}}
+#bb-botox .body-photo{aspect-ratio:1122/1402;background:#b99a84}
+#bb-botox .body-photo>img{object-fit:contain;object-position:center}
+#bb-botox .hero[data-motion="paused"] .hero-art>img,#bb-botox .hero[data-motion="paused"] .hero-art:after,#bb-botox .hero[data-motion="paused"] .hero-display,
+#bb-botox .skin[data-motion="paused"] .skin-needle,#bb-botox .skin[data-motion="paused"] .skin-dose,#bb-botox .skin[data-motion="paused"] .skin-step>span{animation-play-state:paused}
+@media(max-width:700px){#bb-botox .neuro-caption{font-size:10px;padding:4px 9px}#bb-botox .skin-step{font-size:10px;min-width:152px;padding:4px 9px}#bb-botox .skin-step>span+span{inset:4px 9px}#bb-botox .area-label{font-size:10px;max-width:calc(100% - 32px)}#bb-botox .area-select{font-size:22px}#bb-botox .body-photo{aspect-ratio:1122/1402}}
+@media(prefers-reduced-motion:reduce){#bb-botox .hero-art>img{transform:none}#bb-botox .hero-art:after{opacity:0}#bb-botox .skin-needle{opacity:1;transform:none}#bb-botox .skin-dose-a{opacity:.5}#bb-botox .skin-step>span+span{display:none}}
+/* Preserve the complete landscape product film at every viewport. */
+#bb-botox .hero{grid-template-columns:.85fr 1.4fr;gap:4%;min-height:680px}
+#bb-botox .hero-art{height:auto;width:100%;aspect-ratio:16/9;background:#e8d8ca}
+#bb-botox .hero-art>.hero-poster{animation:none;transform:none;object-fit:contain}
+#bb-botox .hero-video{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain}
+#bb-botox .hero-art:after{display:none}
+#bb-botox .hero-display{inset:7% auto auto 5%;font-size:clamp(40px,4.8vw,80px);animation:none;text-align:left;text-shadow:0 2px 10px #24150c66}
+#bb-botox .skin-step{top:auto;bottom:4%;left:4%}
+@media(max-width:1050px){#bb-botox .hero{display:flex;flex-direction:column;align-items:stretch;min-height:0;padding:42px 22px 0;gap:32px}#bb-botox .hero-copy{align-self:center;width:min(650px,100%);max-width:none}#bb-botox .hero-art{height:auto;width:calc(100% + 44px);margin-inline:-22px;aspect-ratio:16/9}#bb-botox .hero-display{font-size:clamp(35px,8vw,80px);inset:7% auto auto 5%}}
+
+/* R03: full-bleed existing film, bottom mist, kinetic editorial title. */
+#bb-botox .hero{position:relative;isolation:isolate;display:flex;flex-direction:column;justify-content:flex-end;align-items:stretch;gap:0;padding:clamp(40px,5vw,80px) 5.55% 48px;min-height:760px;height:100svh;max-height:1100px;background:#fff9fb;overflow:hidden}
+#bb-botox .hero-art{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;margin:0;background:#d9c5b3;z-index:-1}
+#bb-botox .hero-art>.hero-poster,#bb-botox .hero-video{width:100%;height:100%;object-fit:cover;object-position:50% 50%;animation:none;transform:none}
+#bb-botox .hero-art:after{content:"";display:block;position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:normal;animation:none;background:linear-gradient(180deg,rgba(28,18,15,.18) 0%,transparent 24%,rgba(255,249,251,.07) 38%,rgba(255,249,251,.46) 57%,rgba(255,249,251,.90) 76%,#fff9fb 96%)}
+#bb-botox .hero-art:before{content:"";position:absolute;z-index:2;inset:45% -15% -14%;pointer-events:none;background:radial-gradient(ellipse at 25% 90%,#fff9fb 2%,rgba(255,249,251,.7) 36%,transparent 70%);filter:blur(24px);animation:botox-mist 13s ease-in-out infinite alternate}
+#bb-botox .hero-display{display:flex;inset:5% auto auto 5.1%;padding:.08em .1em .15em 0;width:max-content;max-width:90%;font-size:clamp(112px,14vw,250px);line-height:1.04;letter-spacing:-.07em;text-align:left;color:#fff9f6;mask-image:none;-webkit-mask-image:none;text-shadow:0 3px 20px #432b2233;animation:none;overflow:visible;z-index:3}
+#bb-botox .hero-letter{display:block;opacity:1;transform:translateY(0);filter:blur(0);animation:botox-letter-reveal 9s cubic-bezier(.22,.7,.25,1) infinite;animation-delay:calc(var(--i)*.09s);animation-fill-mode:both}
+#bb-botox .hero-letter:last-child{color:#ffd6e0}
+#bb-botox .hero-copy{position:relative;z-index:4;display:grid;grid-template-columns:1.05fr 1fr;column-gap:8%;width:100%;max-width:1380px;align-self:center;justify-self:stretch;align-items:end}
+#bb-botox .hero .location{grid-column:1/-1;margin:0 0 16px;color:#754c5c;font-size:13px;letter-spacing:.03em}
+#bb-botox .hero h1{font-size:clamp(32px,3.1vw,49px);line-height:1.35;text-shadow:0 1px 12px #fff9fb99}
+#bb-botox .hero .lead{grid-column:2;grid-row:2/4;align-self:center;margin:0;font-size:18px;line-height:1.8;color:#55484d}
+#bb-botox .hero .actions{margin-top:25px;grid-column:1}
+#bb-botox .hero[data-motion="paused"] .hero-letter,#bb-botox .hero[data-motion="paused"] .hero-art:before{animation-play-state:paused}
+@keyframes botox-letter-reveal{0%{opacity:0;transform:translate3d(0,35%,0);filter:blur(9px)}15%,82%{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}94%,100%{opacity:0;transform:translate3d(0,-12%,0);filter:blur(6px)}}
+@keyframes botox-mist{from{transform:translate3d(-2%,1%,0);opacity:.78}to{transform:translate3d(3%,-3%,0);opacity:1}}
+@media(min-width:701px) and (max-height:700px){#bb-botox .hero{min-height:700px}}
+@media(max-width:700px){
+ #bb-botox .hero{height:auto;min-height:800px;min-height:max(800px,100svh);max-height:none;padding:400px 22px 42px}
+ #bb-botox .hero-art{width:100%;height:100%;margin:0;inset:0;background:#e3cdbb}
+ #bb-botox .hero-art>.hero-poster,#bb-botox .hero-video{top:90px;height:auto;aspect-ratio:16/9;width:100%;object-fit:contain;object-position:center;position:absolute;mask-image:linear-gradient(transparent,#000 12%,#000 64%,transparent);-webkit-mask-image:linear-gradient(transparent,#000 12%,#000 64%,transparent)}
+ #bb-botox .hero-art:before{inset:-25px;background:linear-gradient(#8d705944,#fff9fb55),url('assets/botox-hero-poster.jpg') center top/auto 480px no-repeat;filter:blur(24px);z-index:-1;animation:none;opacity:.65;transform:scale(1.05)}
+ #bb-botox .hero-art:after{background:linear-gradient(180deg,#674e3822 0%,transparent 15%,#fff9fb00 22%,#fff9fb55 34%,#fff9fbdb 47%,#fff9fb 59%)}
+ #bb-botox .hero-display{inset:24px auto auto 20px;font-size:clamp(84px,21vw,140px);max-width:calc(100% - 40px)}
+ #bb-botox .hero-copy{display:block;width:100%;max-width:520px}
+ #bb-botox .hero .location{margin:0 0 16px;font-size:12px}
+ #bb-botox .hero h1{font-size:clamp(30px,8.4vw,42px);line-height:1.4}
+ #bb-botox .hero .lead{margin-top:20px;font-size:18px;line-height:1.8}
+ #bb-botox .hero .actions{margin-top:25px;gap:22px}
+}
+@media(prefers-reduced-motion:reduce){#bb-botox .hero-letter{animation:none;opacity:1;transform:none;filter:none}#bb-botox .hero-art:before{animation:none}}
+
+/* R04: luminous mint treatment overlay, clearly separate from skin pigmentation. */
+#bb-botox .face-region{fill:url(#face-light);filter:url(#face-soft);mix-blend-mode:screen;animation:botox-area-beacon 2.6s ease-in-out infinite;opacity:.88}
+@keyframes botox-area-beacon{0%,100%{opacity:.06}38%,57%{opacity:.96}77%{opacity:.36}}
+#bb-botox .face-model[data-motion="paused"] .face-region{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){#bb-botox .face-region{animation:none!important;opacity:.78}}
