@@ -52,13 +52,13 @@
 .expression-photo{height:160px;overflow:hidden}.expression-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 45%}.formula-grid .big-number,.formula-grid .ingredient-art{height:160px}@media(max-width:700px){.expression-photo{height:170px}.formula-grid .big-number,.formula-grid .ingredient-art{height:108px}}
 
 /* R06 transparent same-model front / three-quarter crossfade */
-.formula-grid .expression-photo{position:relative;width:225px;max-width:100%;height:300px;margin:0 auto;overflow:hidden;background:transparent;isolation:isolate}
-.formula-grid .big-number,.formula-grid .ingredient-art{height:300px}
+.formula-grid .expression-photo{position:relative;width:min(315px,100%);max-width:100%;height:auto;aspect-ratio:3/4;margin:0 auto;overflow:hidden;background:transparent;isolation:isolate}
+.formula-grid .big-number,.formula-grid .ingredient-art{height:clamp(280px,36.6667vw,420px)}
 .expression-view{position:absolute;inset:0;overflow:hidden;animation:face-front 8s ease-in-out infinite;animation-play-state:paused}
 .expression-photo .expression-view img{position:absolute;left:0;top:0;width:200%;max-width:none;height:100%;object-fit:fill}
 .expression-view.side{opacity:0;animation-name:face-side}.expression-photo .side img{left:-100%}
 .expression-photo[data-play=true] .expression-view{animation-play-state:running}
 @keyframes face-front{0%,35%,100%{opacity:1}50%,85%{opacity:0}}
 @keyframes face-side{0%,35%,100%{opacity:0}50%,85%{opacity:1}}
-@media(max-width:700px){.formula-grid .big-number,.formula-grid .ingredient-art{height:108px}.formula-grid .expression-photo{width:240px;height:320px}}
+@media(max-width:700px){.formula-grid .big-number,.formula-grid .ingredient-art{height:108px}.formula-grid .expression-photo{width:min(315px,100%);height:auto;aspect-ratio:3/4}}
 @media(prefers-reduced-motion:reduce){.expression-photo .expression-view{animation:none!important}.expression-view.front{opacity:1}.expression-view.side{opacity:0}}
