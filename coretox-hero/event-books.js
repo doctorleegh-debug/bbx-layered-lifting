@@ -10,15 +10,19 @@ document.querySelectorAll('[data-event-books]').forEach(root=>{
  root.dataset.ebReady='true';root.classList.add('eb-ready');
  const reduced=matchMedia('(prefers-reduced-motion: reduce)'),mobile=matchMedia('(max-width: 700px)'),connection=navigator.connection;
  const turnInterval=1500,turnDuration=1000;
- let lastTurnStart=null;
+ let lastTurnStart=null,warmed=null;
  let visible=false,pageHidden=false,timer=null,slot=0,pending=null,transition=null,serial=0,refreshTimer=null,refreshController=null,liveItems=null;
  const indices=books.map((b,i)=>Number(b.dataset.itemIndex)||i);
  const canRun=()=>visible&&!document.hidden&&!pageHidden&&!reduced.matches&&!connection?.saveData&&!root.contains(document.activeElement);
  function update(book,item,index){book.dataset.itemIndex=String(index);const link=book.querySelector('.eb-link');link.href=item.url;link.setAttribute('aria-label',item.title+' — '+config.openLabel);book.querySelector('.eb-front .eb-art').src=item.image;book.querySelector('.eb-page .eb-art').src=item.image;book.querySelector('.eb-page .eb-art').alt=item.title;}
  function stop(){clearTimeout(timer);timer=null;lastTurnStart=null;serial++;if(transition)transition.finish();}
- function schedule(){clearTimeout(timer);timer=null;if(canRun()&&items.length>(mobile.matches?1:books.length))timer=setTimeout(turn,lastTurnStart===null?turnInterval:Math.max(0,turnInterval-(performance.now()-lastTurnStart)))}
- async function turn(){timer=null;if(!canRun()||pending||transition){schedule();return}const bookSlot=mobile.matches?0:slot,book=books[bookSlot];slot=(slot+1)%books.length;const next=(indices[bookSlot]+(mobile.matches?1:books.length))%items.length;if(next===indices[bookSlot]){schedule();return}const item=items[next],token=serial,img=new Image();pending=img;img.src=item.image;
-  try{await img.decode()}catch{pending=null;lastTurnStart=null;schedule();return}
+ function schedule(){clearTimeout(timer);timer=null;if(canRun()&&items.length>(mobile.matches?1:books.length)){
+  const bookSlot=mobile.matches?0:slot,next=(indices[bookSlot]+(mobile.matches?1:books.length))%items.length,url=items[next].image;
+  if(warmed?.url!==url){const image=new Image();image.src=url;warmed={url,image};image.decode().catch(()=>{})}
+  timer=setTimeout(turn,lastTurnStart===null?turnInterval:Math.max(0,turnInterval-(performance.now()-lastTurnStart)))
+ }}
+ async function turn(){timer=null;if(!canRun()||pending||transition){schedule();return}const bookSlot=mobile.matches?0:slot,book=books[bookSlot];slot=(slot+1)%books.length;const next=(indices[bookSlot]+(mobile.matches?1:books.length))%items.length;if(next===indices[bookSlot]){schedule();return}const item=items[next],token=serial,img=warmed?.url===item.image?warmed.image:new Image();pending=img;if(!img.src)img.src=item.image;
+  try{await img.decode()}catch{pending=null;warmed=null;lastTurnStart=null;schedule();return}
   pending=null;if(token!==serial||!canRun()){schedule();return}
   const leaf=book.querySelector('.eb-leaf');book.querySelector('.eb-page .eb-art').src=item.image;book.style.zIndex='4';
   lastTurnStart=performance.now();
