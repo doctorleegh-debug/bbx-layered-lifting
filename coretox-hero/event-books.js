@@ -8,14 +8,14 @@ document.querySelectorAll('[data-event-books]').forEach(root=>{
  const safeURL=v=>{try{return new URL(v,location.href).protocol==='https:'||new URL(v,location.href).origin===location.origin}catch{return false}};
  if(items.some(x=>!x||!safeURL(x.url)||!safeURL(x.image)))return;
  root.dataset.ebReady='true';root.classList.add('eb-ready');
- const reduced=matchMedia('(prefers-reduced-motion: reduce)'),connection=navigator.connection;
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)'),mobile=matchMedia('(max-width: 700px)'),connection=navigator.connection;
  let visible=false,pageHidden=false,timer=null,slot=0,pending=null,transition=null,serial=0,refreshTimer=null,refreshController=null,liveItems=null;
  const indices=books.map((b,i)=>Number(b.dataset.itemIndex)||i);
  const canRun=()=>visible&&!document.hidden&&!pageHidden&&!reduced.matches&&!connection?.saveData&&!root.contains(document.activeElement)&&!(matchMedia('(hover:hover)').matches&&root.matches(':hover'));
  function update(book,item,index){book.dataset.itemIndex=String(index);const link=book.querySelector('.eb-link');link.href=item.url;link.setAttribute('aria-label',item.title+' — '+config.openLabel);book.querySelector('.eb-front .eb-art').src=item.image;book.querySelector('.eb-page .eb-art').src=item.image;book.querySelector('.eb-page .eb-art').alt=item.title;}
  function stop(){clearTimeout(timer);timer=null;serial++;if(transition)transition.finish();}
- function schedule(){clearTimeout(timer);timer=null;if(canRun()&&items.length>books.length)timer=setTimeout(turn,3400)}
- async function turn(){timer=null;if(!canRun()||pending||transition){schedule();return}const book=books[slot],bookSlot=slot;slot=(slot+1)%books.length;const next=(indices[bookSlot]+books.length)%items.length;if(next===indices[bookSlot]){schedule();return}const item=items[next],token=serial,img=new Image();pending=img;img.src=item.image;
+ function schedule(){clearTimeout(timer);timer=null;if(canRun()&&items.length>(mobile.matches?1:books.length))timer=setTimeout(turn,mobile.matches?6500:3400)}
+ async function turn(){timer=null;if(!canRun()||pending||transition){schedule();return}const bookSlot=mobile.matches?0:slot,book=books[bookSlot];slot=(slot+1)%books.length;const next=(indices[bookSlot]+(mobile.matches?1:books.length))%items.length;if(next===indices[bookSlot]){schedule();return}const item=items[next],token=serial,img=new Image();pending=img;img.src=item.image;
   try{await img.decode()}catch{pending=null;schedule();return}
   pending=null;if(token!==serial||!canRun()){schedule();return}
   const leaf=book.querySelector('.eb-leaf');book.querySelector('.eb-page .eb-art').src=item.image;book.style.zIndex='4';
@@ -30,5 +30,6 @@ document.querySelectorAll('[data-event-books]').forEach(root=>{
  if('IntersectionObserver'in window){new IntersectionObserver(es=>{visible=es[0].isIntersecting;sync()},{threshold:.08}).observe(root)}else{visible=true}
  root.addEventListener('pointerenter',sync);root.addEventListener('pointerleave',sync);
  root.addEventListener('focusin',sync);root.addEventListener('focusout',()=>queueMicrotask(sync));
+ mobile.addEventListener('change',()=>{stop();const first=indices[0];books.forEach((book,i)=>{indices[i]=(first+i)%items.length;update(book,items[indices[i]],indices[i])});slot=0;sync()});
  document.addEventListener('visibilitychange',sync);window.addEventListener('pagehide',()=>{pageHidden=true;sync()});window.addEventListener('pageshow',()=>{pageHidden=false;sync()});reduced.addEventListener('change',sync);connection?.addEventListener?.('change',sync);root.dataset.ebLive=sameOrigin?'loading':'preview';sync();
 });})();
