@@ -1,0 +1,11 @@
+/* Use the larger transparent product master and fill the product panel. */
+.xe-product-stage{padding:16px 18px 24px;gap:8px;min-height:0;justify-content:center}
+.xe-product-closeup{position:relative;overflow:hidden;width:100%;height:clamp(420px,36vw,550px)}
+.xe-product-stage .xe-product-closeup img{position:absolute;left:50%;top:50%;width:auto;max-width:none;height:112%;object-fit:contain;mix-blend-mode:normal;transform:translate(-50%,-50%);animation:none;filter:drop-shadow(0 14px 15px #5780a51c)}
+.xe-product-stage figcaption{margin:4px 0 0;font-size:13px}
+.xe-resistance .xe-key-point{display:block;font-size:clamp(22px,1.8vw,27px);font-weight:800;line-height:1.55;letter-spacing:-.035em;color:#452734;margin-top:9px;word-break:keep-all;overflow-wrap:break-word}
+.xe-resistance p:has(.xe-key-point){margin-bottom:29px}.xe-resistance p:has(.xe-key-point):last-child{margin-bottom:0}
+.xe-resistance p,.xe-resistance h2{word-break:keep-all;overflow-wrap:break-word}
+@media(min-width:701px) and (max-width:1050px){.xe-product-stage{padding:12px 12px 22px}.xe-product-closeup{height:clamp(325px,43vw,430px)}.xe-product-stage .xe-product-closeup img{height:105%}.xe-resistance .xe-key-point{font-size:23px}}
+@media(max-width:700px){.xe-product-stage{padding:12px 12px 20px}.xe-product-closeup{height:clamp(340px,98vw,510px)}.xe-product-stage .xe-product-closeup img{height:110%}.xe-resistance .xe-key-point{font-size:22px;line-height:1.55;margin-top:8px}}
+@media(max-width:359px){.xe-product-closeup{height:310px}.xe-product-stage .xe-product-closeup img{height:105%}.xe-resistance .xe-key-point{font-size:21px}}
