@@ -1,0 +1,9 @@
+/* Align the portrait's face center with the m in the retained display word. */
+.xe-dream-picture{left:calc(4vw + min(49.1vw,781.2px) - min(30.8vw,473px))}
+.xe-dream-copy{margin-left:5%;width:30%;padding-top:clamp(95px,9vw,155px)}
+.xe-dream-copy h1{font-size:clamp(32px,3vw,46px)}
+.xe-dream-copy .xe-lead{font-size:18px}
+.xe-product-stage{gap:0;padding-bottom:16px}
+@media(min-width:701px) and (max-width:1050px){.xe-dream-picture{left:17.35%}.xe-dream-copy{margin-left:4%;width:32%;padding-top:65px}.xe-dream-copy h1{font-size:30px}.xe-dream-copy .xe-lead{font-size:15px;max-width:75%;word-break:keep-all}}
+@media(max-width:700px){.xe-dream-picture{left:-7.4%}.xe-dream-copy{margin:0;width:auto;padding:0}.xe-dream-copy h1{font-size:32px}.xe-dream-copy .xe-lead{font-size:17px}.xe-product-stage{padding-bottom:12px}}
+@media(max-width:359px){.xe-dream-copy h1{font-size:28px}.xe-dream-copy .xe-lead{font-size:16px}}
