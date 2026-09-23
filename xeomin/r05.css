@@ -1,0 +1,15 @@
+/* Original clinic photograph; all person pixels are preserved in the asset. */
+#bb-xeomin .xe-dream{background:radial-gradient(ellipse at 85% 22%,#fae4ee,transparent 52%),radial-gradient(ellipse at 20% 70%,#e8e3f4,transparent 65%),#faf6fa}
+.xe-dream-picture{inset:0 auto 0 0;width:60%;mask-image:linear-gradient(90deg,#000 65%,transparent 100%);-webkit-mask-image:linear-gradient(90deg,#000 65%,transparent 100%)}
+.xe-dream-photo{object-position:54% 20%;transform:none;animation:none}
+.xe-dream-mist{background:linear-gradient(0deg,#fff,transparent 33%);pointer-events:none}
+/* Intrinsic width plus trailing padding keeps the final dot inside its glyph box. */
+#bb-xeomin .xe-dream>.xe-cinema-word{left:4%;bottom:1.4%;width:max-content;max-width:none;font-size:clamp(100px,22vw,350px);letter-spacing:-.075em;line-height:1.16;padding:0 .12em .03em 0;color:transparent;-webkit-text-fill-color:transparent;background:linear-gradient(112deg,#98bcd9 0%,#b2a9de 16%,#e5a4c6 32%,#efd2ad 46%,#a6d5c8 60%,#97bbdd 75%,#b5a8df 88%,#98bcd9 100%);background-size:260% 100%;background-clip:text;-webkit-background-clip:text;text-shadow:none;mask-image:linear-gradient(#000e 40%,#0009);animation:xe-rainbow-flow 11s ease-in-out infinite alternate}
+@keyframes xe-rainbow-flow{from{background-position:0% 50%}to{background-position:100% 50%}}
+.xe-related-type{container-type:inline-size}
+.xe-botox-word{font-size:clamp(90px,27cqw,190px);letter-spacing:-.07em;line-height:1.16;padding-right:.09em}
+.xe-faq-product{margin:65px 0 0;width:100%;max-width:440px}
+.xe-faq-product img{display:block;width:100%;height:auto;object-fit:contain;filter:drop-shadow(0 18px 18px #3777a516)}
+@media(min-width:701px) and (max-width:1050px){.xe-dream-picture{width:62%}.xe-dream-photo{object-position:54% top}#bb-xeomin .xe-dream>.xe-cinema-word{bottom:3%}.faq-heading{position:relative;padding-right:42%;min-height:280px}.xe-faq-product{position:absolute;right:0;top:0;margin:0;width:38%;max-width:320px}}
+@media(max-width:700px){.xe-dream-picture{width:100%;height:55%;mask-image:linear-gradient(#000 65%,transparent);-webkit-mask-image:linear-gradient(#000 65%,transparent)}.xe-dream-photo{object-position:50% 25%}.xe-dream-mist{background:linear-gradient(0deg,#fff,transparent 28%)}#bb-xeomin .xe-dream>.xe-cinema-word{left:4%;bottom:2.5%;font-size:22vw}.xe-dream-copy{bottom:calc(25.52vw + 55px)}.xe-botox-word{font-size:25cqw}.xe-faq-product{width:76%;max-width:330px;margin:32px auto 8px}}
+@media(prefers-reduced-motion:reduce){#bb-xeomin .xe-dream>.xe-cinema-word{animation:none!important;background-position:45% 50%}}
