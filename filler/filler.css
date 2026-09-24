@@ -8,10 +8,10 @@
 .eb-heading .bb-event-title{margin:0 auto}.section-nav{width:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;text-align:center;padding:22px 5.55%;margin:0}.section-nav a{font-size:clamp(11px,1.1vw,15px);white-space:normal}
 
 /* R02: original H-drive portrait, transparent orange areas, 3D consultation and pink neon. */
-.fill-face-frame{position:relative;aspect-ratio:1056/1230;overflow:hidden;border-radius:48% 48% 12px 12px;isolation:isolate;mask-image:linear-gradient(#000 82%,transparent 100%);-webkit-mask-image:linear-gradient(#000 82%,transparent 100%)}
-.fill-face-frame>img{display:block;width:100%;height:auto}
-.fill-face-frame .fill-region{height:auto;aspect-ratio:1056/1408;mix-blend-mode:normal}
-.fill-portrait{max-width:510px;background:none}
+
+
+
+
 .fill-area-label{bottom:2%;margin:0;color:#8e4a24;background:#fff5ebed;border:1px solid #f4c6a2;z-index:2}
 .fill-plan .consult-steps{gap:6%;margin-top:34px}
 .fill-step-visual{position:relative;display:flex;align-items:center;justify-content:center;height:225px;margin:0 0 20px}
@@ -29,11 +29,21 @@
 .fill-related-product{position:absolute;right:-4%;bottom:20px;width:52%;height:76%;object-fit:contain;pointer-events:none;z-index:0;filter:drop-shadow(0 13px 14px #602e4510)}
 .fill-related a:last-child .fill-related-product{right:0;width:47%;height:68%}
 .eb-heading .bb-event-title.fill-event-neon{position:relative;width:min(100%,700px);isolation:isolate}
-.fill-event-neon .bb-event-title-neon{animation:fill-neon-glow 6.5s ease-in-out infinite}
-@keyframes fill-neon-glow{0%,100%{filter:brightness(.96) saturate(1.12)}43%{filter:brightness(1.12) saturate(1.24)}49%{filter:brightness(1) saturate(1.16)}55%{filter:brightness(1.1) saturate(1.22)}}
-.fill-neon-glint{position:absolute;width:18px;height:18px;pointer-events:none;background:#fff7f9;clip-path:polygon(50% 0,58% 41%,100% 50%,58% 59%,50% 100%,42% 59%,0 50%,42% 41%);filter:drop-shadow(0 0 6px #ff218b);opacity:.35;animation:fill-neon-spark 4.8s ease-in-out infinite}
-.glint-1{left:37.5%;top:54%;animation-delay:-.8s}.glint-2{left:65%;top:76%;animation-delay:-2.4s}.glint-3{left:76%;top:42%;animation-delay:-3.5s;width:14px;height:14px}
-@keyframes fill-neon-spark{0%,100%,60%{opacity:.2;transform:scale(.6)}30%{opacity:.95;transform:scale(1.2)}}
+
 @media(max-width:1000px){.fill-step-icon{width:170px;height:215px}.fill-step-visual{height:200px}.fill-step-visual .ordinal{font-size:31px}.fill-related a{padding:27px 28px 250px;min-height:480px}.fill-related-product,.fill-related a:last-child .fill-related-product{width:80%;height:220px;right:10%;bottom:15px}.fill-related h3{font-size:28px}}
-@media(max-width:700px){.fill-portrait{max-width:390px}.fill-face-frame{border-radius:46% 46% 10px 10px}.fill-plan .consult-steps{gap:36px}.fill-plan .consult-steps li{padding-left:0;display:grid;grid-template-columns:108px 1fr;gap:0 20px;align-items:start}.fill-step-visual{grid-row:span 2;height:145px;margin:0}.fill-step-icon{width:108px;height:144px}.fill-step-visual .ordinal{top:0;left:0;font-size:22px}.fill-plan .consult-steps h3{font-size:22px;margin:10px 0 10px}.fill-plan .consult-steps p{font-size:16px;line-height:1.8}.fill-related a{min-height:430px;padding:28px 25px 230px}.fill-related-product,.fill-related a:last-child .fill-related-product{height:200px;bottom:15px}.fill-related p{font-size:17px}.eb-heading .bb-event-title.fill-event-neon{width:calc(100% + 28px);max-width:none;margin-left:-14px}.fill-neon-glint{width:12px;height:12px}}
-@media(prefers-reduced-motion:reduce){.fill-event-neon .bb-event-title-neon,.fill-neon-glint{animation:none!important}.fill-neon-glint{opacity:.45}}
+@media(max-width:700px){.fill-plan .consult-steps{gap:36px}.fill-plan .consult-steps li{padding-left:0;display:grid;grid-template-columns:108px 1fr;gap:0 20px;align-items:start}.fill-step-visual{grid-row:span 2;height:145px;margin:0}.fill-step-icon{width:108px;height:144px}.fill-step-visual .ordinal{top:0;left:0;font-size:22px}.fill-plan .consult-steps h3{font-size:22px;margin:10px 0 10px}.fill-plan .consult-steps p{font-size:16px;line-height:1.8}.fill-related a{min-height:430px;padding:28px 25px 230px}.fill-related-product,.fill-related a:last-child .fill-related-product{height:200px;bottom:15px}.fill-related p{font-size:17px}.eb-heading .bb-event-title.fill-event-neon{width:calc(100% + 28px);max-width:none;margin-left:-14px}}
+
+
+/* R03: hero uses the requested H-drive portrait; area portrait restored to R01. */
+.fill-model{right:2%;height:105%;bottom:-13%}
+.fill-region{mix-blend-mode:normal}
+.fill-product-row{grid-template-columns:340px 1fr 140px;gap:4%;padding:38px 0}
+.fill-product-image{height:275px}
+.fill-product-image img{max-width:100%;max-height:100%;width:auto;height:auto}
+@media(min-width:1700px){.fill-model{right:7%}}
+@media(max-width:1200px) and (min-width:701px){.fill-product-row{grid-template-columns:280px 1fr;gap:5%}.fill-product-image{height:235px}.fill-product-type{display:none}}
+@media(max-width:1000px){.fill-model{height:88%;right:-3%;bottom:-7%}}
+@media(max-width:700px){.fill-model{height:65%;right:-3%;bottom:-4%}.fill-product-row{grid-template-columns:1fr;gap:12px;padding:30px 0 34px}.fill-product-image{height:230px;width:100%;max-width:310px;margin:0 auto}.fill-product-row h3{font-size:27px}.fill-product-row p{font-size:17px;line-height:1.8}}
+@media(max-width:359px){.fill-model{height:62%;right:-8%}.fill-product-image{height:205px;max-width:275px}}
+
+@media(min-width:701px) and (max-width:900px){.fill-model{height:78%;right:-8%;bottom:-3%}}
