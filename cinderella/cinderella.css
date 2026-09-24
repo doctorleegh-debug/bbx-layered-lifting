@@ -39,3 +39,7 @@
 
 /* R04: dedicated straight-on body portrait, centered without hero framing. */
 .cin-editorial img{width:100%;height:100%;left:0;object-fit:cover;object-position:50% 0}
+
+/* R06: keep the CTA above the display word on wide screens. */
+@media(min-width:1600px){.cin-hero-copy{top:7%}}
+@media(min-width:2000px){.cin-hero-word{font-size:280px}}

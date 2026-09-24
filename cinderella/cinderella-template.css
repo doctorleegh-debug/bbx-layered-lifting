@@ -72,3 +72,17 @@
 #bb-cinderella .cin-faq{padding-block:64px 30px}#bb-cinderella .cin-faq-list summary{font-size:18px;line-height:1.65}#bb-cinderella .cin-faq-list p{line-height:1.85}
 }
 @media(max-width:359px){#bb-cinderella .cin-about-display{font-size:42px}#bb-cinderella .cin-editorial-display{font-size:42px}#bb-cinderella .cin-about h2{font-size:28px}#bb-cinderella .cin-steps li{grid-template-columns:70px minmax(0,1fr);padding:20px 14px;column-gap:12px}#bb-cinderella .cin-step-icon{width:70px;height:128px}#bb-cinderella .cin-overview-copy strong{font-size:18px}}
+
+/* R06: type-led consultation editorial, without a portrait frame. */
+#bb-cinderella .cin-consult-feature{grid-template-columns:minmax(0,1.9fr) minmax(0,1fr);gap:6%;align-items:end}
+#bb-cinderella .cin-editorial-display{font-size:clamp(88px,12vw,180px);line-height:.98;letter-spacing:-.07em;margin:26px 0 0;padding-bottom:.08em}
+#bb-cinderella .cin-editorial-display>span{display:block;width:max-content;max-width:100%;padding-right:.06em;color:#fff;filter:drop-shadow(0 2px 1px #973f591c)}
+@supports(background-clip:text){
+#bb-cinderella .cin-editorial-display>span{background:linear-gradient(110deg,#fff 0%,#fff 36%,#923b59 48%,#fff 60%,#fff 100%);background-size:280% 100%;background-clip:text;-webkit-background-clip:text;color:transparent;animation:cin-rhythm-light 9s ease-in-out infinite alternate}
+#bb-cinderella .cin-editorial-display>span+span{animation-delay:-2s}
+}
+#bb-cinderella .cin-consult-feature>h2{padding:0 0 20px;font-size:clamp(25px,2.2vw,34px);line-height:1.55}
+@keyframes cin-rhythm-light{from{background-position:100% 50%}to{background-position:0% 50%}}
+@media(max-width:900px){#bb-cinderella .cin-consult-feature{grid-template-columns:1fr;gap:28px}#bb-cinderella .cin-editorial-display{font-size:clamp(80px,18vw,150px)}#bb-cinderella .cin-consult-feature>h2{padding:0;font-size:28px}}
+@media(max-width:700px){#bb-cinderella .cin-editorial-display{font-size:clamp(76px,19vw,132px);margin-top:22px}#bb-cinderella .cin-consult-feature>h2{font-size:26px}#bb-cinderella .cin-consult-points{margin-top:38px}}
+@media(prefers-reduced-motion:reduce){#bb-cinderella .cin-editorial-display>span{animation:none;background-position:100% 50%}}
