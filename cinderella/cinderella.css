@@ -36,3 +36,6 @@
 .cin-step-icon{width:175px;height:230px;background-size:300% auto;background-position-y:50%}
 @media(max-width:700px){.cin-step-icon{width:100px;height:142px}}
 @media(max-width:359px){.cin-step-icon{width:80px;height:128px}}
+
+/* R04: dedicated straight-on body portrait, centered without hero framing. */
+.cin-editorial img{width:100%;height:100%;left:0;object-fit:cover;object-position:50% 0}
