@@ -1,0 +1,12 @@
+(()=>{'use strict';
+ const root=document.querySelector('#bb-filler');if(!root)return;
+ const tabs=[...root.querySelectorAll('.fr-product-tabs [role=tab]')];
+ const panels=[...root.querySelectorAll('.fr-product-panel')];
+ const activate=(index,focus=false)=>{tabs.forEach((tab,i)=>{tab.setAttribute('aria-selected',String(i===index));tab.tabIndex=i===index?0:-1;panels[i].hidden=i!==index;});if(focus)tabs[index].focus();};
+ tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>activate(index));tab.addEventListener('keydown',e=>{let next;if(e.key==='ArrowRight')next=(index+1)%tabs.length;if(e.key==='ArrowLeft')next=(index+tabs.length-1)%tabs.length;if(e.key==='Home')next=0;if(e.key==='End')next=tabs.length-1;if(next!==undefined){e.preventDefault();activate(next,true);}});});
+ if(tabs.length===panels.length&&tabs.length)activate(0);
+ const reduced=matchMedia('(prefers-reduced-motion:reduce)'),scenes=[...root.querySelectorAll('.fr-motion')],visible=new WeakSet();
+ const sync=()=>scenes.forEach(scene=>scene.dataset.playing=String(visible.has(scene)&&!document.hidden&&!reduced.matches&&!navigator.connection?.saveData));
+ const observer=new IntersectionObserver(entries=>{entries.forEach(e=>e.isIntersecting?visible.add(e.target):visible.delete(e.target));sync();},{threshold:.12});scenes.forEach(scene=>observer.observe(scene));
+ reduced.addEventListener('change',sync);document.addEventListener('visibilitychange',sync);navigator.connection?.addEventListener?.('change',sync);window.addEventListener('pageshow',sync);window.addEventListener('pagehide',()=>scenes.forEach(s=>s.dataset.playing='false'));sync();
+})();
