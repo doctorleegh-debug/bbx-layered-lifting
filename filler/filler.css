@@ -47,3 +47,11 @@
 @media(max-width:359px){.fill-model{height:62%;right:-8%}.fill-product-image{height:205px;max-width:275px}}
 
 @media(min-width:701px) and (max-width:900px){.fill-model{height:78%;right:-8%;bottom:-3%}}
+
+/* R04: newly generated square face-and-shoulder cutout. */
+.fill-model{height:108%;right:-5%;top:-4%;bottom:auto}
+@media(min-width:1700px){.fill-model{right:3%}}
+@media(min-width:901px) and (max-width:1200px){.fill-model{height:104%;right:-25%;top:-1%;bottom:auto}.fill-hero-copy{width:44%}}
+@media(min-width:701px) and (max-width:900px){.fill-model{height:90%;right:-31%;top:14%;bottom:auto}.fill-hero-copy{width:41%;top:9%}.fill-hero h1{font-size:32px}}
+@media(max-width:700px){.fill-model{height:70%;right:-28%;top:31%;bottom:auto}}
+@media(max-width:359px){.fill-model{height:65%;right:-29%;top:36%;bottom:auto}}
