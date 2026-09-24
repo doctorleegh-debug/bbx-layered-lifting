@@ -31,3 +31,8 @@
 @media(max-width:1100px){.cin-model{right:-22%;height:97%;top:5%}.cin-overview{grid-template-columns:repeat(2,1fr)}.cin-overview>.cin-overview-card{min-height:134px}.cin-copy .cin-info-card{flex-direction:column;padding:25px;gap:18px;min-height:350px}}
 @media(max-width:700px){.cin-hero-bg{object-position:65% center}.cin-hero:after{background:linear-gradient(#fff8,transparent 60%)}.cin-model{height:65%;right:-27%;top:35%}.cin-overview{gap:12px;padding-top:26px;padding-bottom:28px}.cin-overview>.cin-overview-card{flex-direction:column;align-items:flex-start;gap:14px;border-radius:18px;padding:20px 15px;min-height:184px}.cin-overview .cin-overview-copy span{font-size:12px;margin-bottom:7px}.cin-overview .cin-overview-copy strong{font-size:20px}.cin-overview .cin-card-icon{width:53px;height:53px;border-radius:16px}.cin-overview .cin-card-icon svg{width:32px;height:32px}.cin-copy .cin-info-card{min-height:330px;padding:24px;gap:20px}.cin-copy .cin-info-card h3{font-size:23px}.cin-tabs{width:100%;justify-content:space-between}.cin-tabs button{flex:1;padding-inline:13px}.cin-info-icon{width:62px;height:62px}.cin-info-icon svg{width:38px;height:38px}}
 @media(max-width:359px){.cin-model{height:59%;top:39%;right:-29%}.cin-overview>.cin-overview-card{padding:17px 13px}.cin-overview .cin-overview-copy strong{font-size:18px}.cin-copy .cin-info-card{padding:20px}.cin-copy .cin-info-card h3{font-size:21px}}
+
+/* R03: preserve the 1536:1024 sprite ratio; never stretch its height. */
+.cin-step-icon{width:175px;height:230px;background-size:300% auto;background-position-y:50%}
+@media(max-width:700px){.cin-step-icon{width:100px;height:142px}}
+@media(max-width:359px){.cin-step-icon{width:80px;height:128px}}
