@@ -31,3 +31,25 @@
  #bb-cellredm .cr-video-intro h1{font-size:34px;margin-bottom:14px}
  #bb-cellredm .cr-video-intro .cr-lead{font-size:17px;margin-bottom:18px}
 }
+
+/* White translucent lettering; the narrow light is clipped inside the glyphs. */
+#bb-cellredm .cr-video-hero .cr-word{
+ left:3%;
+ color:rgba(255,255,255,.66);
+ -webkit-text-stroke:0;
+ filter:url(#cr-title-outline);
+ text-shadow:none;
+}
+#bb-cellredm .cr-video-hero .cr-word span{color:inherit}
+@supports (background-clip:text) or (-webkit-background-clip:text){
+ #bb-cellredm .cr-video-hero .cr-word{
+  background-image:linear-gradient(110deg,rgba(255,255,255,.60) 0%,rgba(255,255,255,.60) 42%,rgba(255,255,255,.82) 47%,rgba(255,255,255,.98) 50%,rgba(255,255,255,.82) 53%,rgba(255,255,255,.60) 58%,rgba(255,255,255,.60) 100%);
+  background-size:260% 100%;background-repeat:no-repeat;background-position:130% 50%;
+  background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation:cr-hero-letter-light 7s ease-in-out infinite;
+ }
+ #bb-cellredm .cr-video-hero .cr-word span{-webkit-text-fill-color:transparent}
+}
+@keyframes cr-hero-letter-light{0%,12%{background-position:130% 50%}55%,100%{background-position:-80% 50%}}
+
+@media(prefers-reduced-motion:reduce){#bb-cellredm .cr-video-hero .cr-word{animation:none;background-position:130% 50%}}
