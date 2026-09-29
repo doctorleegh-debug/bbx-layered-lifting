@@ -1,0 +1,10 @@
+/* Page-local white neon. Original line mask remains the source of truth. */
+#bb-thermage .bb-event-title{position:relative;isolation:isolate}
+#bb-thermage .bb-event-title-neon{display:block;width:100%;height:auto;animation:none!important;filter:brightness(0) invert(1)}
+#bb-thermage .bb-event-title[data-neon-ready=true] .bb-event-title-neon{visibility:hidden}
+#bb-thermage .bb-neon-svg{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;overflow:hidden}
+#bb-thermage .bb-neon-svg{filter:none}
+#bb-thermage .cr-neon-sweep{animation:cr4-rainbow-right 5.5s linear infinite;animation-play-state:paused}
+#bb-thermage .bb-event-title[data-neon-playing=true] .cr-neon-sweep{animation-play-state:running}
+@keyframes cr4-rainbow-right{0%,12%{transform:translateX(var(--cr-sweep-start))}82%,100%{transform:translateX(var(--cr-sweep-end))}}
+@media(prefers-reduced-motion:reduce){#bb-thermage .cr-neon-sweep{display:none;animation:none!important}}
