@@ -56,3 +56,6 @@
 @keyframes cr-hero-letter-light{0%,12%{background-position:130% 50%}55%,100%{background-position:-80% 50%}}
 
 @media(prefers-reduced-motion:reduce){#bb-cellredm .cr-video-hero .cr-word{animation:none;background-position:130% 50%}}
+
+/* Preserve the existing stage and center; fit the full video height on wide screens. */
+@media(min-width:1334px){#bb-cellredm .cr-video-poster,#bb-cellredm .cr-hero-film{object-fit:contain}}
