@@ -1,0 +1,6 @@
+/* R17: background replacement only; original hero geometry and copy stay intact. */
+#bb-cellredm .cr-film-poster,#bb-cellredm .cr-film-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% center;pointer-events:none;z-index:-2}
+#bb-cellredm .cr-film-video{opacity:0}
+#bb-cellredm .cr-film-background[data-ready=true] .cr-film-video{opacity:1}
+#bb-cellredm .cr-film-background:after{background:linear-gradient(90deg,rgba(250,243,247,.92),rgba(250,243,247,.65) 38%,rgba(250,243,247,.08) 73%),linear-gradient(0deg,rgba(250,243,247,.7),transparent 20%)}
+@media(max-width:700px){#bb-cellredm .cr-film-background:after{background:linear-gradient(180deg,rgba(250,243,247,.85),rgba(250,243,247,.65) 31%,rgba(250,243,247,0) 51%,rgba(250,243,247,.15) 80%,rgba(250,243,247,.8))}#bb-cellredm .cr-film-poster,#bb-cellredm .cr-film-video{object-position:60% center}}
