@@ -1,40 +1,42 @@
-/* Typography-led compact hero. The film is a decorative background layer. */
-#bb-cellredm .cr-video-hero{height:600px;background:#f8f1f5;overflow:hidden;contain:paint}
+/* /140 measured composition: one left text column and an open visual on the right. */
+#bb-cellredm .cr-video-hero{position:relative;height:600px;max-width:none;margin:0;background:#f8f1f5;overflow:hidden;contain:paint;isolation:isolate}
 #bb-cellredm .cr-video-hero:after{display:none}
-#bb-cellredm .cr-video-stage{position:absolute;inset:0;overflow:hidden;background:#635168}
-#bb-cellredm .cr-video-poster,#bb-cellredm .cr-hero-film{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:center 42%;display:block}
+#bb-cellredm .cr-video-stage{position:absolute;inset:0 0 0 20%;overflow:hidden;background:#635168}
+#bb-cellredm .cr-video-poster,#bb-cellredm .cr-hero-film{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:center;display:block}
 #bb-cellredm .cr-hero-film{opacity:0}
 #bb-cellredm .cr-video-stage[data-ready=true] .cr-hero-film{opacity:1}
-#bb-cellredm .cr-video-fog{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,#f8f1f535 0%,#f8f1f555 20%,#f8f1f5a8 50%,#f8f1f5e0 78%,#f8f1f5f2 100%),linear-gradient(90deg,#f8f1f550,transparent 70%)}
-#bb-cellredm .cr-video-hero .cr-word{position:absolute;z-index:2;top:96px;bottom:auto;left:5%;transform:none;width:90%;max-width:1530px;font-family:Montserrat,Arial,sans-serif;font-size:clamp(100px,14.6vw,238px);font-weight:700;line-height:1.12;letter-spacing:-.075em;color:#583750;white-space:nowrap;pointer-events:none}
-#bb-cellredm .cr-video-hero .cr-word span{color:#a1516e}
-#bb-cellredm .cr-video-eyebrow{position:absolute;z-index:2;top:28px;left:5%;font:650 11px/1.5 Montserrat,sans-serif;letter-spacing:.14em;color:#583750;margin:0}
-#bb-cellredm .cr-video-intro{position:absolute;z-index:3;bottom:38px;left:5%;transform:none;width:90%;max-width:1530px;margin:0;padding:0}
-#bb-cellredm .cr-video-intro .cr-hero-copy{position:static;width:auto;display:grid;grid-template-columns:1.2fr 1fr auto;column-gap:32px;align-items:center;transform:none}
-#bb-cellredm .cr-video-intro .cr-label{grid-column:1/-1;font-size:16px;margin:0 0 12px}
-#bb-cellredm .cr-video-intro h1{font-size:clamp(32px,3.2vw,48px);line-height:1.25;letter-spacing:-.045em;margin:0;font-weight:800}
-#bb-cellredm .cr-video-intro .cr-lead{margin:0;font-size:20px;line-height:1.6;white-space:normal}
+#bb-cellredm .cr-video-fog{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,#f8f1f5 0%,#f8f1f5fa 20%,#f8f1f5d9 38%,#f8f1f552 55%,#f8f1f514 72%,#f8f1f500 100%),linear-gradient(0deg,#f8f1f5d1,transparent 30%)}
+#bb-cellredm .cr-video-content{position:relative;z-index:2;width:88.9%;max-width:1530px;margin:0 auto;padding:48px 0 32px}
+#bb-cellredm .cr-video-eyebrow{position:static;display:inline-block;margin:0;padding:7px 14px;border-radius:30px;background:#ffdfecbb;color:#a44366;font:650 10px/1.6 Montserrat,sans-serif;letter-spacing:.025em}
+#bb-cellredm .cr-video-hero .cr-word{position:static;top:auto;bottom:auto;left:auto;transform:none;width:fit-content;max-width:100%;padding-right:.08em;font-family:Montserrat,Arial,sans-serif;font-size:clamp(65px,7.4vw,118px);font-weight:700;line-height:1.03;letter-spacing:-.07em;white-space:nowrap;margin:22px 0 14px;pointer-events:none}
+#bb-cellredm .cr-video-intro{position:static;top:auto;bottom:auto;left:auto;transform:none;width:100%;max-width:490px;margin:0;padding:0}
+#bb-cellredm .cr-video-intro .cr-hero-copy{position:static;top:auto;left:auto;width:auto;display:block;transform:none}
+#bb-cellredm .cr-video-intro .cr-label{font-size:15px;line-height:1.6;margin:0 0 7px;color:#864860}
+#bb-cellredm .cr-video-intro h1{font-size:clamp(34px,3.3vw,48px);line-height:1.25;letter-spacing:-.055em;margin:0 0 20px;font-weight:800}
+#bb-cellredm .cr-video-intro .cr-lead{max-width:385px;margin:0 0 27px;font-size:19px;line-height:1.75;white-space:normal}
 #bb-cellredm .cr-video-intro .cr-lead br{display:block}
 #bb-cellredm .cr-video-intro .cr-lead strong{margin:0}
-#bb-cellredm .cr-video-intro .cr-button{margin:0;background:#fff9;white-space:nowrap}
-@media(min-width:1700px){#bb-cellredm .cr-video-hero{height:640px;max-width:1920px;margin-inline:auto}#bb-cellredm .cr-video-hero .cr-word{top:88px}}
-@media(min-width:701px) and (max-width:1100px){#bb-cellredm .cr-video-hero{height:560px}#bb-cellredm .cr-video-hero .cr-word{top:100px}#bb-cellredm .cr-video-intro .cr-hero-copy{grid-template-columns:1fr 1fr;gap:16px 24px}#bb-cellredm .cr-video-intro .cr-label{margin:0}#bb-cellredm .cr-video-intro .cr-button{grid-column:2;justify-self:start}#bb-cellredm .cr-video-intro h1{grid-row:2/4}}
+#bb-cellredm .cr-video-intro .cr-button{margin:0;min-height:56px;padding:13px 26px;background:#322431b8;border-color:#32243144;color:#fff;white-space:nowrap;backdrop-filter:blur(5px)}
+#bb-cellredm .cr-video-intro .cr-button:hover{background:#322431dd}
+@media(min-width:1700px){#bb-cellredm .cr-video-hero{height:640px}#bb-cellredm .cr-video-content{padding-top:65px}}
+@media(min-width:701px) and (max-width:1100px){#bb-cellredm .cr-video-hero{height:560px}#bb-cellredm .cr-video-content{padding-top:44px}#bb-cellredm .cr-video-hero .cr-word{font-size:78px}#bb-cellredm .cr-video-intro{max-width:410px}#bb-cellredm .cr-video-intro h1{font-size:38px}}
 @media(max-width:700px){
- #bb-cellredm .cr-video-hero{height:540px}
+ #bb-cellredm .cr-video-hero{height:650px}
+ #bb-cellredm .cr-video-stage{inset:0}
  #bb-cellredm .cr-video-poster,#bb-cellredm .cr-hero-film{object-position:60% center}
- #bb-cellredm .cr-video-fog{background:linear-gradient(180deg,#f8f1f545 0%,#f8f1f58a 25%,#f8f1f5cc 52%,#f8f1f5ed 100%)}
- #bb-cellredm .cr-video-eyebrow{top:22px;left:6%;font-size:8px;letter-spacing:.1em}
- #bb-cellredm .cr-video-hero .cr-word{top:100px;bottom:auto;left:5%;width:90%;font-size:14.8vw;line-height:1.2}
- #bb-cellredm .cr-video-intro{top:auto;bottom:28px;left:7%;width:86%}
- #bb-cellredm .cr-video-intro .cr-hero-copy{display:block}
- #bb-cellredm .cr-video-intro .cr-label{font-size:14px;margin-bottom:10px}
- #bb-cellredm .cr-video-intro h1{font-size:34px;margin-bottom:14px}
- #bb-cellredm .cr-video-intro .cr-lead{font-size:17px;margin-bottom:18px}
+ #bb-cellredm .cr-video-fog{background:linear-gradient(0deg,#f8f1f5ed 0%,#f8f1f5d6 25%,#f8f1f59c 50%,#f8f1f526 76%,#f8f1f505 100%),linear-gradient(90deg,#f8f1f526,transparent 80%)}
+ #bb-cellredm .cr-video-content{width:calc(100% - 44px);padding-top:210px;padding-bottom:26px}
+ #bb-cellredm .cr-video-eyebrow{font-size:8px;padding:7px 12px;letter-spacing:0}
+ #bb-cellredm .cr-video-hero .cr-word{font-size:clamp(43px,12.5vw,70px);line-height:1.1;margin:16px 0 10px}
+ #bb-cellredm .cr-video-intro{max-width:none}
+ #bb-cellredm .cr-video-intro .cr-label{font-size:13px;margin-bottom:6px}
+ #bb-cellredm .cr-video-intro h1{font-size:33px;line-height:1.3;margin-bottom:14px}
+ #bb-cellredm .cr-video-intro .cr-lead{font-size:17px;line-height:1.7;margin-bottom:22px}
+ #bb-cellredm .cr-video-intro .cr-button{min-height:52px;padding:12px 22px}
 }
 
 /* White translucent lettering; the narrow light is clipped inside the glyphs. */
 #bb-cellredm .cr-video-hero .cr-word{
- left:3%;
  color:rgba(255,255,255,.66);
  -webkit-text-stroke:0;
  filter:url(#cr-title-outline);
@@ -43,7 +45,8 @@
 #bb-cellredm .cr-video-hero .cr-word span{color:inherit}
 @supports (background-clip:text) or (-webkit-background-clip:text){
  #bb-cellredm .cr-video-hero .cr-word{
-  background-image:linear-gradient(110deg,rgba(255,255,255,.60) 0%,rgba(255,255,255,.60) 42%,rgba(255,255,255,.82) 47%,rgba(255,255,255,.98) 50%,rgba(255,255,255,.82) 53%,rgba(255,255,255,.60) 58%,rgba(255,255,255,.60) 100%);
+  background-color:rgba(255,255,255,.52);
+  background-image:linear-gradient(110deg,transparent 0%,transparent 42%,rgba(255,255,255,.55) 47%,rgba(255,255,255,.96) 50%,rgba(255,255,255,.55) 53%,transparent 58%,transparent 100%);
   background-size:260% 100%;background-repeat:no-repeat;background-position:130% 50%;
   background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
   animation:cr-hero-letter-light 7s ease-in-out infinite;
