@@ -2,9 +2,6 @@
 #bb-cellredm .eb-heading{display:grid;justify-items:center;grid-template-columns:minmax(0,1fr);text-align:center}
 #bb-cellredm .eb-heading .bb-event-title{margin:0 auto;width:min(100%,880px);line-height:0;justify-self:center}
 #bb-cellredm .eb-heading>p{width:100%;text-align:center;margin:22px auto 0}
-#bb-cellredm .bb-neon-spectrum{opacity:.92;animation-duration:6.4s}
-#bb-cellredm .bb-neon-sheen{animation-duration:2.8s;filter:drop-shadow(0 0 2.2px #fff)}
-#bb-cellredm .bb-neon-tubes{filter:drop-shadow(0 0 2.1px #fff9)}
 .cr-hero .cr-backdrop{animation-duration:16s;transform-origin:72% 40%}
 .cr-hero .cr-word{background:linear-gradient(108deg,#59374f 0%,#59374f 32%,#b37c9b 42%,#fce8ed 46%,#8b607d 51%,#59374f 63%);background-size:260% 100%;background-clip:text;-webkit-background-clip:text;color:transparent;animation:cr2-type-light 9s ease-in-out infinite}
 .cr-hero .cr-word span{color:inherit}
@@ -67,3 +64,7 @@
 @media(max-width:700px){#bb-cellredm .eb-heading .bb-event-title{width:100%;max-width:600px}#bb-cellredm .eb-heading>p{margin-top:17px}.cr-product-stage{margin-top:50px}.cr-product-stage>img{padding:1%}.cr-product-gloss{mask-size:98% auto;-webkit-mask-size:98% auto}.cr-micro-field{inset:-20px 0 20%;width:100%;opacity:.5}.cr-ecm-flow{inset:9% 1% 10%;width:98%;height:81%}}
 @media(prefers-reduced-motion:reduce){#bb-cellredm .cr-motion *,#bb-cellredm .cr-motion *:before,#bb-cellredm .cr-motion *:after{animation:none!important;transition:none!important;translate:none!important;scale:1!important}.cr-hero .cr-word{color:#59374f;background:none}.cr-spec-number{color:#a56c91;background:none}.cr-product-gloss,.cr-flow-light,.cr-micro-field{display:none}.cr-steps li:before{transform:scaleX(1);opacity:.45}}
 @media(max-width:700px){.cr-product-visual{width:100%;aspect-ratio:auto}.cr-product-stage{flex:0 1 100%}}
+
+/* Keep zoom/parallax inside its own section, including the hero/nav boundary. */
+#bb-cellredm .cr-hero{overflow:hidden;overflow:clip;contain:paint}
+#bb-cellredm .cr-nav{position:relative;z-index:1;background:#fff}
