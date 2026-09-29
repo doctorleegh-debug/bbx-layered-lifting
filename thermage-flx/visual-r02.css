@@ -1,0 +1,60 @@
+/* Scoped to Thermage: preserve other pages and common templates. */
+#bb-thermage #monthly-events .eb-heading{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;text-align:center}
+#bb-thermage #monthly-events .eb-heading .bb-event-title{flex:none;width:min(100%,900px);max-width:900px;margin:0 auto!important;align-self:center}
+#bb-thermage #monthly-events .eb-heading p{width:100%;text-align:center;margin:24px auto 0}
+#bb-thermage .tf-features{padding-top:95px;padding-bottom:110px}
+#bb-thermage .tf-feature-grid{gap:24px}
+#bb-thermage .tf-feature-grid article{position:relative;overflow:hidden;padding:0 32px 40px;border-radius:180px 180px 24px 24px;border:1px solid #e8d6e0;background:linear-gradient(180deg,#eee2ea,#fff 80%);box-shadow:0 18px 45px #976b8110}
+#bb-thermage .tf-feature-grid article:nth-child(2){background:linear-gradient(180deg,#e8f0f1,#fff 80%)}
+#bb-thermage .tf-feature-grid article:nth-child(3){background:linear-gradient(180deg,#f7e9df,#fff 80%)}
+.tf2-feature-visual{height:300px;position:relative;display:grid;place-items:center;margin:12px -16px 25px;isolation:isolate}
+.tf2-feature-sprite,.tf2-step-art{display:block;background-image:url(assets/feature-icons-r02.webp);background-repeat:no-repeat;background-size:300% 100%;aspect-ratio:1;filter:drop-shadow(0 18px 12px #82596722)}
+.tf2-sprite-0{background-position:0 50%}.tf2-sprite-1{background-position:50% 50%}.tf2-sprite-2{background-position:100% 50%}
+.tf2-feature-sprite{width:min(100%,285px);animation:tf2-art-float 6s ease-in-out infinite alternate}
+.tf2-sprite-1{animation-delay:-2s}.tf2-sprite-2{animation-delay:-4s}
+.tf2-feature-halo{position:absolute;inset:18%;border:1px solid #fff9;border-radius:50%;z-index:-1;box-shadow:0 0 0 22px #fff2,0 0 0 45px #fff1;animation:tf2-halo 5s ease-in-out infinite}
+.tf2-feature-trace{position:absolute;inset:8%;border-radius:50%;border:1px solid transparent;border-top-color:#fff;border-right-color:#fff7;animation:tf2-orbit 8s linear infinite;pointer-events:none}
+.tf2-device-waves{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;filter:drop-shadow(0 0 5px #fcdcc4)}
+.tf2-device-waves ellipse{stroke-dasharray:65 1100;animation:tf2-device-path 4.5s linear infinite}.tf2-device-waves ellipse:nth-child(2){animation-delay:-1.5s}.tf2-device-waves ellipse:nth-child(3){animation-delay:-3s}
+.tf2-device-beam{position:absolute;inset:0;background:linear-gradient(180deg,transparent 0%,#fff0 42%,#fff8 49%,#fff0 56%,transparent);transform:translateY(-100%);animation:tf2-device-scan 7s ease-in-out infinite;pointer-events:none;mix-blend-mode:soft-light}
+#bb-thermage .tf-device{background:radial-gradient(ellipse at 50% 35%,#fff,#f0e2ed 70%);box-shadow:inset 0 0 70px #dbc2d52b}
+.tf2-science-overlay{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.tf2-cool-wave,.tf2-fibers{opacity:0;transition:opacity .5s}.tf2-cool-wave{filter:drop-shadow(0 0 7px #c0effa);stroke-dasharray:130 230;animation:tf2-cooling 3s linear infinite}.tf2-fibers{stroke-dasharray:55 50;animation:tf2-cooling 6s linear infinite;filter:drop-shadow(0 0 3px #ffd2a7)}
+#science[data-phase=cooling] .tf2-cool-wave,#science[data-phase=remodeling] .tf2-fibers{opacity:1}
+#science[data-phase=cooling] .tf-energy,#science[data-phase=remodeling] .tf-energy{opacity:.18}
+#science[data-phase=energy] .tf-energy{opacity:1}
+#bb-thermage .tf-skin img{animation:tf2-skin-drift 10s ease-in-out infinite alternate}
+#bb-thermage .tf-science{background:radial-gradient(ellipse at 15% 60%,#f0dde4,#faf7f9 65%)}
+.tf2-consult-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:5%;align-items:stretch}
+.tf2-portrait{position:relative;isolation:isolate;min-width:0;overflow:hidden;border-radius:280px 280px 24px 24px;align-self:end;aspect-ratio:1}
+.tf2-portrait-bg{position:absolute;inset:0;z-index:-2;background:url(assets/background.webp) 72% center/cover;animation:tf-camera 22s ease-in-out infinite alternate}
+.tf2-portrait img{width:100%;height:100%;object-fit:contain;mask-image:linear-gradient(#000 84%,transparent)}
+.tf2-face-map{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.tf2-region{opacity:0;transition:opacity .45s}.tf2-portrait[data-area=contour] .tf2-contour,.tf2-portrait[data-area=texture] .tf2-texture,.tf2-portrait[data-area=eye] .tf2-eye{opacity:1}
+.tf2-zone{fill:#ffbe7c;fill-opacity:.3;stroke:#ffe7c7;stroke-width:2;animation:tf2-region-glow 3.8s ease-in-out infinite}
+.tf2-line{fill:none;stroke:#fff7df;stroke-width:5;stroke-linecap:round;stroke-dasharray:70 420;animation:tf2-face-line 3.8s ease-in-out infinite;filter:drop-shadow(0 0 4px #ffb579)}
+.tf2-portrait-scan{position:absolute;inset:5% 0 10%;pointer-events:none;overflow:hidden;opacity:.28;background:linear-gradient(180deg,transparent 40%,#fff8 49%,transparent 54%);animation:tf2-portrait-scan 7s ease-in-out infinite;mix-blend-mode:soft-light}
+#bb-thermage .tf2-consult-grid .tf-concern-grid{grid-template-columns:1fr;gap:14px;align-content:center}
+#bb-thermage .tf2-area-card{padding:24px 30px;transition:background .3s,border-color .3s,transform .3s;background:#fff7;border:1px solid #d9bdce;border-radius:20px;cursor:pointer}
+#bb-thermage .tf2-area-card[data-active=true]{background:#fff;border-color:#b27092;box-shadow:0 12px 35px #9a697616;transform:translateX(-7px)}
+#bb-thermage .tf2-area-card .tf-concern-no{float:right;font-size:40px;margin:0 0 8px 15px;color:#cca4b9}
+#bb-thermage .tf2-area-card h3{margin:0 0 8px;font-size:25px}
+.tf2-area-button{font:inherit;font-weight:700;text-align:left;border:0;padding:5px 0;background:transparent;color:inherit;min-height:44px}
+#bb-thermage .tf2-area-card p:last-child{font-size:17px;margin-bottom:0;line-height:1.85}
+.tf2-step-art{width:160px;height:160px;margin:-12px 0 25px;animation:tf2-art-float 7s ease-in-out infinite alternate}
+#bb-thermage .tf-steps li{padding:30px;border:1px solid #e9d9e2;border-radius:28px;background:linear-gradient(150deg,#fff,#f6edf2);position:relative}
+#bb-thermage .tf-steps .tf-step-number{position:absolute;right:24px;top:30px;font-size:44px;color:#d0aabc}
+#bb-thermage .tf-feature-grid article:hover .tf2-feature-sprite{filter:drop-shadow(0 24px 15px #9c729b33)}
+@keyframes tf2-art-float{from{transform:translateY(8px) rotate(-5deg)}to{transform:translateY(-10px) rotate(5deg)}}
+@keyframes tf2-halo{50%{transform:scale(1.08);opacity:.55}}
+@keyframes tf2-orbit{to{transform:rotate(360deg)}}
+@keyframes tf2-device-path{to{stroke-dashoffset:-1165}}
+@keyframes tf2-device-scan{0%,15%{transform:translateY(-100%)}70%,100%{transform:translateY(100%)}}
+@keyframes tf2-cooling{to{stroke-dashoffset:-360}}
+@keyframes tf2-skin-drift{to{transform:translateY(-7px) rotate(-1deg)}}
+@keyframes tf2-region-glow{50%{fill-opacity:.46}}
+@keyframes tf2-face-line{to{stroke-dashoffset:-490}}
+@keyframes tf2-portrait-scan{0%,15%{transform:translateY(-60%)}75%,100%{transform:translateY(60%)}}
+@media(max-width:1100px){.tf2-feature-visual{height:230px}.tf2-feature-sprite{width:min(100%,225px)}#bb-thermage .tf-feature-grid article{padding-inline:22px}.tf2-consult-grid{gap:3%}#bb-thermage .tf2-area-card{padding:18px 22px}.tf2-portrait{align-self:center}.tf2-step-art{width:125px;height:125px}}
+@media(max-width:700px){#bb-thermage #monthly-events .eb-heading .bb-event-title{width:100%;max-width:600px}#bb-thermage .tf-feature-grid{gap:24px}#bb-thermage .tf-feature-grid article{border-radius:32px;padding:22px 26px 30px}.tf2-feature-visual{height:250px;margin:0 0 20px}.tf2-feature-sprite{width:255px}#bb-thermage .tf-card-en{margin:0 0 14px;max-width:none;font-size:20px}#bb-thermage .tf-feature-grid h3{font-size:27px;margin:0 0 14px}.tf2-consult-grid{grid-template-columns:1fr;gap:24px}.tf2-portrait{width:100%;border-radius:190px 190px 18px 18px}#bb-thermage .tf2-area-card[data-active=true]{transform:none}#bb-thermage .tf2-area-card h3{font-size:24px}#bb-thermage .tf-steps li{display:block;padding:28px}.tf2-step-art{width:145px;height:145px;margin-bottom:18px}#bb-thermage .tf-steps h3{margin-bottom:15px}.tf2-feature-trace{inset:8% 15%}.tf2-feature-halo{inset:15% 25%}}
+@media(prefers-reduced-motion:reduce){#bb-thermage .tf2-feature-sprite,#bb-thermage .tf2-feature-halo,#bb-thermage .tf2-step-art,#bb-thermage .tf2-portrait-bg,#bb-thermage .tf2-zone,#bb-thermage .tf2-line{animation:none!important}#bb-thermage .tf2-device-beam,#bb-thermage .tf2-portrait-scan,#bb-thermage .tf2-feature-trace{display:none}#bb-thermage .tf2-area-card{transition:none}}
