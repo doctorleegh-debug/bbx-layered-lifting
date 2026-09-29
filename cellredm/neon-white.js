@@ -23,7 +23,14 @@ function initialize(root,index){
  const bandWidth=W*.20;
  const rainbow=make('linearGradient',{id:id+'-rainbow',gradientUnits:'objectBoundingBox',x1:0,y1:0,x2:1,y2:0},defs);
  ['#edb5e8','#b29aff','#96d6ff','#99e5c0','#ffe5a0','#ffbba9','#edb5e8'].forEach((c,i)=>make('stop',{offset:i/6,'stop-color':c,'stop-opacity':i===0||i===6?0:1},rainbow));
- make('image',{href:img.currentSrc||img.src,x:0,y:0,width:W,height:H,filter:`url(#${id}-tube)`,'class':'cr-neon-white-base'},svg);
+ // A true hard-edge outline, not a blurred glow. Draw behind the existing white tubes.
+ const outline=make('filter',{id:id+'-outline',x:'-2%',y:'-2%',width:'104%',height:'104%','color-interpolation-filters':'sRGB'},defs);
+ make('feMorphology',{in:'SourceAlpha',operator:'dilate',radius:2,result:'edge'},outline);
+ make('feFlood',{'flood-color':'#a58a99','flood-opacity':.8,result:'ink'},outline);
+ make('feComposite',{in:'ink',in2:'edge',operator:'in',result:'border'},outline);
+ const merge=make('feMerge',{},outline);make('feMergeNode',{in:'border'},merge);make('feMergeNode',{in:'SourceGraphic'},merge);
+ const outlinedBase=make('g',{filter:`url(#${id}-outline)`,'class':'cr-neon-outlined-base'},svg);
+ make('image',{href:img.currentSrc||img.src,x:0,y:0,width:W,height:H,filter:`url(#${id}-tube)`,'class':'cr-neon-white-base'},outlinedBase);
  const group=make('g',{mask:`url(#${id}-mask)`,'class':'cr-neon-line-mask'},svg);
  make('rect',{x:0,y:0,width:bandWidth,height:H,fill:`url(#${id}-rainbow)`,'class':'cr-neon-sweep'},group);
  svg.style.setProperty('--cr-sweep-start',`${-bandWidth}px`);svg.style.setProperty('--cr-sweep-end',`${W}px`);
