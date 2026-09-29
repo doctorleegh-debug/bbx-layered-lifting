@@ -1,0 +1,17 @@
+/* Scope: only the consultation/care title, once per page visit. No changing copy. */
+(()=>{'use strict';const title=document.querySelector('#care [data-copy-id="CR057"]');if(!title||title.dataset.flapReady)return;title.dataset.flapReady='true';
+const media=matchMedia('(prefers-reduced-motion:reduce)'),allowed=()=>!media.matches&&!document.hidden&&!navigator.connection?.saveData;let played=false,overlay=null,observer=null,animations=[];
+const cleanup=()=>{animations.forEach(a=>a.cancel());animations=[];overlay?.remove();overlay=null;title.classList.remove('cr8-flap-heading');if(played)title.dataset.flapState='complete'};
+function play(){if(played)return;played=true;observer?.disconnect();if(!allowed()){title.dataset.flapState='static';return}
+ const box=title.getBoundingClientRect(),style=getComputedStyle(title),walker=document.createTreeWalker(title,NodeFilter.SHOW_TEXT),chars=[];let node;
+ while(node=walker.nextNode()){let offset=0;for(const char of node.textContent){const len=char.length;if(char.trim()){const range=document.createRange();range.setStart(node,offset);range.setEnd(node,offset+len);const r=range.getBoundingClientRect();if(r.width&&r.height)chars.push({char,x:r.left-box.left,y:r.top-box.top,width:r.width,height:r.height})}offset+=len}}
+ if(!chars.length){title.dataset.flapState='static';return}
+ title.classList.add('cr8-flap-heading');title.dataset.flapState='playing';overlay=document.createElement('span');overlay.className='cr8-flap-overlay';overlay.setAttribute('aria-hidden','true');overlay.style.setProperty('--cr8-ink',style.color);
+ let previousY=chars[0].y,linePause=0;
+ chars.forEach((item,i)=>{if(item.y>previousY+5){linePause+=85;previousY=item.y}const cell=document.createElement('span');cell.className='cr8-flap-char';Object.assign(cell.style,{left:item.x+'px',top:item.y+'px',width:item.width+'px',height:item.height+'px'});cell.style.setProperty('--cr8-height',item.height+'px');overlay.append(cell);
+ for(const side of ['top','bottom']){const face=document.createElement('span');face.className='cr8-flap-face cr8-flap-'+side;const ink=document.createElement('span');ink.className='cr8-flap-ink';ink.textContent=item.char;face.append(ink);cell.append(face);const frames=side==='top'?[{transform:'rotateX(0deg)',filter:'brightness(1)',offset:0},{transform:'rotateX(-90deg)',filter:'brightness(.85)',offset:.49},{transform:'rotateX(-90deg)',filter:'brightness(.85)',offset:1}]:[{transform:'rotateX(90deg)',filter:'brightness(.85)',offset:0},{transform:'rotateX(90deg)',filter:'brightness(.85)',offset:.49},{transform:'rotateX(0deg)',filter:'brightness(1)',offset:1}];const a=face.animate(frames,{duration:540,delay:i*24+linePause,easing:'cubic-bezier(.3,.1,.25,1)',fill:'both'});animations.push(a)}
+ });title.append(overlay);Promise.all(animations.map(a=>a.finished.catch(()=>{}))).then(cleanup);
+}
+const stop=()=>{if(!allowed()&&overlay)cleanup()};media.addEventListener('change',stop);document.addEventListener('visibilitychange',stop);navigator.connection?.addEventListener?.('change',stop);window.addEventListener('resize',()=>{if(overlay)cleanup()},{passive:true});window.addEventListener('pagehide',cleanup);
+Promise.resolve(document.fonts?.ready).then(()=>{if(!('IntersectionObserver'in window)){play();return}observer=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting&&e.intersectionRatio>=.6))play()},{threshold:.6});observer.observe(title)});
+})();

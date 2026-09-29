@@ -1,0 +1,10 @@
+/* One-time mechanical title reveal. The original heading stays readable underneath. */
+#bb-cellredm .cr8-flap-heading{position:relative}
+#bb-cellredm .cr8-flap-overlay{position:absolute;inset:0;pointer-events:none;user-select:none;z-index:1}
+#bb-cellredm .cr8-flap-char{position:absolute;perspective:450px;display:block}
+#bb-cellredm .cr8-flap-face{position:absolute;left:0;width:100%;height:50%;overflow:hidden;backface-visibility:hidden;background:#fff;color:var(--cr8-ink);display:block;will-change:transform;box-shadow:inset 0 -0.5px 0 #82677b26}
+#bb-cellredm .cr8-flap-top{top:0;transform-origin:50% 100%}
+#bb-cellredm .cr8-flap-bottom{top:50%;transform-origin:50% 0;transform:rotateX(90deg);box-shadow:inset 0 .5px 0 #82677b26}
+#bb-cellredm .cr8-flap-ink{position:absolute;left:0;top:0;display:block;height:var(--cr8-height);line-height:var(--cr8-height);white-space:pre;color:var(--cr8-ink);letter-spacing:inherit}
+#bb-cellredm .cr8-flap-bottom .cr8-flap-ink{top:calc(var(--cr8-height) / -2)}
+@media(prefers-reduced-motion:reduce){#bb-cellredm .cr8-flap-overlay{display:none!important}}
