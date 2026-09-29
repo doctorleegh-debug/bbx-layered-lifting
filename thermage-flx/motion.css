@@ -1,0 +1,66 @@
+/* Kinetics-inspired material motion. See BEAUTYBLOSSOM_MOTION_GUIDE.md. */
+#bb-thermage{--tf-ease:cubic-bezier(.22,.75,.18,1)}
+/* A single restrained entrance; generated background remains a separate asset. */
+#bb-thermage .tf-hero[data-entered] .tf-hero-copy>*{animation:tf4-enter 1s var(--tf-ease) both;animation-delay:var(--enter-delay,0ms)}
+#bb-thermage .tf-hero-copy>:nth-child(2){--enter-delay:70ms}
+#bb-thermage .tf-hero-copy>:nth-child(3){--enter-delay:140ms}
+#bb-thermage .tf-hero-copy>:nth-child(4){--enter-delay:210ms}
+#bb-thermage .tf-hero-copy>:nth-child(5){--enter-delay:280ms}
+#bb-thermage .tf-hero-title span{animation-duration:12s}
+/* Studio light stays inside the actual product silhouette. */
+#bb-thermage .tf-device img,#bb-thermage .tf-skin img,#bb-thermage .tf2-step-art{animation:none}
+#bb-thermage .tf-device:before{content:'';position:absolute;inset:-15%;z-index:-1;background:radial-gradient(ellipse at 30% 40%,#fff 0,transparent 43%),radial-gradient(ellipse at 75% 65%,#d9c7d94d,transparent 46%);animation:tf4-caustic 11s ease-in-out infinite alternate;pointer-events:none}
+#bb-thermage .tf-device:after{content:'';position:absolute;top:50%;left:6%;width:88%;height:540px;transform:translateY(-50%);mask:url(assets/device.webp) center/contain no-repeat;background:linear-gradient(115deg,transparent 20%,#fff0 40%,#fffc 49%,#fff2 57%,transparent 72%);background-size:280% 100%;animation:tf4-specular 9s var(--tf-ease) infinite;mix-blend-mode:soft-light;pointer-events:none}
+/* Three-dimensional artwork responds to the pointer, not a spinning outline. */
+#bb-thermage .tf-feature-grid article{transform:perspective(1100px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));box-shadow:0 14px 36px #976b8110}
+#bb-thermage .tf2-feature-visual{overflow:hidden;border-radius:150px;perspective:900px}
+#bb-thermage .tf2-feature-visual:before{content:'';position:absolute;inset:8% -15%;z-index:-1;border-radius:50%;filter:blur(16px);background:radial-gradient(ellipse at 30% 30%,#fffd,transparent 45%),radial-gradient(ellipse at 75% 70%,#d0bacc66,transparent 48%);animation:tf4-caustic 10s ease-in-out infinite alternate;pointer-events:none}
+#bb-thermage .tf2-feature-sprite{position:relative;animation:tf4-breathe 9s ease-in-out infinite alternate;transform-origin:50% 70%}
+#bb-thermage .tf2-feature-sprite:after{content:'';position:absolute;inset:0;mask-image:url(assets/feature-icons-r02.webp);mask-size:300% 100%;mask-repeat:no-repeat;background:linear-gradient(115deg,transparent 25%,#fff0 40%,#fff9 50%,#fff0 60%,transparent 75%);background-size:260% 100%;animation:tf4-specular 9s var(--tf-ease) infinite;mix-blend-mode:soft-light;pointer-events:none}
+#bb-thermage .tf2-sprite-0:after{mask-position:0 50%}
+#bb-thermage .tf2-sprite-1:after{mask-position:50% 50%;animation-delay:-2s}
+#bb-thermage .tf2-sprite-2:after{mask-position:100% 50%;animation-delay:-4s}
+/* Continuous active pill; resize and fast repeated selection preserve velocity. */
+#bb-thermage .tf-tabs [role=tablist]{position:relative;isolation:isolate;gap:4px;padding:5px;border:1px solid #eadde4;border-radius:32px;background:#f6eef2}
+#bb-thermage .tf-tabs [role=tab]{position:relative;z-index:1;background:transparent;transition:color .2s;min-width:0}
+#bb-thermage .tf-tabs [role=tab][aria-selected=true]{background:#8c526c}
+#bb-thermage .tf-tabs[data-glide] [role=tab][aria-selected=true]{background:transparent}
+#bb-thermage .tf4-pill{position:absolute;inset:0 auto auto 0;border-radius:28px;background:linear-gradient(120deg,#9c637f,#804961);box-shadow:0 4px 12px #80546924;z-index:0;pointer-events:none}
+#bb-thermage .tf-tabs [role=tabpanel]:not([hidden]){animation:tf4-panel .55s var(--tf-ease)}
+#bb-thermage .tf-energy,#bb-thermage .tf2-cool-wave,#bb-thermage .tf2-fibers{transition:opacity .6s var(--tf-ease)}
+#bb-thermage #science:not([data-phase=energy]) .tf-energy{opacity:0}
+#bb-thermage .tf-heat{animation-duration:6s}
+#bb-thermage .tf-pulse{stroke-dasharray:none;stroke-opacity:.5;animation:tf4-energy 6s ease-in-out infinite}
+#bb-thermage .tf2-cool-wave{stroke-dasharray:none;animation:tf4-cooling 5s ease-in-out infinite;filter:drop-shadow(0 0 5px #def8fa)}
+#bb-thermage .tf2-fibers{stroke-dasharray:none;stroke:#fff5ed;animation:tf4-fibers 7s ease-in-out infinite;transform-origin:300px 365px;filter:drop-shadow(0 0 3px #fff3e7)}
+/* White guide + tapered luminous pass. No filled region or yellow border. */
+#bb-thermage .tf4-face-light{mix-blend-mode:screen}
+#bb-thermage .tf4-guide{opacity:.3}
+#bb-thermage .tf4-flow{animation:tf4-light 6.5s cubic-bezier(.4,0,.25,1) infinite;transform:translateX(180px)}
+#bb-thermage .tf4-core{--flow-opacity:.85}
+#bb-thermage .tf4-bloom{--flow-opacity:.45}
+#bb-thermage .tf2-portrait-bg{animation:none}
+#bb-thermage .tf2-area-card{transition:background .4s,border-color .4s,box-shadow .4s;position:relative;overflow:hidden}
+#bb-thermage .tf2-area-card[data-active=true]{transform:none;box-shadow:0 10px 28px #95647713;border-color:#bd92a6}
+#bb-thermage .tf2-area-card:before{content:'';position:absolute;inset:22px auto 22px 0;width:3px;background:linear-gradient(transparent,#ae7890,transparent);opacity:0;transform:scaleY(.5);transition:transform .5s var(--tf-ease),opacity .4s}
+#bb-thermage .tf2-area-card[data-active=true]:before{opacity:1;transform:scaleY(1)}
+#bb-thermage .tf-button{transition:background .3s,box-shadow .3s,transform .45s var(--tf-ease)}
+#bb-thermage .tf-button span{transition:transform .45s var(--tf-ease)}
+#bb-thermage .tf-button:hover span{transform:translate(3px,-3px)}
+#bb-thermage .tf-button:hover{box-shadow:0 8px 22px #7a586b15;transform:translateY(-2px)}
+#bb-thermage .tf-button:active{transform:translateY(0) scale(.985)}
+#bb-thermage button:focus-visible,#bb-thermage a:focus-visible{outline:2px solid #8c526c;outline-offset:4px}
+#bb-thermage .cr-motion:not([data-motion=playing]) *:before,#bb-thermage .cr-motion:not([data-motion=playing]) *:after{animation-play-state:paused!important}
+@keyframes tf4-enter{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes tf4-panel{from{opacity:.3;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes tf4-caustic{from{transform:translate(-3%,2%) rotate(-5deg)}to{transform:translate(4%,-3%) rotate(7deg)}}
+@keyframes tf4-specular{0%,12%{background-position:140% 50%}72%,100%{background-position:-40% 50%}}
+@keyframes tf4-breathe{from{transform:translateY(3px) rotate(-1deg)}to{transform:translateY(-4px) rotate(1deg)}}
+@keyframes tf4-light{0%,5%{transform:translateX(180px);opacity:0}17%{opacity:var(--flow-opacity)}73%{opacity:var(--flow-opacity)}88%,100%{transform:translateX(880px);opacity:0}}
+@keyframes tf4-energy{0%,100%{opacity:.2;transform:translateY(-3px)}50%{opacity:.75;transform:translateY(5px)}}
+@keyframes tf4-cooling{0%,100%{stroke-opacity:.2;transform:translateY(0)}50%{stroke-opacity:.85;transform:translateY(-3px)}}
+@keyframes tf4-fibers{0%,100%{stroke-opacity:.35;transform:scaleX(1)}50%{stroke-opacity:.85;transform:scaleX(.985)}}
+@media(max-width:1100px){#bb-thermage .tf-device:after{height:460px}}
+@media(max-width:700px){#bb-thermage .tf-device:after{height:440px}#bb-thermage .tf2-feature-visual{border-radius:26px}}
+@media(prefers-reduced-motion:reduce){#bb-thermage .tf4-flow,#bb-thermage .tf-device:after,#bb-thermage .tf2-feature-sprite:after{display:none}#bb-thermage .tf-feature-grid article{transform:none!important}#bb-thermage .tf-hero[data-entered] .tf-hero-copy>*{animation:none!important}}
+#bb-thermage[data-save-data=true] .tf4-flow,#bb-thermage[data-save-data=true] .tf-device:after{display:none}
