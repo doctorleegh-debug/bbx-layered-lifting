@@ -1,0 +1,34 @@
+#bb-thermage .tf-device-word{left:50%;top:46%;width:100%;transform:translate(-50%,-50%);text-align:center;z-index:0;pointer-events:none;font-size:clamp(50px,6.4vw,94px);color:#d4bdcb}
+#bb-thermage .tf-device img{position:relative;z-index:1}
+#bb-thermage .tf6-isometric{aspect-ratio:1/1.12;background:radial-gradient(ellipse at 48% 76%,#e4c4d3 0,transparent 62%),linear-gradient(145deg,#fbf8fa,#eee3e9);border-color:#ffffff30;box-shadow:inset 0 1px #fff9}
+#bb-thermage .tf6-isometric .tf5-cycle-title{top:6%;left:7%;color:#725565;font-size:clamp(32px,3.5vw,49px)}
+.tf6-step-count{position:absolute;top:7%;right:7%;font:500 11px/1.5 Montserrat,sans-serif;letter-spacing:.1em;color:#826773}
+.tf6-scene{position:absolute;width:94%;aspect-ratio:1;left:3%;bottom:8%;isolation:isolate}
+#bb-thermage .tf6-scene img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
+.tf6-tissue{clip-path:inset(52% 0 0 0);z-index:0}
+.tf6-handpiece{clip-path:inset(0 0 48% 0);z-index:2;transform:translateY(8%);transition:transform 1.05s cubic-bezier(.22,1,.36,1)}
+.tf6-light{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.tf6-thermal,.tf6-cool{opacity:0;transition:opacity .65s ease}
+.tf6-thermal{stroke-dasharray:170 220;stroke-dashoffset:220}
+.tf6-halo{stroke-dasharray:none;opacity:0}
+.tf6-cool-sweep{stroke-dasharray:.14 .86;stroke-dashoffset:1}
+#tf-treatment-cycle[data-cycle="1"] .tf6-cool,#tf-treatment-cycle[data-cycle="3"] .tf6-cool,#tf-treatment-cycle[data-cycle="4"] .tf6-cool{opacity:.88}
+#tf-treatment-cycle[data-cycle="2"] .tf6-thermal{opacity:.9}
+#tf-treatment-cycle[data-cycle="2"] .tf6-halo{opacity:.24}
+#tf-treatment-cycle[data-cycle="4"] .tf6-handpiece{transform:translateY(0)}
+#tf-treatment-cycle[data-running="true"][data-cycle="2"] .tf6-thermal:not(.tf6-halo){animation:tf6-energy 1.5s linear infinite}
+#tf-treatment-cycle[data-running="true"] .tf6-cool-sweep{animation:tf6-cooling 1.9s ease-in-out infinite}
+#bb-thermage .tf6-isometric .tf5-cycle-footer{bottom:4%;color:#826573;font-size:9px;letter-spacing:.17em}
+#bb-thermage .tf5-cycle-steps li{padding:0;display:block;border-radius:16px;overflow:visible}
+.tf6-stage-button{appearance:none;width:100%;display:flex;gap:20px;align-items:flex-start;padding:16px 20px;text-align:left;background:transparent;border:0;border-radius:16px;color:inherit;font:inherit;cursor:pointer;position:relative}
+.tf6-stage-button>div{min-width:0}
+.tf6-stage-button:focus-visible{outline:2px solid #eac9dd;outline-offset:4px}
+.tf6-stage-button:after{content:"";position:absolute;bottom:0;left:20px;right:20px;height:1px;background:#edd3e0;transform:scaleX(0);transform-origin:left}
+#tf-treatment-cycle[data-running="true"] [data-active="true"] .tf6-stage-button:after{animation:tf6-progress 3.2s linear both}
+.tf6-cycle-toggle{justify-self:start;margin-top:0;padding:8px 16px;background:transparent;border:1px solid #ffffff40;border-radius:100px;color:#e6d6df;font:inherit;font-size:12px;cursor:pointer}
+.tf6-cycle-toggle:focus-visible{outline:2px solid #eac9dd;outline-offset:4px}
+@keyframes tf6-energy{to{stroke-dashoffset:-170}}
+@keyframes tf6-cooling{to{stroke-dashoffset:-1}}
+@keyframes tf6-progress{to{transform:scaleX(1)}}
+@media(max-width:700px){#bb-thermage .tf-device-word{left:50%;top:46%;font-size:66px}.tf6-stage-button{padding:16px;gap:15px}#bb-thermage .tf6-isometric{max-width:500px;width:100%;margin:auto}.tf6-scene{width:96%;left:2%}}
+@media(prefers-reduced-motion:reduce){.tf6-handpiece{transition:none}.tf6-thermal,.tf6-cool{transition:opacity .15s}.tf6-light *,.tf6-stage-button:after{animation:none!important}.tf6-thermal{stroke-dasharray:none}}
