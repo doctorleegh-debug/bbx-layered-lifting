@@ -127,11 +127,16 @@ function changedChecks(before,next){
 }
 async function commitShared(before,next){
  const changes=changedChecks(before,next);
+ const previous=changes.map(({key})=>{const [id,c,kind]=key.split('/');return {id,c,kind,value:before.nodes.find(n=>n.id===id)?.countries[c]?.[kind]};});
  if(changes.length){
   shared.busy=true;sharedLabel('체크를 팀에 저장하는 중…');render();
   try{await sharedRequest('/v1/check',changes);sharedLabel('체크 팀 저장 완료 · 다른 화면에 자동 반영');}
   finally{shared.busy=false;}
  }
+ // A response may include a colleague's edit not yet seen in this browser.
+ // Exclude those incoming edits from this user's undo entry.
+ mergeShared(before);
+ for(const p of previous){const n=before.nodes.find(n=>n.id===p.id);if(n?.countries[p.c]&&p.value!==undefined)n.countries[p.c][p.kind]=p.value;}
  mergeShared(next);
 }
 async function applySharedCache(){
