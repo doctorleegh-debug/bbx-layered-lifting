@@ -69,10 +69,12 @@ fieldset{border-color:#536078}#form-error{color:#ffb0c0}
 .cardnews-completion .cardnews-save{margin:12px 0 0;font-size:12px;color:#c9bac7;line-height:1.6}
 .cardnews-save.failed{color:#ffb7b7}
 @media(max-width:600px){.cardnews-completion{flex-basis:auto}.cardnews-checks{grid-template-columns:repeat(2,minmax(0,1fr))}.cardnews-check{padding:11px 12px}}
+.video-checks{grid-template-columns:repeat(6,minmax(0,1fr))}@media(max-width:600px){.video-checks{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style></head>
 <body><header><div class="brand"><span class="brand-icon" aria-hidden="true">✳</span><span>Beauty Blossom <small>홈페이지 작업실</small></span></div><div class="header-actions"><button id="export">백업 내보내기</button><label class="file-button">백업 가져오기<input id="import" type="file" accept="application/json,.json"></label><button id="add" class="primary">+ 시술 추가</button></div></header>
-<main><div class="intro"><div><p class="subtitle">문구 검토부터 국가별 업로드까지</p><h1>워크트리<span>.</span></h1><p>시술을 찾고, 시트를 열고, 끝낸 국가를 체크하세요.</p></div><div class="save-info"><span id="save-state" role="status" aria-live="polite">불러오는 중</span><span id="shared-state" role="status" aria-live="polite">체크 팀 저장 연결 중…</span><small>홈페이지 체크는 팀 공용 · 메모·링크는 이 브라우저에 보관</small></div></div>
-<section id="cardnews" class="cardnews-resource" aria-labelledby="cardnews-title"><div><h2 id="cardnews-title">카드뉴스 언어베리</h2><p>카드뉴스의 국가별 문구 검토 시트입니다.</p></div><a href="https://docs.google.com/spreadsheets/d/1FrEUG-Pjj18sAicsY9vab9QAofJPy0xGhRe31P182h4/edit?gid=776617626#gid=776617626" target="_blank" rel="noopener noreferrer" aria-label="카드뉴스 언어베리 시트 열기 (새 탭)">언어베리 시트 열기 <span aria-hidden="true">↗</span></a><fieldset id="cardnews-completion" class="cardnews-completion" data-campaign="density-20260927"><legend>국가별 언어베리 완료</legend><div class="cardnews-checks"><label class="cardnews-check"><input type="checkbox" data-country="EN" aria-label="카드뉴스 영어 언어베리 완료"><span>영어</span><small>EN</small></label><label class="cardnews-check"><input type="checkbox" data-country="JP" aria-label="카드뉴스 일본 언어베리 완료"><span>일본</span><small>JP</small></label><label class="cardnews-check"><input type="checkbox" data-country="CN" aria-label="카드뉴스 중국 언어베리 완료"><span>중국</span><small>CN</small></label><label class="cardnews-check"><input type="checkbox" data-country="TW" aria-label="카드뉴스 대만 언어베리 완료"><span>대만</span><small>TW</small></label><label class="cardnews-check"><input type="checkbox" data-country="TH" aria-label="카드뉴스 태국 언어베리 완료"><span>태국</span><small>TH</small></label></div><p class="cardnews-save" role="status" aria-live="polite">체크 상태를 불러오는 중이에요.</p></fieldset></section>
+<main><div class="intro"><div><p class="subtitle">문구 검토부터 국가별 업로드까지</p><h1>워크트리<span>.</span></h1><p>시술을 찾고, 시트를 열고, 끝낸 국가를 체크하세요.</p></div><div class="save-info"><span id="save-state" role="status" aria-live="polite">불러오는 중</span><span id="shared-state" role="status" aria-live="polite">체크 팀 저장 연결 중…</span><small>국가별 완료 체크는 팀 공용 · 메모·링크는 이 브라우저에 보관</small></div></div>
+<section id="cardnews" class="cardnews-resource" aria-labelledby="cardnews-title"><div><h2 id="cardnews-title">카드뉴스 언어베리</h2><p>카드뉴스의 국가별 문구 검토 시트입니다.</p></div><a href="https://docs.google.com/spreadsheets/d/1FrEUG-Pjj18sAicsY9vab9QAofJPy0xGhRe31P182h4/edit?gid=776617626#gid=776617626" target="_blank" rel="noopener noreferrer" aria-label="카드뉴스 언어베리 시트 열기 (새 탭)">언어베리 시트 열기 <span aria-hidden="true">↗</span></a><fieldset id="cardnews-completion" class="cardnews-completion resource-completion" data-campaign="density-20260927" data-shared-node="CUSTOM-b8203548-a01c-573d-9333-712a35f29db7" data-legacy-prefix="beautyblossom.cardnews-completion.v1.density-20260927."><legend>국가별 언어베리 완료</legend><div class="cardnews-checks"><label class="cardnews-check"><input type="checkbox" data-country="EN" aria-label="카드뉴스 영어 언어베리 완료"><span>영어</span><small>EN</small></label><label class="cardnews-check"><input type="checkbox" data-country="JP" aria-label="카드뉴스 일본 언어베리 완료"><span>일본</span><small>JP</small></label><label class="cardnews-check"><input type="checkbox" data-country="CN" aria-label="카드뉴스 중국 언어베리 완료"><span>중국</span><small>CN</small></label><label class="cardnews-check"><input type="checkbox" data-country="TW" aria-label="카드뉴스 대만 언어베리 완료"><span>대만</span><small>TW</small></label><label class="cardnews-check"><input type="checkbox" data-country="TH" aria-label="카드뉴스 태국 언어베리 완료"><span>태국</span><small>TH</small></label></div><p class="cardnews-save" role="status" aria-live="polite">체크 상태를 불러오는 중이에요.</p></fieldset></section>
+<section id="intro-video" class="cardnews-resource" aria-labelledby="intro-video-title"><div><h2 id="intro-video-title">소개영상 언어확인</h2><p>뷰티블라썸 소개영상 · 16:9 가로 영상 · 6개국 문구 검토</p></div><a href="https://docs.google.com/spreadsheets/d/1KKpRFuaErKy7LZQw-dbZUp_aJuSdyKd3v7qgTwNoBRA/edit?gid=1284400757#gid=1284400757" target="_blank" rel="noopener noreferrer" aria-label="소개영상 언어확인 시트 열기 (새 탭)">언어확인 시트 열기 <span aria-hidden="true">↗</span></a><fieldset id="intro-video-completion" class="cardnews-completion resource-completion" data-shared-node="CUSTOM-bda58fb8-8391-5d6c-8c15-3f49eada67cc"><legend>국가별 언어확인 완료</legend><div class="cardnews-checks video-checks"><label class="cardnews-check"><input type="checkbox" data-country="EN" aria-label="소개영상 영어 언어확인 완료"><span>영어</span><small>EN</small></label><label class="cardnews-check"><input type="checkbox" data-country="JP" aria-label="소개영상 일본 언어확인 완료"><span>일본</span><small>JP</small></label><label class="cardnews-check"><input type="checkbox" data-country="CN" aria-label="소개영상 중국 언어확인 완료"><span>중국</span><small>CN</small></label><label class="cardnews-check"><input type="checkbox" data-country="TW" aria-label="소개영상 대만 언어확인 완료"><span>대만</span><small>TW</small></label><label class="cardnews-check"><input type="checkbox" data-country="TH" aria-label="소개영상 태국 언어확인 완료"><span>태국</span><small>TH</small></label><label class="cardnews-check"><input type="checkbox" data-country="HK" aria-label="소개영상 홍콩 언어확인 완료"><span>홍콩</span><small>HK</small></label></div><p class="cardnews-save" role="status" aria-live="polite">공용 체크를 불러오는 중이에요.</p></fieldset></section>
 <h2 class="treatment-section-title">홈페이지 시술 페이지</h2>
 <section class="tools" aria-label="작업 검색 및 상태 필터"><div class="search-line"><label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="시술명 · 메모 · 국가 검색" aria-label="시술명, 메모, 국가 검색"></label><label>국가별 미완료 <select id="country"><option value="">전체 국가</option></select></label><span id="result-count"></span></div><div id="filters" class="filters"></div></section>
 <div class="help"><span>언어검토 체크는 담당자 확인 표시입니다(수정 문구 1건 이상). 전체 번역 승인·업로드와는 별개입니다.</span><button id="help-toggle" aria-expanded="false">색상·체크 안내</button></div><div id="help-detail" hidden><p>테두리는 업로드 현황을 우선 표시합니다. 초록=적용 전국가 완료, 파랑=한국만 완료, 보라=일부 해외 완료, 민트=컨펌 대기중, 주황=언어검토 대기, 회색=제작예정.</p><p>언어검토와 업로드는 서로 독립된 체크입니다. ‘?’는 확인 기록이 없는 상태입니다. ‘전국가’는 각 박스에 표시된 대상 국가 기준입니다. 오래된 상태는 박스의 기록 날짜를 확인해 주세요. 홈페이지 체크는 다른 PC에도 자동 반영됩니다. 메모·링크는 브라우저별로 보관되며 백업으로 옮길 수 있습니다. 기존 브라우저의 체크는 첫 접속 시 자동 합쳐집니다. Ctrl+Z 또는 실행 취소 버튼으로 이 화면에서 변경한 최근 30건을 되돌릴 수 있습니다. 새로고침하거나 백업을 가져오면 실행 취소 기록은 초기화됩니다. 입력 중인 글자는 기본 글자 취소가 적용됩니다.</p></div>
@@ -440,53 +442,96 @@ applyVerifiedBotox().then(applyVerifiedCoretox).then(applyStaffReviewEvidence).t
 })();
 </script><script id="cardnews-checks-script">(() => {
   'use strict';
-  const group = document.querySelector('#cardnews-completion');
-  if (!group) return;
-  // One key per country avoids lost updates when two tabs check different countries.
-  // A new card-news topic must receive a new campaign ID; never inherit old completion.
-  const prefix = 'beautyblossom.cardnews-completion.v1.' + group.dataset.campaign + '.';
-  const inputs = [...group.querySelectorAll('input[data-country]')];
-  const status = group.querySelector('[role="status"]');
-  const failures = new Map();
-  function summary() {
-    status.textContent = failures.size
-      ? [...failures.values()][0]
-      : '완료 ' + inputs.filter(input => input.checked).length + '/' + inputs.length + ' · 이 브라우저에 저장';
-    status.classList.toggle('failed', failures.size > 0);
-  }
-  function read(input) {
-    const country = input.dataset.country;
-    try {
-      const value = localStorage.getItem(prefix + country);
-      if (value !== null && value !== 'true' && value !== 'false') throw Error('invalid');
-      input.checked = value === 'true';
-      input.disabled = false;
-      failures.delete(country);
-    } catch {
-      input.disabled = true;
-      failures.set(country, '저장된 체크를 읽지 못했어요. 브라우저 저장 설정을 확인해 주세요.');
+  const groups = [...document.querySelectorAll('.resource-completion[data-shared-node]')];
+  if (!groups.length) return;
+  const api = 'https://bb-worktree-checks.beautyblossom.workers.dev';
+  const inputs = groups.flatMap(group => [...group.querySelectorAll('input[data-country]')]);
+  let board = null, busy = false, polling = false, ready = false, lastError = '';
+  const key = input => input.closest('[data-shared-node]').dataset.sharedNode + '/' + input.dataset.country + '/review';
+  function draw() {
+    for (const input of inputs) {
+      input.checked = board?.cells[key(input)]?.value === true;
+      input.disabled = !ready || busy || polling;
+    }
+    for (const group of groups) {
+      const status = group.querySelector('[role="status"]');
+      const fields = [...group.querySelectorAll('input[data-country]')];
+      status.textContent = lastError || (busy ? '팀에 저장하는 중…' : ready
+        ? '완료 ' + fields.filter(input => input.checked).length + '/' + fields.length + ' · 팀 공용 저장 · 다른 PC에도 자동 반영'
+        : '공용 체크를 불러오는 중이에요.');
+      status.classList.toggle('failed', Boolean(lastError));
     }
   }
-  inputs.forEach(input => {
-    read(input);
-    input.addEventListener('change', () => {
-      const checked = input.checked;
-      try {
-        localStorage.setItem(prefix + input.dataset.country, String(checked));
-        failures.delete(input.dataset.country);
-      } catch {
-        input.checked = !checked;
-        failures.set(input.dataset.country, '체크를 저장하지 못했어요. 브라우저 저장 설정을 확인해 주세요.');
+  function accept(value) {
+    if (!value || !Number.isSafeInteger(value.version) || value.version < 0 || !value.cells || typeof value.cells !== 'object') throw Error('공용 저장 응답을 확인할 수 없어요.');
+    for (const input of inputs) {
+      const cell = value.cells[key(input)];
+      if (cell && (![true,false,null].includes(cell.value) || !Number.isSafeInteger(cell.rev) || cell.rev < 0)) throw Error('공용 체크 형식을 확인할 수 없어요.');
+    }
+    if (!board || value.version >= board.version) board = value;
+  }
+  async function request(route, changes) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10000);
+    try {
+      const response = await fetch(api + route, {
+        method: changes ? 'POST' : 'GET', cache:'no-store', signal:controller.signal,
+        headers:{'X-BB-Worktree':'checks-v1', ...(changes ? {'Content-Type':'application/json'} : {})},
+        ...(changes ? {body:JSON.stringify({changes})} : {})
+      });
+      const value = await response.json();
+      if (response.status === 409) {
+        accept(value.board);
+        throw Error('다른 담당자가 먼저 변경했어요. 최신 체크를 확인한 뒤 다시 선택해 주세요.');
       }
-      summary();
-    });
+      if (!response.ok) throw Error('공용 서버 연결 오류 (' + response.status + ') · 잠시 후 자동 재연결해요.');
+      accept(value);
+    } finally { clearTimeout(timer); }
+  }
+  async function importLegacy() {
+    for (const group of groups) {
+      if (!group.dataset.legacyPrefix) continue;
+      const marker = 'beautyblossom.resource-shared-import.v1.' + group.dataset.sharedNode;
+      let changes = [], backup = {};
+      try {
+        if (localStorage.getItem(marker)) continue;
+        for (const input of group.querySelectorAll('input[data-country]')) {
+          const storageKey = group.dataset.legacyPrefix + input.dataset.country;
+          const value = localStorage.getItem(storageKey);
+          if (value === null) continue;
+          backup[storageKey] = value;
+          if (value === 'true' || value === 'false') changes.push({key:key(input),value:value === 'true'});
+        }
+        localStorage.setItem(marker + '.backup', JSON.stringify(backup));
+      } catch { continue; } // Shared storage remains available without localStorage.
+      if (changes.length) await request('/v1/legacy', changes);
+      try { localStorage.setItem(marker, new Date().toISOString()); } catch { /* Server prevents stale re-imports. */ }
+    }
+  }
+  async function refresh() {
+    if (polling || busy) return;
+    polling = true; draw();
+    try {
+      await request('/v1/state');
+      if (!ready) await importLegacy();
+      ready = true; lastError = '';
+    } catch (error) {
+      ready = false;
+      lastError = error.name === 'AbortError' ? '공용 저장 연결이 지연돼요. 잠시 후 자동 재연결해요.' : error.message;
+    } finally { polling = false; draw(); }
+  }
+  for (const input of inputs) input.addEventListener('change', async () => {
+    if (!ready || busy || polling) { draw(); return; }
+    const change = {key:key(input), value:input.checked, rev:board.cells[key(input)]?.rev || 0};
+    busy = true; lastError = ''; draw();
+    try { await request('/v1/check', [change]); }
+    catch (error) {
+      lastError = error.name === 'AbortError' ? '저장 확인이 지연돼요. 최신 상태를 다시 불러올게요.' : error.message;
+    } finally { busy = false; draw(); }
   });
-  window.addEventListener('storage', event => {
-    if (event.key !== null && !event.key.startsWith(prefix)) return;
-    inputs.filter(input => event.key === null || event.key === prefix + input.dataset.country).forEach(read);
-    summary();
-  });
-  window.addEventListener('pageshow', () => { inputs.forEach(read); summary(); });
-  summary();
+  for (const event of ['focus','online','pageshow']) window.addEventListener(event, refresh);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
+  setInterval(() => { if (!document.hidden) refresh(); }, 4000);
+  draw(); refresh();
 })();
 </script></body></html>
