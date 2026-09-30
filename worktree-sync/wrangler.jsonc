@@ -1,0 +1,42 @@
+{
+  "name": "bb-worktree-checks",
+  "main": "worker.js",
+  "account_id": "3b791e40dd935daaed954333981d58bd",
+  "compatibility_date": "2026-09-30",
+  "workers_dev": true,
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "CHECKS",
+        "class_name": "SharedChecks"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": [
+        "SharedChecks"
+      ]
+    }
+  ],
+  "vars": {
+    "ALLOWED_ORIGIN": "https://doctorleegh-debug.github.io"
+  },
+  "env": {
+    "test": {
+      "name": "bb-worktree-checks-test",
+      "vars": {
+        "ALLOWED_ORIGIN": "http://127.0.0.1:8876"
+      },
+      "durable_objects": {
+        "bindings": [
+          {
+            "name": "CHECKS",
+            "class_name": "SharedChecks"
+          }
+        ]
+      }
+    }
+  }
+}
