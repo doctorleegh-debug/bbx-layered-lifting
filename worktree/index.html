@@ -70,12 +70,29 @@ fieldset{border-color:#536078}#form-error{color:#ffb0c0}
 .cardnews-save.failed{color:#ffb7b7}
 @media(max-width:600px){.cardnews-completion{flex-basis:auto}.cardnews-checks{grid-template-columns:repeat(2,minmax(0,1fr))}.cardnews-check{padding:11px 12px}}
 .video-checks{grid-template-columns:repeat(6,minmax(0,1fr))}@media(max-width:600px){.video-checks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style><style id="resource-completion-style">.resource-workspace{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:24px;margin:26px 0 32px;align-items:start}
+.resource-active{min-width:0}.resource-active .cardnews-resource{margin:0 0 20px;padding:24px;gap:20px}.resource-active .cardnews-resource:last-child{margin-bottom:0}
+.resource-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-left:auto}
+.resource-finish{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;font-size:13px;font-weight:650;background:transparent;border-color:#786274;color:#e2c6d6;white-space:nowrap}.resource-finish span{font-size:23px;line-height:1;font-weight:400}.resource-finish:hover{background:#3b2b3a;border-color:#edacc5}
+.resource-archive{border:1px solid #4a4356;border-radius:18px;background:#1b1d28;padding:21px;position:sticky;top:20px;min-width:0}
+.resource-archive header{padding:0;background:none;border:0;gap:10px;margin-bottom:10px}.resource-archive h2{font-size:18px;letter-spacing:-.035em;margin:0}.resource-archive header span{padding:3px 9px;border-radius:20px;background:#463041;color:#ffd5e6;font-size:12px}
+.resource-archive>p{font-size:12px;line-height:1.7;color:#bfb9ca;margin:0 0 16px}.resource-archive ul{padding:0;margin:0;list-style:none}
+.resource-history-item{padding:16px 0;border-top:1px solid #3c3548;overflow-wrap:anywhere}.resource-history-item strong{font-size:14px;display:block;color:#f6e5ee;line-height:1.5}.resource-history-item small{display:block;color:#afa3b9;font-size:11px;line-height:1.7;margin:5px 0 12px}
+.resource-history-actions{display:flex;justify-content:space-between;align-items:center;gap:10px}.resource-history-actions a{font-size:12px;color:#ebadc7;text-decoration:none}.resource-restore{padding:7px 12px;font-size:12px;min-height:36px}
+#resource-history-empty{margin:16px 0;padding:20px 10px;border:1px dashed #4d4158;border-radius:10px;text-align:center;color:#b8adc2}
+#resource-undo{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;margin-top:12px;min-height:40px}#resource-undo kbd{font:inherit;font-size:10px;border:1px solid #807586;padding:2px 5px;border-radius:4px}
+.resource-workspace button:disabled{opacity:.5;cursor:not-allowed}.resource-archive #resource-action-status{font-size:11px;margin:12px 0 0;min-height:2.8em}.resource-archive #resource-action-status.failed{color:#ffb7b7}
+#resource-active-empty{padding:30px;border:1px dashed #68506a;border-radius:18px;font-size:14px;color:#d3c4d8;line-height:1.8}
+.resource-workspace [hidden]{display:none!important}
+@media(max-width:1100px){.resource-workspace{grid-template-columns:minmax(0,1fr) 260px;gap:18px}.resource-workspace .cardnews-checks{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:800px){.resource-workspace{grid-template-columns:minmax(0,1fr)}.resource-archive{position:static}.resource-actions{margin:0}.resource-active .cardnews-resource{padding:20px}.resource-workspace .cardnews-checks{grid-template-columns:repeat(2,minmax(0,1fr))}.resource-active .cardnews-resource .resource-actions>a{width:auto;flex:1}.resource-actions{width:100%}.resource-finish{flex:0 0 auto}.resource-archive ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:22px}}
+@media(max-width:420px){.resource-archive ul{grid-template-columns:minmax(0,1fr)}.resource-actions{gap:8px}.resource-active .cardnews-resource .resource-actions>a{padding:10px 12px;font-size:13px}.resource-finish{padding:10px;font-size:12px}}
 </style></head>
 <body><header><div class="brand"><span class="brand-icon" aria-hidden="true">✳</span><span>Beauty Blossom <small>홈페이지 작업실</small></span></div><div class="header-actions"><button id="export">백업 내보내기</button><label class="file-button">백업 가져오기<input id="import" type="file" accept="application/json,.json"></label><button id="add" class="primary">+ 시술 추가</button></div></header>
 <main><div class="intro"><div><p class="subtitle">문구 검토부터 국가별 업로드까지</p><h1>워크트리<span>.</span></h1><p>시술을 찾고, 시트를 열고, 끝낸 국가를 체크하세요.</p></div><div class="save-info"><span id="save-state" role="status" aria-live="polite">불러오는 중</span><span id="shared-state" role="status" aria-live="polite">체크 팀 저장 연결 중…</span><small>국가별 완료 체크는 팀 공용 · 메모·링크는 이 브라우저에 보관</small></div></div>
-<section id="cardnews" class="cardnews-resource" aria-labelledby="cardnews-title"><div><h2 id="cardnews-title">카드뉴스 언어베리</h2><p>카드뉴스의 국가별 문구 검토 시트입니다.</p></div><a href="https://docs.google.com/spreadsheets/d/1FrEUG-Pjj18sAicsY9vab9QAofJPy0xGhRe31P182h4/edit?gid=776617626#gid=776617626" target="_blank" rel="noopener noreferrer" aria-label="카드뉴스 언어베리 시트 열기 (새 탭)">언어베리 시트 열기 <span aria-hidden="true">↗</span></a><fieldset id="cardnews-completion" class="cardnews-completion resource-completion" data-campaign="density-20260927" data-shared-node="CUSTOM-b8203548-a01c-573d-9333-712a35f29db7" data-legacy-prefix="beautyblossom.cardnews-completion.v1.density-20260927."><legend>국가별 언어베리 완료</legend><div class="cardnews-checks"><label class="cardnews-check"><input type="checkbox" data-country="EN" aria-label="카드뉴스 영어 언어베리 완료"><span>영어</span><small>EN</small></label><label class="cardnews-check"><input type="checkbox" data-country="JP" aria-label="카드뉴스 일본 언어베리 완료"><span>일본</span><small>JP</small></label><label class="cardnews-check"><input type="checkbox" data-country="CN" aria-label="카드뉴스 중국 언어베리 완료"><span>중국</span><small>CN</small></label><label class="cardnews-check"><input type="checkbox" data-country="TW" aria-label="카드뉴스 대만 언어베리 완료"><span>대만</span><small>TW</small></label><label class="cardnews-check"><input type="checkbox" data-country="TH" aria-label="카드뉴스 태국 언어베리 완료"><span>태국</span><small>TH</small></label></div><p class="cardnews-save" role="status" aria-live="polite">체크 상태를 불러오는 중이에요.</p></fieldset></section>
-<section id="intro-video" class="cardnews-resource" aria-labelledby="intro-video-title"><div><h2 id="intro-video-title">소개영상 언어확인</h2><p>뷰티블라썸 소개영상 · 16:9 가로 영상 · 6개국 문구 검토</p></div><a href="https://docs.google.com/spreadsheets/d/1KKpRFuaErKy7LZQw-dbZUp_aJuSdyKd3v7qgTwNoBRA/edit?gid=1284400757#gid=1284400757" target="_blank" rel="noopener noreferrer" aria-label="소개영상 언어확인 시트 열기 (새 탭)">언어확인 시트 열기 <span aria-hidden="true">↗</span></a><fieldset id="intro-video-completion" class="cardnews-completion resource-completion" data-shared-node="CUSTOM-bda58fb8-8391-5d6c-8c15-3f49eada67cc"><legend>국가별 언어확인 완료</legend><div class="cardnews-checks video-checks"><label class="cardnews-check"><input type="checkbox" data-country="EN" aria-label="소개영상 영어 언어확인 완료"><span>영어</span><small>EN</small></label><label class="cardnews-check"><input type="checkbox" data-country="JP" aria-label="소개영상 일본 언어확인 완료"><span>일본</span><small>JP</small></label><label class="cardnews-check"><input type="checkbox" data-country="CN" aria-label="소개영상 중국 언어확인 완료"><span>중국</span><small>CN</small></label><label class="cardnews-check"><input type="checkbox" data-country="TW" aria-label="소개영상 대만 언어확인 완료"><span>대만</span><small>TW</small></label><label class="cardnews-check"><input type="checkbox" data-country="TH" aria-label="소개영상 태국 언어확인 완료"><span>태국</span><small>TH</small></label><label class="cardnews-check"><input type="checkbox" data-country="HK" aria-label="소개영상 홍콩 언어확인 완료"><span>홍콩</span><small>HK</small></label></div><p class="cardnews-save" role="status" aria-live="polite">공용 체크를 불러오는 중이에요.</p></fieldset></section>
-<h2 class="treatment-section-title">홈페이지 시술 페이지</h2>
+<div class="resource-workspace"><div class="resource-active"><section id="cardnews" class="cardnews-resource" aria-labelledby="cardnews-title"><div><h2 id="cardnews-title">카드뉴스 언어베리</h2><p>카드뉴스의 국가별 문구 검토 시트입니다.</p></div><div class="resource-actions"><a href="https://docs.google.com/spreadsheets/d/1FrEUG-Pjj18sAicsY9vab9QAofJPy0xGhRe31P182h4/edit?gid=776617626#gid=776617626" target="_blank" rel="noopener noreferrer" aria-label="카드뉴스 언어베리 시트 열기 (새 탭)">언어베리 시트 열기 <span aria-hidden="true">↗</span></a><button type="button" class="resource-finish" aria-label="카드뉴스 언어베리 최종완료 처리">최종완료 <span aria-hidden="true">×</span></button></div><fieldset id="cardnews-completion" class="cardnews-completion resource-completion" data-campaign="density-20260927" data-shared-node="CUSTOM-b8203548-a01c-573d-9333-712a35f29db7" data-legacy-prefix="beautyblossom.cardnews-completion.v1.density-20260927."><legend>국가별 언어베리 완료</legend><div class="cardnews-checks"><label class="cardnews-check"><input type="checkbox" data-country="EN" aria-label="카드뉴스 영어 언어베리 완료"><span>영어</span><small>EN</small></label><label class="cardnews-check"><input type="checkbox" data-country="JP" aria-label="카드뉴스 일본 언어베리 완료"><span>일본</span><small>JP</small></label><label class="cardnews-check"><input type="checkbox" data-country="CN" aria-label="카드뉴스 중국 언어베리 완료"><span>중국</span><small>CN</small></label><label class="cardnews-check"><input type="checkbox" data-country="TW" aria-label="카드뉴스 대만 언어베리 완료"><span>대만</span><small>TW</small></label><label class="cardnews-check"><input type="checkbox" data-country="TH" aria-label="카드뉴스 태국 언어베리 완료"><span>태국</span><small>TH</small></label></div><p class="cardnews-save" role="status" aria-live="polite">체크 상태를 불러오는 중이에요.</p></fieldset></section>
+<section id="intro-video" class="cardnews-resource" aria-labelledby="intro-video-title"><div><h2 id="intro-video-title">소개영상 언어확인</h2><p>뷰티블라썸 소개영상 · 16:9 가로 영상 · 6개국 문구 검토</p></div><div class="resource-actions"><a href="https://docs.google.com/spreadsheets/d/1KKpRFuaErKy7LZQw-dbZUp_aJuSdyKd3v7qgTwNoBRA/edit?gid=1284400757#gid=1284400757" target="_blank" rel="noopener noreferrer" aria-label="소개영상 언어확인 시트 열기 (새 탭)">언어확인 시트 열기 <span aria-hidden="true">↗</span></a><button type="button" class="resource-finish" aria-label="소개영상 언어확인 최종완료 처리">최종완료 <span aria-hidden="true">×</span></button></div><fieldset id="intro-video-completion" class="cardnews-completion resource-completion" data-shared-node="CUSTOM-bda58fb8-8391-5d6c-8c15-3f49eada67cc"><legend>국가별 언어확인 완료</legend><div class="cardnews-checks video-checks"><label class="cardnews-check"><input type="checkbox" data-country="EN" aria-label="소개영상 영어 언어확인 완료"><span>영어</span><small>EN</small></label><label class="cardnews-check"><input type="checkbox" data-country="JP" aria-label="소개영상 일본 언어확인 완료"><span>일본</span><small>JP</small></label><label class="cardnews-check"><input type="checkbox" data-country="CN" aria-label="소개영상 중국 언어확인 완료"><span>중국</span><small>CN</small></label><label class="cardnews-check"><input type="checkbox" data-country="TW" aria-label="소개영상 대만 언어확인 완료"><span>대만</span><small>TW</small></label><label class="cardnews-check"><input type="checkbox" data-country="TH" aria-label="소개영상 태국 언어확인 완료"><span>태국</span><small>TH</small></label><label class="cardnews-check"><input type="checkbox" data-country="HK" aria-label="소개영상 홍콩 언어확인 완료"><span>홍콩</span><small>HK</small></label></div><p class="cardnews-save" role="status" aria-live="polite">공용 체크를 불러오는 중이에요.</p></fieldset></section>
+<p id="resource-active-empty" hidden>진행 중인 언어확인 항목이 없어요.<br>최종완료 목록에서 언제든 복원할 수 있어요.</p></div><aside id="resource-archive" class="resource-archive" aria-labelledby="resource-archive-title"><header><h2 id="resource-archive-title">최종완료</h2><span id="resource-completed-count" aria-label="최종완료 항목 수">0</span></header><p>×로 완료한 항목을 보관해요.<br>복원하면 작업 목록에 다시 나타나요.</p><p id="resource-history-empty">아직 최종완료한 항목이 없어요.</p><ul id="resource-history" aria-label="최종완료 내역"></ul><button type="button" id="resource-undo" disabled>실행 취소 <kbd>Ctrl+Z</kbd></button><p id="resource-action-status" role="status" aria-live="polite"></p></aside></div><h2 class="treatment-section-title">홈페이지 시술 페이지</h2>
 <section class="tools" aria-label="작업 검색 및 상태 필터"><div class="search-line"><label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="시술명 · 메모 · 국가 검색" aria-label="시술명, 메모, 국가 검색"></label><label>국가별 미완료 <select id="country"><option value="">전체 국가</option></select></label><span id="result-count"></span></div><div id="filters" class="filters"></div></section>
 <div class="help"><span>언어검토 체크는 담당자 확인 표시입니다(수정 문구 1건 이상). 전체 번역 승인·업로드와는 별개입니다.</span><button id="help-toggle" aria-expanded="false">색상·체크 안내</button></div><div id="help-detail" hidden><p>테두리는 업로드 현황을 우선 표시합니다. 초록=적용 전국가 완료, 파랑=한국만 완료, 보라=일부 해외 완료, 민트=컨펌 대기중, 주황=언어검토 대기, 회색=제작예정.</p><p>언어검토와 업로드는 서로 독립된 체크입니다. ‘?’는 확인 기록이 없는 상태입니다. ‘전국가’는 각 박스에 표시된 대상 국가 기준입니다. 오래된 상태는 박스의 기록 날짜를 확인해 주세요. 홈페이지 체크는 다른 PC에도 자동 반영됩니다. 메모·링크는 브라우저별로 보관되며 백업으로 옮길 수 있습니다. 기존 브라우저의 체크는 첫 접속 시 자동 합쳐집니다. Ctrl+Z 또는 실행 취소 버튼으로 이 화면에서 변경한 최근 30건을 되돌릴 수 있습니다. 새로고침하거나 백업을 가져오면 실행 취소 기록은 초기화됩니다. 입력 중인 글자는 기본 글자 취소가 적용됩니다.</p></div>
 <section id="verified-updates" aria-label="최신 공개 게시 기록"></section>
@@ -208,7 +225,7 @@ try{state=load();saved(localStorage.getItem(KEY)?'저장된 기록을 불러왔�
 function dateText(v){return v?new Date(v).toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}):'확인 필요'}
 function viewState(){return {filter,search:$('#search').value,country:$('#country').value}}
 function historyEntry(before,after,follow,view){const ids=new Set([...before.nodes,...after.nodes].map(n=>n.id));const changes=[];for(const id of ids){const a=before.nodes.find(n=>n.id===id)||null,b=after.nodes.find(n=>n.id===id)||null;if(JSON.stringify(a)!==JSON.stringify(b))changes.push({id,before:a,after:b});}return {changes,follow,view};}
-async function mutate(fn,follow,options={}){const run=async()=>{try{if(blocked)throw Error('저장소 복구 또는 백업 가져오기가 먼저 필요합니다.');const next=load(),before=clone(next),view=viewState();fn(next);next.updatedAt=new Date().toISOString();validate(next);if(shared.ready&&options.shared!==false)await commitShared(before,next);localStorage.setItem(KEY,JSON.stringify(next));state=next;if(options.record!==false){const entry=historyEntry(before,next,follow,view);if(entry.changes.length){undoStack.push(entry);if(undoStack.length>30)undoStack.shift();}}if(options.afterSave)options.afterSave();const destination=follow?status(next.nodes.find(n=>n.id===follow.id)):null;const moved=follow&&follow.before!==destination;if(follow?.kind==='upload'&&$('#country').value&&next.nodes.find(n=>n.id===follow.id)?.countries[$('#country').value]?.upload===true){$('#country').value='';filter=destination;}if(moved&&filter&&filter!==destination)filter=destination;error('');saved(options.message||'저장됨 · '+new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}));render();if(follow)followCard(follow,moved,destination);return true}catch(e){if(shared.ready&&shared.snapshot){try{const cached=load();mergeShared(cached);localStorage.setItem(KEY,JSON.stringify(cached));state=cached;}catch{}}sharedLabel('체크 저장 확인 필요 · '+e.message,true);error('저장하지 못했습니다. '+e.message+' 백업으로 기록을 보관해 주세요.');saved('저장 실패 · 기존 기록 유지',true);render();return false}};return navigator.locks?.request?navigator.locks.request(KEY,run):run()}
+async function mutate(fn,follow,options={}){const run=async()=>{try{if(blocked)throw Error('저장소 복구 또는 백업 가져오기가 먼저 필요합니다.');const next=load(),before=clone(next),view=viewState();fn(next);next.updatedAt=new Date().toISOString();validate(next);if(shared.ready&&options.shared!==false)await commitShared(before,next);localStorage.setItem(KEY,JSON.stringify(next));state=next;if(options.record!==false){const entry=historyEntry(before,next,follow,view);if(entry.changes.length){undoStack.push(entry);document.dispatchEvent(new Event("bb-worktree-history-change"));if(undoStack.length>30)undoStack.shift();}}if(options.afterSave)options.afterSave();const destination=follow?status(next.nodes.find(n=>n.id===follow.id)):null;const moved=follow&&follow.before!==destination;if(follow?.kind==='upload'&&$('#country').value&&next.nodes.find(n=>n.id===follow.id)?.countries[$('#country').value]?.upload===true){$('#country').value='';filter=destination;}if(moved&&filter&&filter!==destination)filter=destination;error('');saved(options.message||'저장됨 · '+new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}));render();if(follow)followCard(follow,moved,destination);return true}catch(e){if(shared.ready&&shared.snapshot){try{const cached=load();mergeShared(cached);localStorage.setItem(KEY,JSON.stringify(cached));state=cached;}catch{}}sharedLabel('체크 저장 확인 필요 · '+e.message,true);error('저장하지 못했습니다. '+e.message+' 백업으로 기록을 보관해 주세요.');saved('저장 실패 · 기존 기록 유지',true);render();return false}};return navigator.locks?.request?navigator.locks.request(KEY,run):run()}
 async function undo(){let entry;const ok=await mutate(s=>{entry=undoStack.at(-1);if(!entry)throw Error('이 화면에서 실행 취소할 변경이 없습니다.');for(const change of entry.changes){const current=s.nodes.find(n=>n.id===change.id)||null;if(JSON.stringify(current)!==JSON.stringify(change.after))throw Error('해당 시술이 다른 탭에서 변경되어 실행 취소하지 않았습니다.');}for(const change of entry.changes){const i=s.nodes.findIndex(n=>n.id===change.id);if(change.before){if(i<0)s.nodes.push(clone(change.before));else s.nodes[i]=clone(change.before);}else if(i>=0)s.nodes.splice(i,1);}},null,{record:false,message:'실행 취소됨 · 이전 상태를 저장했어요',afterSave:()=>{undoStack.pop();filter=entry.view.filter;$('#search').value=entry.view.search;$('#country').value=entry.view.country;}});if(!ok)return;const change=entry.changes.find(c=>c.before);if(change){const n=state.nodes.find(n=>n.id===change.id);followCard({id:change.id,country:entry.follow?.country,kind:entry.follow?.kind,message:'실행 취소됨 · '+n.name+' 이전 상태를 저장했어요'},true,status(n));}}
 $('#undo').onclick=undo;
 document.addEventListener('keydown',e=>{if(e.isComposing||e.altKey||e.shiftKey||!(e.ctrlKey||e.metaKey)||e.key.toLowerCase()!=='z')return;const el=e.target;if($('#editor').open||el.isContentEditable||el.closest('textarea,select')||(el.tagName==='INPUT'&&!['checkbox','radio','button'].includes(el.type)))return;if(!undoStack.length||blocked)return;e.preventDefault();undo();});
@@ -221,7 +238,7 @@ function openEditor(id){editing=id;const n=state.nodes.find(n=>n.id===id)||{name
 $('#edit-form').addEventListener('submit',async e=>{e.preventDefault();const f=e.currentTarget;const fields=Object.fromEntries(['name','sheet','preview','page','stage','note'].map(k=>[k,f.elements[k].value.trim()]));const scope=[...f.querySelectorAll('[name=scope]:checked')].map(x=>x.value);if(!fields.name||!scope.length||['sheet','preview','page'].some(k=>fields[k]&&!safeUrl(fields[k]))){$('#form-error').textContent='시술명, 적용 국가, http/https 링크를 확인해 주세요.';return}const targetId=editing;const ok=await mutate(s=>{let n=s.nodes.find(x=>x.id===targetId);if(targetId&&!n)throw Error('시술을 다시 불러와 주세요.');if(!n){n={id:'CUSTOM-'+crypto.randomUUID(),countries:{}};s.nodes.push(n)}Object.assign(n,fields,{scope,recordedAt:new Date().toISOString(),recordSource:'사용자 편집'});for(const c of scope)if(!n.countries[c])n.countries[c]={review:c==='KO'?null:false,upload:false};});if(ok)$('#editor').close()});
 for(const id of ['close','cancel'])$('#'+id).onclick=()=>$('#editor').close();$('#add').onclick=()=>openEditor(null);$('#search').oninput=render;$('#country').onchange=()=>{filter='';render()};for(const [c,label] of Object.entries(COUNTRIES)){const o=node('option',label);o.value=c;$('#country').append(o)}$('#clear').onclick=()=>{$('#search').value='';$('#country').value='';filter='';render()};$('#help-toggle').onclick=()=>{const expanded=$('#help-toggle').getAttribute('aria-expanded')==='true';$('#help-toggle').setAttribute('aria-expanded',String(!expanded));$('#help-detail').hidden=expanded};
 $('#export').onclick=()=>{let data=JSON.stringify(state,null,2);if(blocked){try{data=localStorage.getItem(KEY)||data}catch{error('브라우저 저장소를 읽을 수 없어 현재 화면의 기록을 백업합니다.')}}const url=URL.createObjectURL(new Blob([data],{type:'application/json'})),a=node('a');a.href=url;a.download='beautyblossom-navigator-'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
-$('#import').onchange=async e=>{try{const file=e.target.files[0];if(!file)return;if(file.size>5*1024*1024)throw Error('5MB 이하의 백업을 선택해 주세요.');const incoming=validate(JSON.parse(await file.text()));if(!confirm(incoming.nodes.length+'개 시술이 담긴 백업으로 현재 브라우저 기록을 교체할까요?'))return;const run=()=>{mergeShared(incoming);localStorage.setItem(KEY,JSON.stringify(incoming));state=incoming;undoStack.length=0;blocked=false;error('');saved('메모·링크 백업 복원 · 공용 체크는 최신 상태 유지');render()};if(navigator.locks?.request)await navigator.locks.request(KEY,run);else run()}catch(err){error('백업을 가져오지 못했습니다. 기존 기록은 유지됩니다. '+err.message)}finally{e.target.value=''}};
+$('#import').onchange=async e=>{try{const file=e.target.files[0];if(!file)return;if(file.size>5*1024*1024)throw Error('5MB 이하의 백업을 선택해 주세요.');const incoming=validate(JSON.parse(await file.text()));if(!confirm(incoming.nodes.length+'개 시술이 담긴 백업으로 현재 브라우저 기록을 교체할까요?'))return;const run=()=>{mergeShared(incoming);localStorage.setItem(KEY,JSON.stringify(incoming));state=incoming;undoStack.length=0;document.dispatchEvent(new Event("bb-worktree-history-change"));blocked=false;error('');saved('메모·링크 백업 복원 · 공용 체크는 최신 상태 유지');render()};if(navigator.locks?.request)await navigator.locks.request(KEY,run);else run()}catch(err){error('백업을 가져오지 못했습니다. 기존 기록은 유지됩니다. '+err.message)}finally{e.target.value=''}};
 window.addEventListener('storage',e=>{if(e.key!==KEY)return;try{state=load();blocked=false;error('');saved('다른 탭의 변경을 반영했어요');render()}catch{blocked=true;error('다른 탭의 저장 정보를 읽지 못했습니다. 기존 기록을 보존합니다.');saved('저장 확인 필요',true);render()}});render();
 
 // User-authorized one-time correction: verified Botox Korean publication only.
@@ -446,26 +463,74 @@ applyVerifiedBotox().then(applyVerifiedCoretox).then(applyStaffReviewEvidence).t
   if (!groups.length) return;
   const api = 'https://bb-worktree-checks.beautyblossom.workers.dev';
   const inputs = groups.flatMap(group => [...group.querySelectorAll('input[data-country]')]);
-  let board = null, busy = false, polling = false, ready = false, lastError = '';
+  const list = document.getElementById('resource-history');
+  const undoButton = document.getElementById('resource-undo');
+  const undoStack = [];
+  let board = null, busy = false, polling = false, ready = false, lastError = '', message = '';
   const key = input => input.closest('[data-shared-node]').dataset.sharedNode + '/' + input.dataset.country + '/review';
+  // Resource records have no KO language checkbox. Their previously unused KO/upload
+  // slot stores final completion, separate from every country's language review.
+  const archiveKey = group => group.dataset.sharedNode + '/KO/upload';
+  const item = (tag, text, className) => {
+    const el = document.createElement(tag);
+    if (text) el.textContent = text;
+    if (className) el.className = className;
+    return el;
+  };
+  const resources = groups.map(group => {
+    const section = group.closest('.cardnews-resource');
+    const title = section.querySelector('h2').textContent;
+    const finish = section.querySelector('.resource-finish');
+    const row = item('li', '', 'resource-history-item');
+    const name = item('strong', title);
+    const info = item('small');
+    const actions = item('div', '', 'resource-history-actions');
+    const link = section.querySelector('a[href]').cloneNode(false);
+    link.textContent = '시트 열기 ↗';
+    const restore = item('button', '복원', 'resource-restore');
+    restore.type = 'button'; restore.setAttribute('aria-label', title + ' 복원');
+    actions.append(link, restore); row.append(name, info, actions); list.append(row);
+    const resource = {group, section, title, finish, row, info, restore};
+    finish.addEventListener('click', () => change(archiveKey(group), true, resource));
+    restore.addEventListener('click', () => change(archiveKey(group), false, resource));
+    return resource;
+  });
   function draw() {
+    const disabled = !ready || busy || polling;
     for (const input of inputs) {
       input.checked = board?.cells[key(input)]?.value === true;
-      input.disabled = !ready || busy || polling;
+      input.disabled = disabled;
     }
-    for (const group of groups) {
-      const status = group.querySelector('[role="status"]');
+    let count = 0;
+    for (const resource of resources) {
+      const {group, section, row, info, finish, restore} = resource;
+      const cell = board?.cells[archiveKey(group)];
+      const completed = cell?.value === true;
+      section.hidden = completed; row.hidden = !completed; count += Number(completed);
+      finish.disabled = restore.disabled = disabled;
       const fields = [...group.querySelectorAll('input[data-country]')];
+      const progress = fields.filter(input => input.checked).length + '/' + fields.length;
+      const date = cell?.at && new Date(cell.at);
+      info.textContent = (date && Number.isFinite(date.getTime())
+        ? date.toLocaleString('ko-KR', {timeZone:'Asia/Seoul',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}) + ' 완료 · ' : '') + '언어검토 ' + progress;
+      const status = group.querySelector('[role="status"]');
       status.textContent = lastError || (busy ? '팀에 저장하는 중…' : ready
-        ? '완료 ' + fields.filter(input => input.checked).length + '/' + fields.length + ' · 팀 공용 저장 · 다른 PC에도 자동 반영'
+        ? '완료 ' + progress + ' · 팀 공용 저장 · 다른 PC에도 자동 반영'
         : '공용 체크를 불러오는 중이에요.');
       status.classList.toggle('failed', Boolean(lastError));
     }
+    document.getElementById('resource-completed-count').textContent = String(count);
+    document.getElementById('resource-history-empty').hidden = count > 0;
+    document.getElementById('resource-active-empty').hidden = !ready || count !== resources.length;
+    const status = document.getElementById('resource-action-status');
+    status.textContent = lastError || (busy ? '팀에 저장하는 중…' : !ready ? '공용 기록을 불러오는 중…' : message || '다른 PC에도 자동 반영돼요.');
+    status.classList.toggle('failed', Boolean(lastError));
+    undoButton.disabled = disabled || !undoStack.length;
   }
   function accept(value) {
-    if (!value || !Number.isSafeInteger(value.version) || value.version < 0 || !value.cells || typeof value.cells !== 'object') throw Error('공용 저장 응답을 확인할 수 없어요.');
-    for (const input of inputs) {
-      const cell = value.cells[key(input)];
+    if (!value || !Number.isSafeInteger(value.version) || value.version < 0 || !value.cells || typeof value.cells !== 'object' || Array.isArray(value.cells)) throw Error('공용 저장 응답을 확인할 수 없어요.');
+    for (const k of [...inputs.map(key), ...groups.map(archiveKey)]) {
+      const cell = value.cells[k];
       if (cell && (![true,false,null].includes(cell.value) || !Number.isSafeInteger(cell.rev) || cell.rev < 0)) throw Error('공용 체크 형식을 확인할 수 없어요.');
     }
     if (!board || value.version >= board.version) board = value;
@@ -482,7 +547,7 @@ applyVerifiedBotox().then(applyVerifiedCoretox).then(applyStaffReviewEvidence).t
       const value = await response.json();
       if (response.status === 409) {
         accept(value.board);
-        throw Error('다른 담당자가 먼저 변경했어요. 최신 체크를 확인한 뒤 다시 선택해 주세요.');
+        throw Error('다른 담당자가 먼저 변경했어요. 최신 기록을 확인한 뒤 다시 선택해 주세요.');
       }
       if (!response.ok) throw Error('공용 서버 연결 오류 (' + response.status + ') · 잠시 후 자동 재연결해요.');
       accept(value);
@@ -503,9 +568,9 @@ applyVerifiedBotox().then(applyVerifiedCoretox).then(applyStaffReviewEvidence).t
           if (value === 'true' || value === 'false') changes.push({key:key(input),value:value === 'true'});
         }
         localStorage.setItem(marker + '.backup', JSON.stringify(backup));
-      } catch { continue; } // Shared storage remains available without localStorage.
+      } catch { continue; }
       if (changes.length) await request('/v1/legacy', changes);
-      try { localStorage.setItem(marker, new Date().toISOString()); } catch { /* Server prevents stale re-imports. */ }
+      try { localStorage.setItem(marker, new Date().toISOString()); } catch { /* Server guards imports. */ }
     }
   }
   async function refresh() {
@@ -520,15 +585,47 @@ applyVerifiedBotox().then(applyVerifiedCoretox).then(applyStaffReviewEvidence).t
       lastError = error.name === 'AbortError' ? '공용 저장 연결이 지연돼요. 잠시 후 자동 재연결해요.' : error.message;
     } finally { polling = false; draw(); }
   }
-  for (const input of inputs) input.addEventListener('change', async () => {
+  async function change(k, value, resource, undoEntry) {
     if (!ready || busy || polling) { draw(); return; }
-    const change = {key:key(input), value:input.checked, rev:board.cells[key(input)]?.rev || 0};
+    const current = board.cells[k] || {value:null, rev:0};
+    if (undoEntry && (current.rev !== undoEntry.rev || current.value !== undoEntry.after)) {
+      undoStack.pop(); lastError = '다른 담당자가 바꾼 항목은 실행 취소하지 않았어요. 목록에서 최신 상태를 확인해 주세요.'; draw(); return;
+    }
     busy = true; lastError = ''; draw();
-    try { await request('/v1/check', [change]); }
-    catch (error) {
+    let saved = false;
+    try {
+      await request('/v1/check', [{key:k,value,rev:current.rev}]);
+      const next = board.cells[k];
+      if (!next || next.value !== value || next.rev !== current.rev + 1) throw Error('저장 결과가 달라요. 최신 기록을 다시 확인해 주세요.');
+      if (undoEntry) {
+        undoStack.pop();
+        const earlier = [...undoStack].reverse().find(entry => entry.key === k);
+        if (earlier && earlier.after === value) earlier.rev = next.rev;
+      }
+      else { undoStack.push({key:k,before:current.value,after:value,rev:next.rev,resource}); if (undoStack.length > 30) undoStack.shift(); }
+      message = undoEntry ? '실행 취소했어요.' : resource
+        ? resource.title + (value ? ' · 최종완료 목록에 보관했어요.' : ' · 작업 목록으로 복원했어요.') : '언어검토 체크를 저장했어요.';
+      saved = true;
+    } catch (error) {
       lastError = error.name === 'AbortError' ? '저장 확인이 지연돼요. 최신 상태를 다시 불러올게요.' : error.message;
     } finally { busy = false; draw(); }
-  });
+    if (saved && resource) (value ? resource.restore : resource.finish).focus({preventScroll:true});
+  }
+  function undo() {
+    const entry = undoStack.at(-1);
+    if (entry) return change(entry.key, entry.before, entry.resource, entry);
+  }
+  for (const input of inputs) input.addEventListener('change', () => change(key(input), input.checked));
+  undoButton.addEventListener('click', undo);
+  // A later homepage edit owns its existing Ctrl+Z history. Completed resources
+  // always remain restorable from the shared list, including after page reload.
+  document.addEventListener('bb-worktree-history-change', () => { undoStack.length = 0; draw(); });
+  document.addEventListener('keydown', event => {
+    if (event.defaultPrevented || event.isComposing || event.altKey || event.shiftKey || !(event.ctrlKey || event.metaKey) || event.key.toLowerCase() !== 'z' || !undoStack.length) return;
+    const target = event.target;
+    if (document.getElementById('editor')?.open || target.isContentEditable || target.closest('textarea,select,[contenteditable="true"]') || (target.tagName === 'INPUT' && !['checkbox','radio','button'].includes(target.type))) return;
+    event.preventDefault(); event.stopImmediatePropagation(); undo();
+  }, true);
   for (const event of ['focus','online','pageshow']) window.addEventListener(event, refresh);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
   setInterval(() => { if (!document.hidden) refresh(); }, 4000);
