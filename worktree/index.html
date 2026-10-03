@@ -468,11 +468,87 @@ applyVerifiedBotox().then(applyVerifiedCoretox).then(applyStaffReviewEvidence).t
   const list = document.getElementById('resource-history');
   const undoButton = document.getElementById('resource-undo');
   const undoStack = [];
-  let board = null, busy = false, polling = false, ready = false, lastError = '', message = '';
+  let board = null, busy = false, polling = false, ready = false, lastError = '', message = '', storageWarning = '';
+  const pending = new Map();
+  const pendingPrefix = 'beautyblossom.resource-pending.v1.';
+  const cacheKey = 'beautyblossom.resource-board.v1';
   const key = input => input.closest('[data-shared-node]').dataset.sharedNode + '/' + input.dataset.country + '/review';
   // Resource records have no KO language checkbox. Their previously unused KO/upload
   // slot stores final completion, separate from every country's language review.
   const archiveKey = group => group.dataset.sharedNode + '/KO/upload';
+  const reviewKeys = new Set(inputs.map(key));
+  const resourceKeys = [...reviewKeys, ...groups.map(archiveKey)];
+  function persistIntent(entry) {
+    pending.set(entry.key, entry);
+    try { localStorage.setItem(pendingPrefix + entry.key, JSON.stringify(entry)); }
+    catch { storageWarning = '이 브라우저는 임시 보관이 제한돼요. 팀 저장 완료 후 닫아 주세요.'; }
+  }
+  function readPending() {
+    try {
+      for (const k of reviewKeys) {
+        const raw = localStorage.getItem(pendingPrefix + k);
+        if (!raw) continue;
+        let entry; try { entry = JSON.parse(raw); } catch { continue; }
+        if (entry?.key === k && typeof entry.value === 'boolean' && typeof entry.id === 'string' &&
+            entry.id.length < 100 && Number.isSafeInteger(entry.rev) && entry.rev >= 0 &&
+            [true, false, null].includes(entry.before)) pending.set(k, entry);
+      }
+    } catch { /* Online shared storage still works with browser storage disabled. */ }
+  }
+  function clearIntent(entry) {
+    if (pending.get(entry.key)?.id === entry.id) pending.delete(entry.key);
+    try {
+      const raw = localStorage.getItem(pendingPrefix + entry.key);
+      if (raw && JSON.parse(raw).id === entry.id) localStorage.removeItem(pendingPrefix + entry.key);
+    } catch { /* Never remove another tab's newer intent. */ }
+    readPending();
+  }
+  function rememberReview(entry, next) {
+    if (next.rev !== entry.rev + 1 || next.value !== entry.value || entry.before === entry.value) return;
+    undoStack.push({key:entry.key,before:entry.before,after:entry.value,rev:next.rev});
+    if (undoStack.length > 30) undoStack.shift();
+  }
+  function reconcilePending() {
+    readPending();
+    for (const entry of [...pending.values()]) {
+      const current = board.cells[entry.key] || {value:null,rev:0};
+      if (current.rev === entry.rev) continue;
+      clearIntent(entry);
+      if (current.value === entry.value) rememberReview(entry, current);
+      else message = '다른 담당자가 같은 체크를 변경했어요. 최신 상태를 확인한 뒤 다시 선택해 주세요.';
+    }
+  }
+  function queueReview(k, value) {
+    if (!board || !reviewKeys.has(k) || typeof value !== 'boolean') { draw(); return; }
+    const current = board.cells[k] || {value:null,rev:0};
+    persistIntent({key:k,value,before:current.value,rev:current.rev,id:crypto.randomUUID()});
+    lastError = ''; message = ''; draw(); drain();
+  }
+  async function drain() {
+    if (!ready || busy || polling || !pending.size) return;
+    busy = true;
+    try {
+      reconcilePending();
+      while (pending.size) {
+        const entry = pending.values().next().value;
+        draw();
+        await request('/v1/check', [{key:entry.key,value:entry.value,rev:entry.rev}]);
+        const next = board.cells[entry.key];
+        if (!next || next.value !== entry.value) throw Error('저장 확인이 필요해요. 선택은 보관했으며 다시 확인할게요.');
+        rememberReview(entry, next);
+        readPending();
+        const latest = pending.get(entry.key);
+        if (latest && latest.id !== entry.id && latest.rev === entry.rev) {
+          // This same browser received another click while its previous write was in flight.
+          persistIntent({...latest,rev:next.rev,before:next.value});
+        } else clearIntent(entry);
+        lastError = ''; message = '언어검토 체크를 팀에 저장했어요.';
+      }
+    } catch (error) {
+      if (error.conflict) { reconcilePending(); lastError = ''; }
+      else lastError = '체크를 보관했어요. 연결되면 팀에 자동 저장돼요.';
+    } finally { busy = false; draw(); }
+  }
   const item = (tag, text, className) => {
     const el = document.createElement(tag);
     if (text) el.textContent = text;
@@ -498,10 +574,12 @@ applyVerifiedBotox().then(applyVerifiedCoretox).then(applyStaffReviewEvidence).t
     return resource;
   });
   function draw() {
-    const disabled = !ready || busy || polling;
+    const disabled = !ready || busy || polling || pending.size > 0;
     for (const input of inputs) {
-      input.checked = board?.cells[key(input)]?.value === true;
-      input.disabled = disabled;
+      const entry = pending.get(key(input));
+      input.checked = entry ? entry.value : board?.cells[key(input)]?.value === true;
+      input.disabled = !board;
+      input.setAttribute('aria-busy', String(Boolean(entry)));
     }
     let count = 0;
     for (const resource of resources) {
@@ -516,26 +594,32 @@ applyVerifiedBotox().then(applyVerifiedCoretox).then(applyStaffReviewEvidence).t
       info.textContent = (date && Number.isFinite(date.getTime())
         ? date.toLocaleString('ko-KR', {timeZone:'Asia/Seoul',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}) + ' 완료 · ' : '') + '언어검토 ' + progress;
       const status = group.querySelector('[role="status"]');
-      status.textContent = lastError || (busy ? '팀에 저장하는 중…' : ready
-        ? '완료 ' + progress + ' · 팀 공용 저장 · 다른 PC에도 자동 반영'
-        : '공용 체크를 불러오는 중이에요.');
+      const waiting = fields.filter(input => pending.has(key(input))).length;
+      status.textContent = (waiting ? '체크 ' + progress + ' · ' + waiting + '개 저장 대기 · 연결되면 자동 저장'
+        : lastError || (ready ? '완료 ' + progress + ' · 팀 저장 완료 · 다른 PC에도 자동 반영'
+        : board ? '저장된 체크를 표시 중 · 팀 기록 연결을 기다려요.' : '공용 체크를 불러오는 중이에요.')) +
+        (storageWarning ? ' · ' + storageWarning : '');
       status.classList.toggle('failed', Boolean(lastError));
     }
     document.getElementById('resource-completed-count').textContent = String(count);
     document.getElementById('resource-history-empty').hidden = count > 0;
     document.getElementById('resource-active-empty').hidden = !ready || count !== resources.length;
     const status = document.getElementById('resource-action-status');
-    status.textContent = lastError || (busy ? '팀에 저장하는 중…' : !ready ? '공용 기록을 불러오는 중…' : message || '다른 PC에도 자동 반영돼요.');
+    status.textContent = lastError || (pending.size ? pending.size + '개 체크를 보관했어요. 팀 저장을 확인하는 중…' : busy ? '팀에 저장하는 중…' : !ready ? '공용 기록을 불러오는 중…' : message || '다른 PC에도 자동 반영돼요.');
     status.classList.toggle('failed', Boolean(lastError));
     undoButton.disabled = disabled || !undoStack.length;
   }
   function accept(value) {
     if (!value || !Number.isSafeInteger(value.version) || value.version < 0 || !value.cells || typeof value.cells !== 'object' || Array.isArray(value.cells)) throw Error('공용 저장 응답을 확인할 수 없어요.');
-    for (const k of [...inputs.map(key), ...groups.map(archiveKey)]) {
+    for (const k of resourceKeys) {
       const cell = value.cells[k];
       if (cell && (![true,false,null].includes(cell.value) || !Number.isSafeInteger(cell.rev) || cell.rev < 0)) throw Error('공용 체크 형식을 확인할 수 없어요.');
     }
-    if (!board || value.version >= board.version) board = value;
+    if (!board || value.version >= board.version) {
+      board = value;
+      try { localStorage.setItem(cacheKey, JSON.stringify(board)); }
+      catch { /* Shared saves remain available; pending-write warnings are handled separately. */ }
+    }
   }
   async function request(route, changes) {
     const controller = new AbortController();
@@ -544,12 +628,13 @@ applyVerifiedBotox().then(applyVerifiedCoretox).then(applyStaffReviewEvidence).t
       const response = await fetch(api + route, {
         method: changes ? 'POST' : 'GET', cache:'no-store', signal:controller.signal,
         headers:{'X-BB-Worktree':'checks-v1', ...(changes ? {'Content-Type':'application/json'} : {})},
-        ...(changes ? {body:JSON.stringify({changes})} : {})
+        ...(changes ? {body:JSON.stringify({changes}),keepalive:true} : {})
       });
       const value = await response.json();
       if (response.status === 409) {
         accept(value.board);
-        throw Error('다른 담당자가 먼저 변경했어요. 최신 기록을 확인한 뒤 다시 선택해 주세요.');
+        const error = Error('다른 담당자가 먼저 변경했어요. 최신 기록을 확인한 뒤 다시 선택해 주세요.');
+        error.conflict = true; throw error;
       }
       if (!response.ok) throw Error('공용 서버 연결 오류 (' + response.status + ') · 잠시 후 자동 재연결해요.');
       accept(value);
@@ -582,13 +667,15 @@ applyVerifiedBotox().then(applyVerifiedCoretox).then(applyStaffReviewEvidence).t
       await request('/v1/state');
       if (!ready) await importLegacy();
       ready = true; lastError = '';
+      reconcilePending();
     } catch (error) {
-      ready = false;
-      lastError = error.name === 'AbortError' ? '공용 저장 연결이 지연돼요. 잠시 후 자동 재연결해요.' : error.message;
+      lastError = pending.size ? '체크를 보관했어요. 연결되면 팀에 자동 저장돼요.'
+        : '팀 기록 연결이 지연돼요. 저장된 체크를 유지하며 다시 연결해요.';
     } finally { polling = false; draw(); }
+    if (!lastError) drain();
   }
   async function change(k, value, resource, undoEntry) {
-    if (!ready || busy || polling) { draw(); return; }
+    if (!ready || busy || polling || pending.size) { draw(); return; }
     const current = board.cells[k] || {value:null, rev:0};
     if (undoEntry && (current.rev !== undoEntry.rev || current.value !== undoEntry.after)) {
       undoStack.pop(); lastError = '다른 담당자가 바꾼 항목은 실행 취소하지 않았어요. 목록에서 최신 상태를 확인해 주세요.'; draw(); return;
@@ -617,7 +704,7 @@ applyVerifiedBotox().then(applyVerifiedCoretox).then(applyStaffReviewEvidence).t
     const entry = undoStack.at(-1);
     if (entry) return change(entry.key, entry.before, entry.resource, entry);
   }
-  for (const input of inputs) input.addEventListener('change', () => change(key(input), input.checked));
+  for (const input of inputs) input.addEventListener('change', () => queueReview(key(input), input.checked));
   undoButton.addEventListener('click', undo);
   // A later homepage edit owns its existing Ctrl+Z history. Completed resources
   // always remain restorable from the shared list, including after page reload.
@@ -629,8 +716,12 @@ applyVerifiedBotox().then(applyVerifiedCoretox).then(applyStaffReviewEvidence).t
     event.preventDefault(); event.stopImmediatePropagation(); undo();
   }, true);
   for (const event of ['focus','online','pageshow']) window.addEventListener(event, refresh);
+  window.addEventListener('storage', event => {
+    if (event.key?.startsWith(pendingPrefix) || event.key === cacheKey) { readPending(); draw(); refresh(); }
+  });
   document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
   setInterval(() => { if (!document.hidden) refresh(); }, 4000);
-  draw(); refresh();
+  try { const cached = localStorage.getItem(cacheKey); if (cached) accept(JSON.parse(cached)); } catch { /* Keep corrupt data untouched until the server can recover it. */ }
+  readPending(); draw(); refresh();
 })();
 </script></body></html>
