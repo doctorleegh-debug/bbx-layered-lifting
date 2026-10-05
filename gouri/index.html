@@ -438,4 +438,5 @@ function sync(){if(frame!==null){cancelAnimationFrame(frame);frame=null}last=nul
 root.addEventListener('gouri-manual-stage',event=>{if(!Number.isInteger(event.detail)||event.detail<0||event.detail>2)return;elapsed=[0,5,10][event.detail];current=event.detail;draw(limited()?[2.8,8.8,14.8][current]:elapsed,current);sync()});
 if('IntersectionObserver'in window)new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync()},{threshold:.15}).observe(visual);else visible=true;
 document.addEventListener('visibilitychange',sync);motion.addEventListener('change',sync);connection?.addEventListener?.('change',sync);window.addEventListener('pagehide',()=>{pageHidden=true;sync()});window.addEventListener('pageshow',()=>{pageHidden=false;sync()});draw(0);sync();root.dataset.r06Ready='true';})();
-</script></body></html>
+</script><script defer src="../shared/brand-20261005/brand-refresh.js" data-bb-brand-loader="20261005"></script>
+</body></html>
