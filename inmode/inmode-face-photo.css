@@ -1,0 +1,14 @@
+#bb-inmode .im-face-photo .im-face-viewport{inset:58px 0 185px;cursor:default;touch-action:auto}
+#bb-inmode .im-face-photo .im-face-fallback{object-fit:contain;object-position:50% 50%;opacity:1;visibility:visible}
+#bb-inmode .im-face-radiance{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.im-radiance-region{opacity:0;transition:opacity .45s ease}
+.im-radiance-region.is-selected{opacity:1}
+.im-photo-sparkle{fill:#fffef6;stroke:none;opacity:.25;transform-box:fill-box;transform-origin:center;filter:drop-shadow(0 0 3px #fff7df);animation:im-photo-twinkle 3.1s ease-in-out var(--delay,0s) infinite}
+.im-photo-bloom{animation:im-photo-breathe 4.2s ease-in-out infinite}
+#bb-inmode .im-face-photo:not([data-motion=playing]) .im-photo-sparkle,#bb-inmode .im-face-photo:not([data-motion=playing]) .im-photo-bloom{animation-play-state:paused}
+#bb-inmode .im-face-photo[data-photo-ready=false] .im-face-radiance{visibility:hidden}
+@keyframes im-photo-twinkle{0%,100%{opacity:.15;transform:scale(.62)}50%{opacity:.92;transform:scale(1.08)}}
+@keyframes im-photo-breathe{0%,100%{opacity:.46}50%{opacity:.85}}
+@media(max-width:700px){#bb-inmode .im-face-photo{min-height:705px}#bb-inmode .im-face-photo .im-face-viewport{inset:48px 0 178px}}
+@media(max-width:359px){#bb-inmode .im-face-photo{min-height:640px}#bb-inmode .im-face-photo .im-face-viewport{bottom:185px}}
+@media(prefers-reduced-motion:reduce){.im-photo-sparkle,.im-photo-bloom{animation:none}.im-photo-sparkle{opacity:.55}.im-radiance-region{transition:none}}
