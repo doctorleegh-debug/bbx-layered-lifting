@@ -66,16 +66,10 @@
   function drawFace(t) {
     const area = areaData[face.dataset.area] ? face.dataset.area : 'chin';
     const button = root.querySelector(`.im-area-options [data-area="${area}"]`);
-    const label = area === 'firm' ? 'Forma' : area === 'jaw' ? 'MiniFX + Forma' : 'MiniFX';
-    face.querySelector('.im-face-count').textContent = label;
-    face.querySelector('.im-study-word').textContent = label;
+    face.querySelector('.im-face-count').textContent = '0' + areaData[area].n + ' / 03';
     face.querySelector('.im-face-label').textContent = button.querySelector('span').textContent;
     face.querySelector('.im-face-description').textContent = button.querySelector('small').textContent;
-    face.querySelector('.im-study-tag span').textContent = area === 'firm' ? '피부 밀착 · 고주파' : area === 'jaw' ? '볼륨과 탄력을 함께 살피는 상담' : '진공흡입 · 고주파';
-    const reveal = range(t, 0, 1.6);
-    face.querySelector('.im-instrument-photos').style.transform = `translateY(${(1-reveal)*14}px)`;
-    face.querySelector('.im-instrument-photos').style.opacity = String(.6+.4*reveal);
-    face.querySelector('.im-face-caption-rule').style.transform = `scaleX(${.5+.5*reveal})`;
+    face.querySelector('.im-face-caption-rule').style.transform = 'none';
   }
   function tick(now) {
     raf = 0;
