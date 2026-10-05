@@ -29,7 +29,7 @@
   shadow.append(link,content);root.append(host);state.host=host;
   link.addEventListener('load',()=>{if(!host.isConnected)return;for(const e of old){if(e.id){const anchor=document.createElement('span');anchor.id=e.id;e.id+='-before-brand';if(/contact/.test(anchor.id)){anchor.dataset.brandContact='';host.before(anchor)}else host.before(anchor)}e.dataset.brandPrevious='1';e.style.setProperty('display','none','important');e.setAttribute('aria-hidden','true')}host.style.removeProperty('display');root.dataset.brandRefresh='20261005';});
   link.addEventListener('error',()=>{host.remove();state.host=null;});
-  shadow.addEventListener('click',e=>{const a=e.target.closest?.('[data-brand-wechat]');if(a){e.preventDefault();const original=old.flatMap(n=>[...n.querySelectorAll('a[data-bb-wechat],a[href="#wechatModal"]')])[0];original?.click()}});
+  shadow.addEventListener('click',e=>{const a=e.target.closest?.('[data-brand-wechat]');if(a){e.preventDefault();const original=old.flatMap(n=>[...n.querySelectorAll('a[data-bb-wechat],a[href="#wechatModal"]')])[0]||document.querySelector('a[onclick="openWechatModal(event)"]');original?.click()}});
   root.addEventListener('click',e=>{const a=e.target.closest?.('a[href^="#"]');if(!a||!root.dataset.brandRefresh)return;const target=a.getAttribute('href').slice(1);if(/contact|pvs/.test(target)&&document.getElementById(target)?.hasAttribute('data-brand-contact')){e.preventDefault();e.stopPropagation();content.querySelector('.contact').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth',block:'start'})}},true);
   state.shadow=shadow;
  }
@@ -40,5 +40,5 @@
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',scan,{once:true});else scan();
  new MutationObserver(records=>{if(records.some(r=>[...r.addedNodes].some(n=>n.nodeType===1&&!n.matches?.('[data-bb-brand],bb-brand-footer,.bbr-event-en,.bbr-event-local'))))schedule()}).observe(document.body||document.documentElement,{childList:true,subtree:true});
  window.addEventListener('load',()=>{for(const id of ROOTS){const root=document.getElementById(id),state=root&&states.get(root);if(state){state.colorStyle.remove();state.colorStyle=colors(root)}}},{once:true});
- window.BBBrandRefresh={version:'20261005-r1',scan,roots:ROOTS.slice()};
+ window.BBBrandRefresh={version:'20261005-r2',scan,roots:ROOTS.slice()};
 })();
