@@ -3,7 +3,7 @@ const root=document.getElementById('bb-volnewmer');if(!root)return;
 // This page alone fits the shared wordmark inside narrow mobile viewports.
 function fitFooter(){const shadow=root.querySelector('bb-brand-footer')?.shadowRoot;if(!shadow)return;const style=document.createElement('style');style.dataset.vnWordmark='';style.textContent='@media(max-width:700px){.brand-signoff .logo{font-size:22vw}}';shadow.append(style);footerObserver.disconnect();}
 const footerObserver=new MutationObserver(fitFooter);footerObserver.observe(root,{childList:true});fitFooter();
-const reduced=matchMedia('(prefers-reduced-motion:reduce)'),mobile=matchMedia('(max-width:700px)'),connection=navigator.connection;
+const reduced=matchMedia('(prefers-reduced-motion:reduce)'),mobile=matchMedia('(max-width:1000px)'),connection=navigator.connection;
 const hero=root.querySelector('.vn-hero'),film=root.querySelector('.vn-film'),moving=[...root.querySelectorAll('.vn-motion')],science=root.querySelector('.vn-science-card'),bento=root.querySelector('.vn-bento'),motionButton=root.querySelector('[data-motion-toggle]'),visible=new Set();
 let paused=false,filmKey='',filmEpoch=0,pending=false,blocked=false,timer=0,step=0,manualStep=false;
 const allowed=()=>!paused&&!document.hidden&&!reduced.matches&&!connection?.saveData;

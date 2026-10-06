@@ -18,3 +18,30 @@
 .vn-intro-grid>*,.vn-faq>*{min-width:0}
 @media(max-width:700px){.vn-intro .vn-display{font-size:clamp(64px,21.3vw,100px)!important}.vn-faq .vn-display{font-size:clamp(47px,12.8vw,65px)!important}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}#bb-volnewmer *,#bb-volnewmer *:before,#bb-volnewmer *:after{animation:none!important;transition:none!important}.vn-film{display:none}}
+
+
+
+
+
+/* Blender R02 process cards */
+#bb-volnewmer .vn-process{gap:24px;border:0;padding:0;align-items:stretch;counter-reset:process}
+#bb-volnewmer .vn-process>li{position:relative;overflow:hidden;display:flex;flex-direction:column;padding:30px 32px 38px;border:1px solid #ecd7d5;border-radius:28px;background:linear-gradient(150deg,#fffdfb,#fcf0ee);box-shadow:0 7px 0 #f3e6e4,0 24px 55px -40px #78455460}
+#bb-volnewmer .vn-process>li:nth-child(2){background:linear-gradient(150deg,#fff8f5,#f7dfdc)}
+#bb-volnewmer .vn-process>li:nth-child(3){background:linear-gradient(150deg,#fffafa,#f1eaee)}
+#bb-volnewmer .vn-process>li>span{position:absolute;inset:27px auto auto 30px;font-size:25px;line-height:1;color:#996168;z-index:1}
+#bb-volnewmer .vn-process-art{height:250px;display:flex;align-items:center;justify-content:center;margin:0 -8px 10px}
+#bb-volnewmer .vn-process-art img{width:265px;height:265px;object-fit:contain;animation:vn-icon-drift 6s ease-in-out infinite;animation-delay:calc(var(--icon-order,0)*-.8s)}
+#bb-volnewmer .vn-process>li:nth-child(2){--icon-order:1}
+#bb-volnewmer .vn-process>li:nth-child(3){--icon-order:2}
+#bb-volnewmer .vn-process h3{font-size:26px!important;line-height:1.4!important;margin:0 0 16px!important;letter-spacing:-.035em}
+#bb-volnewmer .vn-process p{font-size:18px;line-height:1.85;margin:0!important;color:#765d64}
+#bb-volnewmer .vn-process[data-motion="paused"] img{animation-play-state:paused}
+#bb-volnewmer .vn-related-grid a>div{background:#fff;border:1px solid #f0e1e4}
+#bb-volnewmer .vn-related-grid a:last-child>div{padding:18px 35px}
+#bb-volnewmer .vn-related-grid a:last-child img{transform:scale(1.16)}
+@keyframes vn-icon-drift{0%,100%{transform:translateY(3px) rotate(-1deg)}50%{transform:translateY(-7px) rotate(1deg)}}
+@media(max-width:1100px) and (min-width:801px){#bb-volnewmer .vn-process>li{padding:26px 22px 30px}#bb-volnewmer .vn-process h3{font-size:23px!important}#bb-volnewmer .vn-process-art{height:205px}#bb-volnewmer .vn-process-art img{width:225px;height:225px}}
+@media(max-width:800px){#bb-volnewmer .vn-process{gap:22px}#bb-volnewmer .vn-process>li{min-height:350px;padding:25px 26px 30px}#bb-volnewmer .vn-process-art{height:200px;margin:0 0 12px}#bb-volnewmer .vn-process-art img{width:240px;height:240px}#bb-volnewmer .vn-process h3{font-size:25px!important}#bb-volnewmer .vn-process p{font-size:17px}#bb-volnewmer .vn-related-grid a:last-child>div{padding:14px 25px}}
+@media(prefers-reduced-motion:reduce){#bb-volnewmer .vn-process-art img{animation:none}}
+@media(min-width:701px) and (max-width:1000px){.vn-hero{min-height:0;max-height:none;height:177.777vw}.vn-hero-still,.vn-film{top:105px;height:calc(100% - 105px)}.vn-hero-still img,.vn-film{object-position:center bottom}.vn-hero:after{background:linear-gradient(180deg,#fff6f4c7,#fff6f435 36%,transparent 61%)}.vn-hero-copy{top:34px;left:6%;width:88%}.vn-hero-copy>.vn-eyebrow{margin-bottom:22px!important}.vn-hero-title{font-size:70px!important;line-height:1.03!important;margin-bottom:22px!important}.vn-hero h1{font-size:36px!important;line-height:1.45!important;margin-bottom:10px!important}.vn-hero-name{font-size:22px;margin-bottom:18px!important}}
+@media(max-width:1000px){.vn-hero-still,.vn-film{top:0;height:100%}.vn-hero-still img,.vn-film{object-position:60% bottom}}
