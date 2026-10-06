@@ -4,9 +4,9 @@ const root=document.getElementById('bb-volnewmer');if(!root)return;
 function fitFooter(){const shadow=root.querySelector('bb-brand-footer')?.shadowRoot;if(!shadow)return;const style=document.createElement('style');style.dataset.vnWordmark='';style.textContent='@media(max-width:700px){.brand-signoff .logo{font-size:22vw}}';shadow.append(style);footerObserver.disconnect();}
 const footerObserver=new MutationObserver(fitFooter);footerObserver.observe(root,{childList:true});fitFooter();
 const reduced=matchMedia('(prefers-reduced-motion:reduce)'),mobile=matchMedia('(max-width:1000px)'),connection=navigator.connection;
-const hero=root.querySelector('.vn-hero'),film=root.querySelector('.vn-film'),moving=[...root.querySelectorAll('.vn-motion')],science=root.querySelector('.vn-science-card'),bento=root.querySelector('.vn-bento'),motionButton=root.querySelector('[data-motion-toggle]'),visible=new Set();
-let paused=false,filmKey='',filmEpoch=0,pending=false,blocked=false,timer=0,step=0,manualStep=false;
-const allowed=()=>!paused&&!document.hidden&&!reduced.matches&&!connection?.saveData;
+const hero=root.querySelector('.vn-hero'),film=root.querySelector('.vn-film'),moving=[...root.querySelectorAll('.vn-motion')],science=root.querySelector('.vn-science-card'),bento=root.querySelector('.vn-bento'),visible=new Set();
+let filmKey='',filmEpoch=0,pending=false,blocked=false,timer=0,step=0,manualStep=false;
+const allowed=()=>!document.hidden&&!reduced.matches&&!connection?.saveData;
 function resetFilm(){filmEpoch++;pending=false;film.pause();hero.dataset.ready='false';film.removeAttribute('src');film.load();filmKey='';blocked=false;}
 function syncFilm(){
  if(!allowed()||!visible.has(hero)){film.pause();if(reduced.matches||connection?.saveData)hero.dataset.ready='false';return;}
@@ -31,7 +31,6 @@ plans.forEach((b,i)=>b.addEventListener('click',()=>{const key=b.dataset.plan,co
 [...bento.querySelectorAll('.vn-tile')].forEach((e,i)=>e.style.setProperty('--i',i));
 function assemble(){if(!allowed())return;bento.classList.remove('is-assembling');void bento.offsetWidth;bento.classList.add('is-assembling');bento.dataset.assembled='true';}
 root.querySelector('.vn-replay').addEventListener('click',assemble);
-motionButton.addEventListener('click',()=>{paused=!paused;motionButton.setAttribute('aria-pressed',String(paused));motionButton.textContent=paused?'모션 재생 ▷':'모션 정지 Ⅱ';if(!paused)manualStep=false;policy();});
 function policy(){moving.forEach(e=>e.dataset.motion=allowed()&&visible.has(e)?'playing':'paused');syncFilm();schedule();if(visible.has(bento)&&!bento.dataset.assembled)assemble();if(!allowed())bento.classList.remove('is-assembling');}
 if('IntersectionObserver'in window){const observer=new IntersectionObserver(entries=>{for(const e of entries){if(e.isIntersecting)visible.add(e.target);else visible.delete(e.target);}policy();},{threshold:.08});[...moving,bento].forEach(e=>observer.observe(e));}else{[...moving,bento].forEach(e=>visible.add(e));}
 document.addEventListener('visibilitychange',policy);reduced.addEventListener('change',policy);connection?.addEventListener?.('change',policy);

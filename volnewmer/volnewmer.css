@@ -45,3 +45,35 @@
 @media(prefers-reduced-motion:reduce){#bb-volnewmer .vn-process-art img{animation:none}}
 @media(min-width:701px) and (max-width:1000px){.vn-hero{min-height:0;max-height:none;height:177.777vw}.vn-hero-still,.vn-film{top:105px;height:calc(100% - 105px)}.vn-hero-still img,.vn-film{object-position:center bottom}.vn-hero:after{background:linear-gradient(180deg,#fff6f4c7,#fff6f435 36%,transparent 61%)}.vn-hero-copy{top:34px;left:6%;width:88%}.vn-hero-copy>.vn-eyebrow{margin-bottom:22px!important}.vn-hero-title{font-size:70px!important;line-height:1.03!important;margin-bottom:22px!important}.vn-hero h1{font-size:36px!important;line-height:1.45!important;margin-bottom:10px!important}.vn-hero-name{font-size:22px;margin-bottom:18px!important}}
 @media(max-width:1000px){.vn-hero-still,.vn-film{top:0;height:100%}.vn-hero-still img,.vn-film{object-position:60% bottom}}
+
+/* R03: consistent, uncropped concern illustrations. */
+#bb-volnewmer .vn-concern{min-height:282px;padding:26px;gap:0}
+#bb-volnewmer .vn-concern>img,#bb-volnewmer .vn-concern.vn-large>img{position:relative;inset:auto;width:164px;height:164px;max-width:100%;object-fit:contain;align-self:center;margin:8px auto 20px;flex:none}
+#bb-volnewmer .vn-concern>strong{margin-top:0;font-size:24px;line-height:1.45}
+#bb-volnewmer .vn-concern.vn-large{min-height:578px;justify-content:flex-end}
+#bb-volnewmer .vn-concern.vn-large>img{margin-top:20px;margin-bottom:auto}
+#bb-volnewmer .vn-tile-arrow{z-index:2;top:16px;right:16px}
+@media(max-width:1100px) and (min-width:801px){#bb-volnewmer .vn-concern{padding:24px 18px}#bb-volnewmer .vn-concern>strong{font-size:22px}}
+@media(max-width:600px){#bb-volnewmer .vn-bento{grid-template-columns:1fr}#bb-volnewmer .vn-bento-title,#bb-volnewmer .vn-bento-lead,#bb-volnewmer .vn-bento-note,#bb-volnewmer .vn-replay{grid-column:1}#bb-volnewmer .vn-concern,#bb-volnewmer .vn-concern.vn-large{grid-row:auto;min-height:308px;padding:24px 26px}#bb-volnewmer .vn-concern>img,#bb-volnewmer .vn-concern.vn-large>img{width:164px;height:164px;margin:4px auto 20px}#bb-volnewmer .vn-concern>strong{font-size:24px}}
+
+#bb-volnewmer .vn-concern-art{position:relative;display:block;flex:none;width:164px;height:164px;align-self:center;margin:8px auto 20px;overflow:visible}
+#bb-volnewmer .vn-concern-art img{position:absolute;max-width:none;object-fit:contain;filter:drop-shadow(0 9px 8px #76445718)}
+#bb-volnewmer .vn-concern.vn-large>.vn-concern-art{margin-top:20px;margin-bottom:auto}
+@media(max-width:600px){#bb-volnewmer .vn-concern.vn-large>.vn-concern-art{margin:4px auto 20px}}
+.vn-energy,.vn-face-light{z-index:1}
+.vn-warmth{opacity:.45}.vn-science-card[data-step="1"] .vn-warmth{opacity:1}
+.vn-warmth ellipse{animation:vn-heat-visible 3s ease-in-out infinite}
+.vn-thermal-flow{opacity:.45;filter:drop-shadow(0 0 10px #ff9834);transition:opacity .5s}
+.vn-science-card[data-step="1"] .vn-thermal-flow{opacity:1}
+.vn-thermal-flow path{stroke-dasharray:36 70;animation:vn-energy-travel 2.8s linear infinite}
+.vn-thermal-flow path:nth-child(2){animation-delay:-.5s}.vn-thermal-flow path:nth-child(3){animation-delay:-1s}.vn-thermal-flow path:nth-child(4){animation-delay:-1.5s}
+.vn-cool-flow{filter:drop-shadow(0 0 9px #7ce7f5);opacity:.88}
+.vn-cool-flow ellipse{stroke-dasharray:190 75;animation:vn-cool-travel 3.4s linear infinite}
+.vn-cooling{opacity:.8;animation:vn-glow-visible 3.4s ease-in-out infinite}
+.vn-face-light ellipse{animation:vn-glow-visible 3s ease-in-out infinite;filter:drop-shadow(0 0 7px #ffbbad)}
+.vn-face-light path{stroke:#fff9da;stroke-width:5;filter:drop-shadow(0 0 5px #ee8aa1);animation:vn-glow-visible 3s ease-in-out infinite}
+@keyframes vn-energy-travel{to{stroke-dashoffset:-212}}
+@keyframes vn-cool-travel{to{stroke-dashoffset:-530}}
+@keyframes vn-glow-visible{0%,100%{opacity:.62}50%{opacity:1}}
+@keyframes vn-heat-visible{0%,100%{transform:scale(.94);opacity:.67}50%{transform:scale(1.08);opacity:.95}}
+@media(prefers-reduced-motion:reduce){.vn-thermal-flow path,.vn-cool-flow ellipse,.vn-warmth ellipse,.vn-face-light ellipse,.vn-face-light path{animation:none!important}.vn-thermal-flow{opacity:.7}}
