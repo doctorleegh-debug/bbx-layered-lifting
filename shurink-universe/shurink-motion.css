@@ -1,0 +1,60 @@
+/* Motion illustrations and larger related equipment, scoped to the Shurink page. */
+#bb-shurink .su-modes{display:block;padding-block:105px}
+#bb-shurink .su-mode-copy{display:grid;grid-template-columns:1fr 1fr;column-gap:8%;align-items:start;margin-bottom:42px}
+#bb-shurink .su-mode-copy .su-display{grid-row:span 2;margin:0!important}
+#bb-shurink .su-mode-copy>p:last-child{max-width:none;margin-bottom:0}
+#bb-shurink .su-mode-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+#bb-shurink .su-mode-cards article{min-width:0;padding:28px 28px 24px;background:#fff9f8;border-radius:24px;overflow:hidden}
+#bb-shurink .su-mode-cards h3{font-size:28px;margin:0 0 20px}
+#bb-shurink .su-mode-cards article>p{font-size:18px;margin:22px 0 0;line-height:1.85}
+.su-mode-visual{position:relative;margin:0 -10px;aspect-ratio:3/2;border-radius:17px;overflow:hidden;background:#fbf5f5}
+.su-mode-visual>svg{display:block;width:100%;height:100%}
+.su-mode-visual-label{position:absolute;left:20px;top:18px;font-size:13px;color:#785361;line-height:1.5}
+#bb-shurink .su-motion-toggle{position:absolute;right:14px;top:12px;min-height:44px;padding:8px 14px;border:1px solid #ead5d8;border-radius:24px;background:#fffc;font-size:12px;line-height:1.4;color:#694550;z-index:3}
+#bb-shurink .su-motion-toggle:hover{background:#fff}
+#bb-shurink .su-motion-toggle:disabled{cursor:default;color:#806c70;opacity:.85}
+#bb-shurink .su-mode-disclaimer{font-size:13px;color:#7b6870;line-height:1.8;margin:22px 0 0;text-align:center}
+.su-face-energy{position:absolute;pointer-events:none;z-index:1;max-width:none;overflow:visible}
+.su-face-region-label{position:absolute;top:24px;left:24px;z-index:3;padding:10px 15px;background:#fffaf3e6;border:1px solid #fffb;border-radius:30px;font-size:14px;color:#75495d;line-height:1.5;max-width:calc(100% - 150px)}
+#bb-shurink .su-face-toggle{top:22px;right:22px}
+.su-portrait-caption{z-index:2}
+#bb-shurink .su-related>.su-container{width:min(1440px,90%)}
+#bb-shurink .su-related-grid{gap:28px}
+#bb-shurink .su-related-grid a>div{height:440px;border-radius:25px}
+#bb-shurink .su-related-grid img{inset:22px;width:calc(100% - 44px);height:calc(100% - 44px)}
+#bb-shurink .su-related-grid h3{font-size:28px!important;margin-top:26px!important}
+#bb-shurink .su-related-grid p{font-size:18px;line-height:1.8}
+@media(max-width:1100px){
+ #bb-shurink .su-mode-cards{gap:20px}
+ #bb-shurink .su-mode-cards article{padding:23px}
+ #bb-shurink .su-mode-cards article>p{font-size:17px}
+ .su-mode-visual-label{font-size:11px;top:15px;left:14px;max-width:47%}
+ #bb-shurink .su-motion-toggle{font-size:11px;padding:7px 10px;right:10px;top:9px}
+ #bb-shurink .su-related-grid{gap:22px}
+ #bb-shurink .su-related-grid a>div{height:350px}
+ #bb-shurink .su-related-grid h3{font-size:25px!important}
+ .su-face-region-label{top:20px;left:18px;padding:9px 12px;font-size:12px;max-width:calc(100% - 130px)}
+ #bb-shurink .su-face-toggle{top:19px;right:14px}
+}
+@media(max-width:760px){
+ #bb-shurink .su-modes{padding-block:70px}
+ #bb-shurink .su-mode-copy{display:block;margin-bottom:30px}
+ #bb-shurink .su-mode-copy .su-display{margin-bottom:30px!important}
+ #bb-shurink .su-mode-cards{grid-template-columns:1fr;gap:24px}
+ #bb-shurink .su-mode-cards article{padding:24px}
+ #bb-shurink .su-mode-cards h3{font-size:27px}
+ #bb-shurink .su-mode-cards article>p{font-size:17px;margin-top:19px}
+ .su-mode-visual-label{max-width:50%}
+ #bb-shurink .su-mode-disclaimer{text-align:left;font-size:12px}
+ #bb-shurink .su-related-grid{grid-template-columns:1fr;gap:34px}
+ #bb-shurink .su-related-grid a>div{height:400px}
+ #bb-shurink .su-related-grid h3{font-size:28px!important;margin-top:23px!important}
+ #bb-shurink .su-related-grid p{font-size:17px}
+}
+@media(max-width:359px){
+ #bb-shurink .su-mode-cards article{padding:21px}
+ .su-mode-visual-label{font-size:10px;left:12px;top:13px}
+ #bb-shurink .su-motion-toggle{font-size:10px;padding:6px 9px;right:8px;top:7px}
+ #bb-shurink .su-related-grid a>div{height:360px}
+ .su-face-region-label{font-size:11px;left:14px;max-width:calc(100% - 118px)}
+}
