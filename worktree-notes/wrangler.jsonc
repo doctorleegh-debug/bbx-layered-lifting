@@ -1,0 +1,12 @@
+{
+  "name":"bb-worktree-confirmation-notes",
+  "main":"worker.js",
+  "account_id":"e53dad2acb2c0f4a92447dc3619c1e9e",
+  "compatibility_date":"2026-10-03",
+  "workers_dev":true,
+  "preview_urls":false,
+  "durable_objects":{"bindings":[{"name":"NOTES","class_name":"ConfirmationNotes"}]},
+  "migrations":[{"tag":"v1","new_sqlite_classes":["ConfirmationNotes"]}],
+  "vars":{"ALLOWED_ORIGIN":"https://doctorleegh-debug.github.io"},
+  "observability":{"enabled":true,"head_sampling_rate":0.1}
+}
