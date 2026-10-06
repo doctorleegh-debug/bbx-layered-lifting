@@ -45,7 +45,7 @@ fieldset{border-color:#536078}#form-error{color:#ffb0c0}
 .undo-bar{position:fixed;bottom:20px;right:4vw;z-index:20}.undo-bar button{background:#edacc5;color:#231b24;border-color:#edacc5;box-shadow:0 4px 24px #0007;display:flex;gap:10px;align-items:center;font-size:14px;font-weight:700}.undo-bar button:hover{background:#f6c8da}.undo-bar button:disabled{background:#263143;color:#c1cada;opacity:1;border-color:#64728a}.undo-bar kbd{font:inherit;font-size:11px;padding:3px 6px;border:1px solid currentColor;border-radius:4px}.undo-bar #undo-count:empty{display:none}.undo-bar #undo-count{font-size:11px}main{padding-bottom:125px}@media(max-width:650px){.undo-bar{bottom:14px;right:17px}.undo-bar button{font-size:13px}}
 
 /* Confirmations are distinct from planned work and language review. */
-:root{--confirmation:#75d8d0}
+:root{--confirmation:#ffd84d}
 .group[data-key=confirmation]{--color:var(--confirmation)}
 </style><style id="cardnews-resource-style">/* Separate card-news resource section; treatment filters and saved state are unchanged. */
 .cardnews-resource{margin:26px 0 32px;padding:26px 28px;border:1px solid #68506a;border-radius:18px;background:#211e2a;display:flex;align-items:center;justify-content:space-between;gap:24px}
@@ -87,8 +87,8 @@ fieldset{border-color:#536078}#form-error{color:#ffb0c0}
 @media(max-width:1100px){.resource-workspace{grid-template-columns:minmax(0,1fr) 260px;gap:18px}.resource-workspace .cardnews-checks{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:800px){.resource-workspace{grid-template-columns:minmax(0,1fr)}.resource-archive{position:static}.resource-actions{margin:0}.resource-active .cardnews-resource{padding:20px}.resource-workspace .cardnews-checks{grid-template-columns:repeat(2,minmax(0,1fr))}.resource-active .cardnews-resource .resource-actions>a{width:auto;flex:1}.resource-actions{width:100%}.resource-finish{flex:0 0 auto}.resource-archive ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:22px}}
 @media(max-width:420px){.resource-archive ul{grid-template-columns:minmax(0,1fr)}.resource-actions{gap:8px}.resource-active .cardnews-resource .resource-actions>a{padding:10px 12px;font-size:13px}.resource-finish{padding:10px;font-size:12px}}
-</style><style id="confirmation-notes-style">.group[data-key=confirmation]{margin-top:70px;padding-top:34px;border-top:2px solid #527a75;scroll-margin-top:24px}
-.group[data-key=confirmation]>.group-heading{font-size:27px;color:#b0f0e2}
+</style><style id="confirmation-notes-style">.group[data-key=confirmation]{margin-top:70px;padding-top:34px;border-top:2px solid #a98b32;scroll-margin-top:24px}
+.group[data-key=confirmation]>.group-heading{font-size:27px;color:var(--confirmation)}
 .group[data-key=confirmation]>.nodes{grid-template-columns:repeat(2,minmax(0,1fr))}
 .confirmation-help{font-size:14px;color:#c1d3d5;line-height:1.8;margin:-6px 0 24px}
 .review-note{margin-top:24px;padding-top:22px;border-top:1px solid #42545b;min-width:0}
@@ -109,6 +109,11 @@ fieldset{border-color:#536078}#form-error{color:#ffb0c0}
 .review-conflict pre{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;max-height:160px;overflow:auto}
 .review-conflict button{background:#4d3343;color:#ffe3ed;border-color:#99667d;font-size:13px;min-height:44px}
 @media(max-width:800px){.group[data-key=confirmation]>.nodes{grid-template-columns:1fr}.group[data-key=confirmation]{margin-top:44px}.group[data-key=confirmation]>.group-heading{font-size:23px}.review-note-actions button{flex:1;padding-inline:14px}}
+
+/* Yellow marks pending confirmation throughout this category. */
+.group[data-key=confirmation]>.nodes>.node{border-color:var(--confirmation);box-shadow:0 0 0 1px #ffd84d1f,0 8px 24px #0003}
+.group[data-key=confirmation] .status{background:var(--confirmation);color:#332900;padding:6px 10px;border-radius:20px}
+.group[data-key=confirmation] .status .dot{background:currentColor}
 </style></head>
 <body><header><div class="brand"><span class="brand-icon" aria-hidden="true">✳</span><span>Beauty Blossom <small>홈페이지 작업실</small></span></div><div class="header-actions"><button id="export">백업 내보내기</button><label class="file-button">백업 가져오기<input id="import" type="file" accept="application/json,.json"></label><button id="add" class="primary">+ 시술 추가</button></div></header>
 <main><div class="intro"><div><p class="subtitle">문구 검토부터 국가별 업로드까지</p><h1>워크트리<span>.</span></h1><p>시술을 찾고, 시트를 열고, 끝낸 국가를 체크하세요.</p></div><div class="save-info"><span id="save-state" role="status" aria-live="polite">불러오는 중</span><span id="shared-state" role="status" aria-live="polite">체크 팀 저장 연결 중…</span><small>국가별 완료 체크는 팀 공용 · 메모·링크는 이 브라우저에 보관</small></div></div>
@@ -755,18 +760,18 @@ function persist(){try{localStorage.setItem(KEY,JSON.stringify(drafts));return t
 function valid(n){return n&&typeof n.text==='string'&&n.text.length<=4000&&typeof n.author==='string'&&n.author.length<=60&&Number.isSafeInteger(n.rev)&&n.rev>=0&&typeof n.at==='string'}
 function blank(id){return{id,text:'',author:'',rev:0,at:''}}
 function message(m,text,failed=false){m.status.textContent=text+(warning?' '+warning:'');m.status.classList.toggle('failed',failed)}
-function recordDraft(m){drafts[m.id]={text:m.text.value,author:m.author.value,rev:m.baseRev,requestId:m.requestId||null};persist()}
+function recordDraft(m){drafts[m.id]={text:m.text.value,rev:m.baseRev,requestId:m.requestId||null};persist()}
 function paint(m){
- m.author.readOnly=m.text.readOnly=!m.editing||m.busy;
+ m.text.readOnly=!m.editing||m.busy;
  m.save.disabled=!loaded||!m.editing||m.busy||!!m.conflict;
  m.edit.disabled=!loaded||m.editing||m.busy;
  m.save.textContent=m.busy?'저장 중…':'저장하기';
- m.meta.textContent=m.note.rev?`${m.note.author||'담당자'} · ${new Date(m.note.at).toLocaleString('ko-KR')} 저장`:'아직 저장된 수정 요청이 없습니다.';
+ m.meta.textContent=m.note.rev?`${new Date(m.note.at).toLocaleString('ko-KR')} 저장`:'아직 저장된 수정 요청이 없습니다.';
 }
 function adopt(m,n){
  if(!valid(n)||n.rev<m.note.rev)return;
  m.note=n;
- if(!m.editing){m.text.value=n.text;m.author.value=n.author;m.baseRev=n.rev;message(m,n.rev?'팀 공유 메모가 저장되어 있어요.':'수정 요청을 입력한 뒤 저장해 주세요.');}
+ if(!m.editing){m.text.value=n.text;m.baseRev=n.rev;message(m,n.rev?'팀 공유 메모가 저장되어 있어요.':'수정 요청을 입력한 뒤 저장해 주세요.');}
  paint(m);
 }
 async function request(method,body){
@@ -776,18 +781,18 @@ async function request(method,body){
 function conflict(m,n){
  m.conflict=n;m.conflictBox.replaceChildren();m.conflictBox.hidden=false;
  m.conflictBox.append(el('strong','다른 담당자가 먼저 저장한 내용'),el('pre',n.text));
- const button=el('button','최신 메모 불러오기');button.type='button';button.onclick=()=>{m.text.value=n.text;m.author.value=n.author;m.baseRev=n.rev;m.conflict=null;m.conflictBox.hidden=true;m.requestId=null;recordDraft(m);paint(m);message(m,'최신 내용을 불러왔어요. 필요한 부분을 수정한 뒤 저장해 주세요.');m.text.focus()};m.conflictBox.append(button);
+ const button=el('button','최신 메모 불러오기');button.type='button';button.onclick=()=>{m.text.value=n.text;m.baseRev=n.rev;m.conflict=null;m.conflictBox.hidden=true;m.requestId=null;recordDraft(m);paint(m);message(m,'최신 내용을 불러왔어요. 필요한 부분을 수정한 뒤 저장해 주세요.');m.text.focus()};m.conflictBox.append(button);
  message(m,'다른 담당자가 수정했어요. 작성 중인 내용은 유지했고, 덮어쓰지 않았어요.',true);paint(m);
 }
 async function save(m){
  if(m.busy||m.conflict||!loaded)return;
  if(!m.text.value.trim()){message(m,'수정할 사항을 입력해 주세요.',true);m.text.focus();return}
  m.busy=true;m.requestId=m.requestId||crypto.randomUUID();recordDraft(m);paint(m);message(m,'공유 저장소에 저장 중이에요.');
- const body={id:m.id,text:m.text.value,author:m.author.value,rev:m.baseRev,requestId:m.requestId};
+ const body={id:m.id,text:m.text.value,author:'',rev:m.baseRev,requestId:m.requestId};
  try{const r=await request('POST',body);
   if(r.status===409&&valid(r.data.note)){m.note=r.data.note;conflict(m,r.data.note);return}
   if(!r.ok||!valid(r.data.note))throw Error('server');
-  m.editing=false;m.note=r.data.note;m.baseRev=m.note.rev;m.text.value=m.note.text;m.author.value=m.note.author;m.requestId=null;delete drafts[m.id];persist();message(m,'저장 완료 · 다른 PC에서도 확인할 수 있어요.');
+  m.editing=false;m.note=r.data.note;m.baseRev=m.note.rev;m.text.value=m.note.text;m.requestId=null;delete drafts[m.id];persist();message(m,'저장 완료 · 다른 PC에서도 확인할 수 있어요.');
  }catch{message(m,'저장하지 못했어요. 입력은 유지했으니 연결 후 저장하기를 다시 눌러 주세요.',true)}
  finally{m.busy=false;paint(m)}
 }
@@ -795,11 +800,11 @@ function create(id){
  const m={id,note:blank(id),editing:true,baseRev:0,busy:false,requestId:null,conflict:null};
  m.panel=el('div',undefined,'review-note');m.panel.dataset.reviewNote=id;
  m.panel.append(el('h4','수정 요청 메모'));m.meta=el('p','공유 메모를 불러오는 중…','review-meta');m.panel.append(m.meta);
- const al=el('label','담당자 (선택)'),tl=el('label','수정할 사항');m.author=el('input');m.author.type='text';m.author.maxLength=60;m.author.autocomplete='name';m.author.id='review-author-'+id;al.htmlFor=m.author.id;m.text=el('textarea');m.text.maxLength=4000;m.text.rows=6;m.text.id='review-text-'+id;tl.htmlFor=m.text.id;m.text.placeholder='예: 첫 번째 제목을 더 크게, 모바일 이미지 여백 조정';
- const actions=el('div',undefined,'review-note-actions');m.save=el('button','저장하기','review-save');m.edit=el('button','수정하기','review-edit');m.save.type=m.edit.type='button';actions.append(m.save,m.edit);m.status=el('p','공유 저장소에 연결 중이에요.');m.status.setAttribute('role','status');m.conflictBox=el('div',undefined,'review-conflict');m.conflictBox.hidden=true;m.panel.append(al,m.author,tl,m.text,actions,m.status,m.conflictBox);
- const d=drafts[id];if(d&&typeof d.text==='string'&&d.text.length<=4000&&typeof d.author==='string'&&d.author.length<=60&&Number.isSafeInteger(d.rev)&&d.rev>=0){m.text.value=d.text;m.author.value=d.author;m.baseRev=d.rev;m.requestId=typeof d.requestId==='string'?d.requestId:null;m.restored=true}
+ const tl=el('label','수정할 사항');m.text=el('textarea');m.text.maxLength=4000;m.text.rows=6;m.text.id='review-text-'+id;tl.htmlFor=m.text.id;m.text.placeholder='예: 첫 번째 제목을 더 크게, 모바일 이미지 여백 조정';
+ const actions=el('div',undefined,'review-note-actions');m.save=el('button','저장하기','review-save');m.edit=el('button','수정하기','review-edit');m.save.type=m.edit.type='button';actions.append(m.save,m.edit);m.status=el('p','공유 저장소에 연결 중이에요.');m.status.setAttribute('role','status');m.conflictBox=el('div',undefined,'review-conflict');m.conflictBox.hidden=true;m.panel.append(tl,m.text,actions,m.status,m.conflictBox);
+ const d=drafts[id];if(d&&typeof d.text==='string'&&d.text.length<=4000&&Number.isSafeInteger(d.rev)&&d.rev>=0){m.text.value=d.text;m.baseRev=d.rev;m.requestId=typeof d.requestId==='string'?d.requestId:null;m.restored=true}
  m.save.onclick=()=>save(m);m.edit.onclick=()=>{m.editing=true;m.baseRev=m.note.rev;m.requestId=null;recordDraft(m);paint(m);message(m,'수정 후 저장하기를 눌러 주세요.');m.text.focus()};
- for(const input of [m.author,m.text])input.addEventListener('input',()=>{m.requestId=null;recordDraft(m);message(m,'작성 중 · 저장하기를 누르면 팀에 공유됩니다.')});
+ m.text.addEventListener('input',()=>{m.requestId=null;recordDraft(m);message(m,'작성 중 · 저장하기를 누르면 팀에 공유됩니다.')});
  models.set(id,m);paint(m);return m;
 }
 function attach(){
@@ -815,14 +820,14 @@ async function refresh(){
   for(const m of models.values()){
    if(m.busy)continue;
    const n=r.data.notes[m.id]||blank(m.id);if(!valid(n))throw Error('note');
-   if(!m.initialized){m.initialized=true;if(m.restored){m.note=n;if(m.requestId&&n.requestId===m.requestId&&n.text===m.text.value.trim()&&n.author===m.author.value.trim()){m.editing=false;delete drafts[m.id];persist();adopt(m,n);message(m,'저장 완료 · 공유 저장을 다시 확인했어요.')}else if(n.rev!==m.baseRev)conflict(m,n);else message(m,'임시 입력을 복구했어요. 저장하기를 눌러 공유해 주세요.')}
+   if(!m.initialized){m.initialized=true;if(m.restored){m.note=n;if(m.requestId&&n.requestId===m.requestId&&n.text===m.text.value.trim()){m.editing=false;delete drafts[m.id];persist();adopt(m,n);message(m,'저장 완료 · 공유 저장을 다시 확인했어요.')}else if(n.rev!==m.baseRev)conflict(m,n);else message(m,'임시 입력을 복구했어요. 저장하기를 눌러 공유해 주세요.')}
     else{m.editing=n.rev===0;adopt(m,n);if(m.editing){m.baseRev=n.rev;message(m,'수정 요청을 입력한 뒤 저장해 주세요.')}}}
-   else if(m.editing&&n.rev>m.baseRev){if(m.requestId&&n.requestId===m.requestId&&n.text===m.text.value.trim()&&n.author===m.author.value.trim()){m.editing=false;delete drafts[m.id];persist();adopt(m,n);message(m,'저장 완료 · 공유 저장을 다시 확인했어요.')}else if(!m.conflict||n.rev>m.conflict.rev){m.note=n;conflict(m,n)}}
+   else if(m.editing&&n.rev>m.baseRev){if(m.requestId&&n.requestId===m.requestId&&n.text===m.text.value.trim()){m.editing=false;delete drafts[m.id];persist();adopt(m,n);message(m,'저장 완료 · 공유 저장을 다시 확인했어요.')}else if(!m.conflict||n.rev>m.conflict.rev){m.note=n;conflict(m,n)}}
    else adopt(m,n);paint(m);
   }
  }catch{for(const m of models.values())if(!m.busy)message(m,'공유 메모 연결을 확인해 주세요. 기존 내용과 입력은 유지됩니다.',true)}finally{polling=false}
 }
-window.BBReviewNotes={beforeRender(){const input=document.activeElement,panel=input?.closest('.review-note');focused=panel&&['INPUT','TEXTAREA'].includes(input.tagName)?{id:panel.dataset.reviewNote,field:input.tagName==='TEXTAREA'?'text':'author',start:input.selectionStart,end:input.selectionEnd}:null},afterRender(){attach();if([...models.values()].some(m=>!m.initialized))void refresh()}};
+window.BBReviewNotes={beforeRender(){const input=document.activeElement,panel=input?.closest('.review-note');focused=panel&&input.tagName==='TEXTAREA'?{id:panel.dataset.reviewNote,field:'text',start:input.selectionStart,end:input.selectionEnd}:null},afterRender(){attach();if([...models.values()].some(m=>!m.initialized))void refresh()}};
 attach();void refresh();setInterval(refresh,5000);window.addEventListener('online',refresh);window.addEventListener('focus',refresh);document.addEventListener('visibilitychange',refresh);
 })();
 </script></body></html>
