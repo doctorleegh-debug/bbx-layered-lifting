@@ -77,7 +77,7 @@
 
 @keyframes vn-glow-visible{0%,100%{opacity:.62}50%{opacity:1}}
 @keyframes vn-heat-visible{0%,100%{transform:scale(.94);opacity:.67}50%{transform:scale(1.08);opacity:.95}}
-@media(prefers-reduced-motion:reduce){.vn-thermal-flow path,.vn-cool-flow ellipse,.vn-warmth ellipse,.vn-face-light ellipse,.vn-thermal-flow{opacity:.7}}
+@media(prefers-reduced-motion:reduce){.vn-thermal-flow path,.vn-cool-flow ellipse,.vn-warmth ellipse{animation:none!important}.vn-thermal-flow{opacity:.7}}
 
 /* Face-surface light mesh: fixed photo geometry, travelling highlights only. */
 .vn-face-light .vn-mesh-halo{fill:none;stroke:#ffdeb3;stroke-width:8;opacity:.18;filter:url(#vn-mesh-halo)}
