@@ -1,0 +1,39 @@
+/* R05: one coordinate space for handpiece, contact plane and moving focus. */
+#bb-shurink .su-tissue .su-handpiece{filter:drop-shadow(0 5px 5px #6753540a)}
+#bb-shurink .su-focus-point{animation:su-depth-light 2.8s ease-in-out infinite;transform:none}
+#bb-shurink .su-contact-light{animation:su-depth-light 2.8s ease-in-out infinite}
+#bb-shurink .su-tissue[data-motion=paused] .su-contact-light{animation-play-state:paused}
+#bb-shurink .su-depth-panel:not([hidden]){animation:su-depth-reveal .6s ease both}
+@keyframes su-depth-light{0%,100%{opacity:.72}50%{opacity:1}}
+@keyframes su-depth-reveal{from{opacity:.3;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+#bb-shurink .su-official{padding:100px 0 110px;background:#fff8f6}
+#bb-shurink .su-official .su-heading{align-items:end;margin-bottom:42px}
+#bb-shurink .su-official .su-display{font-size:clamp(44px,5vw,82px)!important;line-height:1.03}
+#bb-shurink .su-official .su-heading>p{font-size:16px;white-space:nowrap}
+#bb-shurink .su-official-player{position:relative;isolation:isolate;aspect-ratio:16/9;border-radius:26px;overflow:hidden;background:#eed6dd}
+#bb-shurink .su-official-video,#bb-shurink .su-official-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+#bb-shurink .su-official-poster{opacity:1;transition:opacity .5s;pointer-events:none}
+#bb-shurink .su-official-player[data-ready=true] .su-official-poster{opacity:0}
+#bb-shurink .su-official-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:68px;height:68px;min-height:44px;border:1px solid #ffffffaa;background:#ffffffed;color:#69454f;border-radius:50%;display:grid;place-items:center;box-shadow:0 5px 25px #42283220;cursor:pointer}
+#bb-shurink .su-official-play svg{width:21px;height:21px;margin-left:4px}
+#bb-shurink .su-official-bar{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:18px;font-size:13px;color:#82606c}
+#bb-shurink .su-official-bar p{margin:0!important}
+#bb-shurink .su-official-sound{display:flex;align-items:center;gap:8px;padding:10px 15px;min-height:44px;background:#fff;border:1px solid #e6c9d1;border-radius:30px;color:#69454f;font:inherit;cursor:pointer;white-space:nowrap}
+#bb-shurink .su-official-sound svg{width:17px;height:17px}
+#bb-shurink .su-official-error{margin-top:14px;font-size:14px}
+#bb-shurink .su-official-error a{text-decoration:underline;color:#965068}
+#bb-shurink .su-official button:focus-visible{outline:3px solid #a84465;outline-offset:3px}
+#bb-shurink .su-official [hidden]{display:none!important}
+@media(max-width:700px){
+ #bb-shurink .su-official{padding:65px 0}
+ #bb-shurink .su-official .su-heading{margin-bottom:26px}
+ #bb-shurink .su-official .su-heading>p{margin-top:20px!important;font-size:13px}
+ #bb-shurink .su-official .su-display{font-size:45px!important}
+ #bb-shurink .su-official-player{border-radius:16px}
+ #bb-shurink .su-official-bar{gap:12px;font-size:11px;align-items:start}
+ #bb-shurink .su-official-play{width:52px;height:52px}
+}
+@media(prefers-reduced-motion:reduce){
+ #bb-shurink .su-contact-light,#bb-shurink .su-depth-panel:not([hidden]),#bb-shurink .su-focus-point{animation:none}
+ #bb-shurink .su-official-poster{transition:none}
+}

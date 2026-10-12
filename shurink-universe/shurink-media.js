@@ -1,0 +1,26 @@
+(()=>{'use strict';
+const section=document.querySelector('.su-official');if(!section)return;
+const player=section.querySelector('.su-official-player'),video=section.querySelector('video'),play=section.querySelector('.su-official-play'),sound=section.querySelector('.su-official-sound'),error=section.querySelector('.su-official-error');
+const reduced=matchMedia('(prefers-reduced-motion:reduce)'),connection=navigator.connection;
+let visible=false,pending=false,blocked=false,userStarted=false,leaving=false;
+function muted(value){video.muted=value;sound.setAttribute('aria-pressed',String(!value));sound.querySelector('span').textContent=value?'소리 켜기':'소리 끄기';}
+function permitted(){return visible&&!document.hidden&&!leaving&&(userStarted||(!reduced.matches&&!connection?.saveData));}
+function fail(){blocked=true;player.dataset.ready='false';play.hidden=true;sound.hidden=true;error.hidden=false;}
+function sync(){
+ if(!permitted()){video.pause();if(!visible||document.hidden||leaving)muted(true);play.hidden=!error.hidden;return;}
+ if(blocked||pending||!video.paused)return;
+ if(!video.getAttribute('src')){video.src=video.dataset.src;video.load();}
+ pending=true;
+ video.play().then(()=>{if(!permitted())video.pause();}).catch(e=>{if(e.name!=='AbortError'){if(video.error)fail();else{blocked=true;play.hidden=false;}}}).finally(()=>{pending=false;});
+}
+video.addEventListener('playing',()=>{if(!permitted()){video.pause();return;}player.dataset.ready='true';play.hidden=true;});
+video.addEventListener('error',()=>{if(video.getAttribute('src'))fail();});
+play.addEventListener('click',()=>{userStarted=true;blocked=false;sync();});
+sound.addEventListener('click',()=>{muted(!video.muted);userStarted=true;blocked=false;sync();});
+if('IntersectionObserver'in window)new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync();},{threshold:.2}).observe(player);else visible=true;
+document.addEventListener('visibilitychange',sync);
+function preference(){userStarted=false;sync();}
+reduced.addEventListener('change',preference);connection?.addEventListener?.('change',preference);
+window.addEventListener('pagehide',()=>{leaving=true;sync();});window.addEventListener('pageshow',()=>{leaving=false;sync();});
+muted(true);sync();
+})();
