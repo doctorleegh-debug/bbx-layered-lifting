@@ -3,7 +3,7 @@
   'use strict';
   const root = document.getElementById('bb-shurink');
   if (!root || root.dataset.motionRevision) return;
-  root.dataset.motionRevision = 'r07';
+  root.dataset.motionRevision = 'r08';
   const reduce = matchMedia('(prefers-reduced-motion:reduce)');
   const connection = navigator.connection;
   const scenes = [];
@@ -101,13 +101,14 @@
       <radialGradient id="su-face-pin"><stop stop-color="#fffef4"/><stop offset=".25" stop-color="#fff3cc" stop-opacity=".75"/><stop offset="1" stop-color="#ffe9c5" stop-opacity="0"/></radialGradient>
       <linearGradient id="su-mesh-sweep" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="170" y2="0"><stop stop-color="#fff5d1" stop-opacity="0"/><stop offset=".48" stop-color="#fffef6"/><stop offset=".6" stop-color="#fff4cd" stop-opacity=".95"/><stop offset="1" stop-color="#fff3c8" stop-opacity="0"/></linearGradient>
     </defs>`;
+    // R08: coordinates measured on the new 1086 x 1448 front-facing tied-hair portrait.
+    // Cheeks stay below the lower eyelids, outside the nose, and above mouth corners.
     const patches = {
-      cheekL: {corners:[[376,467],[502,455],[524,567],[417,589]],bow:[-8,-10]},
-      cheekR: {corners:[[656,432],[691,443],[709,523],[666,533]],bow:[5,-6],columns:3},
-      jaw: {rails:[[[402,553],[424,600],[463,642],[508,668],[552,684],[590,684],[630,671],[661,642],[685,602],[710,555]],[[388,568],[410,625],[452,674],[504,704],[553,715],[601,710],[646,688],[680,653],[704,610],[724,562]]],columns:21,rows:3},
-      chin: {corners:[[490,671],[609,677],[612,697],[512,706]],bow:[0,4],rows:3}
+      cheekL: {corners:[[355,469],[454,476],[472,583],[385,601]],bow:[-5,6]},
+      cheekR: {corners:[[646,476],[736,469],[708,601],[626,583]],bow:[5,6]},
+      jaw: {rails:[[[372,550],[387,593],[416,635],[454,672],[499,694],[548,704],[594,695],[634,674],[669,638],[695,597],[711,550]],[[357,559],[371,607],[398,654],[441,698],[492,724],[548,734],[602,724],[647,698],[687,657],[711,609],[727,559]]],columns:24,rows:3}
     };
-    const regions={firm:['cheekL','cheekR'],line:['jaw'],balance:['cheekL','cheekR','chin']};
+    const regions={firm:['cheekL','cheekR'],line:['jaw'],balance:['cheekL','cheekR','jaw']};
     const railPoint=(points,u)=>{
       const q=u*(points.length-1),i=Math.min(points.length-2,Math.floor(q)),t=q-i;
       const a=points[Math.max(0,i-1)],b=points[i],c=points[i+1],d=points[Math.min(points.length-1,i+2)];

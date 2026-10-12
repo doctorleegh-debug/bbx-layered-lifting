@@ -26,3 +26,5 @@
 @media(max-width:700px){#bb-shurink .su-official{padding:0 0 45px}#bb-shurink .su-official-player{border-radius:16px}#bb-shurink .su-official-play{width:52px;height:52px}}
 @media(prefers-reduced-motion:reduce){#bb-shurink .su-contact-light,#bb-shurink .su-depth-panel:not([hidden]),#bb-shurink .su-focus-point{animation:none}#bb-shurink .su-official-poster,#bb-shurink .su-handpiece{transition:none}}
 @media(max-width:700px){#bb-shurink .su-screen{height:400px}}
+/* Keep the front portrait's chin clear of the caption on narrow phones. */
+@media(max-width:359px){#bb-shurink .su-portrait{height:620px}}
