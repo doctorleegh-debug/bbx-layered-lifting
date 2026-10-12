@@ -3,7 +3,7 @@
   'use strict';
   const root = document.getElementById('bb-shurink');
   if (!root || root.dataset.motionRevision) return;
-  root.dataset.motionRevision = 'r04';
+  root.dataset.motionRevision = 'r06';
   const reduce = matchMedia('(prefers-reduced-motion:reduce)');
   const connection = navigator.connection;
   const scenes = [];
@@ -90,11 +90,17 @@
     const patches = {
       cheekL: {corners:[[376,467],[502,455],[524,567],[417,589]],bow:[-8,-10]},
       cheekR: {corners:[[656,432],[691,443],[709,523],[666,533]],bow:[5,-6],columns:3},
-      jaw: {curves:[[[424,580],[537,765],[671,584]],[[400,589],[542,827],[693,608]]],columns:17,rows:3},
+      jaw: {rails:[[[402,553],[424,600],[463,642],[508,668],[552,684],[590,684],[630,671],[661,642],[685,602],[710,555]],[[388,568],[410,625],[452,674],[504,704],[553,715],[601,710],[646,688],[680,653],[704,610],[724,562]]],columns:21,rows:3},
       chin: {corners:[[490,671],[609,677],[612,697],[512,706]],bow:[0,4],rows:3}
     };
     const regions={firm:['cheekL','cheekR'],line:['jaw'],balance:['cheekL','cheekR','chin']};
+    const railPoint=(points,u)=>{
+      const q=u*(points.length-1),i=Math.min(points.length-2,Math.floor(q)),t=q-i;
+      const a=points[Math.max(0,i-1)],b=points[i],c=points[i+1],d=points[Math.min(points.length-1,i+2)];
+      return [0,1].map(k=>.5*((2*b[k])+(-a[k]+c[k])*t+(2*a[k]-5*b[k]+4*c[k]-d[k])*t*t+(-a[k]+3*b[k]-3*c[k]+d[k])*t*t*t));
+    };
     const meshPoint=(spec,u,v)=>{
+      if(spec.rails){const a=railPoint(spec.rails[0],u),b=railPoint(spec.rails[1],u);return [0,1].map(k=>a[k]*(1-v)+b[k]*v)}
       if(spec.curves){const points=spec.curves.map(([a,b,c])=>[0,1].map(i=>(1-u)**2*a[i]+2*(1-u)*u*b[i]+u*u*c[i]));return [0,1].map(i=>points[0][i]*(1-v)+points[1][i]*v)}
       const [a,b,c,d]=spec.corners,w=Math.sin(Math.PI*u)*Math.sin(Math.PI*v);
       return [0,1].map(i=>(1-v)*((1-u)*a[i]+u*b[i])+v*((1-u)*d[i]+u*c[i])+spec.bow[i]*w);
@@ -110,7 +116,7 @@
             d+=(step?'L':'M')+x.toFixed(2)+' '+y.toFixed(2)+' ';
           }
         }
-        group.append(svgElement('path',{d,fill:'none',stroke:'#fff0bb','stroke-width':5,opacity:.10}),svgElement('path',{d,fill:'none',stroke:'#fff5d2','stroke-width':1.8,opacity:.44}),svgElement('path',{d,fill:'none',stroke:'url(#su-mesh-sweep)','stroke-width':2.5,opacity:.8}));
+        group.append(svgElement('path',{d,'data-face-patch':name,fill:'none',stroke:'#fff0bb','stroke-width':5,opacity:.10}),svgElement('path',{d,'data-face-patch':name,fill:'none',stroke:'#fff5d2','stroke-width':1.8,opacity:.44}),svgElement('path',{d,'data-face-patch':name,fill:'none',stroke:'url(#su-mesh-sweep)','stroke-width':2.5,opacity:.8}));
         for(const [u,v] of [[2/7,2/7],[4/7,5/7],[6/7,3/7]]){
           const [x,y]=meshPoint(spec,u,v),spark=svgElement('g',{transform:`translate(${x} ${y})`});
           spark.append(svgElement('circle',{r:16,fill:'url(#su-face-pin)'}),svgElement('path',{d:'M-7 0Q0-1 0-8Q1 0 7 0Q0 1 0 8Q-1 0-7 0',fill:'#fffef4'}));
