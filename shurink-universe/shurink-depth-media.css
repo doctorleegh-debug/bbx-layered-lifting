@@ -1,4 +1,6 @@
-/* R06: registered depth-specific handpieces and silent film. */
+/* R07: larger device, 1.3 second depth cycle, manufacturer-based TCP patterns. */
+#bb-shurink .su-screen{height:460px;padding:0;overflow:hidden}
+#bb-shurink .su-screen img{transform:scale(1.09)}
 #bb-shurink .su-tissue .su-handpiece{opacity:0;transition:opacity .45s ease;filter:drop-shadow(0 5px 5px #6753540a)}
 #bb-shurink .su-tissue[data-depth="1.5"] .su-handpiece[data-handpiece-depth="1.5"],
 #bb-shurink .su-tissue[data-depth="2.0"] .su-handpiece[data-handpiece-depth="2.0"],
@@ -7,7 +9,7 @@
 #bb-shurink .su-focus-point{animation:su-depth-light 2.8s ease-in-out infinite;transform:none}
 #bb-shurink .su-contact-light{animation:su-depth-light 2.8s ease-in-out infinite}
 #bb-shurink .su-tissue[data-motion=paused] .su-contact-light{animation-play-state:paused}
-#bb-shurink .su-depth-panel:not([hidden]){animation:su-depth-reveal .6s ease both}
+#bb-shurink .su-depth-panel:not([hidden]){animation:su-depth-reveal .35s ease both}
 @keyframes su-depth-light{0%,100%{opacity:.72}50%{opacity:1}}
 @keyframes su-depth-reveal{from{opacity:.3;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 #bb-shurink .su-official{padding:20px 0 70px;background:#fff}
@@ -23,3 +25,4 @@
 #bb-shurink .su-official [hidden]{display:none!important}
 @media(max-width:700px){#bb-shurink .su-official{padding:0 0 45px}#bb-shurink .su-official-player{border-radius:16px}#bb-shurink .su-official-play{width:52px;height:52px}}
 @media(prefers-reduced-motion:reduce){#bb-shurink .su-contact-light,#bb-shurink .su-depth-panel:not([hidden]),#bb-shurink .su-focus-point{animation:none}#bb-shurink .su-official-poster,#bb-shurink .su-handpiece{transition:none}}
+@media(max-width:700px){#bb-shurink .su-screen{height:400px}}

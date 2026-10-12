@@ -3,7 +3,7 @@
   'use strict';
   const root = document.getElementById('bb-shurink');
   if (!root || root.dataset.motionRevision) return;
-  root.dataset.motionRevision = 'r06';
+  root.dataset.motionRevision = 'r07';
   const reduce = matchMedia('(prefers-reduced-motion:reduce)');
   const connection = navigator.connection;
   const scenes = [];
@@ -20,56 +20,70 @@
     const s = {el, draw, visible: false, time: 2.8};
     scenes.push(s); draw(s.time); return s;
   }
-  for (const [index, row] of [...root.querySelectorAll('.su-dot-row,.su-mp-row')].entries()) {
+  // CLASSYS ULTRA F comparison: separated Dot TCPs versus closely connected MP TCPs.
+  // Shared illustration timing makes the spatial pattern, not scan speed, the comparison.
+  for (const row of root.querySelectorAll('.su-dot-row,.su-mp-row')) {
     const mp = row.classList.contains('su-mp-row'), prefix = 'su-mode-' + (mp ? 'mp' : 'dot');
     const figure = document.createElement('figure');
     figure.className = 'su-mode-visual'; figure.dataset.energyMode = mp ? 'mp' : 'dot';
-    figure.setAttribute('aria-label', mp ? 'MP 모드: 피부 단면 안에서 촘촘한 초점으로 이동하는 초음파 펄스 모식도' : '일반 Dot 모드: 피부 단면 안에서 순서대로 형성되는 점 형태 초점 모식도');
+    figure.setAttribute('aria-label', mp ? 'MP 모드: 미세한 초점이 촘촘히 이어지는 열 응고 영역 모식도' : '일반 Dot 모드: 간격을 두고 형성되는 점형 열 응고 영역 모식도');
     const svg = svgElement('svg', {viewBox: '0 0 1536 1024', 'aria-hidden': 'true'});
+    const start = 247, end = 1289, count = mp ? 81 : 7, spacing = (end - start) / (count - 1);
     svg.innerHTML = `<defs>
-      <linearGradient id="${prefix}-cone" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff8e9" stop-opacity=".08"/><stop offset=".75" stop-color="#ffe8a6" stop-opacity=".5"/><stop offset="1" stop-color="#fffde8" stop-opacity=".95"/></linearGradient>
-      <radialGradient id="${prefix}-halo"><stop stop-color="#fffde0" stop-opacity=".95"/><stop offset=".25" stop-color="#ffe5a7" stop-opacity=".85"/><stop offset=".62" stop-color="#f8b499" stop-opacity=".4"/><stop offset="1" stop-color="#ed9b92" stop-opacity="0"/></radialGradient>
-      <filter id="${prefix}-soft"><feGaussianBlur stdDeviation="4"/></filter>
+      <linearGradient id="${prefix}-cone" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff8e9" stop-opacity=".1"/><stop offset=".75" stop-color="#ffe8a6" stop-opacity=".45"/><stop offset="1" stop-color="#fffde8" stop-opacity=".95"/></linearGradient>
+      <radialGradient id="${prefix}-halo"><stop stop-color="#fffde0" stop-opacity=".95"/><stop offset=".3" stop-color="#ffe5a7" stop-opacity=".8"/><stop offset=".65" stop-color="#f8b499" stop-opacity=".4"/><stop offset="1" stop-color="#ed9b92" stop-opacity="0"/></radialGradient>
+      <filter id="${prefix}-soft" x="-10%" y="-100%" width="120%" height="300%"><feGaussianBlur stdDeviation="12"/></filter>
     </defs>
     <image href="assets/skin-tissue.webp" width="1536" height="1024"/>
-    <g class="su-focus-trail"></g>
-    <g class="su-scan-head"><path class="su-scan-cone" fill="url(#${prefix}-cone)" d="M-112 403 Q0 382 112 403 L0 641 Z"/>
-      <path d="M-112 403 L0 641 112 403" fill="none" stroke="#ffe8bd" stroke-opacity=".62" stroke-width="3"/>
-      <g class="su-scan-waves" fill="none" stroke="#fff9e7" stroke-width="4"></g>
-      <ellipse cy="641" rx="72" ry="81" fill="url(#${prefix}-halo)"/>
-      <ellipse class="su-energy-core" cy="641" rx="11" ry="19" fill="#fff7d8"/>
-      <ellipse cy="397" rx="107" ry="8" fill="#fff6df" opacity=".85"/>
+    <g class="su-tcp-pattern">
+      ${mp ? `<g class="su-mp-band"><rect class="su-band-glow" x="${start}" y="622" width="0" height="38" rx="19" fill="#ffd08c" filter="url(#${prefix}-soft)"/><rect class="su-band-core" x="${start}" y="636" width="0" height="10" rx="5" fill="#ffe1a1" opacity=".8"/></g>` : ''}
+      <g class="su-focus-trail"></g>
+    </g>
+    <g class="su-scan-head">
+      <path fill="url(#${prefix}-cone)" d="M-94 403 Q0 384 94 403 L0 641 Z"/>
+      <g class="su-scan-waves" fill="none" stroke="#fff9e7" stroke-width="3"></g>
+      <ellipse cy="641" rx="45" ry="57" fill="url(#${prefix}-halo)"/>
+      <ellipse cy="641" rx="${mp ? 6 : 12}" ry="${mp ? 10 : 21}" fill="#fff8dd"/>
+      <ellipse cy="397" rx="90" ry="6" fill="#fff6df" opacity=".7"/>
     </g>`;
     const trail = svg.querySelector('.su-focus-trail'), points = [];
-    const count = mp ? 18 : 7, start = 247, end = 1289;
     for (let i = 0; i < count; i++) {
-      const x = start + (end - start) * i / (count - 1);
-      const g = svgElement('g', {transform: `translate(${x} 641)`});
-      g.append(svgElement('ellipse', {rx: mp ? 30 : 47, ry: 53, fill: `url(#${prefix}-halo)`}), svgElement('ellipse', {rx: mp ? 10 : 13, ry: 20, fill: '#ffe9bb'}));
+      const x = start + spacing * i;
+      const g = svgElement('g', {transform: `translate(${x} 641)`, 'data-tcp': mp ? 'micro' : 'dot'});
+      g.append(svgElement('ellipse', {rx: mp ? 17 : 45, ry: mp ? 34 : 61, fill: `url(#${prefix}-halo)`}), svgElement('ellipse', {rx: mp ? 7.5 : 15, ry: mp ? 12 : 24, fill: '#fff0c2'}));
       trail.append(g); points.push({g, x});
     }
     const head = svg.querySelector('.su-scan-head'), waves = svg.querySelector('.su-scan-waves'), paths = [];
     for (let i = 0; i < 3; i++) {const p = svgElement('path', {}); waves.append(p); paths.push(p);}
     figure.append(svg);
-    const label = document.createElement('span'); label.className = 'su-mode-visual-label'; label.textContent = '집속 초음파 · 에너지 전달'; figure.append(label);
+    const label = document.createElement('span'); label.className = 'su-mode-visual-label';
+    label.textContent = mp ? '촘촘히 이어지는 열 응고 영역' : '간격을 둔 점형 초점'; figure.append(label);
     row.replaceWith(figure);
+    const pattern = svg.querySelector('.su-tcp-pattern'), bands = [...svg.querySelectorAll('.su-mp-band rect')];
     register(figure, t => {
-      // Eight-second illustration; timings and spacing are not device specifications.
-      const phase = (t % 8) / 8, progress = clamp((phase - .07) / .79);
-      const travel = progress * (count - 1), step = Math.floor(travel), fraction = travel - step;
-      const scan = mp ? travel : step + ease(clamp((fraction - .7) / .3));
-      const x = start + (end - start) * scan / (count - 1);
+      // 6.4-second display cycle, equal for both modes; not a device timing or TCP count.
+      const clock = t % 6.4, progress = clamp((clock - .4) / 3.6);
+      const x = start + (end - start) * progress;
+      const fade = clock > 5.7 ? 1 - ease((clock - 5.7) / .7) : 1;
+      const scanning = clock >= .4 && clock < 4;
+      const nearest = Math.round(progress * (count - 1));
+      const distance = Math.abs(x - points[nearest].x);
+      const emission = scanning ? (mp ? .9 : clamp(1 - distance / 38)) : 0;
       head.setAttribute('transform', `translate(${x.toFixed(2)} 0)`);
-      const envelope = phase > .9 ? 1 - ease((phase - .9) / .1) : phase < .05 ? ease(phase / .05) : 1;
-      head.setAttribute('opacity', String(.2 + .8 * envelope));
-      svg.querySelector('.su-energy-core').setAttribute('opacity', String(.65 + .35 * Math.sin(t * Math.PI) ** 2));
+      head.setAttribute('opacity', String(emission));
+      pattern.setAttribute('opacity', String(fade));
+      bands.forEach(e => e.setAttribute('width', String(Math.max(0, x - start))));
+      points.forEach(p => {
+        const revealed = progress > 0 && p.x <= x + (mp ? spacing / 2 : 0);
+        p.g.setAttribute('opacity', revealed ? '.92' : '0');
+      });
       for (const [i, p] of paths.entries()) {
-        const q = ((t / 1.2 + i / 3) % 1), half = 112 * (1 - q), y = 402 + 239 * q;
+        const q = (t / 1.2 + i / 3) % 1, half = 94 * (1 - q), y = 402 + 239 * q;
         p.setAttribute('d', `M${-half} ${y} Q0 ${y + 16 * (1 - q)} ${half} ${y}`);
-        p.setAttribute('opacity', String(Math.sin(q * Math.PI) * .85));
+        p.setAttribute('opacity', String(Math.sin(q * Math.PI) * .8));
       }
-      points.forEach((p, i) => p.g.setAttribute('opacity', String((i <= scan ? .66 : .1) * (phase > .9 ? 1 - ease((phase - .9) / .1) : 1) + .08)));
-      figure.dataset.scanX = x.toFixed(2);
+      figure.dataset.scanX = x.toFixed(2); figure.dataset.cycleTime = clock.toFixed(3);
+      figure.dataset.phase = scanning ? 'forming' : clock >= 4 ? 'hold' : 'ready';
     });
   }
   const modeCards = root.querySelector('.su-mode-cards');

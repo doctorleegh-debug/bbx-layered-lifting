@@ -18,8 +18,8 @@ film.addEventListener('error',()=>{if(film.getAttribute('src')){blocked=true;her
 mobile.addEventListener('change',()=>{resetFilm();syncFilm();});
 const tabs=[...root.querySelectorAll('.su-tabs [role=tab]')],tissue=root.querySelector('.su-tissue'),cone=root.querySelector('.su-cone'),waves=[...root.querySelectorAll('.su-wave-lines path')],focus=root.querySelector('.su-focus-point');
 const levels={'1.5':540,'2.0':595,'3.0':700,'4.5':815};
-let depthIndex=0,depthY=540,depthFrame=0,depthTimer=0,depthManualUntil=0;
-const depthControls=root.querySelector('.su-depth-control'),depthHover=matchMedia('(hover:hover) and (pointer:fine)');
+let depthIndex=0,depthY=540,depthFrame=0,depthTimer=0;
+const depthControls=root.querySelector('.su-depth-control'),depthInterval=1300;
 function drawDepth(y){
  depthY=y;tissue.dataset.focusY=y.toFixed(2);
  cone.setAttribute('d',`M660 390 Q740 378 820 390 L740 ${y} Z`);
@@ -33,23 +33,21 @@ function selectDepth(index,keyboard=false,automatic=false){
  tissue.dataset.depth=depth;root.querySelector('[data-focus-label]').textContent=depth;
  if(permitted()&&visible.has(tissue)&&Math.abs(target-from)>1){
   const start=performance.now();
-  const step=now=>{const t=Math.min(1,(now-start)/900),ease=t*t*(3-2*t);drawDepth(from+(target-from)*ease);if(t<1)depthFrame=requestAnimationFrame(step);else depthFrame=0;};
+  const step=now=>{const t=Math.min(1,(now-start)/450),ease=t*t*(3-2*t);drawDepth(from+(target-from)*ease);if(t<1)depthFrame=requestAnimationFrame(step);else depthFrame=0;};
   depthFrame=requestAnimationFrame(step);
  }else drawDepth(target);
  if(keyboard)tabs[depthIndex].focus();
- if(!automatic)depthManualUntil=performance.now()+7000;
- scheduleDepth();
+ scheduleDepth(true);
 }
-function scheduleDepth(){
- clearTimeout(depthTimer);depthTimer=0;
- const active=permitted()&&visible.has(tissue)&&!(depthHover.matches&&depthControls.matches(':hover'))&&!depthControls.querySelector(':focus-visible');
+function scheduleDepth(restart=false){
+ const active=permitted()&&visible.has(tissue)&&!depthControls.querySelector(':focus-visible');
  tissue.dataset.autoDepth=String(active);
+ if(!active||restart){clearTimeout(depthTimer);depthTimer=0;}
  if(!permitted()||!visible.has(tissue)){cancelAnimationFrame(depthFrame);depthFrame=0;drawDepth(levels[tabs[depthIndex].dataset.depth]);}
- if(active)depthTimer=setTimeout(()=>selectDepth(depthIndex+1,false,true),Math.max(4600,depthManualUntil-performance.now()));
+ if(active&&!depthTimer)depthTimer=setTimeout(()=>{depthTimer=0;selectDepth(depthIndex+1,false,true);},depthInterval);
 }
 tabs.forEach((tab,i)=>{tab.addEventListener('click',()=>selectDepth(i));tab.addEventListener('keydown',e=>{const to={ArrowLeft:i-1,ArrowRight:i+1,Home:0,End:tabs.length-1}[e.key];if(to!==undefined){e.preventDefault();selectDepth(to,true);}});});
-depthControls.addEventListener('pointerenter',scheduleDepth);depthControls.addEventListener('pointerleave',scheduleDepth);
-depthControls.addEventListener('focusin',scheduleDepth);depthControls.addEventListener('focusout',()=>setTimeout(scheduleDepth,0));
+depthControls.addEventListener('focusin',()=>scheduleDepth());depthControls.addEventListener('focusout',()=>setTimeout(scheduleDepth,0));
 drawDepth(540);
 const planCopy={firm:['피부 두께와 탄력','겉으로 보이는 처짐과 피부의 두께를 함께 살펴요.'],line:['얼굴의 선','얼굴의 굴곡과 볼륨 분포를 살펴 적용 부위를 정해요.'],balance:['나에게 맞는 강도','이전 시술과 피부 반응을 확인해 깊이와 강도를 계획해요.']};
 const planButtons=[...root.querySelectorAll('[data-plan]')];
@@ -61,5 +59,5 @@ function scheduleGallery(){clearTimeout(timer);if(!gallery||!visible.has(gallery
 if(gallery){show(0);gallery.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();show(e.key==='Home'?0:e.key==='End'?shots.length-1:shot+(e.key==='ArrowLeft'?-1:1));scheduleGallery();}});gallery.addEventListener('focusin',scheduleGallery);gallery.addEventListener('focusout',()=>setTimeout(scheduleGallery,0));gallery.addEventListener('touchstart',e=>{if(e.touches.length===1)touch=[e.touches[0].clientX,e.touches[0].clientY];},{passive:true});gallery.addEventListener('touchend',e=>{if(!touch||!e.changedTouches.length)return;const dx=e.changedTouches[0].clientX-touch[0],dy=e.changedTouches[0].clientY-touch[1];touch=null;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)){show(shot+(dx<0?1:-1));scheduleGallery();}},{passive:true});}
 function policy(){moving.forEach(e=>e.dataset.motion=permitted()&&visible.has(e)?'playing':'paused');syncFilm();scheduleGallery();scheduleDepth();if(visible.has(bento)&&permitted()&&!bento.dataset.assembled){bento.dataset.assembled='true';bento.classList.add('is-assembled');}}
 if('IntersectionObserver'in window){const io=new IntersectionObserver(entries=>{for(const e of entries){if(e.isIntersecting)visible.add(e.target);else visible.delete(e.target);}policy();},{threshold:.08});[...moving,bento,...(gallery?[gallery]:[])].forEach(e=>io.observe(e));}else{[...moving,bento,...(gallery?[gallery]:[])].forEach(e=>visible.add(e));}
-document.addEventListener('visibilitychange',policy);reduced.addEventListener('change',policy);connection?.addEventListener?.('change',policy);window.addEventListener('pagehide',()=>{film.pause();clearTimeout(timer);clearTimeout(depthTimer);cancelAnimationFrame(depthFrame);moving.forEach(e=>e.dataset.motion='paused');});window.addEventListener('pageshow',policy);policy();
+document.addEventListener('visibilitychange',policy);reduced.addEventListener('change',policy);connection?.addEventListener?.('change',policy);window.addEventListener('pagehide',()=>{film.pause();clearTimeout(timer);clearTimeout(depthTimer);depthTimer=0;cancelAnimationFrame(depthFrame);moving.forEach(e=>e.dataset.motion='paused');});window.addEventListener('pageshow',policy);policy();
 })();
