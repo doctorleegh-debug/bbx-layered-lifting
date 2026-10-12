@@ -3,7 +3,7 @@
   'use strict';
   const root = document.getElementById('bb-shurink');
   if (!root || root.dataset.motionRevision) return;
-  root.dataset.motionRevision = 'r03';
+  root.dataset.motionRevision = 'r04';
   const reduce = matchMedia('(prefers-reduced-motion:reduce)');
   const connection = navigator.connection;
   const scenes = [];
@@ -16,18 +16,9 @@
     for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, String(v));
     return e;
   };
-  function control(label) {
-    const b = document.createElement('button');
-    b.type = 'button'; b.className = 'su-motion-toggle';
-    b.textContent = '모션 멈춤'; b.setAttribute('aria-label', label + ' 모션 멈춤');
-    b.setAttribute('aria-pressed', 'false');
-    return b;
-  }
-  function register(el, draw, button, label) {
-    const s = {el, draw, button, label, visible: false, paused: false, time: 2.8};
-    scenes.push(s); draw(s.time);
-    button.addEventListener('click', () => {s.paused = !s.paused; sync();});
-    return s;
+  function register(el, draw) {
+    const s = {el, draw, visible: false, time: 2.8};
+    scenes.push(s); draw(s.time); return s;
   }
   for (const [index, row] of [...root.querySelectorAll('.su-dot-row,.su-mp-row')].entries()) {
     const mp = row.classList.contains('su-mp-row'), prefix = 'su-mode-' + (mp ? 'mp' : 'dot');
@@ -61,7 +52,6 @@
     for (let i = 0; i < 3; i++) {const p = svgElement('path', {}); waves.append(p); paths.push(p);}
     figure.append(svg);
     const label = document.createElement('span'); label.className = 'su-mode-visual-label'; label.textContent = '집속 초음파 · 에너지 전달'; figure.append(label);
-    const button = control(mp ? 'MP 모드' : '일반 Dot 모드'); figure.append(button);
     row.replaceWith(figure);
     register(figure, t => {
       // Eight-second illustration; timings and spacing are not device specifications.
@@ -80,7 +70,7 @@
       }
       points.forEach((p, i) => p.g.setAttribute('opacity', String((i <= scan ? .66 : .1) * (phase > .9 ? 1 - ease((phase - .9) / .1) : 1) + .08)));
       figure.dataset.scanX = x.toFixed(2);
-    }, button, mp ? 'MP 모드' : '일반 Dot 모드');
+    });
   }
   const modeCards = root.querySelector('.su-mode-cards');
   if (modeCards) {
@@ -91,38 +81,60 @@
   const portrait = root.querySelector('.su-portrait'), photo = portrait?.querySelector(':scope > img');
   if (portrait && photo) {
     const overlay = svgElement('svg', {viewBox: '0 0 1086 1448', 'aria-hidden': 'true', class: 'su-face-energy'});
+    // Curved interior grids are anchored in original photograph pixels.
+    // No perimeter outline and no clinical treatment-boundary claim.
     overlay.innerHTML = `<defs>
-      <radialGradient id="su-face-light"><stop stop-color="#fff9da" stop-opacity=".58"/><stop offset=".45" stop-color="#ffd5b0" stop-opacity=".3"/><stop offset="1" stop-color="#f1b9ba" stop-opacity="0"/></radialGradient>
-      <radialGradient id="su-face-pin"><stop stop-color="#fffde9"/><stop offset=".23" stop-color="#fff3ce" stop-opacity=".9"/><stop offset="1" stop-color="#ffe9d1" stop-opacity="0"/></radialGradient>
-    </defs>
-    <g data-face-region="firm"><ellipse cx="459" cy="522" rx="94" ry="86" fill="url(#su-face-light)"/><ellipse cx="670" cy="498" rx="49" ry="66" fill="url(#su-face-light)"/></g>
-    <g data-face-region="line" hidden><ellipse cx="445" cy="610" rx="39" ry="57" fill="url(#su-face-light)" transform="rotate(-26 445 610)"/><ellipse cx="515" cy="672" rx="58" ry="34" fill="url(#su-face-light)"/><ellipse cx="587" cy="685" rx="54" ry="33" fill="url(#su-face-light)"/><ellipse cx="657" cy="637" rx="32" ry="46" fill="url(#su-face-light)" transform="rotate(24 657 637)"/></g>
-    <g data-face-region="balance" hidden><ellipse cx="459" cy="522" rx="88" ry="82" fill="url(#su-face-light)"/><ellipse cx="670" cy="498" rx="45" ry="65" fill="url(#su-face-light)"/><ellipse cx="551" cy="679" rx="75" ry="32" fill="url(#su-face-light)"/></g>
-    <g class="su-face-sparkles"></g>`;
-    photo.after(overlay);
-    const badge = document.createElement('span'); badge.className = 'su-face-region-label'; badge.textContent = '선택 부위 · 볼'; portrait.append(badge);
-    const button = control('선택 부위 빛 효과'); button.classList.add('su-face-toggle'); portrait.append(button);
-    const groups = [...overlay.querySelectorAll('[data-face-region]')], sparkleLayer = overlay.querySelector('.su-face-sparkles');
-    const anchors = {firm: [[440, 504], [496, 553], [669, 486]], line: [[444, 611], [527, 677], [606, 681], [663, 630]], balance: [[445, 514], [669, 490], [556, 677]]};
-    const labels = {firm: '선택 부위 · 볼', line: '선택 부위 · 턱선 주변', balance: '확인 부위 · 볼·턱선 피부 상태'};
-    let selected = 'firm', sparks = [];
-    function select(key) {
-      if (!Object.hasOwn(anchors, key)) return;
-      selected = key; portrait.dataset.selectedRegion = key;
-      groups.forEach(g => g.toggleAttribute('hidden', g.dataset.faceRegion !== key));
-      badge.textContent = labels[key]; sparkleLayer.replaceChildren();
-      sparks = anchors[key].map(([x, y]) => {
-        const g = svgElement('g', {transform: `translate(${x} ${y})`});
-        g.append(svgElement('circle', {r: 25, fill: 'url(#su-face-pin)'}), svgElement('path', {d: 'M-9 0Q0-2 0-11Q2 0 9 0Q0 2 0 11Q-2 0-9 0', fill: '#fffced'}));
-        sparkleLayer.append(g); return g;
-      });
+      <radialGradient id="su-face-pin"><stop stop-color="#fffef4"/><stop offset=".25" stop-color="#fff3cc" stop-opacity=".75"/><stop offset="1" stop-color="#ffe9c5" stop-opacity="0"/></radialGradient>
+      <linearGradient id="su-mesh-sweep" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="170" y2="0"><stop stop-color="#fff5d1" stop-opacity="0"/><stop offset=".48" stop-color="#fffef6"/><stop offset=".6" stop-color="#fff4cd" stop-opacity=".95"/><stop offset="1" stop-color="#fff3c8" stop-opacity="0"/></linearGradient>
+    </defs>`;
+    const patches = {
+      cheekL: {corners:[[376,467],[502,455],[524,567],[417,589]],bow:[-8,-10]},
+      cheekR: {corners:[[656,432],[691,443],[709,523],[666,533]],bow:[5,-6],columns:3},
+      jaw: {curves:[[[424,580],[537,765],[671,584]],[[400,589],[542,827],[693,608]]],columns:17,rows:3},
+      chin: {corners:[[490,671],[609,677],[612,697],[512,706]],bow:[0,4],rows:3}
+    };
+    const regions={firm:['cheekL','cheekR'],line:['jaw'],balance:['cheekL','cheekR','chin']};
+    const meshPoint=(spec,u,v)=>{
+      if(spec.curves){const points=spec.curves.map(([a,b,c])=>[0,1].map(i=>(1-u)**2*a[i]+2*(1-u)*u*b[i]+u*u*c[i]));return [0,1].map(i=>points[0][i]*(1-v)+points[1][i]*v)}
+      const [a,b,c,d]=spec.corners,w=Math.sin(Math.PI*u)*Math.sin(Math.PI*v);
+      return [0,1].map(i=>(1-v)*((1-u)*a[i]+u*b[i])+v*((1-u)*d[i]+u*c[i])+spec.bow[i]*w);
+    };
+    const meshSparks={};
+    for(const [key,names] of Object.entries(regions)){
+      const group=svgElement('g',{'data-face-region':key});meshSparks[key]=[];
+      for(const name of names){
+        const spec=patches[name];let d='';
+        for(const direction of [0,1])for(let line=1;line<=(direction?(spec.rows||6):(spec.columns||6));line++){
+          for(let step=0;step<=16;step++){
+            const q=step/16,k=line/((direction?(spec.rows||6):(spec.columns||6))+1),[x,y]=meshPoint(spec,direction?q:k,direction?k:q);
+            d+=(step?'L':'M')+x.toFixed(2)+' '+y.toFixed(2)+' ';
+          }
+        }
+        group.append(svgElement('path',{d,fill:'none',stroke:'#fff0bb','stroke-width':5,opacity:.10}),svgElement('path',{d,fill:'none',stroke:'#fff5d2','stroke-width':1.8,opacity:.44}),svgElement('path',{d,fill:'none',stroke:'url(#su-mesh-sweep)','stroke-width':2.5,opacity:.8}));
+        for(const [u,v] of [[2/7,2/7],[4/7,5/7],[6/7,3/7]]){
+          const [x,y]=meshPoint(spec,u,v),spark=svgElement('g',{transform:`translate(${x} ${y})`});
+          spark.append(svgElement('circle',{r:16,fill:'url(#su-face-pin)'}),svgElement('path',{d:'M-7 0Q0-1 0-8Q1 0 7 0Q0 1 0 8Q-1 0-7 0',fill:'#fffef4'}));
+          group.append(spark);meshSparks[key].push(spark);
+        }
+      }
+      overlay.append(group);
     }
-    const scene = register(portrait, t => {
-      const active = groups.find(g => g.dataset.faceRegion === selected);
-      active.setAttribute('opacity', String(.68 + .25 * Math.sin(t * .9) ** 2));
-      sparks.forEach((g, i) => g.setAttribute('opacity', String(.35 + .65 * Math.sin(t * .95 + i * .8) ** 2)));
-      portrait.dataset.lightTime = t.toFixed(3);
-    }, button, '선택 부위 빛 효과');
+    photo.after(overlay);
+    const badge=document.createElement('span');badge.className='su-face-region-label';portrait.append(badge);
+    const groups=[...overlay.querySelectorAll('[data-face-region]')],sweep=overlay.querySelector('#su-mesh-sweep');
+    const labels={firm:'선택 부위 · 볼',line:'선택 부위 · 턱선 주변',balance:'확인 부위 · 볼·턱선 피부 상태'};
+    let selected='firm';
+    function select(key){
+      if(!Object.hasOwn(regions,key))return;
+      selected=key;portrait.dataset.selectedRegion=key;
+      groups.forEach(g=>g.toggleAttribute('hidden',g.dataset.faceRegion!==key));
+      badge.textContent=labels[key];
+    }
+    const scene=register(portrait,t=>{
+      sweep.setAttribute('gradientTransform',`translate(${250+(t%5)/5*530} 0)`);
+      meshSparks[selected].forEach((g,i)=>g.setAttribute('opacity',String(.25+.7*Math.sin(t*.85+i*.85)**4)));
+      portrait.dataset.lightTime=t.toFixed(3);
+    });
     select(root.querySelector('[data-plan][aria-pressed=true]')?.dataset.plan || 'firm'); scene.draw(scene.time);
     root.querySelectorAll('[data-plan]').forEach(b => b.addEventListener('click', () => {select(b.dataset.plan); scene.time = 2.8; scene.draw(scene.time);}));
     function align() {
@@ -141,7 +153,7 @@
     if (photo.complete && !photo.naturalWidth) {overlay.setAttribute('hidden', ''); badge.hidden = true;}
   }
   const allowed = () => !away && !document.hidden && !reduce.matches && !connection?.saveData;
-  const runs = s => allowed() && s.visible && !s.paused && s.el.isConnected;
+  const runs = s => allowed() && s.visible && s.el.isConnected;
   function tick(now) {
     raf = 0;
     if (!last) last = now;
@@ -152,12 +164,7 @@
   function sync() {
     for (const s of scenes) {
       s.el.dataset.sceneMotion = runs(s) ? 'playing' : 'paused';
-      const stopped = s.paused || reduce.matches || !!connection?.saveData;
-      s.button.textContent = stopped ? '모션 재생' : '모션 멈춤';
-      s.button.setAttribute('aria-label', s.label + (stopped ? ' 모션 재생' : ' 모션 멈춤'));
-      s.button.setAttribute('aria-pressed', String(stopped));
-      s.button.disabled = reduce.matches || !!connection?.saveData;
-      if (reduce.matches || connection?.saveData) {s.draw(2.8); s.button.textContent = '정지 화면';}
+      if (reduce.matches || connection?.saveData) s.draw(2.8);
     }
     if (!scenes.some(runs)) {cancelAnimationFrame(raf); raf = 0; last = 0;}
     else if (!raf) {last = 0; raf = requestAnimationFrame(tick);}
