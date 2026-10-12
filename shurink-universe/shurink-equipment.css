@@ -17,17 +17,29 @@
 #bb-shurink .su-equipment-product figcaption{margin:10px 0 0;color:#68545d;font:600 14px Montserrat,sans-serif;line-height:1.4}
 .su-equipment-product figcaption:before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;margin:0 7px 2px 0;background:var(--part-color)}
 #bb-shurink .su-equipment-wordmark{font:500 clamp(20px,3vw,42px) Montserrat,sans-serif;letter-spacing:.12em;line-height:1.3;text-align:center;color:#9b6b81;margin:24px 0 0!important}
+/* Each clipped reel moves the product and its depth label together. */
+.su-equipment-reel{min-width:0;overflow:hidden;perspective:700px;padding:14px 0 8px}
+.su-equipment-product{transform-origin:50% 50%;backface-visibility:hidden}
 @media(prefers-reduced-motion:no-preference){
- .su-equipment[data-entered] .su-equipment-product{animation:su-product-enter .8s both;animation-delay:calc(var(--part-order)*70ms)}
- .su-equipment[data-entered] .su-equipment-product img{animation:su-product-float 4.8s ease-in-out infinite;animation-delay:calc(var(--part-order)*-.52s)}
- .su-equipment[data-entered] .su-equipment-device img{animation:su-device-float 6s ease-in-out infinite}
- .su-equipment[data-entered] .su-equipment-product:before{animation:su-product-light 4.8s ease-in-out infinite;animation-delay:calc(var(--part-order)*-.52s)}
- .su-equipment[data-running="false"] .su-equipment-product,.su-equipment[data-running="false"] .su-equipment-product img,.su-equipment[data-running="false"] .su-equipment-device img,.su-equipment[data-running="false"] .su-equipment-product:before{animation-play-state:paused}
+ .su-equipment[data-motion="rolling"][data-entered] .su-equipment-product{
+  animation:su-reel-enter 720ms cubic-bezier(.16,1,.3,1) both,su-reel-roll 6.4s linear infinite;
+  animation-delay:calc(var(--part-order)*220ms),calc(4s + var(--part-order)*260ms);
+ }
+ .su-equipment[data-motion="rolling"][data-entered] .su-equipment-device img{animation:su-device-float 6s ease-in-out infinite}
+ .su-equipment[data-running="false"] .su-equipment-product,.su-equipment[data-running="false"] .su-equipment-device img{animation-play-state:paused!important}
+ .su-equipment[data-running="true"] .su-equipment-product{will-change:transform,opacity}
 }
-@keyframes su-product-enter{from{opacity:.2;transform:translateY(14px)}to{opacity:1;transform:none}}
-@keyframes su-product-float{0%,100%{transform:translateY(3px)}50%{transform:translateY(-5px)}}
+@keyframes su-reel-enter{
+ from{opacity:0;transform:translate3d(0,105%,0) rotateX(-32deg)}
+ to{opacity:1;transform:translate3d(0,0,0) rotateX(0)}
+}
+@keyframes su-reel-roll{
+ 0%{opacity:1;transform:translate3d(0,0,0) rotateX(0);animation-timing-function:cubic-bezier(.55,0,1,.45)}
+ 9%{opacity:0;transform:translate3d(0,-110%,0) rotateX(32deg)}
+ 9.01%{opacity:0;transform:translate3d(0,110%,0) rotateX(-32deg);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+ 24%,100%{opacity:1;transform:translate3d(0,0,0) rotateX(0)}
+}
 @keyframes su-device-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-@keyframes su-product-light{0%,100%{opacity:.35;transform:scale(.96)}50%{opacity:.9;transform:scale(1.06)}}
 @media(max-width:1100px){.su-equipment-stage{padding:34px 26px 28px}.su-equipment-content{gap:16px;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr)}.su-equipment-device img{height:470px}.su-equipment-product img{height:135px}.su-equipment-row.booster img{height:155px}.su-equipment-row{gap:8px}}
 @media(max-width:800px){.su-equipment{padding:40px 0}.su-equipment-stage{padding:24px 18px;border-radius:25px}.su-equipment-content{grid-template-columns:1fr;gap:24px}.su-equipment-device img{height:390px}.su-equipment-families{gap:30px}.su-equipment-family h3{text-align:center}.su-equipment-product img{height:140px}.su-equipment-row.booster img{height:160px}.su-equipment-wordmark{letter-spacing:.07em!important}}
 @media(max-width:450px){.su-equipment-stage{padding:22px 12px}.su-equipment-device img{height:355px}.su-equipment-row{gap:3px}.su-equipment-product img{height:104px}.su-equipment-row.booster img{height:138px}.su-equipment-row.booster{max-width:90%}#bb-shurink .su-equipment-product figcaption{font-size:11px}#bb-shurink .su-equipment-wordmark{font-size:18px;letter-spacing:.04em}.su-equipment-product figcaption:before{margin-right:4px;width:4px;height:4px}}
