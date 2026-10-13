@@ -1,26 +1,24 @@
 (()=>{'use strict';
-const root=document.querySelector('#bb-potenza');if(!root)return;
-const reduced=matchMedia('(prefers-reduced-motion: reduce)'),connection=navigator.connection;
-function tabs(list,select){const buttons=[...list.querySelectorAll('[role="tab"]')];buttons.forEach((button,index)=>{button.addEventListener('click',()=>select(index,true));button.addEventListener('keydown',event=>{const next=['ArrowRight','ArrowDown'].includes(event.key)?(index+1)%buttons.length:['ArrowLeft','ArrowUp'].includes(event.key)?(index+buttons.length-1)%buttons.length:event.key==='Home'?0:event.key==='End'?buttons.length-1:null;if(next===null)return;event.preventDefault();select(next,true);buttons[next].focus();});});return buttons;}
-function paint(buttons,index){buttons.forEach((b,i)=>{b.setAttribute('aria-selected',String(i===index));b.tabIndex=i===index?0:-1;document.getElementById(b.getAttribute('aria-controls')).hidden=i!==index;});}
-const modeButtons=tabs(root.querySelector('.pt-mode-tabs'),i=>paint(modeButtons,i));
-const science=root.querySelector('#science'),art=root.querySelector('.pt-science-art'),label=art.querySelector('.pt-scene-label'),count=art.querySelector('.pt-scene-count');
-const labels=['피부에 접촉','미세침 진입','RF 전달'];let step=0,progress=0,visible=false,raf=0,last=0,elapsed=0,holdUntil=0,hidden=false,loaded=false;
-const duration=3.6,permitted=()=>visible&&!hidden&&!document.hidden&&!reduced.matches&&!connection?.saveData&&art.dataset.renderer==='webgl';
-const stepButtons=tabs(root.querySelector('.pt-step-tabs'),show);
-function show(i,manual){step=i;progress=manual?1:0;art.dataset.step=String(i);paint(stepButtons,i);if(manual)holdUntil=performance.now()+8000;draw();}
-function draw(){const ready=art.dataset.renderer==='webgl';label.textContent=ready?labels[step]:'RF 전달 개념 이미지';count.textContent=ready?String(step+1).padStart(2,'0')+' / 03':'RF';art.style.setProperty('--pt-progress',String(Math.min(progress,1)));art._ptRender?.(step,progress,elapsed);}
-function frame(now){raf=0;if(!permitted())return;const dt=Math.min((now-last)/1000,.08);last=now;elapsed+=dt;
- if(now>=holdUntil&&!science.querySelector('.pt-science-text').contains(document.activeElement)){progress+=dt/duration;if(progress>=1)show((step+1)%3,false);}
- draw();raf=requestAnimationFrame(frame);
-}
-function sync(){cancelAnimationFrame(raf);raf=0;const run=permitted();art.dataset.running=String(run);if(run){last=performance.now();raf=requestAnimationFrame(frame);}else{if(reduced.matches||connection?.saveData){progress=1;}draw();}}
-function loadScript(src){return new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.onload=resolve;s.onerror=()=>reject(new Error('Motion dependency unavailable'));document.head.append(s);});}
-async function load(){if(loaded)return;loaded=true;try{if(!window.THREE)await loadScript(science.dataset.threeSrc);await loadScript(science.dataset.motionSrc);}catch{art.dataset.renderer='fallback';sync();}}
-art.addEventListener('pt-renderer-ready',sync);art.addEventListener('pt-renderer-failed',sync);
-if('IntersectionObserver'in window){new IntersectionObserver(entries=>{visible=entries.some(e=>e.isIntersecting);sync();},{threshold:.12}).observe(art);const preloader=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){load();preloader.disconnect();}},{rootMargin:'600px'});preloader.observe(art);}else{visible=true;load();}
-document.addEventListener('visibilitychange',sync);reduced.addEventListener('change',sync);connection?.addEventListener?.('change',sync);
-window.addEventListener('pagehide',()=>{hidden=true;sync();});window.addEventListener('pageshow',()=>{hidden=false;sync();});show(0,false);
+const root=document.getElementById('bb-potenza');if(!root)return;
+const mq=matchMedia('(prefers-reduced-motion: reduce)');const save=()=>!!navigator.connection?.saveData;const reduced=()=>mq.matches||save();
+function tabs(list,prefix,callback){const buttons=[...root.querySelectorAll(list+' [role=tab]')];let selected=0;const set=(n,manual=false)=>{selected=n;buttons.forEach((b,i)=>{b.setAttribute('aria-selected',String(i===n));b.tabIndex=i===n?0:-1;document.getElementById(prefix+i).hidden=i!==n;});callback?.(n,manual);};buttons.forEach((b,i)=>{b.addEventListener('click',()=>set(i,true));b.addEventListener('keydown',e=>{let n;if(e.key==='ArrowRight'||e.key==='ArrowDown')n=(selected+1)%buttons.length;else if(e.key==='ArrowLeft'||e.key==='ArrowUp')n=(selected+buttons.length-1)%buttons.length;else if(e.key==='Home')n=0;else if(e.key==='End')n=buttons.length-1;else return;e.preventDefault();set(n,true);buttons[n].focus();});});return set;}
+tabs('.pt-mode-tabs','pt-mode-');
+const figure=root.querySelector('.pt-science-art'),scene=figure.querySelector('.pt-scene'),layers=figure.querySelector('.pt-motion-assets'),needle=figure.querySelector('.pt-needles'),head=figure.querySelector('.pt-cartridge'),rf=figure.querySelector('.pt-rf-fields'),coag=figure.querySelector('.pt-coagulation'),fallback=figure.querySelector('.pt-scene-fallback');
+let visible=false,ready=false,raf=0,last=0,time=0,step=-1,manualUntil=0,disposed=false;const cycle=10500;const labels=['피부와 접촉','고주파 에너지 전달','응고 영역 형성'];
+const clamp=x=>Math.max(0,Math.min(1,x));const smooth=x=>{x=clamp(x);return x*x*(3-2*x);};
+const setStep=tabs('.pt-step-tabs','pt-step-',(n,manual)=>{if(manual){time=[1000,5100,8500][n];manualUntil=performance.now()+9000;draw(time);}step=n;figure.dataset.step=String(n);figure.querySelector('.pt-scene-label').textContent=labels[n];figure.querySelector('.pt-scene-count').textContent=`0${n+1} / 03`;fallback.src=`assets/source-step-${n+1}.jpg`;fallback.alt=labels[n]+' 원리 이미지';});
+function draw(t){const insertion=smooth((t-1800)/1600)*(1-smooth((t-6900)/1200));const lift=smooth((t-7300)/800)*(1-smooth((t-9400)/1000));needle.style.transform=`translateY(${insertion*49.778-lift*18}%)`;figure.querySelector('.pt-needle-clip').style.clipPath=`inset(${13-lift*10.8}% 0 0)`;head.style.transform=`translateY(${-lift*12}%)`;rf.style.opacity=String(smooth((t-3800)/650)*(1-smooth((t-6600)/500))*(.82+.18*Math.sin(t/230)));coag.style.opacity=String(smooth((t-7000)/750)*(1-smooth((t-9400)/950))*.88);const n=t<3650?0:t<7150?1:2;if(n!==step)setStep(n);figure.dataset.phase=String(Math.round(t));root.querySelectorAll('.pt-step-progress').forEach((e,i)=>{const v=i===n?clamp((t-[0,3650,7150][i])/[3650,3500,3350][i]):0;e.style.transform=`scaleX(${v})`;});}
+function permitted(){return ready&&visible&&!document.hidden&&!reduced()&&!disposed;}
+function stop(){if(raf)cancelAnimationFrame(raf);raf=0;last=0;figure.dataset.running='false';}
+function tick(now){raf=0;if(!permitted()){stop();return;}const reading=[root.querySelector('.pt-step-tabs'),root.querySelector('.pt-step-details')].some(e=>e?.contains(document.activeElement));if(last&&now>manualUntil&&!reading)time=(time+Math.min(now-last,80))%cycle;last=now;draw(time);figure.dataset.running='true';raf=requestAnimationFrame(tick);}
+function sync(){if(permitted()&&!raf){last=0;raf=requestAnimationFrame(tick);}else if(!permitted())stop();}
+new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync();},{threshold:.08}).observe(scene);
+document.addEventListener('visibilitychange',sync);mq.addEventListener('change',()=>{if(reduced()){time=5100;draw(time);}sync();});navigator.connection?.addEventListener?.('change',sync);window.addEventListener('pagehide',()=>{disposed=true;stop();});window.addEventListener('pageshow',()=>{disposed=false;sync();});
+Promise.all([...layers.querySelectorAll('img')].map(img=>{img.loading='eager';return img.decode();})).then(()=>{ready=true;layers.hidden=false;fallback.hidden=true;figure.dataset.renderer='layered-source';if(reduced())time=5100;draw(time);sync();}).catch(()=>{ready=false;layers.hidden=true;fallback.hidden=false;figure.dataset.renderer='source-fallback';stop();});
+// Text is always visible without JavaScript. Only the compositor transforms the existing readable lines.
+const animations=new Set();const reveal=(el)=>{if(el.dataset.revealed)return;el.dataset.revealed='true';if(reduced())return;const targets=el.matches('.pt-hero-copy')?[...el.children]:[...el.querySelectorAll('.pt-line>span')];targets.forEach((node,i)=>{const a=node.animate([{transform:'translateY(110%)',opacity:0},{transform:'translateY(0)',opacity:1}],{duration:650,delay:i*80,easing:'cubic-bezier(.2,.75,.25,1)',fill:'backwards'});animations.add(a);a.finished.then(()=>animations.delete(a),()=>animations.delete(a));});};
+document.fonts.ready.then(()=>{const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){reveal(e.target);io.unobserve(e.target);}}),{threshold:.15});root.querySelectorAll('.pt-display,.pt-hero-copy').forEach(el=>io.observe(el));});
+mq.addEventListener('change',()=>{if(reduced())animations.forEach(a=>a.cancel());});
 })();
 
 ;(()=>{function contactLayout(content){
