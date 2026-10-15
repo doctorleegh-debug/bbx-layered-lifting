@@ -27,3 +27,7 @@
 .aq-hero .aq-button{background:#16384c;color:white}.aq-hero .aq-button:hover{background:#28617e}
 @media(max-width:767px){.aq-hero{background:#eaf5fd}.aq-hero-image{object-position:70% 0%}.aq-hero::after{background:linear-gradient(180deg,transparent 0,transparent 295px,#eaf5fd99 410px,#eaf5fd 485px)}}
 @media(min-width:768px) and (max-width:1000px){.aq-hero{background:#eaf5fd}.aq-hero-image{object-position:65% 0%}.aq-hero::after{background:linear-gradient(180deg,transparent 0,transparent 320px,#eaf5fd99 470px,#eaf5fd 565px)}}
+
+/* R03: center the portrait slightly while preserving mobile text separation. */
+@media(min-width:1001px){.aq-hero-image{width:84%;object-position:60% 0%}}
+@media(max-width:767px){.aq-hero-image{object-position:60% 0%}}
