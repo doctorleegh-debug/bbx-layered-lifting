@@ -31,3 +31,6 @@
 /* R03: center the portrait slightly while preserving mobile text separation. */
 @media(min-width:1001px){.aq-hero-image{width:84%;object-position:60% 0%}}
 @media(max-width:767px){.aq-hero-image{object-position:60% 0%}}
+
+/* R04: keep the full shoulder framing at every desktop width. */
+@media(min-width:1001px){.aq-hero-image{width:1275px;max-width:none;height:100%;right:calc(33vw - 475px);object-fit:contain;object-position:center top;-webkit-mask-image:linear-gradient(90deg,transparent,#000 18%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 18%,#000 92%,transparent)}}
