@@ -19,3 +19,11 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.aq-button:hover{transform:none}}
 
 @media(min-width:768px) and (max-width:1000px){.aq-hero{height:1040px;min-height:1040px;background:#2d222a}.aq-hero-image{inset:0 0 auto;width:100%;height:570px;object-position:50% 35%;mask-image:none;-webkit-mask-image:none}.aq-hero::after{background:linear-gradient(180deg,transparent 0,transparent 310px,#2d222a88 470px,#2d222a 565px)}.aq-hero-copy{padding:500px 0 60px;width:100%;max-width:none}.aq-hero-en{font-size:27px;margin-bottom:22px}.aq-hero .aq-lead{font-size:39px}.aq-hero-sub{font-size:19px}}
+
+/* R02: clean blue skincare imagery, brand typography retained. */
+.aq-hero{background:#eaf5fd}.aq-hero-image{object-position:73% 0%}
+.aq-hero::after{background:linear-gradient(90deg,#eaf5fd 0%,#eaf5fdf5 26%,#eaf5fd99 42%,transparent 62%)}
+.aq-hero-copy,#bb-aquapeel .aq-hero h1{color:#16384c}.aq-hero-en,.aq-hero-sub,.aq-hero-bottom{color:#395a70}
+.aq-hero .aq-button{background:#16384c;color:white}.aq-hero .aq-button:hover{background:#28617e}
+@media(max-width:767px){.aq-hero{background:#eaf5fd}.aq-hero-image{object-position:70% 0%}.aq-hero::after{background:linear-gradient(180deg,transparent 0,transparent 295px,#eaf5fd99 410px,#eaf5fd 485px)}}
+@media(min-width:768px) and (max-width:1000px){.aq-hero{background:#eaf5fd}.aq-hero-image{object-position:65% 0%}.aq-hero::after{background:linear-gradient(180deg,transparent 0,transparent 320px,#eaf5fd99 470px,#eaf5fd 565px)}}
