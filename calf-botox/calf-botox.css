@@ -113,3 +113,17 @@ h1,h2,h3,p,figure{margin:0}h1,h2,h3,p,li{word-break:keep-all;overflow-wrap:break
 @media(min-width:768px) and (max-width:1100px){.cb-overview-grid article{display:block}.cb-type-grid article{padding:24px}.cb-type-grid .cb-art-icon{width:108px;height:108px}.cb-related-grid>a{padding:24px 20px}.cb-related-grid h3{font-size:24px!important}.cb-progress-grid h3{font-size:25px!important}}
 @media(max-width:767px){.cb-overview-grid article{display:grid;grid-template-columns:80px minmax(0,1fr);column-gap:18px}.cb-overview-grid .cb-art-icon{width:80px;height:80px}.cb-overview-grid h3{font-size:22px!important}.cb-overview-grid p{font-size:15px}.cb-type-grid article{padding:24px 25px 27px}.cb-type-grid .cb-art-icon{width:110px;height:110px;margin-left:-10px}.cb-type-grid h3{font-size:28px!important;margin:10px 0 12px}.cb-type-grid p{font-size:16px}.cb-type-context{grid-template-columns:1fr;gap:16px;margin-top:28px;padding-top:24px}.cb-type-context h3{font-size:23px!important}.cb-type-context p{font-size:16px;line-height:1.9}.cb-concern-grid .cb-art-icon,.cb-care-grid .cb-art-icon{width:92px;height:92px}.cb-consult-strip{padding:25px 20px;gap:15px}.cb-consult-strip .cb-art-icon{width:58px;height:58px}.cb-progress-grid{grid-template-columns:1fr;margin-top:30px;gap:26px}.cb-progress-grid li{padding-top:20px}.cb-progress-grid h3{font-size:25px!important;margin:14px 0 11px}.cb-progress-grid h3 br{display:none}.cb-progress-grid p{font-size:16px;max-width:none}.cb-related-grid{gap:18px}.cb-related-grid>a{padding:24px 25px 27px}.cb-related-grid .cb-art-icon{width:108px;height:108px}.cb-related-grid h3{font-size:26px!important}.cb-related-grid p{font-size:16px}.cb-lifestyle>div{display:block;padding:27px 6% 34px}.cb-lifestyle>div>p{font-size:clamp(42px,12vw,64px)}.cb-lifestyle h2{margin-top:20px!important;font-size:22px!important;line-height:1.6!important}}
 @media(prefers-reduced-motion:reduce){.cb-related-grid>a{transition:none}.cb-related-grid>a:hover,.cb-related-grid>a:focus-visible{transform:none}}
+
+/* R05: larger consultation icons and photographic calf detail. */
+.cb-model{overflow:hidden;border-radius:28px;background:#eedbd7}
+.cb-model img{object-fit:cover;object-position:14% 50%}
+.cb-concern-grid .cb-art-icon{width:140px;height:140px;margin-left:-12px}
+.cb-anatomy-photo{border-radius:32px;overflow:hidden;background:#fff4f7;max-width:500px}
+.cb-anatomy-photo>img{display:block;width:100%;height:auto}
+.cb-anatomy-photo .cb-anatomy-label{left:43%;width:29%;height:1px;transform:none}
+.cb-anatomy-photo .cb-label-muscle{top:35%}
+.cb-anatomy-photo .cb-label-tendon{top:74%;left:38%;width:34%}
+.cb-anatomy-photo .cb-anatomy-label:before{content:"";position:absolute;inset:0;background:#a45b72}
+.cb-anatomy-photo .cb-anatomy-label:after{content:"";position:absolute;left:-3px;top:-3px;width:7px;height:7px;border-radius:50%;background:#a45b72}
+.cb-anatomy-photo .cb-anatomy-label>b{position:absolute;left:calc(100% + 9px);top:0;transform:translateY(-50%);font-weight:500;line-height:1.5;white-space:nowrap}
+@media(max-width:767px){.cb-model{margin-top:20px;margin-bottom:26px;border-radius:24px}.cb-concern-grid .cb-art-icon{width:116px;height:116px;margin-left:-10px}.cb-anatomy-photo{border-radius:24px}.cb-anatomy-photo .cb-anatomy-label{font-size:12px;width:28%}.cb-anatomy-photo .cb-label-tendon{width:33%}.cb-anatomy-photo .cb-anatomy-label>b{left:calc(100% + 7px)}}
