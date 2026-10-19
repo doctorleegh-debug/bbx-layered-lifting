@@ -26,8 +26,8 @@
 .pt-hero::after{background:linear-gradient(90deg,rgba(255,248,247,.88),rgba(255,248,247,.48) 37%,rgba(255,248,247,0) 60%)}
 .pt-hero-copy{width:55%;padding-block:64px}
 .pt-hero .pt-kicker{background:none;padding:0;border-radius:0;color:#743d4b;font-size:16px;line-height:1.5;letter-spacing:.03em;margin-bottom:22px}
-.pt-hero-name{display:flex;align-items:baseline;gap:24px;margin-bottom:30px}
-#bb-potenza .pt-hero h1{font-size:clamp(76px,7.5vw,140px);line-height:1.06;letter-spacing:-.065em;margin:0;white-space:nowrap;color:#251d21}
+.pt-hero-name{display:flex;flex-direction:column;align-items:flex-start;gap:12px;margin-bottom:30px}
+#bb-potenza .pt-hero h1{font-size:clamp(112px,10.5vw,180px);line-height:1.06;letter-spacing:-.065em;margin:0;white-space:nowrap;color:#251d21}
 .pt-hero-en{font:700 clamp(18px,2.2vw,38px)/1.2 Arial,sans-serif;letter-spacing:.08em;color:#955463}
 .pt-hero-tagline{font-size:clamp(25px,2.6vw,38px);font-weight:600;line-height:1.45;letter-spacing:-.045em;text-wrap:balance;margin-bottom:23px}
 .pt-hero-tagline strong{font-weight:700;color:#854250}
@@ -43,8 +43,8 @@
  .pt-hero::after{background:linear-gradient(180deg,#fff8f6 0%,#fff8f6f5 18%,#fff8f6aa 32%,#fff8f600 48%)}
  .pt-hero-copy{width:100%;padding:30px 0 0}
  .pt-hero .pt-kicker{font-size:12px;line-height:1.5;margin-bottom:12px;letter-spacing:.02em}
- .pt-hero-name{gap:16px;margin-bottom:17px}
- #bb-potenza .pt-hero h1{font-size:clamp(52px,16vw,76px);line-height:1.08;letter-spacing:-.06em}
+ .pt-hero-name{gap:10px;margin-bottom:17px}
+ #bb-potenza .pt-hero h1{font-size:clamp(76px,23vw,108px);line-height:1.08;letter-spacing:-.06em}
  .pt-hero-en{font-size:16px;letter-spacing:.1em}
  .pt-hero-tagline{font-size:clamp(20px,5.4vw,26px);line-height:1.4;margin-bottom:12px;text-wrap:initial}
  .pt-hero-tagline br{display:none}
@@ -55,7 +55,7 @@
  .pt-hero .pt-text-link{font-size:15px;background:#fff8f2d9;border-radius:24px;padding:4px 12px}
  .pt-hero .pt-model-note{bottom:11px;right:21px;font-size:10px;background:#fff9}
 }
-@media(max-width:359px){.pt-hero-copy{padding-top:25px}.pt-hero-name{gap:12px}.pt-hero-en{font-size:14px}.pt-hero .pt-lead{font-size:15px}.pt-hero .pt-actions{gap:12px}.pt-hero .pt-button{padding-inline:18px;font-size:14px}.pt-hero .pt-text-link{font-size:14px}}
+@media(max-width:359px){.pt-hero-copy{padding-top:25px}.pt-hero-name{gap:8px}.pt-hero-en{font-size:14px}.pt-hero .pt-lead{font-size:15px}.pt-hero .pt-actions{gap:12px}.pt-hero .pt-button{padding-inline:18px;font-size:14px}.pt-hero .pt-text-link{font-size:14px}}
 
 /* R04: gentle continuous image-only zoom; the copy and image frame stay still. */
 .pt-hero-picture{overflow:hidden}
@@ -70,3 +70,5 @@
 #bb-potenza .pt-hero h1{position:relative;isolation:isolate;color:#fff;-webkit-text-stroke:0;text-shadow:none}
 #bb-potenza .pt-hero h1::before{content:"";position:absolute;inset:-32px -28px;z-index:-1;pointer-events:none;background:radial-gradient(ellipse closest-side at center,rgba(188,113,132,.96) 0%,rgba(188,113,132,.94) 48%,rgba(209,149,161,.64) 72%,rgba(223,174,182,0) 100%)}
 @media(max-width:767px){#bb-potenza .pt-hero h1::before{inset:-22px -20px}}
+
+@media(min-width:768px) and (max-width:1100px){#bb-potenza .pt-hero h1{font-size:clamp(100px,11vw,120px)}.pt-hero-copy{padding-block:40px}.pt-hero-name{gap:10px;margin-bottom:22px}}
