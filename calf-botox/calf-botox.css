@@ -115,8 +115,6 @@ h1,h2,h3,p,figure{margin:0}h1,h2,h3,p,li{word-break:keep-all;overflow-wrap:break
 @media(prefers-reduced-motion:reduce){.cb-related-grid>a{transition:none}.cb-related-grid>a:hover,.cb-related-grid>a:focus-visible{transform:none}}
 
 /* R05: larger consultation icons and photographic calf detail. */
-.cb-model{overflow:hidden;border-radius:28px;background:#eedbd7}
-.cb-model img{object-fit:cover;object-position:14% 50%}
 .cb-concern-grid .cb-art-icon{width:140px;height:140px;margin-left:-12px}
 .cb-anatomy-photo{border-radius:32px;overflow:hidden;background:#fff4f7;max-width:500px}
 .cb-anatomy-photo>img{display:block;width:100%;height:auto}
@@ -126,4 +124,4 @@ h1,h2,h3,p,figure{margin:0}h1,h2,h3,p,li{word-break:keep-all;overflow-wrap:break
 .cb-anatomy-photo .cb-anatomy-label:before{content:"";position:absolute;inset:0;background:#a45b72}
 .cb-anatomy-photo .cb-anatomy-label:after{content:"";position:absolute;left:-3px;top:-3px;width:7px;height:7px;border-radius:50%;background:#a45b72}
 .cb-anatomy-photo .cb-anatomy-label>b{position:absolute;left:calc(100% + 9px);top:0;transform:translateY(-50%);font-weight:500;line-height:1.5;white-space:nowrap}
-@media(max-width:767px){.cb-model{margin-top:20px;margin-bottom:26px;border-radius:24px}.cb-concern-grid .cb-art-icon{width:116px;height:116px;margin-left:-10px}.cb-anatomy-photo{border-radius:24px}.cb-anatomy-photo .cb-anatomy-label{font-size:12px;width:28%}.cb-anatomy-photo .cb-label-tendon{width:33%}.cb-anatomy-photo .cb-anatomy-label>b{left:calc(100% + 7px)}}
+@media(max-width:767px){.cb-concern-grid .cb-art-icon{width:116px;height:116px;margin-left:-10px}.cb-anatomy-photo{border-radius:24px}.cb-anatomy-photo .cb-anatomy-label{font-size:12px;width:28%}.cb-anatomy-photo .cb-label-tendon{width:33%}.cb-anatomy-photo .cb-anatomy-label>b{left:calc(100% + 7px)}}
