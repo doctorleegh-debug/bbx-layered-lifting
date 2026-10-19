@@ -66,5 +66,7 @@
 }
 @keyframes ptHeroSlowZoom{from{transform:scale(1)}to{transform:scale(var(--pt-hero-zoom))}}
 
-/* The requested title is pearl white; a fine rose edge keeps it readable on pale glass. */
-#bb-potenza .pt-hero h1{color:#fffaf7;-webkit-text-stroke:1px #b58b98;paint-order:stroke fill;text-shadow:0 2px 1px #b99aa5,0 6px 20px rgba(105,53,73,.24)}
+/* Local rose backdrop supports clean white type without a text outline. */
+#bb-potenza .pt-hero h1{position:relative;isolation:isolate;color:#fff;-webkit-text-stroke:0;text-shadow:none}
+#bb-potenza .pt-hero h1::before{content:"";position:absolute;inset:-32px -28px;z-index:-1;pointer-events:none;background:radial-gradient(ellipse closest-side at center,rgba(188,113,132,.96) 0%,rgba(188,113,132,.94) 48%,rgba(209,149,161,.64) 72%,rgba(223,174,182,0) 100%)}
+@media(max-width:767px){#bb-potenza .pt-hero h1::before{inset:-22px -20px}}
