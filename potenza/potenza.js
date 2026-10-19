@@ -37,3 +37,16 @@ mq.addEventListener('change',()=>{if(reduced())animations.forEach(a=>a.cancel())
  }
 
 contactLayout(document.querySelector("#pt-common"));})();
+
+;(()=>{
+ const hero=document.querySelector('#bb-potenza .pt-hero');
+ if(!hero||hero.dataset.potenzaHeroZoomReady)return;
+ hero.dataset.potenzaHeroZoomReady='true';
+ let visible=true,away=false;
+ const sync=()=>hero.style.setProperty('--pt-hero-play',visible&&!document.hidden&&!away?'running':'paused');
+ if('IntersectionObserver' in window)new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync();},{threshold:0}).observe(hero);
+ document.addEventListener('visibilitychange',sync);
+ window.addEventListener('pagehide',()=>{away=true;sync();});
+ window.addEventListener('pageshow',()=>{away=false;sync();});
+ sync();
+})();

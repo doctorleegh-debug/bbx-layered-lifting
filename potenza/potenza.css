@@ -56,3 +56,15 @@
  .pt-hero .pt-model-note{bottom:11px;right:21px;font-size:10px;background:#fff9}
 }
 @media(max-width:359px){.pt-hero-copy{padding-top:25px}.pt-hero-name{gap:12px}.pt-hero-en{font-size:14px}.pt-hero .pt-lead{font-size:15px}.pt-hero .pt-actions{gap:12px}.pt-hero .pt-button{padding-inline:18px;font-size:14px}.pt-hero .pt-text-link{font-size:14px}}
+
+/* R04: gentle continuous image-only zoom; the copy and image frame stay still. */
+.pt-hero-picture{overflow:hidden}
+.pt-hero-picture .pt-hero-image{--pt-hero-zoom:1.07;transform-origin:75% 42%}
+@media(max-width:767px){.pt-hero-picture .pt-hero-image{--pt-hero-zoom:1.045;transform-origin:55% 52%}}
+@media(prefers-reduced-motion:no-preference){
+ .pt-hero-picture .pt-hero-image{animation:ptHeroSlowZoom 16s ease-in-out infinite alternate both;animation-play-state:var(--pt-hero-play,running)}
+}
+@keyframes ptHeroSlowZoom{from{transform:scale(1)}to{transform:scale(var(--pt-hero-zoom))}}
+
+/* The requested title is pearl white; a fine rose edge keeps it readable on pale glass. */
+#bb-potenza .pt-hero h1{color:#fffaf7;-webkit-text-stroke:1px #b58b98;paint-order:stroke fill;text-shadow:0 2px 1px #b99aa5,0 6px 20px rgba(105,53,73,.24)}
