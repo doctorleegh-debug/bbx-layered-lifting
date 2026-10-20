@@ -1,1 +1,11 @@
-.related{padding-top:20px}.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}.related-card{display:grid;grid-template-columns:190px 1fr;align-items:center;gap:20px;border:1px solid #ebdce3;border-radius:18px;background:#fff;padding:28px;position:relative;transition:border-color .2s}.related-card:hover{border-color:#bd839b}.related-card img{height:200px;width:190px;object-fit:contain}.related-card .eyebrow{font-size:9px;letter-spacing:.09em;display:block;margin-bottom:12px}.related-card h3{font-size:25px;margin-bottom:12px}.related-card p{font-size:15px;line-height:1.85}.related-arrow{position:absolute;right:25px;top:20px;color:#a36981;font-size:22px}@media(max-width:1100px){.related-card{grid-template-columns:110px 1fr;gap:15px;padding:22px}.related-card img{width:110px;height:170px}.related-card h3{font-size:21px}}@media(max-width:767px){.related{padding-top:0}.related-grid{grid-template-columns:1fr;gap:16px}.related-card{grid-template-columns:110px 1fr;padding:24px 18px}.related-card img{height:150px}.related-card h3{font-size:22px}.related-card p{font-size:14px}.related-arrow{right:20px;top:12px}}
+.related{padding-top:20px}
+.related-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px}
+.related-card{display:grid;grid-template-columns:240px minmax(0,1fr);align-items:center;gap:24px;border:1px solid #ebdce3;border-radius:18px;background:#fff;padding:28px;position:relative;transition:border-color .2s}
+.related-card:hover{border-color:#bd839b}
+.related-card img{height:320px;width:240px;object-fit:contain;justify-self:center}
+.related-card .eyebrow{font-size:9px;letter-spacing:.09em;display:block;margin-bottom:12px}
+.related-card h3{font-size:25px;margin-bottom:12px}
+.related-card p{font-size:15px;line-height:1.85}
+.related-arrow{position:absolute;right:25px;top:20px;color:#a36981;font-size:22px}
+@media(max-width:1200px){.related-card{grid-template-columns:1fr;gap:18px;padding:28px 22px;text-align:center}.related-card img{width:240px;height:300px}.related-card h3{font-size:24px}}
+@media(max-width:767px){.related{padding-top:0}.related-grid{grid-template-columns:1fr;gap:20px}.related-card{padding:26px 20px 30px;gap:14px}.related-card img{height:260px;width:min(100%,220px)}.related-card h3{font-size:23px}.related-card p{font-size:15px}.related-arrow{right:20px;top:16px}}
