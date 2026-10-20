@@ -1,0 +1,20 @@
+/* R05: clinic-confirmed five-tip guide; scoped to Potenza only. */
+#bb-potenza .pt-tips{background:#fff5f8;scroll-margin-top:88px}
+.pt-tip-kicker{font:600 12px/1.6 Montserrat,Arial,sans-serif;letter-spacing:.12em;color:#9b3f60;margin:0 0 22px}
+.pt-tip-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.pt-tip-card,.pt-tip-guide{min-width:0;padding:30px;border-radius:18px;background:#fff}
+.pt-tip-card{border:1px solid #f0dce3;display:flex;flex-direction:column}
+.pt-tip-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
+.pt-tip-number{font:600 34px/1 Montserrat,Arial,sans-serif;color:#cf8d9f;letter-spacing:-.04em}
+.pt-tip-mode{font-size:12px;line-height:1.5;padding:7px 12px;border-radius:30px;background:#fff2f6;color:#8c3555;word-break:keep-all;text-align:center}
+.pt-tip-en{font:600 10px/1.6 Montserrat,Arial,sans-serif;color:#9b3f60;letter-spacing:.11em;margin:0 0 7px}
+#bb-potenza .pt-tip-card h3{font-size:32px;line-height:1.3;margin:0 0 20px;letter-spacing:-.03em}
+.pt-tip-purpose{font-size:18px;line-height:1.6;font-weight:700;color:#35252d;margin:0 0 12px;word-break:keep-all}
+.pt-tip-description{font-size:17px;line-height:1.85;color:#61575c;margin:0 0 24px;word-break:keep-all}
+.pt-tip-focus{font-size:14px;line-height:1.7;color:#93445f;border-top:1px solid #eee2e7;padding-top:18px;margin: auto 0 0;word-break:keep-all}
+.pt-tip-guide{background:linear-gradient(140deg,#f4c6d4,#fae9ee);display:flex;flex-direction:column;justify-content:center}
+#bb-potenza .pt-tip-guide h3{font-size:31px;line-height:1.4;color:#76364f;margin-bottom:22px}
+.pt-tip-guide>p:not(.pt-tip-kicker){font-size:17px;color:#694d59}
+.pt-tip-guide a{margin-top:24px;color:#71324d;align-self:flex-start}
+@media(max-width:1100px){.pt-tip-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.pt-tip-card,.pt-tip-guide{padding:27px}}
+@media(max-width:767px){.pt-tip-grid{grid-template-columns:1fr;gap:16px}.pt-tip-card,.pt-tip-guide{padding:26px}.pt-tip-top{margin-bottom:20px}#bb-potenza .pt-tip-card h3{font-size:29px}.pt-tip-description{font-size:16px}.pt-tip-focus{font-size:13px}.pt-tip-guide{padding-block:34px}.pt-nav{overflow-x:auto;justify-content:flex-start;gap:5px}.pt-nav a{flex:0 0 auto;padding-inline:9px;white-space:nowrap}.pt-tip-kicker{font-size:10px;letter-spacing:.1em}}
