@@ -1,0 +1,6 @@
+/* R06: original SFA, DIAMOND and DDR images above the five-tip guide. */
+#bb-potenza .pt-tip-images{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin:0 0 32px}
+#bb-potenza .pt-tip-image{min-width:0;margin:0;overflow:hidden;border:1px solid #f0dce3;border-radius:18px;background:#fff}
+#bb-potenza .pt-tip-image img{display:block;width:100%;height:auto;aspect-ratio:21/16;object-fit:contain}
+#bb-potenza .pt-tip-image figcaption{margin:0;padding:20px 16px;text-align:center;font:600 16px/1.5 Montserrat,Arial,sans-serif;letter-spacing:.06em;color:#8c3555;background:#fff}
+@media(max-width:767px){#bb-potenza .pt-tip-images{grid-template-columns:minmax(0,1fr);gap:16px;margin-bottom:24px}#bb-potenza .pt-tip-image{width:100%;max-width:420px;justify-self:center}#bb-potenza .pt-tip-image figcaption{padding:16px;font-size:15px}}
