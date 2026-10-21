@@ -11,8 +11,11 @@
   let inactive = false, raf = 0, timer = 0;
   const allowed = () => !reduced.matches && !navigator.connection?.saveData;
   const draw = progress => {
-    front.style.opacity = String(1 - progress);
-    angle.style.opacity = String(progress);
+    // Generated portraits are distinct exposures: never blend their faces.
+    // Switch both opacities in the same frame so exactly one photo is visible.
+    const showAngle = progress >= .5;
+    front.style.opacity = showAngle ? '0' : '1';
+    angle.style.opacity = showAngle ? '1' : '0';
   };
   const render = () => {
     raf = 0;

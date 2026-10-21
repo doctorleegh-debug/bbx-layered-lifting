@@ -163,5 +163,5 @@ h1,h2,h3,p,figure{margin:0}h1,h2,h3,p,li{word-break:keep-all;overflow-wrap:break
 .cb-balance [data-turn-model]{isolation:isolate}
 .cb-balance .cb-turn-front{opacity:1}
 .cb-balance .cb-turn-angle{position:absolute;inset:0;opacity:0;pointer-events:none}
-@supports(mix-blend-mode:plus-lighter){.cb-balance .cb-turn-front,.cb-balance .cb-turn-angle{mix-blend-mode:plus-lighter}}
+.cb-balance .cb-turn-front,.cb-balance .cb-turn-angle{mix-blend-mode:normal;transition:none}
 @media(prefers-reduced-motion:reduce){.cb-balance .cb-turn-front{opacity:1!important}.cb-balance .cb-turn-angle{opacity:0!important}}
