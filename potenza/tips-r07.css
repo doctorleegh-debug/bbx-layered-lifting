@@ -1,0 +1,4 @@
+/* R07: individual regenerated tip products within the existing guide cards. */
+#bb-potenza .pt-tip-product{display:flex;align-items:center;justify-content:center;flex:0 0 auto;height:220px;margin:0 0 24px;padding:10px;border-radius:14px;background:radial-gradient(ellipse at 50% 60%,#fff 30%,#fff4f7 100%)}
+#bb-potenza .pt-tip-product img{display:block;width:100%;height:100%;min-width:0;object-fit:contain}
+@media(max-width:767px){#bb-potenza .pt-tip-product{height:210px;margin-bottom:22px}}
