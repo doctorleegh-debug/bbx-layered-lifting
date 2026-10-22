@@ -25,12 +25,12 @@
 #xm .energy-scene[data-canvas-ready] .volume-static{opacity:0}
 #xm .liquid-shell{position:relative;display:inline-block;max-width:100%;isolation:isolate}
 #xm .liquid-base{position:relative;color:#ab456d}
-#xm .liquid-fill{position:absolute;inset:0;display:block;color:#b44974;pointer-events:none;clip-path:inset(0);background:linear-gradient(160deg,#e19ab6 0%,#b64b76 45%,#a83d69 100%);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+#xm .liquid-fill{position:absolute;inset:0;display:block;color:#b44974;pointer-events:none;clip-path:inset(0);background:linear-gradient(160deg,#b65d86 0%,#b64b76 45%,#a83d69 100%);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 #xm .liquid-shell.is-filling .liquid-base{color:#fff}
 #xm .liquid-shell.is-filling .liquid-base .vs-type{color:#fff}
 #xm .liquid-fill .vs-type{color:inherit;-webkit-text-fill-color:transparent}
 #xm .intro .liquid-base,#xm .care .liquid-base{color:#79314e}
-#xm .intro .liquid-fill,#xm .care .liquid-fill{background-image:linear-gradient(160deg,#f7c5db,#a23865 70%,#79314e)}
+#xm .intro .liquid-fill,#xm .care .liquid-fill{background-image:linear-gradient(160deg,#9c2e60,#84224d 70%,#79314e)}
 #xm .title-rule{display:none}
 #xm .title-ink{transform:none}
 @media(max-width:1100px){#xm .area-layout{gap:32px}#xm .area-item{padding:20px 0}}
