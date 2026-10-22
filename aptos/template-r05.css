@@ -1,0 +1,176 @@
+/* R05: scope the agreed template to the treatment, preserving the shared footer. */
+@font-face{font-family:AptosBody;src:url("assets/fonts/template-body-r05.woff2") format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:AptosHeading;src:url("assets/fonts/template-heading-r05.woff2") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:AptosLatin;src:url("assets/fonts/template-latin-r05.woff2") format("woff2");font-weight:700;font-display:swap}
+#main>section{--ink:#181818;--muted:#665e61;--rose:#ab526a;--line:#eadce1;--paper:#fff;color:var(--ink);font-family:AptosBody,Blossom,sans-serif;font-weight:500;font-size:19px;line-height:1.8;background:#fff}
+#main>section.section{padding-block:105px}
+#main>section.wrap,#main>section .wrap{width:min(1400px,88.9%)}
+#main>section :is(h1,h2,h3,h4,dt){font-family:AptosHeading,BlossomHeading,sans-serif;font-weight:700;letter-spacing:-.04em;color:var(--ink)}
+#main>section h2{font-size:clamp(32px,3.1vw,50px);line-height:1.35}
+#main>section h2 em{color:inherit}
+#main>section h3{font-size:24px;line-height:1.4}
+#main>section h4{font-size:21px;line-height:1.4}
+#main>section :is(p,dd){font-size:19px;line-height:1.8;color:var(--muted)}
+#main>section :is(.eyebrow,.mini-label,.collection-no,.step-label,.release-name,.aftercare-number,.q-number,.definition-row>span){font-family:AptosLatin,AptosBody,sans-serif;font-weight:700;font-size:12px;line-height:1.5;letter-spacing:.07em;color:var(--rose)}
+#main>section .eyebrow{margin-bottom:24px}
+#main>section .template-display{font-family:AptosLatin,sans-serif;font-weight:700;line-height:1;letter-spacing:-.065em}
+#main>section :is(.text-link,.collection-link){font-family:AptosBody,sans-serif;font-size:17px;color:#181818;line-height:1.65;border-color:#b77a8d}
+#main>section .button{font-family:AptosBody,sans-serif;font-size:16px;font-weight:500;min-height:54px;background:#181818;color:#fff;border-color:#181818}
+#main>section .split-heading{gap:55px;margin-bottom:56px}
+#main>section .split-heading>p{max-width:570px}
+#main>section.hero{background:#bb899b}
+#main>.hero :is(h1,h1 strong,h1 span,.hero-lead,.hero-description){color:#fff}
+#main>.hero .hero-eyebrow{color:#fff3f7}
+#main>.hero .hero-lead{font-family:AptosHeading,sans-serif;font-size:30px}
+#main>.hero .hero-description{font-size:19px}
+#main>.hero .hero-index{font-family:AptosLatin,sans-serif}
+#main>.intro{background:#f19391;--muted:#503641;--rose:#503641}
+#main>.intro .intro-display{font-size:clamp(64px,8.5vw,136px);color:#fff;margin:10px 0 46px}
+#main>.intro .concerns{gap:36px}
+#main>.intro .concerns article{border-color:#af666d}
+#main>.intro .large-number{font-family:AptosLatin,sans-serif;font-weight:700;color:#fff;font-size:42px}
+#main>.definition .definition-grid{gap:72px}
+#main>.definition .product-visual{border-radius:24px;background:#fff2f6;min-height:590px;padding:70px 25px 50px}
+#main>.definition .product-word{font-family:AptosLatin,sans-serif;font-weight:700;color:#ebc4d0;font-size:clamp(70px,8vw,116px)}
+#main>.definition .product-visual img{height:430px;width:100%}
+#main>.definition .product-caption{font-size:12px;color:#665e61;line-height:1.5}
+#main>.definition .definition-row{grid-template-columns:80px 1fr;padding-block:27px}
+#main>.aptos-lineup{padding-top:35px}
+#main>.aptos-lineup .lineup-layout{gap:64px;grid-template-columns:.9fr 1.1fr}
+#main>.aptos-lineup .lineup-art{margin-top:0;padding:30px;position:sticky;top:100px;background:#fff9fb}
+#main>.aptos-lineup .lineup-list h3{font-size:32px;margin-top:18px}
+#main>.aptos-lineup .lineup-benefit{font-size:21px;font-family:AptosHeading,sans-serif;color:#ab526a}
+#main>.aptos-lineup .lineup-length{font-size:13px;background:#fff2f6}
+#main>.aptos-lineup .lineup-focus{background:#fff9fb;border:0;padding:18px 20px;border-radius:12px}
+#main>.aptos-lineup .lineup-focus dt{font-size:16px;min-width:62px}
+#main>.aptos-lineup .lineup-focus dd{font-size:18px}
+#main>.aptos-lineup .lineup-focus>div+div{margin-top:6px}
+#main>.aptos-lineup .lineup-art figcaption{font-size:14px}
+#main>.aptos-lineup .material-band{background:#fff2f6;grid-template-columns:1.2fr repeat(3,1fr);padding:40px;gap:28px}
+#main>.aptos-lineup .material-band p{font-size:18px}
+#main>.aptos-lineup .material-symbol{font-family:AptosLatin,sans-serif;font-weight:700;color:#ab526a}
+#main>.aptos-lineup .material-item{padding-left:22px}
+#main>.thread-feature{padding-top:0}
+#main>.thread-feature .thread-world figcaption b{font-family:AptosHeading,sans-serif;font-size:36px;color:#181818}
+#main>.thread-feature .thread-detail{gap:65px}
+#main>.aptos-areas{background:#fff9fb}
+#main>.aptos-areas .area-points dt{font-size:23px}
+#main>.aptos-areas .areas-layout{gap:72px}
+#main>.namica{background:#fff}
+#main>.namica .namica-grid{gap:72px}
+#main>.namica .tech-steps{margin-top:32px}
+#main>.namica .tech-steps li{padding-block:23px}
+#main>.namica .capsule-visual{border-radius:24px}
+#main>.namica .capsule-visual figcaption{font-family:AptosLatin,sans-serif;font-weight:700}
+#main>.namica .closeup-copy{position:static;max-width:none;padding:40px;background:#fff2f6;backdrop-filter:none;border-radius:0}
+#main>.namica .namica-closeup{display:grid;grid-template-columns:1fr 1fr;align-items:stretch;background:#fff2f6}
+#main>.namica .namica-closeup img{height:100%;aspect-ratio:1;object-fit:cover}
+#main>.namica .release-heading h3{font-size:32px}
+#main>.namica .release-timeline h4{font-size:32px}
+#main>.consultation{background:#f5f3f3}
+#main>.consultation .process{gap:24px}
+#main>.consultation .process li{padding:30px 26px;border:0}
+#main>.consultation .process img{width:140px;height:140px}
+#main>.consultation .process p br{display:none}
+#main>.aptos-aftercare{background:#f19391;--muted:#503641;--rose:#503641}
+#main>.aptos-aftercare .aftercare-grid{column-gap:64px;margin-top:50px}
+#main>.aptos-aftercare .aftercare-grid li{padding-block:30px;gap:22px;border-color:#af666d}
+#main>.aptos-aftercare .aftercare-number{font-size:16px;min-width:28px;flex-shrink:0;white-space:nowrap}
+#main>.aptos-aftercare .aftercare-grid p{overflow-wrap:break-word}
+#main>.aptos-aftercare .aftercare-notes{border-color:#af666d;margin-top:24px}
+#main>.aptos-aftercare .aftercare-notes p{font-size:17px}
+#main>.faq{gap:80px;grid-template-columns:.85fr 1.15fr}
+#main>.faq .faq-display{font-size:clamp(110px,12.5vw,180px);color:#f19391;margin-bottom:32px}
+#main>.faq h2{font-size:clamp(32px,3.1vw,50px)}
+#main>.faq h2:after{content:"";display:block;width:48px;height:3px;background:#f19391;margin-top:28px}
+#main>.faq .faq-list{border:0}
+#main>.faq details{border:1px solid #efdae2;border-radius:18px;background:#fff9fb;margin-bottom:14px;overflow:hidden}
+#main>.faq summary{font-family:AptosBody,sans-serif;font-size:18px;font-weight:500;padding:25px 48px 25px 58px;line-height:1.8}
+#main>.faq .q-number{left:23px;top:30px}
+#main>.faq .plus{right:23px;top:34px}
+#main>.faq .answer{padding:0 28px 27px 58px}
+#main>.faq .answer p{font-size:18px}
+#main>.related{background:#fff9fb}
+#main>.related .related-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+#main>.related .related-card{grid-template-columns:1fr;gap:25px;padding:36px 28px;text-align:left;align-content:start;border-radius:22px}
+#main>.related .related-card img{height:310px;width:100%;max-width:300px;object-fit:contain}
+#main>.related .related-card h3{font-size:26px}
+#main>.related .related-card p{font-size:18px}
+@media(min-width:768px) and (max-width:1100px){
+ #main>section .split-heading{gap:32px;align-items:flex-start}
+ #main>section :is(.definition-grid,.namica-grid,.areas-layout){gap:36px}
+ #main>.definition .product-visual{min-height:480px}
+ #main>.definition .product-visual img{height:340px}
+ #main>.definition .definition-row{grid-template-columns:1fr;gap:8px}
+ #main>.aptos-lineup .lineup-layout{grid-template-columns:.7fr 1.3fr;gap:30px}
+ #main>.aptos-lineup .material-band{grid-template-columns:repeat(3,1fr);padding:30px}
+ #main>.aptos-lineup .material-heading{grid-column:1/-1;display:block}
+ #main>.aptos-lineup .material-heading .eyebrow{display:block}
+ #main>.namica .namica-closeup{grid-template-columns:1fr}
+ #main>.namica .namica-closeup img{aspect-ratio:16/9;height:auto}
+ #main>.faq{gap:35px;grid-template-columns:.8fr 1.2fr}
+ #main>.related .related-grid{gap:16px}
+ #main>.related .related-card{padding:26px 20px}
+ #main>.related .related-card img{height:240px}
+}
+@media(max-width:767px){
+ #main>section{font-size:18px;line-height:1.85}
+ #main>section.section{padding-block:64px}
+ #main>section.wrap,#main>section .wrap{width:calc(100% - 44px)}
+ #main>section h2,#main>.faq h2{font-size:30px;line-height:1.4}
+ #main>section h3{font-size:22px}
+ #main>section :is(p,dd){font-size:18px;line-height:1.85}
+ #main>section .eyebrow{font-size:12px;margin-bottom:20px}
+ #main>section .split-heading{margin-bottom:38px}
+ #main>section .split-heading>p{margin-top:24px}
+ #main>.hero .hero-copy{padding:40px 0 35px}
+ #main>section.hero{background:#986477}
+ #main>.hero .hero-eyebrow{font-size:11px;letter-spacing:.05em;color:#fff}
+ #main>.hero .hero-lead{font-size:24px}
+ #main>.hero .hero-description{font-size:18px}
+ #main>.hero .hero-index{font-size:8px}
+ #main>.intro .intro-display{font-size:clamp(49px,13vw,72px);margin:8px 0 34px}
+ #main>.intro .large-number{font-size:30px}
+ #main>.intro .concerns{gap:30px}
+ #main>.definition .definition-grid{gap:40px}
+ #main>.definition .product-visual{min-height:380px;padding:50px 20px 45px}
+ #main>.definition .product-visual img{height:280px}
+ #main>.definition .product-word{font-size:80px}
+ #main>.definition .definition-row{grid-template-columns:1fr;gap:10px;padding-block:24px}
+ #main>.aptos-lineup{padding-top:0}
+ #main>.aptos-lineup .lineup-layout{grid-template-columns:1fr;gap:32px}
+ #main>.aptos-lineup .lineup-art{position:static;padding:20px}
+ #main>.aptos-lineup .lineup-list h3{font-size:28px}
+ #main>.aptos-lineup .lineup-benefit{font-size:20px}
+ #main>.aptos-lineup .lineup-focus{padding:16px}
+ #main>.aptos-lineup .lineup-focus>div{display:block}
+ #main>.aptos-lineup .lineup-focus dd{margin-top:3px}
+ #main>.aptos-lineup .lineup-focus>div+div{margin-top:10px}
+ #main>.aptos-lineup .material-band{grid-template-columns:1fr;padding:28px 24px;gap:26px;margin-top:40px}
+ #main>.aptos-lineup .material-item{display:block;padding:24px 0 0}
+ #main>.aptos-lineup .material-item h4{margin-top:12px}
+ #main>.thread-feature{padding-top:0}
+ #main>.thread-feature .thread-world figcaption b{font-size:26px}
+ #main>.thread-feature .thread-detail{gap:25px}
+ #main>.aptos-areas .areas-layout,#main>.namica .namica-grid{gap:38px}
+ #main>.namica .namica-closeup{display:flex;flex-direction:column}
+ #main>.namica .closeup-copy{padding:28px 24px}
+ #main>.namica .namica-closeup img{aspect-ratio:3/2;height:auto;object-fit:contain}
+ #main>.namica .release-heading h3,#main>.namica .release-timeline h4{font-size:28px}
+ #main>.consultation .process{grid-template-columns:1fr;gap:18px}
+ #main>.consultation .process li{padding:28px}
+ #main>.consultation .process img{margin-left:0;width:130px;height:130px}
+ #main>.aptos-aftercare .aftercare-grid{margin-top:34px;grid-template-columns:1fr}
+ #main>.aptos-aftercare .aftercare-grid li{padding-block:26px;gap:16px}
+ #main>.aptos-aftercare .aftercare-notes p{font-size:16px}
+ #main>.faq{grid-template-columns:1fr;gap:36px}
+ #main>.faq .faq-display{font-size:110px;line-height:1;margin-bottom:25px}
+ #main>.faq summary{padding:22px 38px 22px 43px}
+ #main>.faq .q-number{left:16px;top:28px;font-size:11px}
+ #main>.faq .plus{right:16px;top:31px}
+ #main>.faq .answer{padding:0 20px 24px 43px}
+ #main>.related .related-grid{grid-template-columns:1fr;gap:24px}
+ #main>.related .related-card{padding:30px 26px;gap:22px}
+ #main>.related .related-card img{height:300px}
+}
+@media(max-width:350px){#main>section h2,#main>.faq h2{font-size:28px}#main>.hero h1 strong{font-size:52px}#main>.hero .button{font-size:14px;padding-inline:16px;gap:12px}}
