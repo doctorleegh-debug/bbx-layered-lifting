@@ -153,7 +153,12 @@ fieldset{border-color:#536078}#form-error{color:#ffb0c0}
 </style>
 <style id="staff-request-completion-style">
 .node .staff-request-completion{margin:0 18px 16px;color:#ff8585;font-size:14px;font-weight:700;line-height:1.65;overflow-wrap:anywhere;word-break:keep-all}
-</style></head>
+</style><style id="resource-request-date-style">
+/* Request dates remain readable in active and archived resource cards. */
+.cardnews-resource>div:first-child>.review-request-age{margin-top:10px}
+.resource-history-item>.review-request-age{justify-self:start;margin:4px 0;max-width:100%}
+</style>
+</head>
 <body><header><div class="brand"><span class="brand-icon" aria-hidden="true">✳</span><span>Beauty Blossom <small>홈페이지 작업실</small></span></div><div class="header-actions"><button id="export">백업 내보내기</button><label class="file-button">백업 가져오기<input id="import" type="file" accept="application/json,.json"></label><button id="add" class="primary">+ 시술 추가</button></div></header>
 <main><div class="intro"><div><p class="subtitle">문구 검토부터 국가별 업로드까지</p><h1>워크트리<span>.</span></h1><p>시술을 찾고, 시트를 열고, 끝낸 국가를 체크하세요.</p></div><div class="save-info"><span id="save-state" role="status" aria-live="polite">불러오는 중</span><span id="shared-state" role="status" aria-live="polite">체크 팀 저장 연결 중…</span><small>국가별 체크·수정 요청 메모는 팀 공용 · 저장·수정 시 다른 브라우저에도 반영</small></div></div>
 <div class="resource-workspace"><div class="resource-active">
@@ -182,8 +187,9 @@ window.NAV_STAFF_REVIEWS=[{"id": "BASE01", "name": "퍼스널 레이어드 리�
 window.NAV_CONFIRMATION_TASKS=[{"id":"CUSTOM-56f6ff05-a79b-51e9-96b7-16ba60fa9e08","name":"홈페이지 · 8층 원내 사진","scope":["KO"],"countries":{"KO":{"review":null,"upload":null}},"sheet":"","preview":"https://beautyblossom.kr/","page":"","stage":"confirmation","note":"담당자 수정사항 없음·전국가 반영 요청 확인. 한국·영어·일본·중국·대만·태국·홍콩 홈 공간 갤러리에 8층 광각 사진 5장 반영 완료. 기존 6층 사진 유지. 병원소개 최신 영상도 국가별 PC 16:9·모바일 4:5로 교체 완료.","recordedAt":"2026-10-07T10:25:00Z","recordSource":"전국가 공개 검증","linkLabel":"한국 홈페이지 확인 ↗","completed":true,"links":[["한국","https://beautyblossom.kr/"],["영어","https://en.beautyblossom.kr/"],["일본","https://jp.beautyblossom.kr/"],["중국","https://cn.beautyblossom.kr/"],["대만","https://tw.beautyblossom.kr/"],["태국","https://www.beautyblossomth.kr/"],["홍콩","https://hk.beautyblossom.kr/"]]},{"id":"CUSTOM-891e6670-47d7-5217-a11e-6615753ba03c","name":"실시간 채팅 테스트","scope":["KO"],"countries":{"KO":{"review":null,"upload":null}},"sheet":"","preview":"https://docs.google.com/spreadsheets/d/179de1yoRNsuPYQpHHNXiX1YT6CYZRjlr-jcxaUCzbAI/edit?pli=1&gid=0#gid=0","page":"","stage":"confirmation","note":"공유 시트의 뷰티앱·와츠앱 내용을 확인하고, 테스트 결과와 수정할 사항을 아래 메모에 남겨 주세요. 컨펌 대기.","recordedAt":"2026-10-06T09:00:00Z","recordSource":"컨펌 요청","linkLabel":"테스트 시트 열기 ↗"},{"id":"CUSTOM-152b8735-e7e2-571f-90fd-ea745e442a86","name":"스킨부스터 3종 · 모션 카드뉴스","scope":["KO"],"countries":{"KO":{"review":null,"upload":null}},"sheet":"https://docs.google.com/spreadsheets/d/10CSkQofRLD-k2l3wChaIAcQ6sWz4W14ZoWi_SGLetdc/edit?gid=35259880#gid=35259880","preview":"https://byeonghoyoo.github.io/bb-gouri-cardnews-report/skinbooster/","page":"","stage":"language","note":"2026. 10. 21. 디자인 컨펌 완료. 승인된 스킨부스터 3종 모션 카드뉴스 3세트·15편과 캡션의 56개 항목을 해외 5개 언어 시트로 정리해 상단 언어베리 구간으로 이동했습니다. 담당자 검토 대기.","recordedAt":"2026-10-21T10:48:02.238795+00:00","recordSource":"디자인 컨펌 완료 · 카드뉴스 언어베리 요청","linkLabel":"카드뉴스 시안 보기 ↗","completed":false,"resourceId":"skinbooster-motion-20261021","confirmationApproved":true},{"id":"CUSTOM-f7050f75-c827-5de2-a4d9-abb8329faff1","name":"압토스 실리프팅","scope":["KO"],"countries":{"KO":{"review":null,"upload":null}},"sheet":"","preview":"https://doctorleegh-debug.github.io/bbx-layered-lifting/aptos/?v=review-r05","page":"","stage":"confirmation","note":"2026. 10. 22. 공통 템플릿 디자인 수정완료 · 컨펌 대기. 굵은 제목·큰 본문, 핑크/화이트 섹션, Q&A 및 관련시술 카드 적용. 한국어 주의사항 10개·FAQ14·나미카 3종 상세 설명·기존 이미지와 영상·공통 하단 보존. 영어 주의사항 10개와 재생/영상 전체보기 버튼 제거, 배경 영상 자동 반복 유지.","recordedAt":"2026-10-22T02:23:59.400021+00:00","recordSource":"공통 템플릿·한국어 주의사항·영상 버튼 피드백 반영","linkLabel":"시안 보기 ↗","completed":false,"staffResolution":{"source":"staff-note","sourceNoteId":"CUSTOM-f7050f75-c827-5de2-a4d9-abb8329faff1","sourceNoteRev":6,"request":"NANO·S·19 라인별 차이와 효과 설명 보강","completedAt":"2026-10-22T01:51:48.710887+00:00","confirmationPending":true}}];
 
 // First recorded language-review sheet delivery; independent of later edits/publications.
-window.NAV_REVIEW_REQUESTS={"BASE01":"2026-09-08","BASE02":"2026-09-14","R01":"2026-09-15","R02":"2026-09-16","R03":"2026-09-20","R04":"2026-09-30","R05":"2026-10-07","R07":"2026-10-07","R09":"2026-09-21","R10":"2026-09-21","R11":"2026-09-24","N04":"2026-09-29","N06":"2026-09-23","N07":"2026-09-23","N11":"2026-09-24","R06":"2026-10-12","CUSTOM-2d28dcba-3086-4ccb-bd30-e64c83472d89":"2026-10-15","N01":"2026-10-16","N02":"2026-10-16","N10":"2026-10-16"};
-
+window.NAV_REVIEW_REQUESTS={"BASE01":"2026-09-08","BASE02":"2026-09-14","R01":"2026-09-15","R02":"2026-09-16","R03":"2026-09-20","R04":"2026-09-30","R05":"2026-10-07","R07":"2026-10-07","R09":"2026-09-21","R10":"2026-09-21","R11":"2026-09-24","N04":"2026-09-29","N06":"2026-09-23","N07":"2026-09-23","N11":"2026-09-24","R06":"2026-10-12","CUSTOM-2d28dcba-3086-4ccb-bd30-e64c83472d89":"2026-10-15","N01":"2026-10-16","N02":"2026-10-16","N10":"2026-10-16","R08":"2026-10-21","N03":"2026-10-19","N05":"2026-10-19","N09":"2026-10-19","CUSTOM-152b8735-e7e2-571f-90fd-ea745e442a86":"2026-10-21","CUSTOM-f5e0fadf-121b-583a-85ce-1681f8d9aebc":"2026-10-21","CUSTOM-972508d3-ff8d-504a-8e4c-41c5625491e7":"2026-10-20","CUSTOM-4906e3b1-3d03-5e95-9e20-24b4ea256ab6":"2026-10-20","CUSTOM-cdcbfbcc-0473-5647-8985-6fa4d9f5161b":"2026-10-12","CUSTOM-ba71cde4-eed6-577a-821b-cb9ae49cfa8f":"2026-10-02","CUSTOM-b8203548-a01c-573d-9333-712a35f29db7":"2026-09-24","CUSTOM-bda58fb8-8391-5d6c-8c15-3f49eada67cc":"2026-10-01"};
+// First recorded confirmation handoff; kept separate from language-review requests.
+window.NAV_CONFIRMATION_REQUESTS={"N08":"2026-10-19","CUSTOM-f7050f75-c827-5de2-a4d9-abb8329faff1":"2026-10-20","CUSTOM-56f6ff05-a79b-51e9-96b7-16ba60fa9e08":"2026-10-06","CUSTOM-891e6670-47d7-5217-a11e-6615753ba03c":"2026-10-06"};
 </script><script>
 (()=>{'use strict';
 const KEY='beautyblossom.sheet-navigator.v1',COUNTRIES={KO:'한국',EN:'영어',JP:'일본',CN:'중국',TW:'대만',TH:'태국',HK:'홍콩'},GROUPS=[['all','전국가 업로드 완료'],['ko','한국만 업로드 완료'],['partial','일부 해외 업로드 완료'],['language','언어베리 요청'],['draft','제작예정'],['confirmation','컨펌 대기중']],$=s=>document.querySelector(s),clone=x=>JSON.parse(JSON.stringify(x));
@@ -432,7 +438,7 @@ function check(n,c,kind){const wrap=node('label',undefined,'check-wrap'),input=n
 function confirmationTaskCard(n){
  const task=(window.NAV_CONFIRMATION_TASKS||[]).find(t=>t.id===n.id);if(!task)return null;
  const e=node('article',undefined,'node');e.dataset.id=n.id;
- const top=node('div',undefined,'node-top'),title=node('div');title.append(node('small','검토 요청'),node('h3',task.name));top.append(title);e.append(top);
+ const top=node('div',undefined,'node-top'),title=node('div');const titleRow=node('div',undefined,'node-title-row');titleRow.append(node('h3',task.name));const request=requestBadge(n);if(request)titleRow.append(request);title.append(node('small','검토 요청'),titleRow);top.append(title);e.append(top);
  const badge=node('div',undefined,'status');badge.append(node('i',undefined,'dot'),node('span',task.completed?'전국가 업로드 완료':'컨펌 대기중'));e.append(badge);const resolutionNotice=staffResolutionNotice(n,task.completed?'all':'confirmation');if(resolutionNotice)e.append(resolutionNotice);
  const links=node('div',undefined,'links'),a=node('a',task.linkLabel);a.href=safeUrl(task.preview);a.target='_blank';a.rel='noopener noreferrer';links.append(a);if(task.links){links.replaceChildren();for(const [label,url] of task.links){const link=node('a',label+' 홈페이지 ↗');link.href=safeUrl(url);link.target='_blank';link.rel='noopener noreferrer';links.append(link)}}e.append(links,node('p',task.note,'note'));return e;
 }
@@ -449,24 +455,32 @@ function requestAgeDays(value,now=Date.now()){
  const days=Math.floor((requestDateEpoch(today)-start)/86400000);return days>=0?days:null;
 }
 function updateRequestBadge(b,n){
- const date=Object.prototype.hasOwnProperty.call(window.NAV_REVIEW_REQUESTS||{},n.id)?window.NAV_REVIEW_REQUESTS[n.id]:null;
+ const reviews=window.NAV_REVIEW_REQUESTS||{},confirmations=window.NAV_CONFIRMATION_REQUESTS||{};
+ const confirmation=!Object.prototype.hasOwnProperty.call(reviews,n.id)&&Object.prototype.hasOwnProperty.call(confirmations,n.id);
+ const date=confirmation?confirmations[n.id]:(Object.prototype.hasOwnProperty.call(reviews,n.id)?reviews[n.id]:null);
  const days=requestAgeDays(date),foreign=n.scope.filter(c=>c!=='KO');
- const complete=foreign.length>0&&foreign.every(c=>n.countries[c]?.review===true||n.countries[c]?.upload===true);
+ const task=(window.NAV_CONFIRMATION_TASKS||[]).find(t=>t.id===n.id);
+ const complete=confirmation?Boolean(task?.completed||task?.confirmationApproved||n.archiveEligible):Boolean(n.requestCompleted||window.BBHomepageArchive?.isArchived(n.id))||(foreign.length>0&&foreign.every(c=>n.countries[c]?.review===true));
  b.className='review-request-age';b.removeAttribute('data-request-date');
- if(days===null){b.textContent='최초 요청일 확인 필요';b.title='최초 언어베리 요청 기록을 확인해야 합니다.';return}
+ b.dataset.requestNode=n.id;b.dataset.requestKind=confirmation?'confirmation':'language';
+ if(days===null){b.textContent='최초 요청일 확인 필요';b.title='최초 요청 기록을 확인해야 합니다.';return}
  b.dataset.requestDate=date;
  const label=date.replaceAll('-','.');
- b.textContent='최초 요청 '+label+' · '+(complete?'검토 완료':days+'일 경과');
- b.title='최초 언어베리 요청 '+label+' · 시트 공유 기록 기준 · 경과 일수는 한국 날짜 기준';
+ b.textContent=(confirmation?'최초 컨펌 요청 ':'최초 요청 ')+label+' · '+(complete?(confirmation?'완료':'검토 완료'):days+'일 경과');
+ b.title=(confirmation?'최초 컨펌 요청 ':'최초 언어베리 요청 ')+label+' · '+(confirmation?'컨펌 요청 등록 기록':'시트 공유 기록')+' 기준 · 경과 일수는 한국 날짜 기준';
  b.classList.toggle('is-complete',complete);b.classList.toggle('is-overdue',!complete&&days>=14);
 }
 function requestBadge(n){
- const latest=(window.NAV_DRAFTS||[]).find(r=>r.id===n.id);if(!(n.sheet||latest?.sheet))return null;
+ const latest=(window.NAV_DRAFTS||[]).find(r=>r.id===n.id);
+ const known=[window.NAV_REVIEW_REQUESTS,window.NAV_CONFIRMATION_REQUESTS].some(map=>Object.prototype.hasOwnProperty.call(map||{},n.id));
+ if(!(n.sheet||latest?.sheet||known))return null;
  const b=node('span',undefined,'review-request-age');updateRequestBadge(b,n);return b;
 }
+window.BBRequestDates={update:updateRequestBadge,badge:requestBadge};
 function refreshRequestAges(){
  if(document.hidden)return;
- document.querySelectorAll('.review-request-age').forEach(b=>{const n=state.nodes.find(n=>n.id===b.closest('.node')?.dataset.id);if(n)updateRequestBadge(b,n)});
+ document.querySelectorAll('.review-request-age').forEach(b=>{const n=state.nodes.find(n=>n.id===b.dataset.requestNode);if(n)updateRequestBadge(b,n)});
+ window.BBRequestDates.refreshResources?.();
 }
 setInterval(refreshRequestAges,60000);
 document.addEventListener('visibilitychange',refreshRequestAges);
@@ -705,8 +719,8 @@ applyVerifiedBotox().then(applyVerifiedCoretox).then(applyStaffReviewEvidence).t
 
 window.BBHomepageBoard={nodes:()=>state.nodes.map(n=>({...clone(n),archiveEligible:status(n)==='all'})),render};
 })();
-
-</script><script id="cardnews-checks-script">(() => {
+</script><script id="cardnews-checks-script">
+(() => {
   'use strict';
   const groups = [...document.querySelectorAll('.resource-completion[data-shared-node]')];
   if (!groups.length) return;
@@ -815,7 +829,11 @@ window.BBHomepageBoard={nodes:()=>state.nodes.map(n=>({...clone(n),archiveEligib
     const restore = item('button', '복원', 'resource-restore');
     restore.type = 'button'; restore.setAttribute('aria-label', title + ' 복원');
     actions.append(link, restore); row.append(name, info, actions); list.append(row);
-    const resource = {group, section, title, finish, row, info, restore};
+    const requestNode = {id:group.dataset.sharedNode,sheet:link.href,scope:[...group.querySelectorAll('input[data-country]')].map(input=>input.dataset.country),countries:{}};
+    const request = window.BBRequestDates.badge(requestNode), historyRequest = request?.cloneNode(true);
+    if(request)section.querySelector('h2').parentElement.append(request);
+    if(historyRequest)row.insertBefore(historyRequest,actions);
+    const resource = {group, section, title, finish, row, info, restore, requestNode, request, historyRequest};
     finish.addEventListener('click', () => change(archiveKey(group), true, resource));
     restore.addEventListener('click', () => change(archiveKey(group), false, resource));
     return resource;
@@ -848,7 +866,8 @@ window.BBHomepageBoard={nodes:()=>state.nodes.map(n=>({...clone(n),archiveEligib
         const restore = item('button','복원','resource-restore'); restore.type='button';
         const finish = item('button','최종완료 ×','resource-finish homepage-finish'); finish.type='button'; finish.dataset.homepageFinish=n.id;
         actions.append(link,restore);row.append(name,info,actions);list.append(row);
-        r={homepage:true,id:n.id,group,title:n.name,name,row,info,link,restore,finish,node:n};
+        const request=window.BBRequestDates.badge(n);if(request)row.insertBefore(request,actions);
+        r={homepage:true,id:n.id,group,title:n.name,name,row,info,link,restore,finish,node:n,request};
         homepageResources.set(n.id,r);resources.push(r);resourceKeys.push(archiveKey(group));
         finish.addEventListener('click',()=>change(archiveKey(group),true,r));
         restore.addEventListener('click',()=>change(archiveKey(group),false,r));
@@ -885,12 +904,16 @@ window.BBHomepageBoard={nodes:()=>state.nodes.map(n=>({...clone(n),archiveEligib
       if(resource.homepage){
         finish.disabled=restore.disabled=disabled;
         const n=resource.node,foreign=n.scope.filter(c=>c!=='KO');
+        if(resource.request)window.BBRequestDates.update(resource.request,n);
         info.textContent='업로드 '+n.scope.filter(c=>n.countries[c]?.upload===true).length+'/'+n.scope.length+' · 언어검토 '+foreign.filter(c=>n.countries[c]?.review===true).length+'/'+foreign.length;
         continue;
       }
       section.hidden = completed; completedCardnews += Number(completed);
       finish.disabled = restore.disabled = disabled;
       const fields = [...group.querySelectorAll('input[data-country]')];
+      resource.requestNode.requestCompleted=completed;
+      resource.requestNode.countries=Object.fromEntries(fields.map(input=>[input.dataset.country,{review:board?.cells[key(input)]?.value===true}]));
+      for(const badge of [resource.request,resource.historyRequest])if(badge)window.BBRequestDates.update(badge,resource.requestNode);
       const progress = fields.filter(input => input.checked).length + '/' + fields.length;
       const date = cell?.at && new Date(cell.at);
       info.textContent = (date && Number.isFinite(date.getTime())
@@ -913,6 +936,8 @@ window.BBHomepageBoard={nodes:()=>state.nodes.map(n=>({...clone(n),archiveEligib
     const signature=[...homepageResources.values()].map(r=>r.id+':'+String(board?.cells[archiveKey(r.group)]?.value===true)).join('|');
     if(signature!==archiveSignature){archiveSignature=signature;queueMicrotask(()=>window.BBHomepageBoard?.render());}
   }
+  window.BBRequestDates.refreshResources=draw;
+
   function accept(value) {
     if (!value || !Number.isSafeInteger(value.version) || value.version < 0 || !value.cells || typeof value.cells !== 'object' || Array.isArray(value.cells)) throw Error('공용 저장 응답을 확인할 수 없어요.');
     for (const k of resourceKeys) {
