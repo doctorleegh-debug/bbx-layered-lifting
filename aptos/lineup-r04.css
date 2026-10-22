@@ -1,0 +1,19 @@
+@font-face{font-family:NamicaLineup;src:url("assets/fonts/lineup-body-r04.woff2") format("woff2");font-display:swap}
+@font-face{font-family:NamicaLineupHeading;src:url("assets/fonts/lineup-heading-r04.woff2") format("woff2");font-weight:400 700;font-display:swap}
+.aptos-lineup{font-family:NamicaLineup,Blossom,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+.aptos-lineup h2,.aptos-lineup h3{font-family:NamicaLineupHeading,NamicaLineup,sans-serif}
+.aptos-lineup .lineup-layout{grid-template-columns:.9fr 1.1fr;gap:64px;align-items:start}
+.aptos-lineup .lineup-art{margin-top:84px}
+.lineup-meta{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.lineup-length{font-size:12px;line-height:1.5;color:#794958;background:#f5e8ee;border-radius:30px;padding:6px 12px;white-space:nowrap}
+.aptos-lineup .lineup-list article{padding:30px 0 32px}
+.aptos-lineup .lineup-list h3{font-size:29px;margin:15px 0 10px}
+.aptos-lineup .lineup-benefit{font-size:18px;font-weight:700;line-height:1.65;color:#893f5b;margin-bottom:14px}
+.aptos-lineup .lineup-description{font-size:16px;line-height:1.9;color:#6e5c65}
+.lineup-focus{margin:18px 0 0;padding:14px 0 0;border-top:1px solid #eee0e7;font-size:13px;line-height:1.8}
+.lineup-focus>div{display:flex;gap:16px;align-items:baseline}
+.lineup-focus dt{color:#893f5b;font-weight:700;flex-shrink:0}
+.lineup-focus dd{margin:0;color:#6e5c65}
+.aptos-lineup .collection-link{font-family:NamicaLineup,Blossom,sans-serif;color:#82445e;margin-top:16px}
+@media(min-width:768px) and (max-width:1100px){.aptos-lineup .lineup-layout{gap:32px;grid-template-columns:.8fr 1.2fr}.aptos-lineup .lineup-list h3{font-size:25px}.aptos-lineup .lineup-description{font-size:15px}.aptos-lineup .lineup-benefit{font-size:17px}.aptos-lineup .material-heading{flex-wrap:wrap}}
+@media(max-width:767px){.aptos-lineup .lineup-layout{grid-template-columns:1fr;gap:28px}.aptos-lineup .lineup-art{margin-top:0}.aptos-lineup .lineup-list article{padding:26px 0 28px}.aptos-lineup .lineup-list h3{font-size:25px}.aptos-lineup .lineup-benefit{font-size:17px;margin-bottom:12px}.aptos-lineup .lineup-description{font-size:15px}.lineup-length{font-size:11px;padding:5px 10px}.lineup-focus{font-size:12px}.lineup-focus>div{gap:12px}}
