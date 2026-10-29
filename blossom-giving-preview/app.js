@@ -41,26 +41,22 @@ const track=document.getElementById('partner-track');
 const original=track.querySelector('.partner-grid');
 const copy=original.cloneNode(true);copy.dataset.copy='';copy.setAttribute('aria-hidden','true');
 copy.querySelectorAll('button').forEach(button=>button.tabIndex=-1);track.append(copy);
-const toggle=document.getElementById('motion-toggle');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-let animation=null,manuallyPaused=false,hovered=false,distance=0;
+let animation=null,hovered=false,distance=0;
 function updateMotion(){
-  const paused=manuallyPaused||hovered||document.hidden||dialog.open||viewport.contains(document.activeElement);
+  const paused=hovered||document.hidden||dialog.open||viewport.contains(document.activeElement);
   if(animation){if(paused)animation.pause();else animation.play();}
-  toggle.setAttribute('aria-pressed',String(manuallyPaused));
-  toggle.innerHTML=manuallyPaused?'자동재생 <span aria-hidden="true">▷</span>':'일시정지 <span aria-hidden="true">Ⅱ</span>';
 }
 function layoutMotion(){
   const progress=animation&&distance?((animation.currentTime||0)/1000*25)%distance/distance:0;
   animation?.cancel();animation=null;
-  if(reduced.matches){copy.hidden=true;toggle.hidden=true;viewport.classList.remove('is-animated');return;}
-  copy.hidden=false;toggle.hidden=false;viewport.classList.add('is-animated');viewport.scrollLeft=0;
+  if(reduced.matches){copy.hidden=true;viewport.classList.remove('is-animated');return;}
+  copy.hidden=false;viewport.classList.add('is-animated');viewport.scrollLeft=0;
   distance=original.getBoundingClientRect().width+parseFloat(getComputedStyle(track).gap);
   if(distance<=0)return;
   animation=track.animate([{transform:'translateX(0)'},{transform:'translateX(-'+distance+'px)'}],{duration:distance/25*1000,iterations:Infinity,easing:'linear'});
   animation.currentTime=progress*distance/25*1000;updateMotion();
 }
-toggle.addEventListener('click',()=>{manuallyPaused=!manuallyPaused;updateMotion()});
 viewport.addEventListener('pointerenter',event=>{if(event.pointerType==='mouse'){hovered=true;updateMotion()}});
 viewport.addEventListener('pointerleave',()=>{hovered=false;updateMotion()});
 viewport.addEventListener('focusin',event=>{
@@ -71,4 +67,3 @@ viewport.addEventListener('focusout',()=>queueMicrotask(updateMotion));
 dialog.addEventListener('close',updateMotion);new MutationObserver(updateMotion).observe(dialog,{attributes:true,attributeFilter:['open']});
 document.addEventListener('visibilitychange',updateMotion);reduced.addEventListener('change',layoutMotion);
 new ResizeObserver(layoutMotion).observe(original);layoutMotion();
-document.querySelector('.story-link').addEventListener('click',()=>{document.getElementById('giving-records').open=true});
