@@ -39,8 +39,12 @@ document.getElementById('share-button').addEventListener('click',async()=>{
 const viewport=document.getElementById('partner-viewport');
 const track=document.getElementById('partner-track');
 const original=track.querySelector('.partner-grid');
-const copy=original.cloneNode(true);copy.dataset.copy='';copy.setAttribute('aria-hidden','true');
-copy.querySelectorAll('button').forEach(button=>button.tabIndex=-1);track.append(copy);
+const copies=[];
+function ensureCopies(count){
+  while(copies.length<count){const copy=original.cloneNode(true);copy.dataset.copy='';copy.setAttribute('aria-hidden','true');copy.querySelectorAll('button').forEach(button=>button.tabIndex=-1);track.append(copy);copies.push(copy);}
+  while(copies.length>count){const last=copies.at(-1);if(last.contains(document.activeElement))break;copies.pop().remove();}
+}
+ensureCopies(1);
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 let animation=null,hovered=false,distance=0;
 function updateMotion(){
@@ -50,10 +54,11 @@ function updateMotion(){
 function layoutMotion(){
   const progress=animation&&distance?((animation.currentTime||0)/1000*25)%distance/distance:0;
   animation?.cancel();animation=null;
-  if(reduced.matches){copy.hidden=true;viewport.classList.remove('is-animated');return;}
-  copy.hidden=false;viewport.classList.add('is-animated');viewport.scrollLeft=0;
+  if(reduced.matches){copies.forEach(copy=>copy.hidden=true);viewport.classList.remove('is-animated');return;}
+  copies.forEach(copy=>copy.hidden=false);viewport.classList.add('is-animated');viewport.scrollLeft=0;
   distance=original.getBoundingClientRect().width+parseFloat(getComputedStyle(track).gap);
   if(distance<=0)return;
+  ensureCopies(Math.max(1,Math.ceil((viewport.clientWidth+parseFloat(getComputedStyle(track).gap))/distance)));
   animation=track.animate([{transform:'translateX(0)'},{transform:'translateX(-'+distance+'px)'}],{duration:distance/25*1000,iterations:Infinity,easing:'linear'});
   animation.currentTime=progress*distance/25*1000;updateMotion();
 }
@@ -66,4 +71,14 @@ viewport.addEventListener('focusin',event=>{
 viewport.addEventListener('focusout',()=>queueMicrotask(updateMotion));
 dialog.addEventListener('close',updateMotion);new MutationObserver(updateMotion).observe(dialog,{attributes:true,attributeFilter:['open']});
 document.addEventListener('visibilitychange',updateMotion);reduced.addEventListener('change',layoutMotion);
-new ResizeObserver(layoutMotion).observe(original);layoutMotion();
+const givingSection=viewport.closest('.giving-section');
+function fitViewportToSection(){
+  const right=givingSection.getBoundingClientRect().right,left=viewport.getBoundingClientRect().left;
+  const width=Math.max(0,right-left);const next=width.toFixed(3)+'px';
+  if(viewport.style.width!==next)viewport.style.width=next;
+  layoutMotion();
+}
+new ResizeObserver(layoutMotion).observe(original);
+new ResizeObserver(fitViewportToSection).observe(givingSection);
+window.addEventListener('resize',fitViewportToSection,{passive:true});
+fitViewportToSection();
