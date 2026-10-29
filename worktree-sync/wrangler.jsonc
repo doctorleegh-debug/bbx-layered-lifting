@@ -9,6 +9,10 @@
       {
         "name": "CHECKS",
         "class_name": "SharedChecks"
+      },
+      {
+        "name": "TASKS",
+        "class_name": "SharedTasks"
       }
     ]
   },
@@ -18,6 +22,10 @@
       "new_sqlite_classes": [
         "SharedChecks"
       ]
+    },
+    {
+      "tag": "v2",
+      "new_sqlite_classes": ["SharedTasks"]
     }
   ],
   "vars": {
@@ -34,6 +42,10 @@
           {
             "name": "CHECKS",
             "class_name": "SharedChecks"
+          },
+          {
+            "name": "TASKS",
+            "class_name": "SharedTasks"
           }
         ]
       }

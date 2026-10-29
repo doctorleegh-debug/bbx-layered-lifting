@@ -1,4 +1,5 @@
 import defaults from './defaults.json';
+import {taskRequest} from './tasks.js';
 
 const kinds = /^(BASE\d{2}|[RN]\d{2}|CUSTOM-[a-f0-9-]{36})\/(KO|EN|JP|CN|TW|TH|HK)\/(review|upload)$/;
 const known = new Set(Object.keys(defaults).map(k => k.split('/')[0]));
@@ -10,7 +11,13 @@ function response(data, status = 200) {
   return Response.json(data, {status, headers:{'Cache-Control':'no-store'}});
 }
 
-// One durable board, per-cell revisions. No employee notes, links or credentials stored.
+// Dedicated collaboration storage keeps legacy checkbox state untouched.
+export class SharedTasks {
+  constructor(ctx) { this.ctx=ctx; }
+  async fetch(request) { return taskRequest(request,this.ctx.storage); }
+}
+
+// Existing durable board and per-cell revisions retain their original namespace.
 export class SharedChecks {
   constructor(ctx) { this.ctx = ctx; }
   async fetch(request) {
@@ -81,15 +88,16 @@ export default {
     const path=new URL(request.url).pathname;
     if(origin!==env.ALLOWED_ORIGIN)return response({error:'Origin not allowed'},403);
     if(request.method==='OPTIONS')return new Response(null,{status:204,headers});
-    if(!((request.method==='GET'&&path==='/v1/state')||
-      (request.method==='POST'&&['/v1/check','/v1/legacy'].includes(path))))
+    if(!((request.method==='GET'&&['/v1/state','/v1/tasks'].includes(path))||
+      (request.method==='POST'&&['/v1/check','/v1/legacy','/v1/tasks'].includes(path))))
       return new Response('Not found',{status:404,headers});
     if(request.headers.get('X-BB-Worktree')!=='checks-v1')
       return new Response('Missing client header',{status:400,headers});
     if(request.method==='POST'&&!request.headers.get('Content-Type')?.startsWith('application/json'))
       return new Response('Expected JSON',{status:415,headers});
     try {
-      const stub=env.CHECKS.get(env.CHECKS.idFromName('homepage-v1'));
+      const binding=path==='/v1/tasks'?env.TASKS:env.CHECKS;
+      const stub=binding.get(binding.idFromName(path==='/v1/tasks'?'collaboration-v1':'homepage-v1'));
       const r=await stub.fetch(request);
       return new Response(r.body,{status:r.status,headers:{...Object.fromEntries(r.headers),...headers}});
     }catch{
