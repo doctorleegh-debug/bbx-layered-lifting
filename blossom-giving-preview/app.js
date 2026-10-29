@@ -9,8 +9,8 @@ const partners={
 };
 const dialog=document.getElementById('partner-dialog');
 let opener=null;
-document.querySelectorAll('[data-partner]').forEach(button=>{
-  button.addEventListener('click',()=>{
+document.querySelector('.partner-showcase').addEventListener('click',event=>{
+    const button=event.target.closest('[data-partner]');if(!button)return;
     const partner=partners[button.dataset.partner];if(!partner)return;
     opener=button;
     document.getElementById('dialog-title').textContent=partner.name;
@@ -22,7 +22,6 @@ document.querySelectorAll('[data-partner]').forEach(button=>{
     const note=document.getElementById('dialog-logo-note');note.hidden=!partner.logoNote;note.textContent=partner.logoNote||'';
     document.getElementById('dialog-website').href=partner.website;
     dialog.showModal();dialog.scrollTop=0;
-  });
 });
 document.querySelector('.dialog-close').addEventListener('click',()=>dialog.close());
 dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const rect=dialog.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)dialog.close();});
@@ -34,3 +33,42 @@ document.getElementById('share-button').addEventListener('click',async()=>{
   catch{status.textContent='브라우저 주소창의 링크를 복사해 주세요.';}
   status.classList.add('is-visible');toastTimeout=setTimeout(()=>status.classList.remove('is-visible'),3000);
 });
+
+
+// One repeated group at a constant 25 CSS pixels per second. Pause for reading.
+const viewport=document.getElementById('partner-viewport');
+const track=document.getElementById('partner-track');
+const original=track.querySelector('.partner-grid');
+const copy=original.cloneNode(true);copy.dataset.copy='';copy.setAttribute('aria-hidden','true');
+copy.querySelectorAll('button').forEach(button=>button.tabIndex=-1);track.append(copy);
+const toggle=document.getElementById('motion-toggle');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+let animation=null,manuallyPaused=false,hovered=false,distance=0;
+function updateMotion(){
+  const paused=manuallyPaused||hovered||document.hidden||dialog.open||viewport.contains(document.activeElement);
+  if(animation){if(paused)animation.pause();else animation.play();}
+  toggle.setAttribute('aria-pressed',String(manuallyPaused));
+  toggle.innerHTML=manuallyPaused?'자동재생 <span aria-hidden="true">▷</span>':'일시정지 <span aria-hidden="true">Ⅱ</span>';
+}
+function layoutMotion(){
+  const progress=animation&&distance?((animation.currentTime||0)/1000*25)%distance/distance:0;
+  animation?.cancel();animation=null;
+  if(reduced.matches){copy.hidden=true;toggle.hidden=true;viewport.classList.remove('is-animated');return;}
+  copy.hidden=false;toggle.hidden=false;viewport.classList.add('is-animated');viewport.scrollLeft=0;
+  distance=original.getBoundingClientRect().width+parseFloat(getComputedStyle(track).gap);
+  if(distance<=0)return;
+  animation=track.animate([{transform:'translateX(0)'},{transform:'translateX(-'+distance+'px)'}],{duration:distance/25*1000,iterations:Infinity,easing:'linear'});
+  animation.currentTime=progress*distance/25*1000;updateMotion();
+}
+toggle.addEventListener('click',()=>{manuallyPaused=!manuallyPaused;updateMotion()});
+viewport.addEventListener('pointerenter',event=>{if(event.pointerType==='mouse'){hovered=true;updateMotion()}});
+viewport.addEventListener('pointerleave',()=>{hovered=false;updateMotion()});
+viewport.addEventListener('focusin',event=>{
+  if(animation){const button=event.target.closest('[data-partner]');if(button){const r=button.getBoundingClientRect(),v=viewport.getBoundingClientRect();if(r.left<v.left||r.right>v.right){const index=[...original.querySelectorAll('[data-partner]')].findIndex(x=>x.dataset.partner===button.dataset.partner);const item=original.children[index];animation.currentTime=(item.offsetLeft-original.children[0].offsetLeft)/25*1000;}}}
+  updateMotion();
+});
+viewport.addEventListener('focusout',()=>queueMicrotask(updateMotion));
+dialog.addEventListener('close',updateMotion);new MutationObserver(updateMotion).observe(dialog,{attributes:true,attributeFilter:['open']});
+document.addEventListener('visibilitychange',updateMotion);reduced.addEventListener('change',layoutMotion);
+new ResizeObserver(layoutMotion).observe(original);layoutMotion();
+document.querySelector('.story-link').addEventListener('click',()=>{document.getElementById('giving-records').open=true});
