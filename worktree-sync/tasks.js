@@ -1,6 +1,6 @@
 const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
 const countries=new Set(['EN','JP','CN','TW','TH','HK']);
-const categories=new Set(['video','website','other']);
+const categories=new Set(['video','cardnews','website','other']);
 const reply=(data,status=200)=>Response.json(data,{status,headers:{'Cache-Control':'no-store'}});
 export function validateTask(body){
   if(!body||typeof body!=='object'||Array.isArray(body)||typeof body.id!=='string'||!body.id.startsWith('CUSTOM-')||!uuid.test(body.id.slice(7))||!uuid.test(body.requestId||'')||!Number.isSafeInteger(body.rev)||body.rev<0)throw Error('Invalid identity');
