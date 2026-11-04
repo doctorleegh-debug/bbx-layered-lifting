@@ -44,3 +44,36 @@ test('Concurrent upload changes keep CAS and retry semantics',async()=>{
   const one=(await(await send(s,b)).json());assert.deepEqual(await(await send(s,b)).json(),one);
   assert.equal((await send(s,{...t,checks:{...t.checks,EN:true},requestId:randomUUID()})).status,409);
 });
+
+const content=()=>({...upload(),kind:'content',category:'video',url:'https://drive.google.com/drive/folders/example?usp=sharing'});
+test('Content upload retains video/cardnews category and Drive URL, gates completion and permits seven countries',async()=>{
+  for(const category of ['video','cardnews']){
+    const s=new Storage(),b={...content(),category};let t=(await(await send(s,b)).json()).task;
+    assert.equal(t.kind,'content');assert.equal(t.category,category);assert.equal(t.url,b.url);assert.equal(t.countries.length,7);
+    assert.equal((await send(s,{...t,completed:true,requestId:randomUUID()})).status,400);
+    t=(await(await send(s,{...t,checks:Object.fromEntries(t.countries.map(c=>[c,true])),completed:true,requestId:randomUUID()})).json()).task;
+    assert.equal(t.completed,true);assert.deepEqual((await(await send(s)).json()).tasks[0],t);
+    t=(await(await send(s,{...t,completed:false,requestId:randomUUID()})).json()).task;
+    assert.equal(t.kind,'content');assert.equal(t.completed,false);
+    assert.equal((await send(s,{...t,deleted:true,requestId:randomUUID()})).status,200);assert.equal((await(await send(s)).json()).tasks.length,0);
+  }
+});
+test('Content uploads require a safe link and country scope without using the website upload category',()=>{
+  for(const patch of [{url:''},{url:'javascript:alert(1)'},{url:'https://user:pass@drive.google.com'},{countries:[],checks:{}},{countries:['XX'],checks:{XX:false}},{category:'upload'},{checks:null}])assert.throws(()=>validateTask({...content(),...patch}));
+  assert.doesNotThrow(()=>validateTask({...content(),countries:['KO'],checks:{KO:false}}));
+});
+test('Converting review, website upload and content upload never reuses prior completion',async()=>{
+  for(const [from,to,category]of[['language','content','video'],['upload','content','cardnews'],['content','upload','upload'],['content','language','video']]){
+    const s=new Storage(),b={...base(),kind:from,category:from==='upload'?'upload':'video'};let t=(await(await send(s,b)).json()).task;
+    t=(await(await send(s,{...t,checks:{EN:true,CN:true},completed:true,requestId:randomUUID()})).json()).task;
+    assert.equal((await send(s,{...t,kind:to,category,requestId:randomUUID()})).status,400);
+    assert.equal((await send(s,{...t,kind:to,category,completed:false,requestId:randomUUID()})).status,400);
+    const r=await send(s,{...t,kind:to,category,checks:{EN:false,CN:false},completed:false,requestId:randomUUID()});assert.equal(r.status,200);
+    const clean=(await r.json()).task;assert.equal(clean.kind,to);assert.equal(clean.completed,false);assert.deepEqual(clean.checks,{EN:false,CN:false});
+  }
+});
+test('Content upload retries are idempotent and stale clients cannot overwrite a completed country',async()=>{
+  const s=new Storage(),t=(await(await send(s,content())).json()).task,b={...t,checks:{...t.checks,KO:true},requestId:randomUUID()};
+  const one=await(await send(s,b)).json();assert.deepEqual(await(await send(s,b)).json(),one);
+  assert.equal((await send(s,{...t,note:'stale',requestId:randomUUID()})).status,409);assert.equal((await(await send(s)).json()).tasks[0].checks.KO,true);
+});
