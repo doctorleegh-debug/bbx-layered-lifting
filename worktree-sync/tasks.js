@@ -1,17 +1,18 @@
 const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
 const countries=new Set(['EN','JP','CN','TW','TH','HK']);
-const categories=new Set(['video','cardnews','website','other']);
+const categories=new Set(['video','cardnews','website','upload','other']);
 const reply=(data,status=200)=>Response.json(data,{status,headers:{'Cache-Control':'no-store'}});
 export function validateTask(body){
   if(!body||typeof body!=='object'||Array.isArray(body)||typeof body.id!=='string'||!body.id.startsWith('CUSTOM-')||!uuid.test(body.id.slice(7))||!uuid.test(body.requestId||'')||!Number.isSafeInteger(body.rev)||body.rev<0)throw Error('Invalid identity');
-  if(typeof body.title!=='string'||!body.title.trim()||body.title.length>120||typeof body.note!=='string'||body.note.length>2000||typeof body.url!=='string'||body.url.length>1500||!categories.has(body.category)||!['language','collaboration'].includes(body.kind))throw Error('Invalid task');
+  if(typeof body.title!=='string'||!body.title.trim()||body.title.length>120||typeof body.note!=='string'||body.note.length>2000||typeof body.url!=='string'||body.url.length>1500||!categories.has(body.category)||!['language','upload','collaboration'].includes(body.kind))throw Error('Invalid task');
   if(body.url){let url;try{url=new URL(body.url)}catch{throw Error('Invalid link')}
     if(!['https:','http:'].includes(url.protocol)||url.username||url.password)throw Error('Invalid link');}
-  if(!Array.isArray(body.countries)||body.countries.length>6||new Set(body.countries).size!==body.countries.length||body.countries.some(c=>!countries.has(c)))throw Error('Invalid countries');
-  if(body.kind==='language'&&(!body.countries.length||!body.url))throw Error('Language review requires countries and link');
+  if(!Array.isArray(body.countries)||body.countries.length>(body.kind==='upload'?7:6)||new Set(body.countries).size!==body.countries.length||body.countries.some(c=>!countries.has(c)&&!(body.kind==='upload'&&c==='KO')))throw Error('Invalid countries');
+  if(['language','upload'].includes(body.kind)&&(!body.countries.length||!body.url))throw Error('Countries and link required');
+  if((body.category==='upload')!==(body.kind==='upload'))throw Error('Upload category and type must match');
   if(body.kind==='collaboration'&&body.countries.length)throw Error('Unexpected countries');
   if(!body.checks||typeof body.checks!=='object'||Array.isArray(body.checks)||Object.keys(body.checks).length!==body.countries.length||body.countries.some(c=>typeof body.checks[c]!=='boolean')||typeof body.completed!=='boolean'||typeof body.deleted!=='boolean')throw Error('Invalid status');
-  if(body.kind==='language'&&body.completed&&!body.countries.every(c=>body.checks[c]))throw Error('Review is incomplete');
+  if(['language','upload'].includes(body.kind)&&body.completed&&!body.countries.every(c=>body.checks[c]))throw Error('Country work is incomplete');
   return {id:body.id,title:body.title.trim(),category:body.category,kind:body.kind,url:body.url.trim(),note:body.note.trim(),countries:[...body.countries],checks:Object.fromEntries(body.countries.map(c=>[c,body.checks[c]])),completed:body.completed,deleted:body.deleted};
 }
 export async function taskRequest(request,storage){
@@ -33,6 +34,7 @@ export async function taskRequest(request,storage){
       return reply({task:prev,version:await tx.get('tasks-version')||0});
     }
     if((prev?.rev||0)!==body.rev)return reply({error:'Conflict',task:prev||null},409);
+    if(prev&&prev.kind!==clean.kind&&(prev.kind==='upload'||clean.kind==='upload')&&(clean.completed||Object.values(clean.checks).some(Boolean)))return reply({error:'Changing upload type must reset completion'},400);
     if(!prev&&(clean.deleted||clean.completed||Object.values(clean.checks).some(Boolean)))return reply({error:'New tasks must start pending'},400);
     if(!prev&&(await tx.list({prefix:'task:',limit:2000})).size>=2000)return reply({error:'Task limit'},400);
     const at=new Date().toISOString(),task={...clean,createdAt:prev?.createdAt||at,updatedAt:at,rev:(prev?.rev||0)+1,requestId:body.requestId};

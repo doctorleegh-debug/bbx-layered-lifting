@@ -12,3 +12,35 @@ test('Oversize body bounded',async()=>{const b=base();b.note='x'.repeat(17000);a
 test('Completion, reopen and targeted tombstone retain history',async()=>{const s=new Storage();let t=(await(await send(s,base())).json()).task;for(const patch of [{checks:{EN:true,CN:true}},{completed:true},{completed:false},{deleted:true}])t=(await(await send(s,{...t,...patch,requestId:randomUUID()})).json()).task;assert.equal((await(await send(s)).json()).tasks.length,0);assert.equal((await s.get('task-history:'+t.id)).length,4);assert.equal((await s.get('board')).version,284);});
 
 test('Card news category survives storage, second-client read and reopening',async()=>{const s=new Storage();let t=(await(await send(s,{...base(),category:'cardnews'})).json()).task;for(const patch of [{checks:{EN:true,CN:true},completed:true},{completed:false}])t=(await(await send(s,{...t,...patch,requestId:randomUUID()})).json()).task;const found=(await(await send(s)).json()).tasks[0];assert.equal(found.category,'cardnews');assert.equal(found.completed,false);});
+
+const upload=()=>({...base(),kind:'upload',category:'upload',countries:['KO','EN','JP','CN','TW','TH','HK'],checks:{KO:false,EN:false,JP:false,CN:false,TW:false,TH:false,HK:false}});
+test('Upload request supports seven countries, persists independently and rejects premature completion',async()=>{
+  const s=new Storage(),review=(await(await send(s,base())).json()).task;
+  let t=(await(await send(s,upload())).json()).task;
+  assert.equal(t.countries.length,7);assert.equal((await send(s,{...t,completed:true,requestId:randomUUID()})).status,400);
+  t=(await(await send(s,{...t,checks:{...t.checks,KO:true},requestId:randomUUID()})).json()).task;
+  assert.equal((await send(s,{...t,completed:true,requestId:randomUUID()})).status,400);
+  t=(await(await send(s,{...t,checks:Object.fromEntries(t.countries.map(c=>[c,true])),completed:true,requestId:randomUUID()})).json()).task;
+  assert.equal(t.completed,true);
+  const reopened=(await(await send(s,{...t,completed:false,requestId:randomUUID()})).json()).task;
+  assert.equal(reopened.kind,'upload');assert.equal(reopened.category,'upload');
+  assert.deepEqual((await(await send(s)).json()).tasks.find(x=>x.id===review.id),review);
+});
+test('Upload request requires link, supported scope and matching category/type',()=>{
+  for(const patch of [{url:''},{countries:[],checks:{}},{category:'website'},{kind:'language'},{countries:['KO','KO'],checks:{KO:false}},{countries:['US'],checks:{US:false}}])assert.throws(()=>validateTask({...upload(),...patch}));
+  assert.doesNotThrow(()=>validateTask({...upload(),countries:['KO'],checks:{KO:false}}));
+});
+test('Language review completion never becomes upload completion on type conversion',async()=>{
+  const s=new Storage();let t=(await(await send(s,base())).json()).task;
+  t=(await(await send(s,{...t,checks:{EN:true,CN:true},completed:true,requestId:randomUUID()})).json()).task;
+  assert.equal((await send(s,{...t,category:'upload',kind:'upload',requestId:randomUUID()})).status,400);
+  assert.equal((await send(s,{...t,category:'upload',kind:'upload',completed:false,requestId:randomUUID()})).status,400);
+  t=(await(await send(s,{...t,category:'upload',kind:'upload',completed:false,checks:{EN:false,CN:false},requestId:randomUUID()})).json()).task;
+  assert.equal(t.completed,false);assert.deepEqual(t.checks,{EN:false,CN:false});
+});
+test('Concurrent upload changes keep CAS and retry semantics',async()=>{
+  const s=new Storage();let t=(await(await send(s,upload())).json()).task;
+  const b={...t,checks:{...t.checks,KO:true},requestId:randomUUID()};
+  const one=(await(await send(s,b)).json());assert.deepEqual(await(await send(s,b)).json(),one);
+  assert.equal((await send(s,{...t,checks:{...t.checks,EN:true},requestId:randomUUID()})).status,409);
+});
