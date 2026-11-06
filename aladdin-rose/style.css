@@ -127,3 +127,12 @@ html[data-motion=off]{scroll-behavior:auto}
  .product-float,.type-cursor{animation:none!important}
  a,button,summary{transition:background-color .15s,color .15s,outline-color .15s!important}
 }
+
+/* Approved body-care memo, 2026-11-06: existing typography and restrained layout. */
+.body-care-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 36px;border-top:1px solid var(--rule)}
+.body-care-list article{padding:30px 0;border-bottom:1px solid var(--rule)}
+.body-care-list .num{font:500 12px/1.5 Montserrat,sans-serif;color:#ae686d}
+.body-care-list h3{font-size:24px;margin:18px 0 12px}
+.body-care-list p{color:var(--muted);font-size:18px;line-height:1.8}
+@media(max-width:850px){.body-care-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}}
+@media(max-width:600px){.body-care-list{grid-template-columns:1fr}.body-care-list article{padding:24px 0}.body-care-list h3{font-size:23px;margin-top:12px}}
