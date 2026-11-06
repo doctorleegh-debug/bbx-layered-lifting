@@ -192,6 +192,13 @@ body.hub-category-view #hub-overview,body.hub-category-view #hub-list-panel{disp
 @media(max-width:800px){.hub-sidebar .hub-brand-logo{width:34px;height:34px}.hub-nav{grid-template-columns:repeat(3,minmax(0,1fr))}.hub-nav button[data-view=completed]{margin-top:0;border-top:0}.hub-new-card,.node,.resource-history-item,.cardnews-resource{scroll-margin-top:185px}}
 
 .hub-card-actions .hub-delete{margin-left:auto;color:#ffb2c5;border-color:#754858;background:transparent}.hub-card-actions .hub-delete:hover{background:#3a2632}
+
+/* The text stays readable while only this tab's background gently pulses. */
+.hub-nav button[data-view=confirmation]{position:relative;isolation:isolate}
+.hub-nav button[data-view=confirmation].hub-confirmation-alert::before{content:"";position:absolute;inset:1px;border-radius:8px;background:#d990b3;opacity:.18;z-index:-1;pointer-events:none}
+@media(prefers-reduced-motion:no-preference){.hub-nav button[data-view=confirmation].hub-confirmation-alert::before{animation:hub-confirmation-glow 3.6s ease-in-out infinite}.hub-nav button.hub-alert-paused::before{animation-play-state:paused!important}}
+@keyframes hub-confirmation-glow{0%,100%{opacity:.08}50%{opacity:.32}}
+@media(max-width:800px){.hub-nav button[data-view=confirmation] .hub-nav-count{display:inline!important;margin-left:0;color:inherit;font-size:10px}}
 </style></head>
 <body><header><div class="brand"><span class="brand-icon" aria-hidden="true">✳</span><span>Beauty Blossom <small>홈페이지 작업실</small></span></div><div class="header-actions"><button id="export">백업 내보내기</button><label class="file-button">백업 가져오기<input id="import" type="file" accept="application/json,.json"></label><button id="add" class="primary">+ 시술 추가</button></div></header>
 <main><div class="intro"><div><p class="subtitle">문구 검토부터 국가별 업로드까지</p><h1>워크트리<span>.</span></h1><p>시술을 찾고, 시트를 열고, 끝낸 국가를 체크하세요.</p></div><div class="save-info"><span id="save-state" role="status" aria-live="polite">불러오는 중</span><span id="shared-state" role="status" aria-live="polite">체크 팀 저장 연결 중…</span><small>국가별 체크·수정 요청 메모는 팀 공용 · 저장·수정 시 다른 브라우저에도 반영</small></div></div>
@@ -770,7 +777,7 @@ function canArchive(n,cells){
  const value=(country,kind)=>{const key=n.id+'/'+country+'/'+kind;return cells&&Object.prototype.hasOwnProperty.call(cells,key)?cells[key]?.value:n.countries?.[country]?.[kind];};
  return n.scope.every(c=>value(c,'upload')===true&&(c==='KO'||value(c,'review')===true));
 }
-window.BBHomepageBoard={nodes:()=>state.nodes.map(n=>({...clone(n),archiveEligible:canArchive(n,shared.snapshot?.cells)})),canArchive,render,snapshot:()=>shared.snapshot};
+window.BBHomepageBoard={status,nodes:()=>state.nodes.map(n=>({...clone(n),archiveEligible:canArchive(n,shared.snapshot?.cells)})),canArchive,render,snapshot:()=>shared.snapshot};
 })();
 </script><script id="cardnews-checks-script">
 (() => {
@@ -1225,6 +1232,7 @@ attach();void refresh();setInterval(refresh,5000);window.addEventListener('onlin
   'use strict';
   const $=s=>document.querySelector(s), el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
   const categories={video:'영상',cardnews:'카드뉴스',website:'홈페이지',upload:'업로드 요청',other:'기타 협업'},languages={KO:'한국',EN:'영어',JP:'일본',CN:'중국',TW:'대만',TH:'태국',HK:'홍콩'};
+  const views={...categories,confirmation:'컨펌대기'};
   const api='https://bb-worktree-checks.beautyblossom.workers.dev';
   let tasks=[],ready=false,busy=false,polling=false,version=-1,view='dashboard',status='all',models=[],edit=null,pending=null,composerId=null,conflicted=false,formDirty=false,signature='',listSignature='',scheduled=false;
   const legacyOther=new Set((window.NAV_CONFIRMATION_TASKS||[]).filter(t=>t.name==='실시간 채팅 테스트').map(t=>t.id));
@@ -1234,7 +1242,7 @@ attach();void refresh();setInterval(refresh,5000);window.addEventListener('onlin
   const logo=el('img');logo.src='assets/beautyblossom-logo.png';logo.alt='뷰티블라썸';logo.className='hub-brand-logo';logo.width=44;logo.height=44;sidebar.querySelector('.brand-icon').replaceWith(logo);
   sidebar.querySelector('.brand small').textContent='함께 만드는 작업실';
   const nav=el('nav',undefined,'hub-nav');nav.setAttribute('aria-label','업무 카테고리');
-  for(const [key,label,icon] of [['dashboard','전체 대시보드','◷'],['video','영상','▷'],['cardnews','카드뉴스','▧'],['website','홈페이지','▤'],['upload','업로드 요청','↑'],['other','기타 협업','⊞'],['completed','최종완료','✓']]){
+  for(const [key,label,icon] of [['dashboard','전체 대시보드','◷'],['video','영상','▷'],['cardnews','카드뉴스','▧'],['website','홈페이지','▤'],['confirmation','컨펌대기','◴'],['upload','업로드 요청','↑'],['other','기타 협업','⊞'],['completed','최종완료','✓']]){
     const b=el('button');b.type='button';b.dataset.view=key;b.append(el('span',icon,'hub-nav-icon'),el('span',label),el('span','','hub-nav-count'));b.onclick=()=>navigate(key);nav.append(b);
   }
   sidebar.append(nav);const sideFoot=el('div',undefined,'hub-sidebar-bottom');sideFoot.append(el('strong','작업은 한곳에서'),el('span','새 협업을 등록하고 국가별 검토와 진행 상황을 함께 확인하세요.'));sidebar.append(sideFoot);document.body.prepend(sidebar);
@@ -1245,7 +1253,7 @@ attach();void refresh();setInterval(refresh,5000);window.addEventListener('onlin
     const b=el('button',undefined,'hub-stat');b.type='button';b.dataset.status=key;b.append(el('span',label,'hub-stat-label'),el('strong','—','hub-stat-number'),el('small',hint));b.onclick=()=>{navigate(key==='complete'?'completed':'dashboard',key);$('#hub-list-panel').scrollIntoView({block:'start',behavior:motion()});};stats.append(b);
   }
   overview.append(stats);const panels=el('div',undefined,'hub-panels'),byCategory=el('section',undefined,'hub-panel');byCategory.append(el('h2','업무별 진행 현황'));
-  for(const [key,label] of Object.entries(categories)){const b=el('button',undefined,'hub-category-row');b.dataset.category=key;const track=el('span',undefined,'hub-track');track.append(el('span'));b.append(el('span',label),track,el('small'));b.onclick=()=>navigate(key);byCategory.append(b);}
+  for(const [key,label] of Object.entries(views)){const b=el('button',undefined,'hub-category-row');b.dataset.category=key;const track=el('span',undefined,'hub-track');track.append(el('span'));b.append(el('span',label),track,el('small'));b.onclick=()=>navigate(key);byCategory.append(b);}
   byCategory.append(el('p','완료된 작업 / 전체 작업 · 막대를 누르면 해당 목록으로 이동해요.','hub-legend'));panels.append(byCategory);
   const guide=el('section',undefined,'hub-panel hub-guide');guide.append(el('h2','새로운 작업도, 함께'));const gp=el('p');gp.append('영상 자막부터 홈페이지 문구까지.',el('br'),'제목과 자료 링크를 등록하면 ',el('strong','다른 담당자 화면에도 바로 나타나요.'));guide.append(gp);const gb=el('button','+ 협업 추가');gb.onclick=()=>openForm();guide.append(gb);panels.append(guide);overview.append(panels);intro.after(overview);
   const listPanel=el('section',undefined,'hub-list-panel');listPanel.id='hub-list-panel';const listHead=el('div',undefined,'hub-list-head');const listTitle=el('h2','전체 작업');const reset=el('button','전체 보기');reset.onclick=()=>navigate('dashboard','all');listHead.append(listTitle,reset);listPanel.append(listHead);
@@ -1270,15 +1278,34 @@ attach();void refresh();setInterval(refresh,5000);window.addEventListener('onlin
       const task=(window.NAV_CONFIRMATION_TASKS||[]).find(t=>t.id===n.id);const complete=Boolean(window.BBHomepageArchive?.isArchived(n.id)||task?.completed);
       const stamp=window.NAV_REVIEW_REQUESTS?.[n.id]||window.NAV_CONFIRMATION_REQUESTS?.[n.id]||n.recordedAt;
       const age=since(activity(n.id,stamp).concat(n.recordedAt));
-      return {id:n.id,title:n.name,category:legacyOther.has(n.id)?'other':'website',kind:'legacy-homepage',complete,age,attention:!complete&&age!==null&&age>=14,archived:window.BBHomepageArchive?.isArchived(n.id)};
+      const confirmation=!complete&&!legacyOther.has(n.id)&&window.BBHomepageBoard.status(n)==='confirmation'&&task?.confirmationApproved!==true&&n.confirmationApproved!==true;
+      const confirmationKey=confirmation?JSON.stringify([n.id,task?.confirmationRequestedAt||n.confirmationRequestedAt||window.NAV_CONFIRMATION_REQUESTS?.[n.id]||'',task?.recordedAt||n.recordedAt||'']):'';
+      return {id:n.id,title:n.name,category:confirmation?'confirmation':legacyOther.has(n.id)?'other':'website',kind:'legacy-homepage',complete,age,attention:!complete&&age!==null&&age>=14,archived:window.BBHomepageArchive?.isArchived(n.id),confirmationKey};
     });
     return [...pages,...resources.map(r=>{const age=since(activity(r.id,r.createdAt));return {...r,category:r.title.includes('카드뉴스')?'cardnews':'video',kind:'legacy-resource',age,attention:!r.complete&&age!==null&&age>=14};}),...tasks.filter(t=>!t.deleted).map(t=>{const age=since([t.updatedAt]);return {...t,complete:t.completed,age,attention:!t.completed&&age!==null&&age>=14,kind:'shared'};})];
+  }
+  const confirmationSeenKey='bb.hub-confirmation-seen.v1';
+  let confirmationSeen=new Set();
+  try{const saved=JSON.parse(sessionStorage.getItem(confirmationSeenKey)||'[]');if(Array.isArray(saved))confirmationSeen=new Set(saved.filter(x=>typeof x==='string'));}catch{/* The current tab can still acknowledge requests in memory. */}
+  function updateConfirmationAlert(){
+    const button=nav.querySelector('[data-view="confirmation"]'),waiting=models.filter(t=>t.category==='confirmation'&&!t.complete);
+    const unseen=waiting.filter(t=>!confirmationSeen.has(t.confirmationKey));
+    if(view==='confirmation'&&!document.hidden&&unseen.length){
+      for(const task of unseen)confirmationSeen.add(task.confirmationKey);
+      confirmationSeen=new Set([...confirmationSeen].slice(-500));
+      try{sessionStorage.setItem(confirmationSeenKey,JSON.stringify([...confirmationSeen]));}catch{/* Keep the in-memory acknowledgment. */}
+    }
+    const fresh=waiting.filter(t=>!confirmationSeen.has(t.confirmationKey)).length;
+    button.classList.toggle('hub-confirmation-alert',fresh>0);
+    button.classList.toggle('hub-alert-paused',document.hidden);
+    button.setAttribute('aria-label','컨펌대기 '+waiting.length+'건'+(fresh?' · 새 요청 '+fresh+'건. 열어 확인하면 강조가 멈춥니다.':''));
+    button.title=fresh?'새 컨펌 요청이 있어요. 열어 확인하면 강조가 멈춰요.':'컨펌 회신을 기다리는 작업을 확인하세요.';
   }
   function update(){
     models=collect();for(const b of nav.children){const total=b.dataset.view==='dashboard'?models.length:models.filter(t=>b.dataset.view==='completed'?t.complete:t.category===b.dataset.view&&!t.complete).length;b.querySelector('.hub-nav-count').textContent=total;b.setAttribute('aria-current',b.dataset.view===view?'page':'false');}
     for(const b of stats.children){const key=b.dataset.status;b.querySelector('strong').textContent=models.filter(t=>key==='complete'?t.complete:key==='attention'?t.attention:!t.complete).length;b.setAttribute('aria-pressed',String(status===key));}
-    for(const b of byCategory.querySelectorAll('[data-category]')){const group=models.filter(t=>t.category===b.dataset.category),done=group.filter(t=>t.complete).length;b.querySelector('.hub-track span').style.width=(group.length?100*done/group.length:0)+'%';b.querySelector('small').textContent=done+' / '+group.length;b.setAttribute('aria-label',categories[b.dataset.category]+' 전체 '+group.length+'개 중 완료 '+done+'개');}
-    drawList();applyCategory();
+    for(const b of byCategory.querySelectorAll('[data-category]')){const group=models.filter(t=>t.category===b.dataset.category),done=group.filter(t=>t.complete).length;b.querySelector('.hub-track span').style.width=(group.length?100*done/group.length:0)+'%';b.querySelector('small').textContent=done+' / '+group.length;b.setAttribute('aria-label',views[b.dataset.category]+' 전체 '+group.length+'개 중 완료 '+done+'개');}
+    updateConfirmationAlert();drawList();applyCategory();
   }
   function schedule(){if(scheduled)return;scheduled=true;queueMicrotask(()=>{scheduled=false;update();});}
   function drawList(){
@@ -1288,24 +1315,24 @@ attach();void refresh();setInterval(refresh,5000);window.addEventListener('onlin
     filtered.sort((a,b)=>status==='attention'?(b.age||0)-(a.age||0):Number(a.complete)-Number(b.complete)||Number(b.attention)-Number(a.attention)||a.title.localeCompare(b.title,'ko'));
     listTitle.textContent=({all:'전체 작업',active:'진행 중인 작업',complete:'최종완료 작업',attention:'확인 필요한 작업'})[status]+' · '+filtered.length;
     list.replaceChildren();if(!filtered.length){list.append(el('p',q?'검색 결과가 없어요. 다른 제목으로 찾아보세요.':'이 상태에 해당하는 작업이 없어요.','hub-empty'));return;}
-    for(const task of filtered){const b=el('button',undefined,'hub-task-row');b.type='button';b.dataset.task=task.id;const title=el('span');title.append(el('strong',task.title),el('small',categories[task.category]+(task.kind==='legacy-resource'?' · 언어베리':'')));const state=task.complete?'complete':task.attention?'attention':'active';b.append(title,el('span',{complete:'완료',attention:'확인 필요',active:'진행 중'}[state],'hub-pill '+state),el('time',task.complete?'완료 기록 확인':task.age===null?'기록일 확인 필요':task.age===0?'오늘 진행 기록':task.age+'일 전 진행 기록'));b.onclick=()=>jump(task.id);list.append(b);if(task.id===focusedTask)b.focus({preventScroll:true});}
+    for(const task of filtered){const b=el('button',undefined,'hub-task-row');b.type='button';b.dataset.task=task.id;const title=el('span');title.append(el('strong',task.title),el('small',views[task.category]+(task.kind==='legacy-resource'?' · 언어베리':'')));const state=task.complete?'complete':task.attention?'attention':'active';b.append(title,el('span',{complete:'완료',attention:'확인 필요',active:'진행 중'}[state],'hub-pill '+state),el('time',task.complete?'완료 기록 확인':task.age===null?'기록일 확인 필요':task.age===0?'오늘 진행 기록':task.age+'일 전 진행 기록'));b.onclick=()=>jump(task.id);list.append(b);if(task.id===focusedTask)b.focus({preventScroll:true});}
   }
   function applyCategory(){
     document.body.classList.toggle('hub-dashboard-view',view==='dashboard');document.body.classList.toggle('hub-category-view',view!=='dashboard');document.body.dataset.hubView=view;
-    $('.intro h1').textContent=view==='dashboard'?'전체 대시보드':view==='completed'?'최종완료':categories[view];$('.intro p:not(.subtitle)').textContent=({dashboard:'함께 진행하는 일을 한눈에 확인하세요.',video:'영상·자막의 언어검토와 콘텐츠 업로드를 모았어요.',cardnews:'카드뉴스·모션 카드뉴스의 언어검토와 콘텐츠 업로드를 모았어요.',website:'국가별 홈페이지 업로드와 문구 검토를 이어가세요.',upload:'제작이 끝난 자료의 홈페이지 업로드를 요청하고, 국가별 반영 완료를 확인하세요.',other:'분류가 다른 협업도 이곳에서 함께 확인하세요.',completed:'최종완료한 작업을 모았어요. 복원하면 원래 카테고리로 돌아가요.'})[view];
+    $('.intro h1').textContent=view==='dashboard'?'전체 대시보드':view==='completed'?'최종완료':views[view];$('.intro p:not(.subtitle)').textContent=({dashboard:'함께 진행하는 일을 한눈에 확인하세요.',video:'영상·자막의 언어검토와 콘텐츠 업로드를 모았어요.',cardnews:'카드뉴스·모션 카드뉴스의 언어검토와 콘텐츠 업로드를 모았어요.',website:'국가별 홈페이지 업로드와 문구 검토를 이어가세요.',confirmation:'컨펌 요청된 시안을 확인하고 수정할 사항을 남겨 주세요.',upload:'제작이 끝난 자료의 홈페이지 업로드를 요청하고, 국가별 반영 완료를 확인하세요.',other:'분류가 다른 협업도 이곳에서 함께 확인하세요.',completed:'최종완료한 작업을 모았어요. 복원하면 원래 카테고리로 돌아가요.'})[view];
     const indexed=new Map(models.map(t=>[t.id,t]));
     const matches=t=>!!t&&(view==='completed'?t.complete&&t.title.toLocaleLowerCase().includes(search.value.trim().toLocaleLowerCase()):t.category===view&&!t.complete);
     for(const card of document.querySelectorAll('#board .node[data-id]'))card.classList.toggle('hub-hidden',!matches(indexed.get(card.dataset.id)));
-    for(const group of document.querySelectorAll('#board>.group'))group.classList.toggle('hub-hidden',![...group.querySelectorAll('.node')].some(n=>!n.classList.contains('hub-hidden')));
+    for(const group of document.querySelectorAll('#board>.group')){const visible=[...group.querySelectorAll('.node')].filter(n=>!n.classList.contains('hub-hidden')).length;group.classList.toggle('hub-hidden',!visible);const count=group.querySelector('.group-heading small');if(count)count.textContent=visible+'개';}
     for(const r of window.BBResourceBoard?.items()||[]){const model=indexed.get(r.id);r.element.classList.toggle('hub-hidden',view==='completed'||!matches(model));r.historyElement.classList.toggle('hub-hidden',view!=='completed'||!matches(model));r.historyElement.dataset.hubLabel=categories[model.category];}
     for(const row of archive.querySelectorAll('[data-homepage-archive]')){const model=indexed.get(row.dataset.homepageArchive);row.classList.toggle('hub-hidden',view!=='completed'||!matches(model));row.dataset.hubLabel=categories[model?.category]||'홈페이지';}
     $('.resource-workspace').classList.toggle('hub-hidden',!['video','cardnews'].includes(view));
     const visibleArchive=[...archive.querySelectorAll('.resource-history-item')].filter(r=>!r.hidden&&!r.classList.contains('hub-hidden')).length;archive.classList.toggle('hub-hidden',view!=='completed'||visibleArchive===0);if(view==='completed')$('#resource-archive-disclosure').open=true;
     const sig=JSON.stringify(tasks)+':'+view+':'+busy+':'+(view==='completed'?search.value:'');if(signature!==sig){signature=sig;drawShared();}
-    categoryEmpty.textContent=view==='completed'?(search.value?'검색 결과가 없어요. 다른 제목으로 찾아보세요.':'아직 최종완료한 작업이 없어요.'):'등록된 작업이 없어요. + 협업 추가로 첫 작업을 등록해 주세요.';
+    categoryEmpty.textContent=view==='confirmation'?'현재 컨펌을 기다리는 작업이 없어요.':view==='completed'?(search.value?'검색 결과가 없어요. 다른 제목으로 찾아보세요.':'아직 최종완료한 작업이 없어요.'):'등록된 작업이 없어요. + 협업 추가로 첫 작업을 등록해 주세요.';
     categoryEmpty.hidden=view==='dashboard'||models.some(matches);
   }
-  function navigate(next,nextStatus='all',target){if(next!==view)search.value='';view=next in categories||['dashboard','completed'].includes(next)?next:'dashboard';status=view==='completed'?'complete':['all','active','complete','attention'].includes(nextStatus)?nextStatus:'all';
+  function navigate(next,nextStatus='all',target){if(next!==view)search.value='';view=next in views||['dashboard','completed'].includes(next)?next:'dashboard';status=view==='completed'?'complete':['all','active','complete','attention'].includes(nextStatus)?nextStatus:'all';
     const hash=new URLSearchParams({hub:view,...(status!=='all'?{status}:{}),...(target?{task:target}:{})});history.replaceState(null,'','#'+hash);update();if(!target)scrollTo({top:0,behavior:motion()});}
   function jump(id){const item=models.find(t=>t.id===id);if(!item)return;search.value='';navigate(item.complete?'completed':item.category,'all',id);
     if(item.kind==='legacy-homepage'){$('#search').value='';$('#country').value='';$('#clear').click();}
@@ -1331,7 +1358,7 @@ attach();void refresh();setInterval(refresh,5000);window.addEventListener('onlin
   function syncRequestType(source){if(source==='kind'){if(form.elements.kind.value==='upload')form.elements.category.value='upload';else if(form.elements.category.value==='upload')form.elements.category.value=form.elements.kind.value==='language'?'website':form.elements.kind.value==='content'?'video':'other';}else if(form.elements.category.value==='upload')form.elements.kind.value='upload';else if(form.elements.kind.value==='upload')form.elements.kind.value=form.elements.category.value==='other'?'collaboration':'language';updateFields();pending=null;stash();}
   function lockComposer(locked){for(const control of form.querySelectorAll('input,select,textarea,button'))control.disabled=locked;form.setAttribute('aria-busy',String(locked));}
   function stash(){formDirty=true;try{sessionStorage.setItem('bb.hub-composer.v1',JSON.stringify({edit,composerId,conflicted,values:Object.fromEntries(['title','category','kind','url','note'].map(k=>[k,form.elements[k].value])),countries:[...form.querySelectorAll('[name=countries]:checked')].map(c=>c.value),pending}));}catch{/* The open form still retains its values. */}}
-  function openForm(t){if(busy)return;edit=t?{...t}:null;composerId=t?.id||'CUSTOM-'+crypto.randomUUID();conflicted=false;pending=null;form.reset();for(const k of ['title','category','kind','url','note'])form.elements[k].value=t?.[k]??({category:view in categories?view:'video',kind:view==='upload'?'upload':view==='other'?'collaboration':'language'}[k]||'');const scope=t?.countries||(view==='upload'?Object.keys(languages):view==='website'?Object.keys(languages).filter(c=>c!=='KO'):['EN','JP','CN','TW','TH']);for(const c of form.querySelectorAll('[name=countries]'))c.checked=scope.includes(c.value);$('#hub-form-title').textContent=t?'협업 편집':'협업 추가';$('#hub-form-error').textContent='';formDirty=false;updateFields();dialog.showModal();form.elements.title.focus();}
+  function openForm(t){if(busy)return;edit=t?{...t}:null;composerId=t?.id||'CUSTOM-'+crypto.randomUUID();conflicted=false;pending=null;form.reset();for(const k of ['title','category','kind','url','note'])form.elements[k].value=t?.[k]??({category:view==='confirmation'?'website':view in categories?view:'video',kind:view==='upload'?'upload':view==='other'?'collaboration':'language'}[k]||'');const scope=t?.countries||(view==='upload'?Object.keys(languages):view==='website'?Object.keys(languages).filter(c=>c!=='KO'):['EN','JP','CN','TW','TH']);for(const c of form.querySelectorAll('[name=countries]'))c.checked=scope.includes(c.value);$('#hub-form-title').textContent=t?'협업 편집':'협업 추가';$('#hub-form-error').textContent='';formDirty=false;updateFields();dialog.showModal();form.elements.title.focus();}
   function closeForm(){if(busy)return;if(formDirty&&!confirm('입력 중인 내용을 닫을까요? 임시 입력은 이 탭에 남겨 둘게요.'))return;dialog.close();}
   for(const b of form.querySelectorAll('[data-close]'))b.onclick=closeForm;dialog.addEventListener('cancel',e=>{e.preventDefault();closeForm();});form.addEventListener('input',()=>{pending=null;stash();});form.elements.kind.addEventListener('change',()=>syncRequestType('kind'));form.elements.category.addEventListener('change',()=>syncRequestType('category'));form.addEventListener('change',()=>{pending=null;stash();});
   form.addEventListener('submit',async e=>{e.preventDefault();if(busy)return;if(conflicted){$('#hub-form-error').textContent='다른 담당자의 변경과 겹쳤어요. 입력 내용은 유지됩니다. 닫은 뒤 최신 항목의 편집을 열어 주세요.';return;}const values=Object.fromEntries(['title','category','kind','url','note'].map(k=>[k,form.elements[k].value.trim()])),scope=['language','upload','content'].includes(values.kind)?[...form.querySelectorAll('[name=countries]:checked')].map(c=>c.value):[];
@@ -1341,7 +1368,7 @@ attach();void refresh();setInterval(refresh,5000);window.addEventListener('onlin
     catch(error){$('#hub-form-error').textContent=error.message;if(error.conflict){conflicted=true;stash();$('#hub-form-error').textContent+=' 입력 내용은 유지됩니다. 닫은 뒤 최신 항목의 편집을 열어 주세요.';}}
     finally{busy=false;lockComposer(false);signature='';update();}
   });
-  reset.onclick=()=>{search.value='';navigate(view==='completed'?'completed':'dashboard');};search.oninput=()=>{drawList();if(view==='completed')applyCategory();};document.addEventListener('bb-hub-data',schedule);document.addEventListener('bb-hub-archive',e=>{update();jump(e.detail.id);});window.addEventListener('online',refresh);window.addEventListener('focus',refresh);document.addEventListener('visibilitychange',()=>{if(!document.hidden){refresh();update();}});
+  reset.onclick=()=>{search.value='';navigate(view==='completed'?'completed':'dashboard');};search.oninput=()=>{drawList();if(view==='completed')applyCategory();};document.addEventListener('bb-hub-data',schedule);document.addEventListener('bb-hub-archive',e=>{update();jump(e.detail.id);});window.addEventListener('online',refresh);window.addEventListener('focus',refresh);document.addEventListener('visibilitychange',()=>{if(!document.hidden){refresh();update();}else updateConfirmationAlert();});
   window.addEventListener('hashchange',()=>{const params=new URLSearchParams(location.hash.slice(1));navigate(params.get('hub')||'dashboard',params.get('status')||'all');if(params.get('task'))jump(params.get('task'));});
   const initial=new URLSearchParams(location.hash.slice(1));navigate(initial.get('hub')||'dashboard',initial.get('status')||'all');
   let initialJump=false;function restoreTarget(){if(!initialJump&&initial.get('task')&&models.some(t=>t.id===initial.get('task'))){initialJump=true;jump(initial.get('task'));}}
