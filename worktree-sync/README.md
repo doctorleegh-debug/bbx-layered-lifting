@@ -20,3 +20,9 @@ Authoring `workspace.js` and `workspace.css` are embedded in the published singl
 Source authoring files remain in the existing `2026-09-21_sheet-navigator` directory. Do not rerun its old package.py: that can remove newer inline components. Update its app.js/seed.js/navigator.html and the published index.html together.
 
 Local testing: `npx --yes wrangler@4.144.0 dev --env test --port 8877 --local` (origin http://127.0.0.1:8876). Production: same Wrangler version, `deploy --dry-run`, then `deploy`. Never reset durable storage on a code release. Local test state is isolated from production.
+
+## Confirmation requests (2026-11-11)
+
+The collaboration composer now supports `confirmation` as a matching category and kind (컨펌요청). It has a required title, optional safe source URL and note, and no country-check scope. Records appear under 컨펌대기. 컨펌완료 moves the request into completed records; 다시 요청 reopens it. New and updated pending requests use their ID/revision/timestamp to trigger the existing slow sidebar highlight until that tab is viewed. Reduced-motion behavior is retained. Type conversion resets completion; CAS/idempotency and existing storage bindings are unchanged.
+
+Run `node --test tasks.test.mjs confirmation.test.mjs` for task persistence and validation regressions.
